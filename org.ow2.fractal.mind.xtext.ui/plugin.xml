@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+            class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.ow2.fractal.mind.xtext.CustomXtextEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="adl"
+            id="org.ow2.fractal.mind.xtext.Fractal"
+            name="Fractal Editor">
+        </editor>
+    </extension>
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler
+            class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.eclipse.xtext.ui.common.editor.hyperlinking.OpenDeclarationHandler"
+            commandId="org.eclipse.xtext.ui.common.editor.hyperlinking.OpenDeclaration">
+            <activeWhen>
+                <reference
+                    definitionId="org.ow2.fractal.mind.xtext.Fractal.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
+            class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.eclipse.xtext.ui.core.editor.handler.ValidateActionHandler"
+            commandId="org.ow2.fractal.mind.xtext.Fractal.validate">
+         <activeWhen>
+            <reference
+                    definitionId="org.ow2.fractal.mind.xtext.Fractal.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="org.ow2.fractal.mind.xtext.Fractal.Editor.opened">
+            <and>
+                <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.core.editor.XtextEditor.languageName" 
+                        value="org.ow2.fractal.mind.xtext.Fractal" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.eclipse.xtext.ui.core.editor.preferences.LanguageRootPreferencePage"
+            id="org.ow2.fractal.mind.xtext.Fractal"
+            name="Fractal"
+            category="org.eclipse.xtext.languages">
+            <keywordReference id="org.ow2.fractal.mind.xtext.ui.keyword_Fractal"/>
+        </page>
+        <page
+            category="org.ow2.fractal.mind.xtext.Fractal"
+            class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.eclipse.xtext.ui.common.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+            id="org.ow2.fractal.mind.xtext.Fractal.coloring"
+            name="Syntax Coloring">
+            <keywordReference id="org.ow2.fractal.mind.xtext.ui.keyword_Fractal"/>
+        </page>
+        <page
+            category="org.ow2.fractal.mind.xtext.Fractal"
+            class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.eclipse.xtext.ui.common.editor.templates.XtextTemplatePreferencePage"
+            id="org.ow2.fractal.mind.xtext.Fractal.templates"
+            name="Templates">
+            <keywordReference id="org.ow2.fractal.mind.xtext.ui.keyword_Fractal"/>
+        </page>
+    </extension>
+    <extension
+        point="org.eclipse.ui.keywords">
+        <keyword
+            id="org.ow2.fractal.mind.xtext.ui.keyword_Fractal"
+            label="Fractal"/>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger expensive validation"
+            id="org.ow2.fractal.mind.xtext.Fractal.validate"
+            name="Validate">
+      </command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.open">
+             <command
+                 commandId="org.ow2.fractal.mind.xtext.Fractal.validate"
+                 style="push"
+                 tooltip="Trigger expensive validation">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="org.ow2.fractal.mind.xtext.Fractal.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+    </extension>
+
+<!-- adding resource factories -->
+
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="org.ow2.fractal.mind.xtext.FractalExecutableExtensionFactory:org.eclipse.xtext.resource.XtextResourceFactory"
+			type="adl">
+		</parser>
+	</extension>
+
+
+
+
+</plugin>

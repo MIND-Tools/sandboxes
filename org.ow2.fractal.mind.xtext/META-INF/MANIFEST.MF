@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.ow2.fractal.mind.xtext
+Bundle-Vendor: Partenaire Minalogic
+Bundle-Version: 0.0.1.qualifier
+Bundle-SymbolicName: org.ow2.fractal.mind.xtext; singleton:=true
+Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.generator;resolution:=optional,
+ de.itemis.xtext.antlr;resolution:=optional,
+ org.apache.commons.logging;resolution:=optional,
+ org.eclipse.emf.codegen.ecore;resolution:=optional,
+ org.eclipse.xtext.log4j;resolution:=optional,
+ org.eclipse.emf.mwe.utils;resolution:=optional,
+ org.eclipse.emf.mwe.core;resolution:=optional,
+ com.ibm.icu;resolution:=optional,
+ org.eclipse.xtext.xtend;resolution:=optional,
+ org.ow2.fractal.mind.emf.model;bundle-version="0.0.1",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.antlr.runtime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.ow2.fractal.mind.xtext,
+ org.ow2.fractal.mind.xtext.services,
+ org.ow2.fractal.mind.xtext.parseTreeConstruction,
+ org.ow2.fractal.mind.xtext.parser.antlr,
+ org.ow2.fractal.mind.xtext.validation

@@ -1,0 +1,194 @@
+grammar org.ow2.fractal.mind.xtext.Fractal with org.eclipse.xtext.common.Terminals
+import "http://org.ow2.fractal/mind/mind.ecore/0.0.1"
+
+AdlDefinition : 
+((imports+=ImportDefinition)*)
+(definitionAnnotationsList=AnnotationsList)?
+(architecturedefinition=ArchitectureDefinition);
+
+ImportDefinition :
+'import'importName=IMPORT_NAME
+';';
+
+ArchitectureDefinition : 
+(ComponentTypeDefinition)
+|
+(PrimitiveComponentDefinition)
+|
+(CompositeComponentDefinition);
+
+PrimitiveComponentDefinition : 
+(abstract?='abstract')? 'primitive' name=FQN
+(primitiveFormalArgumentsList=FormalArgumentsList)?(referencesList=PrimitiveReferencesList)?(('{'((elements+=AnnotationsList)?elements+=PrimitiveDefinitionElement)*'}')|((elements+=AnnotationsList)?elements+=PrimitiveDefinitionElement)*)
+;
+
+PrimitiveDefinitionElement :
+(InterfaceDefinition|AttributeDefinition|DataDefinition|ImplementationDefinition)(';')?;
+
+ComponentTypeDefinition :
+'type' name=FQN(referencesList=TypeReferencesList)?(((elements+=AnnotationsList)?elements+=TypeDefinitionElement)*|('{'((elements+=AnnotationsList)?elements+=TypeDefinitionElement)*'}'))
+;
+
+TypeReferenceDefinition :
+referenceName=FQN;
+
+TypeDefinitionElement : 
+InterfaceDefinition
+|
+(InterfaceDefinition';');
+
+
+CompositeComponentDefinition : 
+'composite' name=FQN (templateSpecifiersList=TemplateSpecifiersList)?(compositeFormalArgumentsList=FormalArgumentsList)?(referencesList=CompositeReferencesList)?(('{'((elements+=AnnotationsList)?elements+=CompositeDefinitionElement)*'}')|((elements+=AnnotationsList)?elements+=CompositeDefinitionElement)*)
+;
+
+TemplateSpecifiersList :
+'<'(templateSpecifiers+=TemplateSpecifier(','templateSpecifiers+=TemplateSpecifier)*)'>';
+
+FormalArgumentsList :
+'('(formalArguments+=FormalArgument(','formalArguments+=FormalArgument)*)')';
+
+PrimitiveReferencesList :
+'extends'references+=PrimitiveReferenceDefinition(','references+=PrimitiveReferenceDefinition)*;
+
+CompositeReferencesList :
+'extends'references+=CompositeReferenceDefinition(','references+=CompositeReferenceDefinition)*;
+
+TypeReferencesList :
+'extends'references+=TypeReferenceDefinition(','references+=TypeReferenceDefinition)*;
+
+FormalArgument :
+name=ID;
+
+CompositeDefinitionElement :
+(SubComponentDefinition|CompositeAnonymousSubComponent|InterfaceDefinition|BindingDefinition)(';')?;
+
+SubComponentDefinition :
+'contains'
+(CompositeSubComponent|CompositeAnonymousSubComponent|PrimitiveSubComponent|PrimitiveAnonymousSubComponent|TemplateSubComponent);
+
+ComponentReference :
+CompositeReferenceDefinition|PrimitiveReferenceDefinition|TypeReferenceDefinition;
+
+CompositeReferenceDefinition :
+referenceName=FQN("<"templatesList+=TemplateDefinition(","templatesList+=TemplateDefinition)*">")?("("argumentsList+=ArgumentDefinition(","argumentsList+=ArgumentDefinition)*")")?
+;
+
+CompositeSubComponent : 
+'composite'referenceDefinition=CompositeReferenceDefinition'as'name=ID;
+
+CompositeAnonymousSubComponent :
+'composite'(referenceDefinition=CompositeReferenceDefinition)?'as'name=ID'{'(((elements+=AnnotationsList)?elements+=CompositeDefinitionElement))*'}';
+
+PrimitiveReferenceDefinition :
+referenceName=FQN("("argumentsList+=ArgumentDefinition(","argumentsList+=ArgumentDefinition)*")")?
+;
+
+TemplateDefinition :
+(templateName=ID"="((templateValue=FQN)|"?"))
+|
+((templateValue=FQN)|"?")
+;
+
+TemplateSubComponent :
+templateReference=[TemplateSpecifier]'as'name=ID;
+
+PrimitiveSubComponent :
+'primitive'referenceDefinition=PrimitiveReferenceDefinition'as'name=ID;
+
+PrimitiveAnonymousSubComponent :
+'primitive'(referenceDefinition=PrimitiveReferenceDefinition)?'as'name=ID'{'(((elements+=AnnotationsList)?elements+=PrimitiveDefinitionElement))*'}';
+
+AttributeDefinition :
+'attribute'(type=AttributeType)?attributeName=ID('='value=Value)?;
+
+ArgumentDefinition :
+(argumentName=ID"=" argumentValue=Value)
+|
+(argumentValue=Value)
+;
+
+InterfaceDefinition :
+(role=Role'as'name=ID(collection?='['(collectionsize=INT)?collection?=']')?(contingency=Contingency)?)
+|
+(role=Role signature=FQN'as'name=ID(collection?='['(collectionsize=INT)?collection?=']')?(contingency=Contingency)?)
+;
+
+BindingDefinition : 
+('binds'('this'|interfaceSourceParentName=ID)'.'interfaceSourceName=ID('['interfaceSourceIndex=INT']')?'to'('this'|interfaceTargetParentName=ID)'.'interfaceTargetName=ID('['interfaceTargetIndex=INT']')?);
+
+DataDefinition :
+(('data'((fileC=FileC)|(inlineCcode=InlineCodeC)))|('nodata'));
+
+ImplementationDefinition :
+'source'((fileC=FileC)|(inlineCcode=InlineCodeC));
+
+TemplateSpecifier :
+name=ID'conformsto' componentTypeName=FQN
+;
+
+FileC :
+(directory = Path)?fileName=FileName;
+
+FileName :
+ID('.'ID)?;
+
+InlineCodeC :
+codeC=CodeC;
+
+AnnotationsList :
+annotations+=Annotation(annotations+=Annotation )*;
+
+Annotation :
+'@'name=AnnotationType("("annotationElements+=AnnotationElement(','annotationElements+=AnnotationElement)*")")?;
+
+AnnotationElement :
+(elementValue=ElementValue)
+|
+(elementName=ID'='elementValue=ElementValue)
+;
+
+ElementValue :
+ConstantValue|Annotation|ElementValueArrayInitializer;
+
+ConstantValue :
+value=ConstantFormat;
+
+ConstantFormat:
+INT|STRING;
+
+ElementValueArrayInitializer :
+"{"values+=ElementValue(","values+=ElementValue)*"}"; 
+
+Value :
+ID|signedINT|HexadecimalType|STRING;
+
+HexadecimalType :
+'0x'INT;
+
+AnnotationType:
+'Override'|'Singleton'|'LDFlags'|'CFlags'|FQN;
+
+AttributeType :
+'STRUCT'|'UNION'|'ENUM'|ID;
+
+FQN :
+ID('.'ID)*;
+
+enum Contingency : 
+optional|mandatory;
+
+enum Role :
+provides|requires;
+
+IMPORT_NAME :
+ID('.'ID)*('.*')?;
+
+terminal CodeC :
+'{{' -> '}}';
+
+terminal Path :
+(ID(':')? | (".")*)(((('\\')|('\\\\')|('/'))ID)?)*(('\\')|('\\\\')|('/'));
+
+signedINT :
+('+'|'-')?INT;
