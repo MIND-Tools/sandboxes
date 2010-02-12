@@ -1,0 +1,10 @@
+import org.ow2.fratal.mind.ide.emf.mindide.*;
+
+
+public class CLASS
+ {
+   public String generate(MindAdl adl)
+   {
+     return "";
+   }
+ }

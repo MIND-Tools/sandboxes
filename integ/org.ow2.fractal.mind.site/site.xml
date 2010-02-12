@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.ow2.fractal.mind.feature_1.0.0.qualifier.jar" id="org.ow2.fractal.mind.feature" version="1.0.0.qualifier">
+      <category name="MIND"/>
+   </feature>
+   <feature url="features/org.ow2.fractal.mind.sdk.feature_1.0.0.qualifier.jar" id="org.ow2.fractal.mind.sdk.feature" version="1.0.0.qualifier">
+      <category name="MIND"/>
+   </feature>
+   <category-def name="MIND" label="MIND"/>
+</site>

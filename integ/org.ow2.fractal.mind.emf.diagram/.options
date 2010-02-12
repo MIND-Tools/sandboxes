@@ -1,0 +1,7 @@
+# Tracing options for the org.ow2.fractal.mind.emf.diagram plug-in
+
+# Common issues
+org.ow2.fractal.mind.emf.diagram/debug=false
+
+# Visual IDs
+org.ow2.fractal.mind.emf.diagram/debug/visualID=false

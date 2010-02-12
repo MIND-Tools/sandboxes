@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ow2.fractal.mind.emf.model/src"
+    editDirectory="/org.ow2.fractal.mind.emf.model.edit/src" editorDirectory="/org.ow2.fractal.mind.emf.model.editor/src"
+    modelPluginID="org.ow2.fractal.mind.emf.model" modelName="Mind" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="org.ow2.fractal.mind.emf.model.edit"
+    editorPluginID="org.ow2.fractal.mind.emf.model.editor" language="adl">
+  <foreignModel>mind.ecore</foreignModel>
+  <genPackages prefix="Adl" disposableProviderFactory="true" ecorePackage="mind.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="mind.ecore#//Contingency">
+      <genEnumLiterals ecoreEnumLiteral="mind.ecore#//Contingency/optional"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ecore#//Contingency/mandatory"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="mind.ecore#//Role">
+      <genEnumLiterals ecoreEnumLiteral="mind.ecore#//Role/provides"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ecore#//Role/requires"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="mind.ecore#//ArchitectureDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//ArchitectureDefinition/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//ArchitectureDefinition/parentAdlDefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//AdlDefinition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ecore#//AdlDefinition/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//AdlDefinition/definitionAnnotationsList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//AdlDefinition/architecturedefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//Annotation/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//Annotation/annotationElements"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//Annotation/parentAnnotationList"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//AnnotationElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//AnnotationElement/elementName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//AnnotationElement/elementValue"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//AnnotationElement/parentAnnotation"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//AnnotationsList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//AnnotationsList/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ArgumentDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//ArgumentDefinition/argumentValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//ArgumentDefinition/argumentName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//AttributeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//AttributeDefinition/attributeName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//AttributeDefinition/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//AttributeDefinition/value"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//BindingDefinition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ecore#//BindingDefinition/interfaceSourceParent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ecore#//BindingDefinition/interfaceSource"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//BindingDefinition/interfaceSourceIndex"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ecore#//BindingDefinition/interfaceTargetParent"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ecore#//BindingDefinition/interfaceTarget"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//BindingDefinition/interfaceTargetIndex"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//BindingDefinition/interfaceSourceName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//BindingDefinition/interfaceTargetName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ComponentReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//ComponentReference/referenceName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ComponentTypeDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//ComponentTypeDefinition/typeElements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//ComponentTypeDefinition/typeReferencesList"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//CompositeAnonymousSubComponent"/>
+    <genClasses ecoreClass="mind.ecore#//CompositeComponentDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeComponentDefinition/templateSpecifiersList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeComponentDefinition/compositeFormalArgumentsList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeComponentDefinition/compositeReferencesList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeComponentDefinition/compositeElements"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="mind.ecore#//CompositeDefinitionElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//CompositeDefinitionElement/parentCompositeComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//CompositeReferenceDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeReferenceDefinition/templatesList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeReferenceDefinition/argumentsList"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//CompositeReferencesList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeReferencesList/compositeReferences"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//CompositeReferencesList/parentCompositeComponentDefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//CompositeSubComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//CompositeSubComponent/compositeReferenceDefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ConstantValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//ConstantValue/value"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//DataDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//DataDefinition/fileC"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//DataDefinition/inlineCcode"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ElementValue">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//ElementValue/parentAnnotationElement"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ElementValueArrayInitializer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//ElementValueArrayInitializer/values"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//FileC">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//FileC/directory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//FileC/fileName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//FormalArgument">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//FormalArgument/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//FormalArgument/parentFormalArgumentsList"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//FormalArgumentsList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//FormalArgumentsList/formalArguments"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//ImplementationDefinition"/>
+    <genClasses ecoreClass="mind.ecore#//ImportDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//ImportDefinition/importName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//InlineCodeC">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InlineCodeC/codeC"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//InterfaceDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InterfaceDefinition/role"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InterfaceDefinition/signature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InterfaceDefinition/collectionsize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InterfaceDefinition/contingency"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InterfaceDefinition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//InterfaceDefinition/collection"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//PrimitiveAnonymousSubComponent"/>
+    <genClasses ecoreClass="mind.ecore#//PrimitiveComponentDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//PrimitiveComponentDefinition/abstract"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveComponentDefinition/primitiveFormalArgumentsList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveComponentDefinition/primitiveReferencesList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveComponentDefinition/primitiveElements"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="mind.ecore#//PrimitiveDefinitionElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveDefinitionElement/parentPrimitiveComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//PrimitiveReferenceDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveReferenceDefinition/argumentsList"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//PrimitiveReferencesList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveReferencesList/primitiveReferences"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveReferencesList/parentPrimitiveComponentDefinition"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//PrimitiveSubComponent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//PrimitiveSubComponent/primitiveReferenceDefinition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="mind.ecore#//SubComponentDefinition"/>
+    <genClasses ecoreClass="mind.ecore#//TemplateDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//TemplateDefinition/templateName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//TemplateDefinition/templateValue"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//TemplateSpecifier">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//TemplateSpecifier/parentTemplateSpecifierList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ecore#//TemplateSpecifier/componentTypeName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//TemplateSpecifiersList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//TemplateSpecifiersList/templateSpecifiers"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//TemplateSubComponent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ecore#//TemplateSubComponent/templateReferenceDefinition"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="mind.ecore#//TypeDefinitionElement">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ecore#//TypeDefinitionElement/parentTypeComponent"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ecore#//TypeReferenceDefinition"/>
+    <genClasses ecoreClass="mind.ecore#//TypeReferencesList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ecore#//TypeReferencesList/typeReferences"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
