@@ -1,0 +1,3 @@
+
+type testPackage1.types.MyType1  extends testPackage1.types.MyType 
+provides overrided as MyTypeInterface1;

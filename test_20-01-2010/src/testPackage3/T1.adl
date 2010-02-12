@@ -1,0 +1,4 @@
+type testPackage3.T1{
+    provides as T1interface1;
+	provides as T1interface2;
+}

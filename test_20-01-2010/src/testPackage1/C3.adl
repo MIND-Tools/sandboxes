@@ -1,0 +1,4 @@
+composite testPackage1.C3 extends testPackage1.C1,testPackage1.C2<T=testPackage2.P0,T1=testPackage2.P1> {
+  provides as C3interface1
+  requires as C3interface2
+}

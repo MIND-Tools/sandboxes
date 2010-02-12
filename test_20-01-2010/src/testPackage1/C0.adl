@@ -1,0 +1,5 @@
+composite testPackage1.C0<T conformsto testPackage3.T1>(C0param1,C0param2) {
+  provides as C0interface1;
+  requires as C0interface2;
+  contains T as C0sub1;
+}

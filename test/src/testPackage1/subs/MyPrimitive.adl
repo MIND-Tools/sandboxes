@@ -1,0 +1,6 @@
+primitive testPackage1.MyPrimitive  {
+	provides signature as MyPrimitiveInterface1;
+	requires signature as MyPrimitiveInterface2;
+  
+  	source myPrimitive.c ;
+}

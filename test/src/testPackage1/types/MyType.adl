@@ -1,0 +1,5 @@
+type testPackage1.types.MyType provides signature  
+  as MyTypeInterface1;
+requires signature
+  as MyTypeInterface2;
+provides as interface_name;

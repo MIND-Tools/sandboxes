@@ -1,0 +1,19 @@
+import testPackage1.types.MyType;
+import testPackage1.types.MyType1;
+composite testPackage1.MyComposite1 <T conformsto MyType ,T1 conformsto MyType1 > (argumentName,argumentName2)  {
+    provides signature
+  	  as MyComposite1Interface1;
+
+    requires signature
+	  as MyComposite1Interface2;
+	
+	contains T as MyComposite1Sub1
+
+    ;
+	contains T1 as MyComposite1Sub2
+
+    ;
+	binds MyComposite1Sub1.MyTypeInterface2 to MyComposite1Sub2.MyTypeInterface1;
+
+	
+}

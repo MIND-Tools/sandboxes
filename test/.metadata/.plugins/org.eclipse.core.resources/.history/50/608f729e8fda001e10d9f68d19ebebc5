@@ -1,0 +1,3 @@
+composite testcomp {
+  requires testprim as foo
+}

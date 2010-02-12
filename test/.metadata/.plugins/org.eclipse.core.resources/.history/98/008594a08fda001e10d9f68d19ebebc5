@@ -1,0 +1,4 @@
+composite testcomp {
+  requires testprim as foo
+  contains primitve testprim as bar
+}

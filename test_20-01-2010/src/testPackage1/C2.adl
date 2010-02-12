@@ -1,0 +1,17 @@
+composite testPackage1.C2<T conformsto testPackage3.T0,T1 conformsto testPackage3.T1> {
+  provides as C2interface1
+  requires as C2interface2
+  contains T as C2sub1;  
+  contains testPackage2.P2 as C2sub2
+  contains composite as  C2sub3
+  {
+  	contains T1 as C2sub3sub1
+  } 
+  contains composite C1 as C2sub4
+  {
+  }
+  binds this.C2interface1 to C2sub1.T0interface1;
+  binds C2sub1.T0interface2 to C2sub2.P2interface1;
+  binds C2sub2.P2interface2 to C2sub4.C0interface1;
+  binds C2sub4.C0interface2 to this.C2interface2;
+}
