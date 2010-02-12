@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.ow2.fratal.mind.ws.emf.mindws.presentation.MindwsEditorID"
+            name="%_UI_MindwsEditor_label"
+            icon="icons/full/obj16/MindwsModelFile.gif"
+            extensions="mindws"
+            class="org.ow2.fractal.mind.ide.emf.mindide.presentation.MindideEditor"
+            contributorClass="org.ow2.fractal.mind.ide.emf.mindide.presentation.MindideActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

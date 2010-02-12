@@ -1,0 +1,23 @@
+<%@ jet package="org.ow2.fractal.mind.ide.template" class="TemplateMake" %>
+# If the MIND_ROOT variable is defined, look for 'mindc' in this directory
+# otherwise, expect that 'mindc' is in the PATH.
+ifdef MIND_ROOT
+  # If MIND_ROOT contains '\', replace them by '/' (for Windows)
+  MINDC = $(subst \,/, $(MIND_ROOT)/bin/mindc)
+else 
+  MINDC = mindc
+endif
+
+MIND_SRC=src
+MIND_COMPONENTS=
+
+all: build
+	$(MINDC) -src-path=$(MIND_SRC) -o=build $(MIND_COMPONENTS) 
+
+build:
+	mkdir -p build
+
+clean:
+	rm -Rf build
+
+.PHONY: all clean

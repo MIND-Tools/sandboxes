@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.ow2.fractal.mind.ide.emf.model.edit;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.ow2.fractal.mind.ide.emf.provider.MindIDEEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.ow2.fractal.mind.ide.emf.edit.custom,
+ org.ow2.fractal.mind.ide.emf.mindide.provider,
+ org.ow2.fractal.mind.ide.emf.provider
+Require-Bundle: org.eclipse.core.runtime,
+ org.ow2.fractal.mind.ide.emf.model;visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport
+Bundle-ActivationPolicy: lazy

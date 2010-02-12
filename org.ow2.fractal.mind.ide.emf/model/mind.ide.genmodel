@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ow2.fractal.mind.ide.emf.model/src"
+    editDirectory="/org.ow2.fractal.mind.ide.emf.model.edit/src" editorDirectory="/org.ow2.fractal.mind.ide.emf.model.editor/src"
+    modelPluginID="org.ow2.fractal.mind.ide.emf.model" modelName="MindIDE" editPluginClass="org.ow2.fractal.mind.ide.emf.provider.MindIDEEditPlugin"
+    editorPluginClass="org.ow2.fractal.mind.ide.emf.presentation.MindIDEEditorPlugin"
+    rootImplementsInterface="" testSuiteClass="org.ow2.fractal.mind.ide.emf.tests.MindIDEAllTests"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    editPluginID="org.ow2.fractal.mind.ide.emf.model.edit" editorPluginID="org.ow2.fractal.mind.ide.emf.model.editor"
+    language="org.ow2.fractal.mind.ide.emf" interfaceNamePattern="">
+  <foreignModel>mind.ide.ecore</foreignModel>
+  <genPackages prefix="Mindide" basePackage="org.ow2.fractal.mind.ide.emf" disposableProviderFactory="true"
+      generateModelWizard="false" ecorePackage="mind.ide.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="mind.ide.ecore#//MindPathKind">
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//MindPathKind/LIBRARY"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//MindPathKind/PROJECT"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//MindPathKind/SOURCE"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//MindPathKind/IMPORT_PACKAGE"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//MindPathKind/REPO"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//MindPathKind/APPLI"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="mind.ide.ecore#//ComponentKind">
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//ComponentKind/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//ComponentKind/primitive"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//ComponentKind/composite"/>
+      <genEnumLiterals ecoreEnumLiteral="mind.ide.ecore#//ComponentKind/type"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="mind.ide.ecore#//IProject"/>
+    <genDataTypes ecoreDataType="mind.ide.ecore#//IResource"/>
+    <genDataTypes ecoreDataType="mind.ide.ecore#//URI"/>
+    <genClasses ecoreClass="mind.ide.ecore#//MindRepo">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindRepo/rootsrcs"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindRepo/mindprojects"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindRootSrc">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindRootSrc/packages"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindRootSrc/project"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ide.ecore#//MindRootSrc/repo"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindRootSrc/fullpath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindRootSrc/folder"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindRootSrc/dependencies"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindPackage">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindPackage/files"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ide.ecore#//MindPackage/rootsrc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindPackage/fullpath"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindAdl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindAdl/kind"/>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindAdl/setReferences">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindAdl/setReferences/references"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindC"/>
+    <genClasses ecoreClass="mind.ide.ecore#//MindItf"/>
+    <genClasses ecoreClass="mind.ide.ecore#//MindH"/>
+    <genClasses ecoreClass="mind.ide.ecore#//MindIdf"/>
+    <genClasses ecoreClass="mind.ide.ecore#//MindFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindFile/fullpath"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ide.ecore#//MindFile/package"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindFile/qualifiedName"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindAllRepo">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindAllRepo/repos"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindObject/mindId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindObject/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindObject/resolvedMindPathEntries"/>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindProject">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindProject/rootsrcs"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ide.ecore#//MindProject/repo"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindProject/uses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindProject/mindpathentries"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindProject/project"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindProject/allsrc"/>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/getRawMinpath"/>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/getResolvedMindpath">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/getResolvedMindpath/ignoreUnresolvedEntry"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/setMindpath">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/setMindpath/mindpath"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolveAdl">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolveAdl/componentName"/>
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolveAdl/defaultPackage"/>
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolveAdl/imports"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolvePossibleAdlInMindPath">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolvePossibleAdlInMindPath/componentName"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolvePossibleAdlInPackage">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolvePossibleAdlInPackage/packageName"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolvePossibleAdlInWorkspace">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolvePossibleAdlInWorkspace/componentName"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolveIdl">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolveIdl/componentName"/>
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolveIdl/defaultPackage"/>
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolveIdl/imports"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolvePossibleIdlInMindPath">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolvePossibleIdlInMindPath/componentName"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolvePossibleIdlInPackage">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolvePossibleIdlInPackage/packageName"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/resolvePossibleIdlInWorkspace">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/resolvePossibleIdlInWorkspace/componentName"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/findQualifiedComponent">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/findQualifiedComponent/cn"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/getAllFiles"/>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/addMindPathProjectReferenceFromFile">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/addMindPathProjectReferenceFromFile/file"/>
+      </genOperations>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindProject/addMindPathImportPackageFromFile">
+        <genParameters ecoreParameter="mind.ide.ecore#//MindProject/addMindPathImportPackageFromFile/file"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="mind.ide.ecore#//MindPathEntry">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference mind.ide.ecore#//MindPathEntry/ownerProject"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mind.ide.ecore#//MindPathEntry/resolvedBy"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mind.ide.ecore#//MindPathEntry/entryKind"/>
+      <genOperations ecoreOperation="mind.ide.ecore#//MindPathEntry/getResource"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

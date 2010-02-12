@@ -1,0 +1,12 @@
+<%@ jet package="org.ow2.fractal.mind.ide.template" class="TemplateCompositeADL" skeleton="mindadl2.skeleton" %>
+<%
+ String qualifiedName = adl.getQualifiedName();
+ 
+
+%>
+composite <%=qualifiedName%> {
+  
+<%for(String l : contains) {%>
+	<%=l%>
+<%}%>
+}
