@@ -1,0 +1,8 @@
+
+@Compile
+@controller.LifeCycleController
+@Singleton
+primitive controller.lcc.SingletonPrimitiveComponent extends LCCTested {
+  
+  source singletonLCC.c;
+}
