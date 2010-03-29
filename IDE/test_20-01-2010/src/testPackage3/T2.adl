@@ -1,4 +1,0 @@
-type testPackage3.T2 extends T0,T1 {
-    provides as T2interface1;
-	provides as T2interface2;
-}

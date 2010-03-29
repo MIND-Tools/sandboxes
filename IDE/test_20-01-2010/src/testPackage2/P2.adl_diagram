@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:mind.ecore="http://org.ow2.fractal/mind/mind.ecore/0.1.0" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_ao8GwAUTEd-GN9gXGEfxrg" type="Mind" name="P2.adl_diagram" measurementUnit="Pixel">
-  <styles xmi:type="notation:DiagramStyle" xmi:id="_ao8GwQUTEd-GN9gXGEfxrg"/>
-  <element xmi:type="mind.ecore:AdlDefinition" href="/test/src/testPackage2/P2.adl#/"/>
-</notation:Diagram>

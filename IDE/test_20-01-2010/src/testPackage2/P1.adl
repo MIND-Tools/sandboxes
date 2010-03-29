@@ -1,6 +1,0 @@
-primitive testPackage2.P1 extends testPackage3.T1,P0 {
-  	provides as P1interface1;
-	provides as P1interface2;
-	nodata;
-  	source p1.c;
-}

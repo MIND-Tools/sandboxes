@@ -1,4 +1,0 @@
-type testPackage3.T0 {
-  	provides as T0interface1;
-	provides as T0interface2;
-}
