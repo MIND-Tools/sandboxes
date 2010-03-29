@@ -1,4 +1,0 @@
-composite testPackage1.MyComposite2  extends testPackage1.types.MyType {
-  	provides signature as MyComposite2Interface1;
-	requires signature as MyComposite2Interface2;
-}

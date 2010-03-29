@@ -1,4 +1,0 @@
-composite testcomp {
-  requires testprim as foo
-  contains primitive testprim as bar
-}

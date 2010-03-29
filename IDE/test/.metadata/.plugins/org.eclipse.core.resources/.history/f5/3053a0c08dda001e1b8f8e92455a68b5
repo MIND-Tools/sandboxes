@@ -1,4 +1,0 @@
-primitive testprim {
-	
-  
-  	source testprim.c ; }

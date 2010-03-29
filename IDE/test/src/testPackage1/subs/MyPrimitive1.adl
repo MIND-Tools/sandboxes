@@ -1,7 +1,0 @@
-
-
-primitive testPackage1.MyPrimitive1 extends testPackage1.types.MyType1  {
-	provides signature as MyPrimitive1Interface1;
-	requires signature as MyPrimitive1Interface2;
-   	source myPrimitive1.c ;
-}

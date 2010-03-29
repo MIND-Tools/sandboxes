@@ -1,5 +1,0 @@
-primitive testprim {
-	nodata;
-  
-  	source testprim.c;
-}
