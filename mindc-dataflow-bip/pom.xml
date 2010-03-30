@@ -41,6 +41,7 @@
         <module>mindc</module>
         <module>fractal-runtime</module>
         <module>fractal-adl-bundle</module>
+        <module>beam-frontend</module>
     </modules>
 
     <developers>
@@ -160,7 +161,11 @@
                 <artifactId>fractal-runtime</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>beam-frontend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- Other dependencies -->
             <dependency>
                 <groupId>org.objectweb.fractal.fractaladl</groupId>
