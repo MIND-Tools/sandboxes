@@ -100,7 +100,7 @@ public abstract class AbstractADLLoaderAnnotationProcessor
   // ---------------------------------------------------------------------------
 
   /**
-   * Returns <code>true</code> if a definition with the given name as already
+   * Returns <code>true</code> if a definition with the given name has already
    * been loaded.
    * 
    * @return <code>true</code> if a definition with the given name as already
