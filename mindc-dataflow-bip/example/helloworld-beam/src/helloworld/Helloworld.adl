@@ -1,0 +1,14 @@
+import boot.Main;
+
+composite helloworld.Helloworld {
+  provides Main as main;
+
+  contains Client as client;
+
+  @BeamFilter
+  contains Server as server;
+  
+  @BeamTest(fifosize=10)
+  binds this.main to client.main;
+  binds client.sa to server.s;
+}
