@@ -25,18 +25,25 @@
 package org.ow2.mind.beam.annotation;
 
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
+import org.objectweb.fractal.adl.util.FractalADLLogManager;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
 import org.ow2.mind.adl.annotation.predefined.BeamTest;
+import org.ow2.mind.adl.ast.Binding;
 import org.ow2.mind.annotation.Annotation;
 
 public class BeamTestAnnotationProcessor
     extends
       AbstractADLLoaderAnnotationProcessor {
+
+  protected static Logger logger = FractalADLLogManager
+  .getLogger("beam");
 
   // ---------------------------------------------------------------------------
   // Implementation of the ADLLoaderAnnotationProcessor interface
@@ -46,9 +53,16 @@ public class BeamTestAnnotationProcessor
       final Node node, final Definition definition, final ADLLoaderPhase phase,
       final Map<Object, Object> context) throws ADLException {
     assert annotation instanceof BeamTest;
+    assert node instanceof Binding;
+    
+    BeamTest bt = (BeamTest) annotation;
     if (phase == ADLLoaderPhase.AFTER_CHECKING
         || phase == ADLLoaderPhase.AFTER_TEMPLATE_INSTANTIATE) {
-
+      logger.log(Level.INFO, "FIFO Size " + bt.fifosize);
+      Binding b = (Binding) node;
+      logger.log(Level.INFO, "From: " + b.getFromComponent() + "." + b.getFromInterface());
+      logger.log(Level.INFO, "To: " + b.getToComponent() + "." + b.getToInterface());
+      
     } else if (phase == ADLLoaderPhase.ON_SUB_COMPONENT) {
 
     } else if (phase == ADLLoaderPhase.ON_TEMPLATE_SUB_COMPONENT) {

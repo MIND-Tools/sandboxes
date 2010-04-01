@@ -29,21 +29,16 @@ import org.ow2.mind.adl.annotation.ADLAnnotationTarget;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.ADLLoaderProcessor;
 import org.ow2.mind.annotation.Annotation;
-import org.ow2.mind.annotation.AnnotationElement;
 import org.ow2.mind.annotation.AnnotationTarget;
-import org.ow2.mind.beam.annotation.BeamTestAnnotationProcessor;
+import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 
-@ADLLoaderProcessor(processor = BeamTestAnnotationProcessor.class, phases = {
-    ADLLoaderPhase.AFTER_PARSING, ADLLoaderPhase.AFTER_CHECKING,
-    ADLLoaderPhase.ON_TEMPLATE_SUB_COMPONENT,
-    ADLLoaderPhase.AFTER_TEMPLATE_INSTANTIATE})
-public class BeamTest implements Annotation {
+@ADLLoaderProcessor(processor = BeamFilterAnnotationProcessor.class, phases = {
+   ADLLoaderPhase.AFTER_CHECKING})
+public class BeamFilter implements Annotation {
 
-  @AnnotationElement
-  public Integer                           fifosize;
   
   private static final AnnotationTarget[] TARGETS = {
-      ADLAnnotationTarget.SOURCE, ADLAnnotationTarget.BINDING};
+      ADLAnnotationTarget.SOURCE, ADLAnnotationTarget.COMPONENT};
 
   public AnnotationTarget[] getAnnotationTargets() {
     return TARGETS;
