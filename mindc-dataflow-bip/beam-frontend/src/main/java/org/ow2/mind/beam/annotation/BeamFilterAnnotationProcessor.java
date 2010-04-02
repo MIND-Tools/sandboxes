@@ -24,6 +24,8 @@
 
 package org.ow2.mind.beam.annotation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ import java.util.logging.Logger;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
+import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
 import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
@@ -39,6 +42,8 @@ import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
 import org.ow2.mind.adl.annotation.predefined.BeamFilter;
 import org.ow2.mind.adl.ast.ASTHelper;
+import org.ow2.mind.adl.ast.Binding;
+import org.ow2.mind.adl.ast.BindingContainer;
 import org.ow2.mind.adl.ast.Component;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.MindInterface;
@@ -46,15 +51,20 @@ import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.adl.membrane.ast.MembraneASTHelper;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.beam.Constants;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
 
 public class BeamFilterAnnotationProcessor
     extends
-      AbstractADLLoaderAnnotationProcessor {
+      AbstractADLLoaderAnnotationProcessor 
+    implements
+      Constants {
 
   protected static Logger logger = FractalADLLogManager
-  .getLogger("beam");
+  .getLogger("beam-filter-annot");
 
+  static List<Component> filters = new ArrayList<Component>();
+  
   /*
    * Stolen from "InterfaceSignatureLoader"
    */
@@ -86,31 +96,66 @@ public class BeamFilterAnnotationProcessor
     assert node instanceof Component;
 
     Component c = (Component) node;
+    if (phase == ADLLoaderPhase.AFTER_PARSING){
+      filters.add(c);
+      logger.log(Level.INFO, "Filter : " + c.getName() + "(#" + filters.size() + ")");
 
-    MindInterface mif = ASTHelper.newServerInterfaceNode(nodeFactoryItf, 
-        "fooName",
-        "helloworld.DynamicEx");
+    } else if (phase == ADLLoaderPhase.AFTER_CHECKING){
+      logger.log(Level.INFO, "Handling filter : " + c.getName());
 
-    processItf(definition, mif, definition, context);
-    
-    Definition def = ASTHelper.getResolvedComponentDefinition(c, loaderItf, context);
-    assert(def != null);
-    assert def instanceof ImplementationContainer;
-    assert def instanceof InterfaceContainer;
+      Definition def = ASTHelper.getResolvedComponentDefinition(c, loaderItf, context);
+      assert(def != null);
+      assert def instanceof InterfaceContainer;
+      
+      /*
+       * Create Scheduler -> filter binding
+       *  - add new client interface to scheduler
+       *  - bind it to the filter
+       */
+      Component sched_comp = ASTHelper.getComponent(definition, BEAM_SCHEDULER_COMP_NAME);
+      assert(sched_comp != null);
+      Definition sched_def = ASTHelper.getResolvedComponentDefinition(sched_comp, loaderItf, context);
+      assert(sched_def != null);
+      assert sched_def instanceof InterfaceContainer;
+      
+      MindInterface sched_client = ASTHelper.newClientInterfaceNode(nodeFactoryItf, 
+          c.getName(),
+          BEAM_FILTER_CTRL_IFACE_TYPE);
+      processItf(definition, sched_client, definition, context);
 
-    ImplementationContainer ic = ((ImplementationContainer) def);
+      ((InterfaceContainer)sched_def).addInterface(sched_client);
+      logger.log(Level.INFO, " - added client iface '" + sched_client.getName() 
+          +"' on '" + sched_comp.getName() + "'");
 
-    Source ns = MembraneASTHelper.newSourceNode(nodeFactoryItf, "/helloworld/toto.c");
-    ic.addSource(ns);
-    Source ss[] = ic.getSources();
-    for (Source s: ss){
-      logger.log(Level.INFO, " - source: " + s.getPath());
+      //      logger.log(Level.INFO, "Interfaces on " + sched_def.getName() + ":");
+//      for (Interface i : ((InterfaceContainer)sched_def).getInterfaces()){
+//        assert(i instanceof MindInterface);
+//        MindInterface mi = (MindInterface)i;
+//        logger.log(Level.INFO, " -" + mi.getName() + ", " + mi.getSignature() + " [" + mi.getRole() + "]");
+//      }
+
+      Binding sched_filter_b = ASTHelper.newBinding(nodeFactoryItf);
+      sched_filter_b.setFromComponent(BEAM_SCHEDULER_COMP_NAME);
+      sched_filter_b.setFromInterface(c.getName());
+      sched_filter_b.setToComponent(c.getName());
+      sched_filter_b.setToInterface(BEAM_FILTER_CTRL_IFACE_NAME);
+
+      assert(definition instanceof BindingContainer);
+      ((BindingContainer) definition).addBinding(sched_filter_b);
+      
+      logger.log(Level.INFO, " - added binding '" + 
+          sched_filter_b.getFromComponent() + "." + sched_filter_b.getFromInterface() + " to " +
+          sched_filter_b.getToComponent() + "." + sched_filter_b.getToInterface() + "'");
+//    assert def instanceof ImplementationContainer;
+//      ImplementationContainer ic = ((ImplementationContainer) def);
+//
+//      Source ns = MembraneASTHelper.newSourceNode(nodeFactoryItf, "/helloworld/toto.c");
+//      ic.addSource(ns);
+//      Source ss[] = ic.getSources();
+//      for (Source s: ss){
+//        logger.log(Level.INFO, " - source: " + s.getPath());
+//      }
     }
-    
-    logger.log(Level.INFO, "Filter found : " + c.getName());
-    logger.log(Level.INFO, "Definition: " + def.getName());
-
-    ((InterfaceContainer)def).addInterface(mif);
     return null;
   }
 }

@@ -33,12 +33,12 @@ import org.ow2.mind.annotation.AnnotationTarget;
 import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 
 @ADLLoaderProcessor(processor = BeamFilterAnnotationProcessor.class, phases = {
-   ADLLoaderPhase.AFTER_CHECKING})
+   ADLLoaderPhase.AFTER_CHECKING, ADLLoaderPhase.AFTER_PARSING})
 public class BeamFilter implements Annotation {
 
   
   private static final AnnotationTarget[] TARGETS = {
-      ADLAnnotationTarget.SOURCE, ADLAnnotationTarget.COMPONENT};
+    ADLAnnotationTarget.COMPONENT};
 
   public AnnotationTarget[] getAnnotationTargets() {
     return TARGETS;
