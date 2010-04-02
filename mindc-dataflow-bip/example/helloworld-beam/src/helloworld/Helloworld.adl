@@ -3,12 +3,18 @@ import boot.Main;
 composite helloworld.Helloworld {
   provides Main as main;
 
+  contains Scheduler as sched;
+
+//  contains TestBuffer as buffer;
+
+  @BeamFilter
   contains Client as client;
 
   @BeamFilter
   contains Server as server;
   
-  @BeamTest(fifosize=10)
-  binds this.main to client.main;
-  binds client.sa to server.s;
+  binds this.main to sched.main;
+
+  @BeamFifo(fifosize=10)
+  binds client.s to server.s;
 }

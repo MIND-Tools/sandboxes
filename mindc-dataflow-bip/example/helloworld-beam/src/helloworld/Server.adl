@@ -1,5 +1,7 @@
 primitive helloworld.Server {
-  
+
+  provides beam.BeamFilter as filterctrl;
+
   provides Service as s ;
 
   attribute int count = 2;

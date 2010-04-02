@@ -1,9 +1,6 @@
 
 interface helloworld.Service {
-
-  void print(const char *msg);
- 
-  void println(const char *msg);
-
+  int get(void);
+  void put(int x);
 };
 

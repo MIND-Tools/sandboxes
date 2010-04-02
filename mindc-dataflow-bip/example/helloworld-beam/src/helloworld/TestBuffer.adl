@@ -1,0 +1,5 @@
+primitive helloworld.TestBuffer {
+	  provides Service as s;
+	  
+	  source testbuffer.c;
+}
