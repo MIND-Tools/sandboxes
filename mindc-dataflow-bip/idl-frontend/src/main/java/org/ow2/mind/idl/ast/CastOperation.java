@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009 STMicroelectronics
+ * Copyright (C) 2010 STMicroelectronics
  *
  * This file is part of "Mind Compiler" is free software: you can redistribute 
  * it and/or modify it under the terms of the GNU Lesser General Public License 
@@ -17,19 +17,14 @@
  * Contact: mind@ow2.org
  *
  * Authors: Matthieu Leclercq
- * Contributors: Matthieu ANNE
+ * Contributors: 
  */
 
-package org.ow2.mind.preproc;
+package org.ow2.mind.idl.ast;
 
-import java.util.Map;
+public interface CastOperation extends ConstantExpression, TypeContainer {
 
-import org.objectweb.fractal.adl.Definition;
+  void setConstantExpression(ConstantExpression node);
 
-public interface MPPWrapper {
-
-  String ITF_NAME = "mpp-wrapper";
-
-  MPPCommand newMPPCommand(final Definition definition,
-      Map<Object, Object> context);
+  ConstantExpression getConstantExpression();
 }
