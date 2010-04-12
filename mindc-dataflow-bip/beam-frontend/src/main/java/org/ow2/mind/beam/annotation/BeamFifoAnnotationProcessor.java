@@ -164,7 +164,7 @@ public class BeamFifoAnnotationProcessor
      */
     addCCode(generated_code, "/* Server method for GET*/");
     addCCode(generated_code, returnType + " METH(buffer,get) (void) {");
-    addCCode(generated_code, "return FIFO_POP_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
+    addCCode(generated_code, "   return FIFO_POP_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
     addCCode(generated_code, "}");
 
     /*
@@ -172,7 +172,7 @@ public class BeamFifoAnnotationProcessor
      */
     addCCode(generated_code, "/* Server method for PUT */");
     addCCode(generated_code, "void METH(buffer, put)(" + returnType + " x) {");
-    addCCode(generated_code, "FIFO_PUSH_N(" + returnType + ", " + buffer_uniq_id + ")(x, &myFifo);");
+    addCCode(generated_code, "   FIFO_PUSH_N(" + returnType + ", " + buffer_uniq_id + ")(x, &myFifo);");
     addCCode(generated_code, "}");
     
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
