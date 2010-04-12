@@ -1,0 +1,6 @@
+primitive beam.filters.simple.singleintdumper {
+  provides beam.BeamFilter as filterctrl; 
+
+  provides beam.links.SingleInt as input;
+  source singleintdumper.c;
+}

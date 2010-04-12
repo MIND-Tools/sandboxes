@@ -1,0 +1,12 @@
+primitive beam.filters.simple.maxfilter {
+  provides beam.BeamFilter as filterctrl;
+
+  provides beam.links.SingleInt as input;
+  requires beam.links.SingleInt as output;
+
+  data {{
+    struct{ int max; } PRIVATE;
+  }};
+
+  source maxfilter.c;
+}

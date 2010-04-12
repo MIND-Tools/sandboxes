@@ -1,0 +1,4 @@
+interface beam.links.SingleInt {
+  int get (void);
+  void put (int x);
+}

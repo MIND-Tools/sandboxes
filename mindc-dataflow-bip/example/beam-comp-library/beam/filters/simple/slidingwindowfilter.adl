@@ -1,0 +1,16 @@
+primitive beam.filters.simple.slidingwindowfilter {
+  provides beam.BeamFilter as filterctrl;
+
+  provides beam.links.SingleInt as input;
+  requires beam.links.SingleInt as output;
+
+  data {{
+       struct {
+       	      int history[255];
+	      int init_hack;
+	      int ptr;
+       } PRIVATE;
+  }};
+
+  source slidingwindowfilter.c;
+}
