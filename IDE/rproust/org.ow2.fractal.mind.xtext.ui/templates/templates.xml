@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<templates>
+
+<!-- Template proposal for composite element -->
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.CompositeComponentDefinition" deleted="false" description="composite definition" enabled="true" name="composite" id="composite">composite ${composite_name} {
+
+}</template>
+
+<!-- Template proposal for primitive element -->
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.PrimitiveComponentDefinition" deleted="false" description="primitive definition" enabled="true" name="primitive" id="primitive">primitive ${primitive_name} {
+
+}</template>
+
+<!-- Template proposal for type definition -->
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.ComponentTypeDefinition" deleted="false" description="type definition" enabled="true" name="type" id="type">
+	type ${type_name} {
+		provides ${interface_path} as ${interface_name};
+		requires ${interface_path} as ${interface_name};
+	}
+</template>
+
+
+<!-- Template proposal for binding element -->
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.BindingDefinition" deleted="false" description="binds fractal components" enabled="true" name="bind" id="binding">binds ${client}.${itf} to ${server}.${itf};
+</template>
+
+<!-- Template proposal for annotations  -->
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.AnnotationType" deleted="false" description="Override annotation" enabled="true" name="@override" id="overrideAnnotation">override</template>
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.AnnotationType" deleted="false" description="Singleton annotation" enabled="true" name="@singleton" id="singletonAnnotation">singleton</template>
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.AnnotationType" deleted="false" description="LDFlags annotation" enabled="true" name="@LDFlags" id="LDFlagsAnnotation">LDFlags</template>
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.AnnotationType" deleted="false" description="CFlags annotation" enabled="true" name="@CFlags" id="CFlagsAnnotation">CFlags</template>
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.AnnotationType" deleted="false" description="Custom annotation" enabled="true" name="@[name]" id="nameAnnotation">${annotation_name}</template>
+
+<!-- Template proposal for provided and required interfaces  -->
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.InterfaceDefinition" deleted="false" description="provided interface" enabled="true" name="provides" id="provides">provides ${interface_path} as ${interface_name};</template>
+<template autoinsert="true" context="org.ow2.fractal.mind.xtext.Fractal.InterfaceDefinition" deleted="false" description="required interface" enabled="true" name="requires" id="requires">requires ${interface_path} as ${interface_name};</template>
+
+</templates>
