@@ -1,6 +1,0 @@
-
-interface helloworld.DynamicEx {
-
-  void f(void);
-};
-
