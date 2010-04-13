@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2010 STMicroelectronics
+ * Copyright (C) 2009 STMicroelectronics
  *
  * This file is part of "Mind Compiler" is free software: you can redistribute 
  * it and/or modify it under the terms of the GNU Lesser General Public License 
@@ -16,22 +16,27 @@
  *
  * Contact: mind@ow2.org
  *
- * Authors: Matthieu Leclercq
+ * Authors: Ali Erdem Ozcan
  * Contributors: 
  */
 
-package org.ow2.mind.plugin;
+package org.ow2.mind.preproc;
 
-import java.util.Collection;
-import java.util.Map;
+import org.antlr.runtime.CharStream;
+import org.antlr.runtime.Lexer;
+import org.antlr.runtime.Parser;
+import org.antlr.runtime.TokenStream;
+import org.ow2.mind.preproc.parser.CPLLexer;
+import org.ow2.mind.preproc.parser.CPLParser;
 
-import org.objectweb.fractal.adl.ADLException;
-import org.ow2.mind.plugin.ast.Extension;
+public class DefaultCPLPreprocessorFactory implements CPLPreprocessorFactory {
 
-public interface PluginManager {
+  public Lexer getLexer(final CharStream cs) {
+    return new CPLLexer(cs);
+  }
 
-  public void setClassLoader(ClassLoader cl);
+  public Parser getParser(final TokenStream ts) {
+    return new CPLParser(ts);
+  }
 
-  public Collection<Extension> getExtensions(String extensionPoint,
-      Map<Object, Object> context) throws ADLException;
 }

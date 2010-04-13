@@ -42,6 +42,7 @@
         <module>fractal-runtime</module>
         <module>fractal-adl-bundle</module>
         <module>beam-frontend</module>
+        <module>plugin-loader</module>
     </modules>
 
     <developers>
@@ -161,9 +162,16 @@
                 <artifactId>fractal-runtime</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>beam-frontend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>plugin-loader</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Other dependencies -->
