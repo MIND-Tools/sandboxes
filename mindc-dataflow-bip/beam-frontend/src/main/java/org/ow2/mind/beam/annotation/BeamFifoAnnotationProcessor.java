@@ -185,7 +185,8 @@ public class BeamFifoAnnotationProcessor
 
     buffer_uniq_id++;
 
-    Definition new_bufdef = ASTHelper.newPrimitiveDefinitionNode(nodeFactoryItf, "beam.generated.buffer" + name, 
+    String def_name = "beam.generated.buffer" + name;
+    Definition new_bufdef = ASTHelper.newPrimitiveDefinitionNode(nodeFactoryItf, def_name,
         (DefinitionReference[]) null);
     MindInterface iface = ASTHelper.newServerInterfaceNode(nodeFactoryItf,
         ifacename, signature);
@@ -200,7 +201,7 @@ public class BeamFifoAnnotationProcessor
         new_bufdef, iface, context);
     
     DefinitionReference dr = ASTHelper.newDefinitionReference(nodeFactoryItf, 
-        "beam.generated.buffer" + name);
+        def_name);
     ASTHelper.setResolvedDefinition(dr, new_bufdef);
     
     ((ImplementationContainer)new_bufdef).addSource(implem);
@@ -278,7 +279,6 @@ public class BeamFifoAnnotationProcessor
         }
       }
       
-
       Binding filter_buffer_b = ASTHelper.newBinding(nodeFactoryItf);
       filter_buffer_b.setFromComponent(b.getToComponent());
       filter_buffer_b.setFromInterface(b.getToInterface());

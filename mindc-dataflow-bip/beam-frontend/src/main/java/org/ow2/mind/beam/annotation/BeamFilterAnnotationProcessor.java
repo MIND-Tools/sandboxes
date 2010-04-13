@@ -36,6 +36,7 @@ import org.objectweb.fractal.adl.Node;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
 import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
+import org.ow2.mind.CommonASTHelper;
 import org.ow2.mind.InputResourcesHelper;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
@@ -44,7 +45,11 @@ import org.ow2.mind.adl.ast.ASTHelper;
 import org.ow2.mind.adl.ast.Binding;
 import org.ow2.mind.adl.ast.BindingContainer;
 import org.ow2.mind.adl.ast.Component;
+import org.ow2.mind.adl.ast.ComponentContainer;
+import org.ow2.mind.adl.ast.DefinitionReference;
+import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.MindInterface;
+import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.beam.Constants;
@@ -80,6 +85,70 @@ public class BeamFilterAnnotationProcessor
   }
   
 
+  protected Source createSchedulerImplementation(){
+    String inline_code = "int METH(main, main) (int argc, char *argv[]){\n" +
+     "for(;;){\n" +
+     "CALL(generator, act)(1);\n" +
+     "CALL(maxfilter, act)(1);\n" +
+     "CALL(dumper, act)(1);\n" +
+     "}\n" +
+     "return 0;\n" +
+     "}\n";
+    final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
+    src.setCCode(inline_code);
+    return src;
+  }
+  
+  protected Component loadSchedulerComponent(Definition container_def, 
+      final Map<Object,Object> context)
+      throws ADLException{
+    
+    String def_name = "beam.generated." + BEAM_SCHEDULER_COMP_DEF_NAME;
+    Definition new_sched_def = ASTHelper.newPrimitiveDefinitionNode(nodeFactoryItf, def_name, 
+        (DefinitionReference[]) null);
+    MindInterface iface = ASTHelper.newServerInterfaceNode(nodeFactoryItf,
+        "main", "boot.Main");
+
+    processItf(container_def, iface, container_def, context);
+
+    assert(new_sched_def instanceof InterfaceContainer);
+    assert(new_sched_def instanceof ImplementationContainer);
+    
+    ((InterfaceContainer)new_sched_def).addInterface(iface);
+    
+    Source implem = createSchedulerImplementation();
+    
+    DefinitionReference dr = ASTHelper.newDefinitionReference(nodeFactoryItf, 
+        def_name);
+    
+    ASTHelper.setResolvedDefinition(dr, new_sched_def);
+    ((ImplementationContainer)new_sched_def).addSource(implem);
+
+    Component sched_comp = ASTHelper.newComponent(
+        nodeFactoryItf, 
+        BEAM_SCHEDULER_COMP_NAME, 
+        dr);
+    
+    ASTHelper.setResolvedComponentDefinition(sched_comp, new_sched_def);
+
+    assert(container_def instanceof ComponentContainer);
+    ((ComponentContainer) container_def).addComponent(sched_comp);
+    
+    
+    /*
+     * bind it to the this.main interface
+     */
+    Binding sched_main_b = ASTHelper.newBinding(nodeFactoryItf);
+    sched_main_b.setFromComponent("bootstrap");
+    sched_main_b.setFromInterface("entryPoint");
+    sched_main_b.setToComponent(BEAM_SCHEDULER_COMP_NAME);
+    sched_main_b.setToInterface("main");
+
+    assert(container_def instanceof BindingContainer);
+    ((BindingContainer) container_def).addBinding(sched_main_b);
+    
+    return sched_comp;
+  }
   // ---------------------------------------------------------------------------
   // Implementation of the ADLLoaderAnnotationProcessor interface
   // ---------------------------------------------------------------------------
@@ -109,6 +178,11 @@ public class BeamFilterAnnotationProcessor
        *  - bind it to the filter
        */
       Component sched_comp = ASTHelper.getComponent(definition, BEAM_SCHEDULER_COMP_NAME);
+      
+      if (sched_comp == null){
+        sched_comp = loadSchedulerComponent(definition, context);
+      }
+      
       assert(sched_comp != null);
       Definition sched_def = ASTHelper.getResolvedComponentDefinition(sched_comp, loaderItf, context);
       assert(sched_def != null);
