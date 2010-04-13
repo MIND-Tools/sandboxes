@@ -1,7 +1,7 @@
 @Singleton
 primitive boot.Bootstrap {
 
-  requires Main as entryPoint;
+  requires optional Main as entryPoint;
   
   source bootstrap.c
 }
