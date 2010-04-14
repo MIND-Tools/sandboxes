@@ -67,6 +67,7 @@ public class BeamSchedulerAnnotationProcessor
 
   static List<Component> filters = new ArrayList<Component>();
   
+  static Definition scheduler_definition = null;
   /*
    * Stolen from "InterfaceSignatureLoader"
    */
@@ -84,19 +85,22 @@ public class BeamSchedulerAnnotationProcessor
     InputResourcesHelper.addInputResources(def, InputResourcesHelper
         .getInputResources(itfDef));
   }
-  
 
-  protected Source createSchedulerImplementation(){
-    String inline_code = "int METH(main, main) (int argc, char *argv[]){\n" +
-     "for(;;){\n" +
-     "CALL(generator, act)(1);\n" +
-     "CALL(maxfilter, act)(1);\n" +
-     "CALL(dumper, act)(1);\n" +
-     "}\n" +
-     "return 0;\n" +
-     "}\n";
+  protected Source createAutomaticSchedulerImplementation(List<Component> filters){
+    StringBuffer inline_code = new StringBuffer();
+    inline_code.append("int METH(main, main) (int argc, char *argv[]){\n");
+    inline_code.append("for(;;){\n");
+    
+    for (Component filter : filters){
+      inline_code.append("CALL(" + filter.getName()+ ", act)(1);\n");
+    }
+    
+    inline_code.append("}\n");
+
+     inline_code.append("return 0;\n}\n");
+     
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
-    src.setCCode(inline_code);
+    src.setCCode(inline_code.toString());
     return src;
   }
   
@@ -104,6 +108,7 @@ public class BeamSchedulerAnnotationProcessor
       final Map<Object,Object> context)
       throws ADLException{
     
+    assert(scheduler_definition == null);
     logger.log(Level.INFO, "Creating scheduler component");
     
     String def_name = "beam.generated." + BEAM_SCHEDULER_COMP_DEF_NAME;
@@ -119,14 +124,12 @@ public class BeamSchedulerAnnotationProcessor
     
     ((InterfaceContainer)new_sched_def).addInterface(iface);
     
-    logger.log(Level.INFO, "  - Adding implementation code in scheduler");
-    Source implem = createSchedulerImplementation();
     
+
     DefinitionReference dr = ASTHelper.newDefinitionReference(nodeFactoryItf, 
         def_name);
     
     ASTHelper.setResolvedDefinition(dr, new_sched_def);
-    ((ImplementationContainer)new_sched_def).addSource(implem);
 
     Component sched_comp = ASTHelper.newComponent(
         nodeFactoryItf, 
@@ -154,6 +157,7 @@ public class BeamSchedulerAnnotationProcessor
     assert(container_def instanceof BindingContainer);
     ((BindingContainer) container_def).addBinding(sched_main_b);
     
+    scheduler_definition = new_sched_def;
     return sched_comp;
   }
   // ---------------------------------------------------------------------------
@@ -169,9 +173,7 @@ public class BeamSchedulerAnnotationProcessor
 
     Definition def = (Definition) node;
     
-    if (phase == ADLLoaderPhase.AFTER_PARSING){
-   
-    } else if (phase == ADLLoaderPhase.AFTER_EXTENDS){
+    if (phase == ADLLoaderPhase.AFTER_EXTENDS){
       logger.log(Level.INFO, "Handling (adding scheduler comp) definition : " + def.getName());
       
       /*
@@ -184,6 +186,16 @@ public class BeamSchedulerAnnotationProcessor
       sched_comp = loadSchedulerComponent(def, context);
       
       assert(sched_comp != null);
+      
+    } else if (phase == ADLLoaderPhase.AFTER_CHECKING){
+      List<Component> filters;
+      assert(context.containsKey(BEAM_CONTEXT_FILTERS_COMP));
+
+      filters = (List<Component>)context.get(BEAM_CONTEXT_FILTERS_COMP);
+      
+      Source implem = createAutomaticSchedulerImplementation(filters);
+      logger.log(Level.INFO, "  - Adding implementation code in scheduler");
+      ((ImplementationContainer)scheduler_definition).addSource(implem);
       
     }
     return null;

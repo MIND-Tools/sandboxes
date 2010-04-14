@@ -6,4 +6,10 @@ public interface Constants {
   final String BEAM_SCHEDULER_COMP_DEF_NAME = "Scheduler";
 
   final String BEAM_FILTER_CTRL_IFACE_TYPE = "beam.BeamFilter";
+  
+  
+  /*
+   * Beam specific key for the compiler 'context'
+   */
+  final String BEAM_CONTEXT_FILTERS_COMP = "beam-filters-comp";
 }

@@ -85,6 +85,18 @@ public class BeamFilterAnnotationProcessor
   }
   
 
+  @SuppressWarnings("unchecked")
+  protected void addFilterToContext(Component filter, Map<Object,Object> context){
+    List<Component> ctx_filters;
+    
+    if (context.containsKey(BEAM_CONTEXT_FILTERS_COMP)){
+      ctx_filters = (List<Component>) context.get(BEAM_CONTEXT_FILTERS_COMP);
+    } else {
+      ctx_filters = new ArrayList<Component>();
+      context.put(BEAM_CONTEXT_FILTERS_COMP, ctx_filters);
+    }
+    ctx_filters.add(filter);
+  }
   // ---------------------------------------------------------------------------
   // Implementation of the ADLLoaderAnnotationProcessor interface
   // ---------------------------------------------------------------------------
@@ -99,6 +111,8 @@ public class BeamFilterAnnotationProcessor
     Component c = (Component) node;
     if (phase == ADLLoaderPhase.AFTER_PARSING){
       filters.add(c);
+      addFilterToContext(c, context);
+      
       logger.log(Level.INFO, "Filter : " + c.getName() + "(#" + filters.size() + ")");
 
     } else if (phase == ADLLoaderPhase.AFTER_EXTENDS){
