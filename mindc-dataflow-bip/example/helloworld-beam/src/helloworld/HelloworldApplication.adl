@@ -1,6 +1,7 @@
 import boot.Bootstrap;
 
 @Singleton
+@BeamScheduler
 composite helloworld.HelloworldApplication {
   contains Bootstrap as bootstrap;
 
