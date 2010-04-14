@@ -239,7 +239,7 @@ public class BeamFifoAnnotationProcessor
 
     String newbuffer_name = getBufferMangledName(b);
     
-    if (phase == ADLLoaderPhase.AFTER_CHECKING) {
+    if (phase == ADLLoaderPhase.AFTER_EXTENDS) {
       
       Component from_comp = ASTHelper.getComponent(definition, b.getFromComponent());
       assert(from_comp != null);

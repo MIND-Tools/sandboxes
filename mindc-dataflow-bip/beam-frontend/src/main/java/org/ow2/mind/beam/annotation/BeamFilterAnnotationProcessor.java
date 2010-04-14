@@ -101,7 +101,7 @@ public class BeamFilterAnnotationProcessor
       filters.add(c);
       logger.log(Level.INFO, "Filter : " + c.getName() + "(#" + filters.size() + ")");
 
-    } else if (phase == ADLLoaderPhase.AFTER_CHECKING){
+    } else if (phase == ADLLoaderPhase.AFTER_EXTENDS){
       logger.log(Level.INFO, "Handling filter : " + c.getName());
 
       Definition def = ASTHelper.getResolvedComponentDefinition(c, loaderItf, context);

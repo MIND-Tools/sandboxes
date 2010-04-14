@@ -34,7 +34,7 @@ import org.ow2.mind.annotation.AnnotationTarget;
 import org.ow2.mind.beam.annotation.BeamFifoAnnotationProcessor;
 
 @ADLLoaderProcessor(processor = BeamFifoAnnotationProcessor.class, phases = {
-    ADLLoaderPhase.AFTER_PARSING, ADLLoaderPhase.AFTER_CHECKING})
+    ADLLoaderPhase.AFTER_PARSING, ADLLoaderPhase.AFTER_EXTENDS})
 public class BeamFifo implements Annotation {
 
   @AnnotationElement

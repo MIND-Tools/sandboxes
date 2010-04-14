@@ -171,7 +171,7 @@ public class BeamSchedulerAnnotationProcessor
     
     if (phase == ADLLoaderPhase.AFTER_PARSING){
    
-    } else if (phase == ADLLoaderPhase.AFTER_CHECKING){
+    } else if (phase == ADLLoaderPhase.AFTER_EXTENDS){
       logger.log(Level.INFO, "Handling (adding scheduler comp) definition : " + def.getName());
       
       /*

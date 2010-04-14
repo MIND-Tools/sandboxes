@@ -33,7 +33,7 @@ import org.ow2.mind.annotation.AnnotationTarget;
 import org.ow2.mind.beam.annotation.BeamSchedulerAnnotationProcessor;
 
 @ADLLoaderProcessor(processor = BeamSchedulerAnnotationProcessor.class, phases = {
-   ADLLoaderPhase.AFTER_CHECKING, ADLLoaderPhase.AFTER_PARSING})
+   ADLLoaderPhase.AFTER_EXTENDS, ADLLoaderPhase.AFTER_PARSING})
 public class BeamScheduler implements Annotation {
 
   
