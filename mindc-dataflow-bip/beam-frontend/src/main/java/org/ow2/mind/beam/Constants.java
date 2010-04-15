@@ -7,7 +7,8 @@ public interface Constants {
 
   final String BEAM_FILTER_CTRL_IFACE_TYPE = "beam.BeamFilter";
   
-  
+  final String BEAM_FIFO_CTRL_IFACE_NAME = "control";
+  final String BEAM_FIFO_CTRL_IFACE_TYPE = "beam.BeamBufferControl";
   /*
    * Beam specific key for the compiler 'context'
    */

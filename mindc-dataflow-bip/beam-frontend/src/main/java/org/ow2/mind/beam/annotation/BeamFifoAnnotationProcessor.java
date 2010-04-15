@@ -175,6 +175,30 @@ public class BeamFifoAnnotationProcessor
     addCCode(generated_code, "   FIFO_PUSH_N(" + returnType + ", " + buffer_uniq_id + ")(x, &myFifo);");
     addCCode(generated_code, "}");
     
+    /*
+     * Control interface implementation follows.
+     */
+    
+    // create code for control::init
+    
+    addCCode(generated_code, "/* Server Method for control::init */");
+    addCCode(generated_code, "void METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ",init)(void) {");
+    addCCode(generated_code, " FIFO_INIT_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
+    addCCode(generated_code, "}");
+    
+    
+    // create code for control::max_size method
+    addCCode(generated_code, "/* Server Method for control::max_size */ ");
+    addCCode(generated_code, "int METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ", max_size)(void) {");
+    addCCode(generated_code, " return " + size +";");
+    addCCode(generated_code, "}");
+    
+    // create code for control::current_size method
+    addCCode(generated_code, "/* Server Method for control::current_size */");
+    addCCode(generated_code, "int METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ", current_size)(void) {");
+    addCCode(generated_code, " FIFO_SIZE_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
+    addCCode(generated_code, "}");
+    
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(generated_code.toString());
     return src;
@@ -188,15 +212,22 @@ public class BeamFifoAnnotationProcessor
     String def_name = "beam.generated.buffer" + name;
     Definition new_bufdef = ASTHelper.newPrimitiveDefinitionNode(nodeFactoryItf, def_name,
         (DefinitionReference[]) null);
+    
     MindInterface iface = ASTHelper.newServerInterfaceNode(nodeFactoryItf,
         ifacename, signature);
     
-    processItf(container_def, iface, container_def, context);
+    MindInterface iface_ctrl = ASTHelper.newServerInterfaceNode(nodeFactoryItf,
+        BEAM_FIFO_CTRL_IFACE_NAME, BEAM_FIFO_CTRL_IFACE_TYPE);
     
+    processItf(container_def, iface, container_def, context);
+    processItf(container_def, iface_ctrl, container_def, context);
+
     assert(new_bufdef instanceof InterfaceContainer);
     assert(new_bufdef instanceof ImplementationContainer);
     
     ((InterfaceContainer)new_bufdef).addInterface(iface);
+    ((InterfaceContainer)new_bufdef).addInterface(iface_ctrl);
+
     Source implem = createFifoBufferImplementation(name, ifacename, signature, size,
         new_bufdef, iface, context);
     
@@ -211,6 +242,37 @@ public class BeamFifoAnnotationProcessor
         name, 
         dr);
     
+    
+    /*
+     * Create scheduler -> fifo links
+     */
+    /*
+     * Create Scheduler -> filter binding
+     *  - add new client interface to scheduler
+     *  - bind it to the filter
+     */
+    Component sched_comp = ASTHelper.getComponent(container_def, BEAM_SCHEDULER_COMP_NAME);
+    
+    assert(sched_comp != null);
+    Definition sched_def = ASTHelper.getResolvedComponentDefinition(sched_comp, loaderItf, context);
+    assert(sched_def != null);
+    assert sched_def instanceof InterfaceContainer;
+    
+    MindInterface sched_client = ASTHelper.newClientInterfaceNode(nodeFactoryItf, 
+        buffer_comp.getName(),
+        BEAM_FIFO_CTRL_IFACE_TYPE);
+    processItf(container_def, sched_client, container_def, context);
+
+    ((InterfaceContainer)sched_def).addInterface(sched_client);
+
+    Binding sched_buffer_b = ASTHelper.newBinding(nodeFactoryItf);
+    sched_buffer_b.setFromComponent(BEAM_SCHEDULER_COMP_NAME);
+    sched_buffer_b.setFromInterface(buffer_comp.getName());
+    sched_buffer_b.setToComponent(buffer_comp.getName());
+    sched_buffer_b.setToInterface(BEAM_FIFO_CTRL_IFACE_NAME);
+
+    assert(container_def instanceof BindingContainer);
+    ((BindingContainer) container_def).addBinding(sched_buffer_b);
     
     return buffer_comp;
   }
