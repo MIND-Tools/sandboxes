@@ -24,12 +24,10 @@
 
 package org.ow2.mind.beam.annotation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
@@ -64,8 +62,6 @@ public class BeamSchedulerAnnotationProcessor
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-scheduler-annot");
 
-  static List<Component> filters = new ArrayList<Component>();
-  
   static Definition scheduler_definition = null;
   /*
    * Stolen from "InterfaceSignatureLoader"
@@ -85,6 +81,12 @@ public class BeamSchedulerAnnotationProcessor
         .getInputResources(itfDef));
   }
 
+  /**
+   * Creates implementation for an automatic scheduler
+   * @param filters The list of all filters in the system
+   * @param kindarg The arguments for the automatic generation
+   * @return
+   */
   protected Source createAutomaticSchedulerImplementation(List<Component> filters, 
       String[] kindarg){
     
@@ -112,6 +114,14 @@ public class BeamSchedulerAnnotationProcessor
     }
   }
   
+  /**
+   * Creates the scheduler component. The ADL definition is generated. The implementation
+   * can be entirely synthesized or only partly synthesized
+   * @param container_def the definition in which to add the scheduler component
+   * @param context the compiler context
+   * @return the scheduler component
+   * @throws ADLException
+   */
   protected Component loadSchedulerComponent(Definition container_def, 
       final Map<Object,Object> context)
       throws ADLException{
@@ -131,8 +141,6 @@ public class BeamSchedulerAnnotationProcessor
     assert(new_sched_def instanceof ImplementationContainer);
     
     ((InterfaceContainer)new_sched_def).addInterface(iface);
-    
-    
 
     DefinitionReference dr = ASTHelper.newDefinitionReference(nodeFactoryItf, 
         def_name);
@@ -198,12 +206,11 @@ public class BeamSchedulerAnnotationProcessor
       assert(sched_comp != null);
       
     } else if (phase == ADLLoaderPhase.AFTER_CHECKING){
-      List<Component> filters;
       assert(context.containsKey(BEAM_CONTEXT_FILTERS_COMP));
-
-      filters = (List<Component>)context.get(BEAM_CONTEXT_FILTERS_COMP);
-      String kind = beam_sched_annot.kind;
       
+      List<Component> filters = (List<Component>) context.get(BEAM_CONTEXT_FILTERS_COMP);
+      String kind = beam_sched_annot.kind;
+
       if (kind.equals("automatic")){
         String args = "";
         for (String i: beam_sched_annot.arg){
@@ -218,7 +225,6 @@ public class BeamSchedulerAnnotationProcessor
         assert(false): "unknown kind";
       }
 
-      
     }
     return null;
   }

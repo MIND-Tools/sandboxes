@@ -59,6 +59,9 @@ public class BeamFilterAnnotationProcessor
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-filter-annot");
 
+  /**
+   * Used to gather all filters encountered during parsing
+   */
   static List<Component> filters = new ArrayList<Component>();
   
   /*
@@ -138,13 +141,6 @@ public class BeamFilterAnnotationProcessor
       logger.log(Level.INFO, " - added client iface '" + sched_client.getName() 
           +"' on '" + sched_comp.getName() + "'");
 
-      //      logger.log(Level.INFO, "Interfaces on " + sched_def.getName() + ":");
-//      for (Interface i : ((InterfaceContainer)sched_def).getInterfaces()){
-//        assert(i instanceof MindInterface);
-//        MindInterface mi = (MindInterface)i;
-//        logger.log(Level.INFO, " -" + mi.getName() + ", " + mi.getSignature() + " [" + mi.getRole() + "]");
-//      }
-
       Binding sched_filter_b = ASTHelper.newBinding(nodeFactoryItf);
       sched_filter_b.setFromComponent(BEAM_SCHEDULER_COMP_NAME);
       sched_filter_b.setFromInterface(c.getName());
@@ -157,15 +153,6 @@ public class BeamFilterAnnotationProcessor
       logger.log(Level.INFO, " - added binding '" + 
           sched_filter_b.getFromComponent() + "." + sched_filter_b.getFromInterface() + " to " +
           sched_filter_b.getToComponent() + "." + sched_filter_b.getToInterface() + "'");
-//    assert def instanceof ImplementationContainer;
-//      ImplementationContainer ic = ((ImplementationContainer) def);
-//
-//      Source ns = MembraneASTHelper.newSourceNode(nodeFactoryItf, "/helloworld/toto.c");
-//      ic.addSource(ns);
-//      Source ss[] = ic.getSources();
-//      for (Source s: ss){
-//        logger.log(Level.INFO, " - source: " + s.getPath());
-//      }
     }
     return null;
   }
