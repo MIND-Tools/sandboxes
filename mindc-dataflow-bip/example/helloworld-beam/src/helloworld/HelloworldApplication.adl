@@ -1,7 +1,7 @@
 import boot.Bootstrap;
 
 @Singleton
-@BeamScheduler
+@BeamScheduler(kind="automatic", arg={"roundrobin"})
 composite helloworld.HelloworldApplication {
   contains Bootstrap as bootstrap;
 
