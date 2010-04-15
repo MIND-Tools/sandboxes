@@ -29,6 +29,7 @@ import org.ow2.mind.adl.annotation.ADLAnnotationTarget;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.ADLLoaderProcessor;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationElement;
 import org.ow2.mind.annotation.AnnotationTarget;
 import org.ow2.mind.beam.annotation.BeamSchedulerAnnotationProcessor;
 
@@ -36,6 +37,11 @@ import org.ow2.mind.beam.annotation.BeamSchedulerAnnotationProcessor;
    ADLLoaderPhase.AFTER_EXTENDS, ADLLoaderPhase.AFTER_CHECKING})
 public class BeamScheduler implements Annotation {
 
+  @AnnotationElement(hasDefaultValue = true)
+  public String kind = "automatic";
+  
+  @AnnotationElement(hasDefaultValue = true)
+  public String[] arg = {"roundrobin"};
   
   private static final AnnotationTarget[] TARGETS = {
     ADLAnnotationTarget.DEFINITION};

@@ -40,7 +40,6 @@ import org.ow2.mind.CommonASTHelper;
 import org.ow2.mind.InputResourcesHelper;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
-import org.ow2.mind.adl.annotation.predefined.BeamFilter;
 import org.ow2.mind.adl.annotation.predefined.BeamScheduler;
 import org.ow2.mind.adl.ast.ASTHelper;
 import org.ow2.mind.adl.ast.Binding;
@@ -86,22 +85,31 @@ public class BeamSchedulerAnnotationProcessor
         .getInputResources(itfDef));
   }
 
-  protected Source createAutomaticSchedulerImplementation(List<Component> filters){
-    StringBuffer inline_code = new StringBuffer();
-    inline_code.append("int METH(main, main) (int argc, char *argv[]){\n");
-    inline_code.append("for(;;){\n");
+  protected Source createAutomaticSchedulerImplementation(List<Component> filters, 
+      String[] kindarg){
     
-    for (Component filter : filters){
-      inline_code.append("CALL(" + filter.getName()+ ", act)(1);\n");
-    }
-    
-    inline_code.append("}\n");
+    String kindarg0 = kindarg[0];
 
-     inline_code.append("return 0;\n}\n");
-     
-    final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
-    src.setCCode(inline_code.toString());
-    return src;
+    if (kindarg0.equals("roundrobin")){
+      StringBuffer inline_code = new StringBuffer();
+      inline_code.append("int METH(main, main) (int argc, char *argv[]){\n");
+      inline_code.append("for(;;){\n");
+
+      for (Component filter : filters){
+        inline_code.append("CALL(" + filter.getName()+ ", act)(1);\n");
+      }
+
+      inline_code.append("}\n");
+
+      inline_code.append("return 0;\n}\n");
+
+      final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
+      src.setCCode(inline_code.toString());
+      return src;
+    } else {
+      assert(false) : "unable to create automatic schedule for " + kindarg0;
+      return null;
+    }
   }
   
   protected Component loadSchedulerComponent(Definition container_def, 
@@ -169,6 +177,8 @@ public class BeamSchedulerAnnotationProcessor
       final Map<Object, Object> context) throws ADLException {
     assert annotation instanceof BeamScheduler;
     
+    BeamScheduler beam_sched_annot = (BeamScheduler) annotation;
+    
     assert node instanceof Definition;
 
     Definition def = (Definition) node;
@@ -192,10 +202,22 @@ public class BeamSchedulerAnnotationProcessor
       assert(context.containsKey(BEAM_CONTEXT_FILTERS_COMP));
 
       filters = (List<Component>)context.get(BEAM_CONTEXT_FILTERS_COMP);
+      String kind = beam_sched_annot.kind;
       
-      Source implem = createAutomaticSchedulerImplementation(filters);
-      logger.log(Level.INFO, "  - Adding implementation code in scheduler");
-      ((ImplementationContainer)scheduler_definition).addSource(implem);
+      if (kind.equals("automatic")){
+        String args = "";
+        for (String i: beam_sched_annot.arg){
+          args += i + ",";
+        }
+        logger.log(Level.INFO, "  - using automatic implementation, with arg: " + args);
+        Source implem = createAutomaticSchedulerImplementation(filters, beam_sched_annot.arg);
+        logger.log(Level.INFO, "  - Adding implementation code in scheduler");
+        ((ImplementationContainer)scheduler_definition).addSource(implem);
+      } else {
+        // FIXME: use a real error handling mechanism
+        assert(false): "unknown kind";
+      }
+
       
     }
     return null;
