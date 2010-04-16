@@ -1,8 +1,13 @@
 template st.beam.scheduler.Templates {
 
 $${
-RoundRobin(filters) ::= <<
+
+GreedyRoundRobin(filters,fifos, includes) ::= <<
+<includes:{#include <it> <\n>}>
+
 int METH(main, main) (int argc, char *argv[]){
+  <fifos:{CALL(<it.name>, init)();<\n>}>
+
   for(;;){
     <filters:{CALL(<it.name>, act)(1);<\n>}>
   }
@@ -10,5 +15,18 @@ int METH(main, main) (int argc, char *argv[]){
 }
 >>
 
-}$$ 
+RoundRobin(filters,fifos, includes) ::= <<
+<includes:{#include <it> <\n>}>
+
+int METH(main, main) (int argc, char *argv[]){
+  <fifos:{CALL(<it.name>, init)();<\n>}>
+
+  for(;;){
+    <filters:{CALL(<it.name>, act)(1);<\n>}>
+  }
+  return 0;
+}
+>>
+
+}$$
 }

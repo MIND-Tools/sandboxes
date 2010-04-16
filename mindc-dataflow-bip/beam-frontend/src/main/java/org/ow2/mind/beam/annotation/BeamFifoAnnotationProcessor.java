@@ -99,6 +99,19 @@ public class BeamFifoAnnotationProcessor
     assert(n_type instanceof PrimitiveType);
     return (PrimitiveType) n_type;
   }
+
+  @SuppressWarnings("unchecked")
+  protected void addFifoToContext(Component fifo, Map<Object,Object> context){
+    List<Component> ctx_filters;
+    
+    if (context.containsKey(BEAM_CONTEXT_FIFO_COMP)){
+      ctx_filters = (List<Component>) context.get(BEAM_CONTEXT_FIFO_COMP);
+    } else {
+      ctx_filters = new ArrayList<Component>();
+      context.put(BEAM_CONTEXT_FIFO_COMP, ctx_filters);
+    }
+    ctx_filters.add(fifo);
+  }
   
   protected void addCCode(StringBuffer stringbuf, String code){
     stringbuf.append(code+"\n");
@@ -107,7 +120,6 @@ public class BeamFifoAnnotationProcessor
   protected Source createFifoBufferImplementation(String name, String ifacename, 
       String signature, Integer size, Definition comp_def,
       MindInterface iface, final Map<Object, Object> context) throws ADLException{
-
     
     InterfaceDefinition ifacedef = itfSignatureResolverItf.resolve(iface,
         comp_def, context);
@@ -119,7 +131,6 @@ public class BeamFifoAnnotationProcessor
     
     for (Method m: ifacedef.getMethods()){
       PrimitiveType mpt = getPrimitiveType(m);
-
       if (m.getName().equals("get")){
         returnType = mpt.getName();
         assert(m.getParameters().length == 0);
@@ -145,7 +156,7 @@ public class BeamFifoAnnotationProcessor
     /*
      * Common part
      */
-    addCCode(generated_code, "#include \"beam/template/buffer.h\"");
+    addCCode(generated_code, "#include <beam/template/buffer.h>");
     addCCode(generated_code, "/* the fifo type */");
     addCCode(generated_code, "FIFO_TYPE(" + returnType + ", " + size + ", "+ buffer_uniq_id +")");
     addCCode(generated_code, "/*  Private Data  */");
@@ -283,7 +294,9 @@ public class BeamFifoAnnotationProcessor
     String iface_from = b.getFromInterface();
     String iface_to = b.getToInterface();
     
-    String name = comp_from + "_" + iface_from + "__" + comp_to + "_" + iface_to;
+    String name = BEAM_BUFFER_COMP_PREFIX_NAME + comp_from + "_" +
+        iface_from + "__" + comp_to + "_" + iface_to;
+    
     return name;
   }
   // ---------------------------------------------------------------------------
@@ -325,6 +338,10 @@ public class BeamFifoAnnotationProcessor
       assert(definition instanceof ComponentContainer);
       ((ComponentContainer) definition).addComponent(buffer_comp);
       logger.log(Level.INFO, "Added buffer comp: '" + newbuffer_name + "'");
+      
+      // add FIFO component to context to make it available to other part
+      // scheduler generation in particular
+      addFifoToContext(buffer_comp, context);
       
       Component to_comp = ASTHelper.getComponent(definition, b.getToComponent());
       assert(to_comp != null);

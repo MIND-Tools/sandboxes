@@ -24,19 +24,25 @@
 
 package org.ow2.mind.beam.annotation;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.CharBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.antlr.stringtemplate.StringTemplate;
-import org.antlr.stringtemplate.StringTemplateGroup;
-import org.antlr.stringtemplate.language.DefaultTemplateLexer;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
 import org.objectweb.fractal.adl.types.TypeInterface;
+import org.objectweb.fractal.adl.util.ClassLoaderHelper;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
 import org.ow2.mind.CommonASTHelper;
 import org.ow2.mind.InputResourcesHelper;
@@ -57,12 +63,17 @@ import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.beam.Constants;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
 
+
 public class BeamSchedulerAnnotationProcessor
     extends
       AbstractADLLoaderAnnotationProcessor 
     implements
       Constants {
 
+  public URL findResource(final String name, final Map<Object, Object> context) {
+    return ClassLoaderHelper.getClassLoader(this, context).getResource(name);
+  }
+  
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-scheduler-annot");
 
@@ -85,19 +96,57 @@ public class BeamSchedulerAnnotationProcessor
         .getInputResources(itfDef));
   }
 
-  
   /**
    * Creates implementation from an existing one.
    * @param filters The list of all filters in the system
    * @param kindarg The arguments for the generation
    * @return
    */
-  protected Source createFromExistingImplementation(List<Component> filters, String[] kindarg){
-    
+  protected Source createFromExistingImplementation(List<Component> filters, 
+      List<Component> fifos, String[] kindarg, Map<Object, Object> context){
+    logger.log(Level.INFO, "  - Loading scheduler template for " + kindarg[0]);
+    Source src =null;
+    URL existing_implem = findResource(kindarg[0], context);
+
+    BufferedReader br;
+    try {
+      br = new BufferedReader(new FileReader(existing_implem.getPath()));
+
+      src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
+      String line = br.readLine();
+      StringBuffer sb = new StringBuffer();
+      while(line != null){
+        sb.append(line + "\n");
+        line = br.readLine();
+      }
+      src.setCCode(sb.toString());
+      br.close();
+      // FIXME use a real error handling mechanism
+    } catch (FileNotFoundException e) {
+      assert(false);
+    } catch (IOException e) {
+      assert(false);
+    }
+    return src;
+  }
+  
+  /**
+   * Creates implementation from a template.
+   * @param filters The list of all filters in the system
+   * @param kindarg The arguments for the generation
+   * @return
+   */
+  protected Source createFromTemplateImplementation(List<Component> filters, 
+      List<Component> fifos, String[] kindarg){
+    logger.log(Level.INFO, "  - Loading scheduler template for " + kindarg[0]);
+
     StringTemplate sched_st =  getTemplate("st.beam.scheduler.Templates", kindarg[0]);
     
     sched_st.setAttribute("filters", filters);
+    sched_st.setAttribute("fifos", fifos);
 
+    //sched_st.setAttribute("includes", new String[]{"<beam.h>"});
+    
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(sched_st.toString());
     return src;
@@ -110,13 +159,20 @@ public class BeamSchedulerAnnotationProcessor
    * @return
    */
   protected Source createAutomaticSchedulerImplementation(List<Component> filters, 
-      String[] kindarg){
+      List<Component> fifos, String[] kindarg){
     
     String kindarg0 = kindarg[0];
 
-    if (kindarg0.equals("roundrobin")){
+    if (kindarg0.equals("RoundRobin")){
       StringBuffer inline_code = new StringBuffer();
+      //inline_code.append("#include <beam.h>\n");
+      
       inline_code.append("int METH(main, main) (int argc, char *argv[]){\n");
+      
+      for (Component fifo: fifos){
+        inline_code.append("CALL("  + fifo.getName() + ", init)();\n");
+      }
+      
       inline_code.append("for(;;){\n");
 
       for (Component filter : filters){
@@ -124,7 +180,6 @@ public class BeamSchedulerAnnotationProcessor
       }
 
       inline_code.append("}\n");
-
       inline_code.append("return 0;\n}\n");
 
       final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
@@ -231,6 +286,8 @@ public class BeamSchedulerAnnotationProcessor
       assert(context.containsKey(BEAM_CONTEXT_FILTERS_COMP));
       
       List<Component> filters = (List<Component>) context.get(BEAM_CONTEXT_FILTERS_COMP);
+      List<Component> fifos = (List<Component>) context.get(BEAM_CONTEXT_FIFO_COMP);
+
       String kind = beam_sched_annot.kind;
       String args = "";
       for (String i: beam_sched_annot.arg){
@@ -238,12 +295,17 @@ public class BeamSchedulerAnnotationProcessor
       }
       if (kind.equals("automatic")){
         logger.log(Level.INFO, "  - using automatic implementation, with arg: " + args);
-        Source implem = createAutomaticSchedulerImplementation(filters, beam_sched_annot.arg);
+        Source implem = createAutomaticSchedulerImplementation(filters,fifos, beam_sched_annot.arg);
         logger.log(Level.INFO, "  - Adding implementation code in scheduler");
         ((ImplementationContainer)scheduler_definition).addSource(implem);
-      } else if (kind.equals("existing")){
+      } else if (kind.equals("template")){
+        logger.log(Level.INFO, "  - creating implementation from template, with arg: " + args);
+        Source implem = createFromTemplateImplementation(filters, fifos, beam_sched_annot.arg);
+        logger.log(Level.INFO, "  - Adding implementation code in scheduler");
+        ((ImplementationContainer)scheduler_definition).addSource(implem);
+      } else if (kind.equals("existing")) {
         logger.log(Level.INFO, "  - creating implementation from existing, with arg: " + args);
-        Source implem = createFromExistingImplementation(filters, beam_sched_annot.arg);
+        Source implem = createFromExistingImplementation(filters, fifos, beam_sched_annot.arg, context);
         logger.log(Level.INFO, "  - Adding implementation code in scheduler");
         ((ImplementationContainer)scheduler_definition).addSource(implem);
       } else {
