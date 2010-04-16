@@ -28,6 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.antlr.stringtemplate.StringTemplate;
+import org.antlr.stringtemplate.StringTemplateGroup;
+import org.antlr.stringtemplate.language.DefaultTemplateLexer;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
@@ -81,6 +85,24 @@ public class BeamSchedulerAnnotationProcessor
         .getInputResources(itfDef));
   }
 
+  
+  /**
+   * Creates implementation from an existing one.
+   * @param filters The list of all filters in the system
+   * @param kindarg The arguments for the generation
+   * @return
+   */
+  protected Source createFromExistingImplementation(List<Component> filters, String[] kindarg){
+    
+    StringTemplate sched_st =  getTemplate("st.beam.scheduler.Templates", kindarg[0]);
+    
+    sched_st.setAttribute("filters", filters);
+
+    final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
+    src.setCCode(sched_st.toString());
+    return src;
+  }
+  
   /**
    * Creates implementation for an automatic scheduler
    * @param filters The list of all filters in the system
@@ -210,14 +232,18 @@ public class BeamSchedulerAnnotationProcessor
       
       List<Component> filters = (List<Component>) context.get(BEAM_CONTEXT_FILTERS_COMP);
       String kind = beam_sched_annot.kind;
-
+      String args = "";
+      for (String i: beam_sched_annot.arg){
+        args += i + ",";
+      }
       if (kind.equals("automatic")){
-        String args = "";
-        for (String i: beam_sched_annot.arg){
-          args += i + ",";
-        }
         logger.log(Level.INFO, "  - using automatic implementation, with arg: " + args);
         Source implem = createAutomaticSchedulerImplementation(filters, beam_sched_annot.arg);
+        logger.log(Level.INFO, "  - Adding implementation code in scheduler");
+        ((ImplementationContainer)scheduler_definition).addSource(implem);
+      } else if (kind.equals("existing")){
+        logger.log(Level.INFO, "  - creating implementation from existing, with arg: " + args);
+        Source implem = createFromExistingImplementation(filters, beam_sched_annot.arg);
         logger.log(Level.INFO, "  - Adding implementation code in scheduler");
         ((ImplementationContainer)scheduler_definition).addSource(implem);
       } else {

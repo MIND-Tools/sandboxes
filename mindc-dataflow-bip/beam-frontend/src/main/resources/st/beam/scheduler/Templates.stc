@@ -1,0 +1,14 @@
+template st.beam.scheduler.Templates {
+
+$${
+RoundRobin(filters) ::= <<
+int METH(main, main) (int argc, char *argv[]){
+  for(;;){
+    <filters:{CALL(<it.name>, act)(1);<\n>}>
+  }
+  return 0;
+}
+>>
+
+}$$ 
+}
