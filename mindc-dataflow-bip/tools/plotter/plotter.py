@@ -38,13 +38,15 @@ class Graph:
 
     txtcolor = (255,0,0)
 
-    previous_points = (0,0,0)
     t = 0
 
     prev_display_debug = None
 
-    def __init__(self):
+    def __init__(self, size):
         pygame.init()
+        
+        self.previous_points = [0]*size
+
         self.font = pygame.font.Font(None, self.fontheight)
 
         self.screen = pygame.display.set_mode( (self.width, self.winheight), pygame.RESIZABLE )
@@ -70,23 +72,25 @@ class Graph:
 
         self.prev_display_debug = pos
 
-    def plot_3(self, x, y, z):
+    def plot_values(self, values):
         self.t += 1
-
         yoff = 0
-        vals = (x,y,z)
+        
+        each_y = self.winheight/len(values)
 
-        norms = [a * 250/255 for a in vals]
+        norms = [a * (each_y-5)/each_y for a in values]
 
-        pygame.draw.aaline(self.screen, self.color[0], (self.t-1, self.previous_points[0]+yoff), (self.t,norms[0]+yoff), 1)
 
-        yoff = 250
-        pygame.draw.aaline(self.screen, self.color[1], (self.t-1, self.previous_points[1]+yoff), (self.t, norms[1]+yoff), 1)
+        for i in xrange(len(values)):
+            pygame.draw.aaline(self.screen, 
+                               self.color[i%3],
+                               (self.t-1, 
+                                self.previous_points[i]+yoff), 
+                               (self.t,
+                                norms[i]+yoff), 
+                               1)
+            yoff += each_y
 
-        yoff = 500
-        pygame.draw.aaline(self.screen, self.color[2], (self.t-1, self.previous_points[2]+yoff), (self.t, norms[2]+yoff), 1)
-
-        self.display_debug("X: %.3d  Y: %.3d  Z: %.3d" %vals)
         rect = pygame.Rect(self.t-1, 0, 40, self.winheight)
         pygame.display.update(rect)
 
@@ -95,6 +99,32 @@ class Graph:
             self.screen.fill( self.bgcolor )
 
         self.previous_points = norms
+
+    # def plot_3(self, x, y, z):
+    #     self.t += 1
+
+    #     yoff = 0
+    #     vals = (x,y,z)
+
+    #     norms = [a * 250/255 for a in vals]
+
+    #     pygame.draw.aaline(self.screen, self.color[0], (self.t-1, self.previous_points[0]+yoff), (self.t,norms[0]+yoff), 1)
+
+    #     yoff = 250
+    #     pygame.draw.aaline(self.screen, self.color[1], (self.t-1, self.previous_points[1]+yoff), (self.t, norms[1]+yoff), 1)
+
+    #     yoff = 500
+    #     pygame.draw.aaline(self.screen, self.color[2], (self.t-1, self.previous_points[2]+yoff), (self.t, norms[2]+yoff), 1)
+
+    #     self.display_debug("X: %.3d  Y: %.3d  Z: %.3d" %vals)
+    #     rect = pygame.Rect(self.t-1, 0, 40, self.winheight)
+    #     pygame.display.update(rect)
+
+    #     if self.t >= 700:
+    #         self.t = 0
+    #         self.screen.fill( self.bgcolor )
+
+    #     self.previous_points = norms
 
 
 def main():
@@ -106,6 +136,7 @@ def main():
                       help="Sampling frequency in ms (defaults: 10ms)",
                       default=10, type="int",
                       metavar="sampling_freq")
+
     parser.add_option("-v", "--verbose",
                       help="Be verbose and display lots of garbage",
                       action="store_true", default=False,
@@ -114,10 +145,12 @@ def main():
     (options, args) = parser.parse_args(sys.argv[1:])
     sampling_freq = options.freq
 
-    g = Graph()
+    g = None
     while True:
-        l = int(sys.stdin.readline().strip())
-        g.plot_3(l,l,l)
+        l = [int(x) for x in sys.stdin.readline().strip().split()]
+        if g == None:
+            g = Graph(len(l))
+        g.plot_values(l)
         pygame.time.wait(sampling_freq)
 
 
