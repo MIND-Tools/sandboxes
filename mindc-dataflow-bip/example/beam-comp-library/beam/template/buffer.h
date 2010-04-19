@@ -1,16 +1,16 @@
 #ifndef __BEAM_BUFFER_TEMPLATE__H
 #define __BEAM_BUFFER_TEMPLATE__H
 
-typedef int size_tt;
+//typedef int size_tt;
 
-#define TYPE_NAME(ptype,id) fifo_##ptype##id##_t
+/* #define TYPE_NAME(ptype,id) fifo_##ptype##id##_t */
 
-#define FIFO_TYPE(ptype, size, id)			\
-typedef struct { \
-  ptype data[size];\
-  size_tt s;\
-  size_tt e;\
-} TYPE_NAME(ptype,id);
+/* #define FIFO_TYPE(ptype, size, id)			\ */
+/* typedef struct { \ */
+/*   ptype data[size];\ */
+/*   size_tt s;\ */
+/*   size_tt e;\ */
+/* } TYPE_NAME(ptype,id); */
 
 #define FIFO_INIT_N(ptype,id) _fifo_init_##ptype##id
 #define FIFO_INIT(ptype,id)				\
@@ -21,7 +21,7 @@ typedef struct { \
 
 #define FIFO_SIZE_N(ptype,id) _fifo_size_##ptype##id
 #define FIFO_SIZE(ptype,size,id)				\
-  size_tt FIFO_SIZE_N(ptype,id) (TYPE_NAME(ptype,id) *f) {	\
+  int FIFO_SIZE_N(ptype,id) (TYPE_NAME(ptype,id) *f) {		\
   if (f->e == -1) return 0;\
   if (f->e == f->s) return size;\
   return (f->e-f->s>0?size-f->e+f->s:f->s-f->e);\
