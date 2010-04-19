@@ -1,0 +1,10 @@
+primitive beam.fork.dual2single {
+  provides beam.BeamFilter as filterctrl;
+
+  provides beam.links.DualInt as input;
+
+  requires beam.links.SingleInt as output1;
+  requires beam.links.SingleInt as output2;
+
+  source dual2single.c;
+}

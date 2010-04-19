@@ -1,0 +1,6 @@
+primitive beam.filters.simple.dualintdumper {
+  provides beam.BeamFilter as filterctrl; 
+
+  provides beam.links.DualInt as input;
+  source dualintdumper.c;
+}
