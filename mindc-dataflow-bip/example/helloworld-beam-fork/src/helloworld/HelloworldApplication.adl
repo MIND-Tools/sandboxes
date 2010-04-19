@@ -1,0 +1,41 @@
+import boot.Bootstrap;
+
+@Singleton
+@BeamScheduler(kind="template", arg={"RoundRobin"})
+composite helloworld.HelloworldApplication {
+  contains Bootstrap as bootstrap;
+
+  @BeamFilter
+  contains beam.generator.dualrandom as generator;
+
+  @BeamFilter
+  contains beam.fork.dual2single as forker;
+
+  @BeamFilter
+  contains beam.filters.simple.slidingwindowfilter as maxfilter1;
+
+  // @BeamFilter
+  // contains beam.filters.simple.slidingwindowfilter as maxfilter2;
+
+  @BeamFilter
+  contains beam.fork.single2dual as joiner;
+
+  @BeamFilter
+  contains beam.filters.simple.dualintdumper as dumper;
+
+  @BeamFifo(fifosize=10)
+  binds generator.output to forker.input;
+
+  @BeamFifo(fifosize=10)
+  binds forker.output1 to maxfilter1.input;
+  // @BeamFifo(fifosize=10)
+  // binds forker.output2 to maxfilter2.input;
+
+  @BeamFifo(fifosize=10)
+  binds maxfilter1.output to joiner.input1;
+  @BeamFifo(fifosize=10)
+  binds forker.output2 to joiner.input2;
+
+  @BeamFifo(fifosize=10)
+  binds joiner.output to dumper.input;
+}
