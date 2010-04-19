@@ -47,6 +47,7 @@ import org.ow2.mind.adl.ast.Binding;
 import org.ow2.mind.adl.ast.BindingContainer;
 import org.ow2.mind.adl.ast.Component;
 import org.ow2.mind.adl.ast.ComponentContainer;
+import org.ow2.mind.adl.ast.Data;
 import org.ow2.mind.adl.ast.DefinitionReference;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.MindInterface;
@@ -126,7 +127,7 @@ public class BeamFifoAnnotationProcessor
     stringbuf.append(code+"\n");
   }
   
-  protected Source createFifoBufferImplementation(String name, String ifacename, 
+  protected void createFifoBufferImplementation(String name, String ifacename, 
       String signature, Integer size, Definition comp_def,
       MindInterface iface, final Map<Object, Object> context) throws ADLException{
     
@@ -165,9 +166,7 @@ public class BeamFifoAnnotationProcessor
      */
     addCCode(generated_code, "#include <beam/template/buffer.h>");
     addCCode(generated_code, "/* the fifo type */");
-    addCCode(generated_code, "FIFO_TYPE(" + returnType + ", " + size + ", "+ buffer_uniq_id +")");
-    addCCode(generated_code, "/*  Private Data  */");
-    addCCode(generated_code, "TYPE_NAME(" + returnType + ", "+ buffer_uniq_id + ") myFifo;");
+
 
     addCCode(generated_code, "// use macro to create fifo's methods");
     addCCode(generated_code, "FIFO_SIZE(" + returnType + ", " + size + ", "+ buffer_uniq_id + ")");
@@ -182,7 +181,7 @@ public class BeamFifoAnnotationProcessor
      */
     addCCode(generated_code, "/* Server method for GET*/");
     addCCode(generated_code, returnType + " METH(buffer,get) (void) {");
-    addCCode(generated_code, "   return FIFO_POP_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
+    addCCode(generated_code, "   return FIFO_POP_N(" + returnType + ", " + buffer_uniq_id + ")(&(PRIVATE.myFifo));");
     addCCode(generated_code, "}");
 
     /*
@@ -190,7 +189,7 @@ public class BeamFifoAnnotationProcessor
      */
     addCCode(generated_code, "/* Server method for PUT */");
     addCCode(generated_code, "void METH(buffer, put)(" + returnType + " x) {");
-    addCCode(generated_code, "   FIFO_PUSH_N(" + returnType + ", " + buffer_uniq_id + ")(x, &myFifo);");
+    addCCode(generated_code, "   FIFO_PUSH_N(" + returnType + ", " + buffer_uniq_id + ")(x, &(PRIVATE.myFifo));");
     addCCode(generated_code, "}");
     
     /*
@@ -201,7 +200,7 @@ public class BeamFifoAnnotationProcessor
     
     addCCode(generated_code, "/* Server Method for control::init */");
     addCCode(generated_code, "void METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ",init)(void) {");
-    addCCode(generated_code, " FIFO_INIT_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
+    addCCode(generated_code, " FIFO_INIT_N(" + returnType + ", " + buffer_uniq_id + ")(&(PRIVATE.myFifo));");
     addCCode(generated_code, "}");
     
     
@@ -214,12 +213,30 @@ public class BeamFifoAnnotationProcessor
     // create code for control::current_size method
     addCCode(generated_code, "/* Server Method for control::current_size */");
     addCCode(generated_code, "int METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ", current_size)(void) {");
-    addCCode(generated_code, " FIFO_SIZE_N(" + returnType + ", " + buffer_uniq_id + ")(&myFifo);");
+    addCCode(generated_code, " FIFO_SIZE_N(" + returnType + ", " + buffer_uniq_id + ")(&(PRIVATE.myFifo));");
     addCCode(generated_code, "}");
     
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(generated_code.toString());
-    return src;
+    
+    ((ImplementationContainer)comp_def).addSource(src);
+  
+    final Data data = CommonASTHelper.newNode(nodeFactoryItf, "data", Data.class);
+
+    StringBuffer pdata = new StringBuffer();
+    addCCode(pdata, "#define TYPE_NAME(ptype,id) fifo_##ptype##id##_t");
+    addCCode(pdata, "#define FIFO_TYPE(ptype, size, id)      \\");
+    addCCode(pdata, "typedef struct { \\");
+    addCCode(pdata, "ptype data[size];\\");
+    addCCode(pdata, "int s;\\");
+    addCCode(pdata, "int e;\\");
+    addCCode(pdata, "} TYPE_NAME(ptype,id);");
+    addCCode(pdata, "FIFO_TYPE(" + returnType + ", " + size + ", "+ buffer_uniq_id +")");
+
+    addCCode(pdata, "struct { TYPE_NAME(" + returnType + ", "+ buffer_uniq_id + ") myFifo;} PRIVATE;");
+
+    data.setCCode(pdata.toString());
+    ((ImplementationContainer)comp_def).setData(data);
   }
   protected Component createFifoBufferComponent(String name, String ifacename, 
       String signature, Integer size, final Map<Object, Object> context, Definition container_def) 
@@ -246,14 +263,14 @@ public class BeamFifoAnnotationProcessor
     ((InterfaceContainer)new_bufdef).addInterface(iface);
     ((InterfaceContainer)new_bufdef).addInterface(iface_ctrl);
 
-    Source implem = createFifoBufferImplementation(name, ifacename, signature, size,
+    createFifoBufferImplementation(name, ifacename, signature, size,
         new_bufdef, iface, context);
     
     DefinitionReference dr = ASTHelper.newDefinitionReference(nodeFactoryItf, 
         def_name);
     ASTHelper.setResolvedDefinition(dr, new_bufdef);
     
-    ((ImplementationContainer)new_bufdef).addSource(implem);
+//    ((ImplementationContainer)new_bufdef).addSource(implem);
     
     Component buffer_comp = ASTHelper.newComponent(
         nodeFactoryItf, 
