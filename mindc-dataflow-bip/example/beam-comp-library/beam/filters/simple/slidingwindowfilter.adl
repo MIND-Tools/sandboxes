@@ -6,7 +6,7 @@ primitive beam.filters.simple.slidingwindowfilter {
 
   data {{
        struct {
-       	      int history[255];
+       	      int history[256];
 	      int init_hack;
 	      int ptr;
        } PRIVATE;
