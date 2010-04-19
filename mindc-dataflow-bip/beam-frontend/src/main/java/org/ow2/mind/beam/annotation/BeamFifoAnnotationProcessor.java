@@ -372,15 +372,18 @@ public class BeamFifoAnnotationProcessor
       Definition to_def = ASTHelper.getResolvedComponentDefinition(to_comp, loaderItf, context);
       assert(to_def != null);
       assert(to_def instanceof InterfaceContainer);
+
       for (Interface i : ((InterfaceContainer)to_def).getInterfaces()){
         if (i.getName().equals(b.getToInterface())){
           assert(i instanceof MindInterface);
           MindInterface mi = (MindInterface)i;
           assert(mi.getRole().equals(TypeInterface.SERVER_ROLE));
           mi.setRole(TypeInterface.CLIENT_ROLE);
-          logger.log(Level.INFO, "Changed role for " + b.getToComponent() + "." + b.getToInterface());
+          logger.log(Level.INFO, "Changed role for " + b.getToComponent() + "." + b.getToInterface() +
+              " in def " + to_def.getName());
         }
       }
+
       
       Binding filter_buffer_b = ASTHelper.newBinding(nodeFactoryItf);
       filter_buffer_b.setFromComponent(b.getToComponent());
@@ -396,7 +399,7 @@ public class BeamFifoAnnotationProcessor
       
       b.setToComponent(newbuffer_name);
       b.setToInterface("buffer");
-      logger.log(Level.INFO, "Retargeted binding to buffer.s");
+      logger.log(Level.INFO, "Retargeted binding to " + newbuffer_name + ".buffer");
 
     } else if (phase == ADLLoaderPhase.AFTER_PARSING) {
       fifo_bindings.add(b);
