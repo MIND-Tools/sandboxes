@@ -60,6 +60,7 @@ import org.ow2.mind.idl.ast.Parameter;
 import org.ow2.mind.idl.ast.PrimitiveType;
 import org.ow2.mind.idl.ast.Type;
 import org.ow2.mind.idl.ast.TypeContainer;
+import org.ow2.mind.idl.ast.TypeDefReference;
 
 public class BeamFifoAnnotationProcessor
     extends
@@ -93,13 +94,21 @@ public class BeamFifoAnnotationProcessor
 
   static int buffer_uniq_id = 0;
   
-  static PrimitiveType getPrimitiveType(Node n){
+  static String getTypeName(Node n){
     assert(n instanceof TypeContainer);
     Type n_type = ((TypeContainer)n).getType();
-    assert(n_type instanceof PrimitiveType);
-    return (PrimitiveType) n_type;
-  }
 
+      if (n_type instanceof PrimitiveType)
+        return ((PrimitiveType)n_type).getName();
+      else if (n_type instanceof TypeDefReference){
+        return ((TypeDefReference)n_type).getName();
+      } else {
+        assert(false);
+        return null;
+      }
+    
+  }
+  
   @SuppressWarnings("unchecked")
   protected void addFifoToContext(Component fifo, Map<Object,Object> context){
     List<Component> ctx_filters;
@@ -130,9 +139,8 @@ public class BeamFifoAnnotationProcessor
     StringBuffer generated_code = new StringBuffer();
     
     for (Method m: ifacedef.getMethods()){
-      PrimitiveType mpt = getPrimitiveType(m);
       if (m.getName().equals("get")){
-        returnType = mpt.getName();
+        returnType = getTypeName(m);
         assert(m.getParameters().length == 0);
         
       } else if (m.getName().equals("put")) {
@@ -140,8 +148,7 @@ public class BeamFifoAnnotationProcessor
         
         for (Parameter p : m.getParameters()){
           assert(p instanceof TypeContainer);
-          PrimitiveType ppt = getPrimitiveType(p);
-          paramType = ppt.getName();
+          paramType = getTypeName(p);
         }
       } else {
         assert(false);
