@@ -41,7 +41,7 @@ import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.DefinitionSourceGenerator;
 import org.ow2.mind.io.OutputFileLocator;
 
-public class BipSourceGenerator implements BindingController,
+public class BipDefinitionSourceGenerator implements BindingController,
     DefinitionSourceGenerator {
   
   protected static Logger logger = FractalADLLogManager
