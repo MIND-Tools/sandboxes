@@ -23,14 +23,13 @@
  * Contributors: 
  */
 
-package org.ow2.mind.adl.annotation.predefined;
+package org.ow2.mind.beam.annotation;
 
 import org.ow2.mind.adl.annotation.ADLAnnotationTarget;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.ADLLoaderProcessor;
 import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.annotation.AnnotationTarget;
-import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 
 @ADLLoaderProcessor(processor = BeamFilterAnnotationProcessor.class, phases = {
    ADLLoaderPhase.AFTER_EXTENDS, ADLLoaderPhase.AFTER_PARSING})

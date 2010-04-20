@@ -1,0 +1,5 @@
+<plugin id="org.ow2.mind.beam" name="Beam plug-in.">
+ <extension point="org.ow2.mind.predefined-annotations">
+  	<annotation package="org.ow2.mind.beam.annotation"/>
+  </extension>
+</plugin>

@@ -23,7 +23,7 @@
  * Contributors: 
  */
 
-package org.ow2.mind.adl.annotation.predefined;
+package org.ow2.mind.beam.annotation;
 
 import org.ow2.mind.adl.annotation.ADLAnnotationTarget;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
@@ -31,20 +31,16 @@ import org.ow2.mind.adl.annotation.ADLLoaderProcessor;
 import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.annotation.AnnotationElement;
 import org.ow2.mind.annotation.AnnotationTarget;
-import org.ow2.mind.beam.annotation.BeamSchedulerAnnotationProcessor;
 
-@ADLLoaderProcessor(processor = BeamSchedulerAnnotationProcessor.class, phases = {
-   ADLLoaderPhase.AFTER_EXTENDS, ADLLoaderPhase.AFTER_CHECKING})
-public class BeamScheduler implements Annotation {
+@ADLLoaderProcessor(processor = BeamFifoAnnotationProcessor.class, phases = {
+    ADLLoaderPhase.AFTER_PARSING, ADLLoaderPhase.AFTER_EXTENDS})
+public class BeamFifo implements Annotation {
 
-  @AnnotationElement(hasDefaultValue = true)
-  public String kind = "automatic";
-  
-  @AnnotationElement(hasDefaultValue = true)
-  public String[] arg = {"roundrobin"};
+  @AnnotationElement
+  public Integer                           fifosize;
   
   private static final AnnotationTarget[] TARGETS = {
-    ADLAnnotationTarget.DEFINITION};
+    ADLAnnotationTarget.BINDING};
 
   public AnnotationTarget[] getAnnotationTargets() {
     return TARGETS;
