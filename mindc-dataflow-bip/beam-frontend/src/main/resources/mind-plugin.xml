@@ -2,4 +2,7 @@
  <extension point="org.ow2.mind.predefined-annotations">
   	<annotation package="org.ow2.mind.beam.annotation"/>
   </extension>
+  <extension point="org.ow2.mind.adl.definition-source-generators">
+    <visitor class="org.ow2.mind.beam.adl.BipSourceGenerator" name="bip"/>
+  </extension>
 </plugin>
