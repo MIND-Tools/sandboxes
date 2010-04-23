@@ -32,6 +32,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>plugin-loader</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fractal-adl-bundle</artifactId>
+            <type>bundle</type>
+        </dependency>
 
         <dependency>
             <groupId>org.objectweb.fractal.cecilia.toolchain</groupId>
@@ -41,6 +46,14 @@
         	<groupId>${project.groupId}</groupId>
         	<artifactId>beam-frontend</artifactId>
         </dependency>
+
+        <dependency>
+                        <groupId>org.testng</groupId>
+                        <artifactId>testng</artifactId>
+                        <classifier>jdk15</classifier>
+                </dependency>
+        
+
     </dependencies>
 
     <build>
@@ -87,7 +100,7 @@
                 <configuration>
                     <executable>make</executable>
                     <workingDirectory>
-                        ${project.build.directory}/${project.build.finalName}-bin/${project.build.finalName}/examples/helloworld
+                        ${project.build.directory}/${project.build.finalName}-bin/${project.build.finalName}/examples
 					</workingDirectory>
                     <arguments>
                         <argument>MIND_ROOT=../../</argument>
