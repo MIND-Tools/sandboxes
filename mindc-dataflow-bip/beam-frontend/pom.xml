@@ -32,6 +32,31 @@
   		<artifactId>adl-backend</artifactId>
    	</dependency>
 
+  	<dependency>
+  		<groupId>org.eclipse</groupId>
+  		<artifactId>emf</artifactId>
+  		<version>2.3.0-v200706262000</version>
+  		<type>jar</type>
+  	</dependency>
+
+        <dependency>
+                <groupId>org.mod4j.org.eclipse.emf</groupId>
+                <artifactId>ecore</artifactId>
+                <version>2.5.0</version>
+        </dependency>
+
+  	<dependency>
+  		<groupId>org.eclipse.emf</groupId>
+  		<artifactId>common</artifactId>
+  		<version>2.3.0-v200706262000</version>
+  		<type>jar</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.emf</groupId>
+  		<artifactId>ecore-xmi</artifactId>
+  		<version>2.2.3</version>
+  		<type>jar</type>
+  	</dependency>
   </dependencies>
   
   
