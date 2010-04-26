@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>mind-compiler</artifactId>
 		<groupId>org.ow2.mind</groupId>
-                <version>0.2-beta-2-SNAPSHOT</version>
+                <version>0.2-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
   <artifactId>beam-frontend</artifactId>
@@ -14,6 +14,18 @@
             <groupId>org.objectweb.fractal.fractaladl</groupId>
             <artifactId>fractal-adl</artifactId>
         </dependency>
+
+       <dependency>
+               <groupId>${project.groupId}</groupId>
+                <artifactId>mindc</artifactId>
+        </dependency>
+
+       <dependency>
+            <groupId>ujf.verimag.bip</groupId>
+            <artifactId>metamodel</artifactId>
+	    <version>1.0.0</version>
+        </dependency>
+
         
         <dependency>
             <groupId>org.objectweb.fractal.fractaladl</groupId>
@@ -32,12 +44,6 @@
   		<artifactId>adl-backend</artifactId>
    	</dependency>
 
-  	<dependency>
-  		<groupId>org.eclipse</groupId>
-  		<artifactId>emf</artifactId>
-  		<version>2.3.0-v200706262000</version>
-  		<type>jar</type>
-  	</dependency>
 
         <dependency>
                 <groupId>org.mod4j.org.eclipse.emf</groupId>
@@ -45,18 +51,6 @@
                 <version>2.5.0</version>
         </dependency>
 
-  	<dependency>
-  		<groupId>org.eclipse.emf</groupId>
-  		<artifactId>common</artifactId>
-  		<version>2.3.0-v200706262000</version>
-  		<type>jar</type>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.eclipse.emf</groupId>
-  		<artifactId>ecore-xmi</artifactId>
-  		<version>2.2.3</version>
-  		<type>jar</type>
-  	</dependency>
   </dependencies>
   
   

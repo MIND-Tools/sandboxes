@@ -38,13 +38,10 @@
             <type>bundle</type>
         </dependency>
 
+
         <dependency>
             <groupId>org.objectweb.fractal.cecilia.toolchain</groupId>
             <artifactId>target-descriptor</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>${project.groupId}</groupId>
-        	<artifactId>beam-frontend</artifactId>
         </dependency>
 
         <dependency>
