@@ -138,9 +138,10 @@ public class BipDefinitionSourceGenerator implements BindingController,
     
     Map<Definition, AtomType> m = (Map<Definition,AtomType>) context.get(BEAM_DEFINITION_VISITOR_MAP);
     
-    if (m == null)
+    if (m == null){
       m = new HashMap<Definition, AtomType>();
-
+      context.put(BEAM_DEFINITION_VISITOR_MAP, m);
+    }
     PetriNet behav = BipCreator.createPetriNet();
     AtomType ct = BipCreator.createAtomType(behav, input.getName().replace(".","__"), this.model);
    
