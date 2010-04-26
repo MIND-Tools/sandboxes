@@ -261,6 +261,11 @@ public class BeamSchedulerAnnotationProcessor
       final Map<Object, Object> context) throws ADLException {
     assert annotation instanceof BeamScheduler;
     
+    if (context.containsKey(BEAM_CLI_GEN_BIP)){
+      logger.log(Level.INFO, "not doing anything as --beam-bip used");
+      return null;
+    }
+    
     BeamScheduler beam_sched_annot = (BeamScheduler) annotation;
     
     assert node instanceof Definition;

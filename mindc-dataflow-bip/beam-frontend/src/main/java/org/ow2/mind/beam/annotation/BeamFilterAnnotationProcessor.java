@@ -105,6 +105,11 @@ public class BeamFilterAnnotationProcessor
     
     assert node instanceof Component;
 
+    if (context.containsKey(BEAM_CLI_GEN_BIP)){
+      logger.log(Level.INFO, "not doing anything as --beam-bip used");
+      return null;
+    }
+    
     Component c = (Component) node;
     if (phase == ADLLoaderPhase.AFTER_PARSING){
       filters.add(c);

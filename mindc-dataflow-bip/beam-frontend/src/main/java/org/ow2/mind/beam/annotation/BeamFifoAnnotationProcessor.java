@@ -337,6 +337,11 @@ public class BeamFifoAnnotationProcessor
 
     String newbuffer_name = getBufferMangledName(b);
     
+    if (context.containsKey(BEAM_CLI_GEN_BIP)){
+      logger.log(Level.INFO, "not doing anything as --beam-bip used");
+      return null;
+    }
+    
     if (phase == ADLLoaderPhase.AFTER_EXTENDS) {
       
       Component from_comp = ASTHelper.getComponent(definition, b.getFromComponent());
