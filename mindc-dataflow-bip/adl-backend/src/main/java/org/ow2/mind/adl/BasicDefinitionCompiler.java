@@ -94,12 +94,14 @@ public class BasicDefinitionCompiler
     definitionSourceGeneratorItf.visit(definition, context);
 
     final Collection<CompilationCommand> result = new ArrayList<CompilationCommand>();
-    if (definition instanceof ImplementationContainer)
-      visitImplementation(definition, (ImplementationContainer) definition,
-          result, context);
+    if (!context.containsKey("disable-default-backend")) {
+      if (definition instanceof ImplementationContainer)
+        visitImplementation(definition, (ImplementationContainer) definition,
+            result, context);
 
-    visitAdditionalCompilationUnits(definition,
-        getAdditionalCompilationUnit(definition), result, context);
+      visitAdditionalCompilationUnits(definition,
+          getAdditionalCompilationUnit(definition), result, context);
+    }
     return result;
   }
 

@@ -126,21 +126,25 @@ public final class ADLBackendFactory {
     final IDLDefinitionSourceGenerator idsg = new IDLDefinitionSourceGenerator();
     final GenericDefinitionNameSourceGenerator gdnsg = new GenericDefinitionNameSourceGenerator();
     final BinaryADLWriter baw = new BinaryADLWriter();
-    // Bind the default source generators to the dispatcher
-    dsgd.visitorsItf.put("header", dhsg);
-    dsgd.visitorsItf.put("include", disg);
-    dsgd.visitorsItf.put("impl", ihsg);
-    dsgd.visitorsItf.put("macro", dmsg);
-    dsgd.visitorsItf.put("membrane", msg);
-    dsgd.visitorsItf.put("idl", idsg);
-    dsgd.visitorsItf.put("generic-names", gdnsg);
-    dsgd.visitorsItf.put("binary-writer", baw);
 
-    // Bind the default source generator's client interfaces
-    for (final String visitorName : dsgd.visitorsItf.keySet()) {
-      final VoidVisitor<Definition> visitor = dsgd.visitorsItf.get(visitorName);
-      for (final String itfName : ((BindingController) visitor).listFc()) {
-        bindVisitor(serviceMap, visitorName, visitor, itfName);
+    // Bind the default source generators to the dispatcher
+    if (!context.containsKey("disable-default-backend")) {
+      dsgd.visitorsItf.put("header", dhsg);
+      dsgd.visitorsItf.put("include", disg);
+      dsgd.visitorsItf.put("impl", ihsg);
+      dsgd.visitorsItf.put("macro", dmsg);
+      dsgd.visitorsItf.put("membrane", msg);
+      dsgd.visitorsItf.put("idl", idsg);
+      dsgd.visitorsItf.put("generic-names", gdnsg);
+      dsgd.visitorsItf.put("binary-writer", baw);
+
+      // Bind the default source generator's client interfaces
+      for (final String visitorName : dsgd.visitorsItf.keySet()) {
+        final VoidVisitor<Definition> visitor = dsgd.visitorsItf
+            .get(visitorName);
+        for (final String itfName : ((BindingController) visitor).listFc()) {
+          bindVisitor(serviceMap, visitorName, visitor, itfName);
+        }
       }
     }
 
@@ -234,14 +238,16 @@ public final class ADLBackendFactory {
     bic.compilerWrapperItf = compilerWrapper;
     bic.mppWrapperItf = mppWrapper;
     bic.outputFileLocatorItf = outputFileLocator;
-    // Create and bind the default instance source generator
-    final InstanceSourceGenerator instanceSourceGenerator = new BasicInstanceSourceGenerator();
-    for (final String itfName : ((BindingController) instanceSourceGenerator)
-        .listFc()) {
-      bindVisitor(serviceMap, "instance", instanceSourceGenerator, itfName);
-    }
-    bindVisitorToDispatcher(isgd, instanceSourceGenerator, "instance");
 
+    if (!context.containsKey("disable-default-backend")) {
+      // Create and bind the default instance source generator
+      final InstanceSourceGenerator instanceSourceGenerator = new BasicInstanceSourceGenerator();
+      for (final String itfName : ((BindingController) instanceSourceGenerator)
+          .listFc()) {
+        bindVisitor(serviceMap, "instance", instanceSourceGenerator, itfName);
+      }
+      bindVisitorToDispatcher(isgd, instanceSourceGenerator, "instance");
+    }
     // Instance source generators
     for (final VisitorExtension visitorExtension : VisitorExtensionHelper
         .getVisitorExtensions(VisitorExtensionHelper.INSTANCE_SOURCE_GENERATOR,

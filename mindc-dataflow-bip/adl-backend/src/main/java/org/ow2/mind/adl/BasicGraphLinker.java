@@ -88,6 +88,10 @@ public class BasicGraphLinker implements GraphCompiler, BindingController {
 
     compileSharedImplementation(graph, compilationTasks, context);
 
+    if (context.containsKey("disable-default-backend")) {
+      return result;
+    }
+
     String outputPath = (String) context.get("executable-name");
     if (outputPath != null) {
       if (!isValid(outputPath)) {

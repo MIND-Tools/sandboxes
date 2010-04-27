@@ -86,6 +86,9 @@ public class BasicInstanceCompiler
       throws ADLException {
 
     instanceSourceGeneratorItf.visit(instanceDesc, context);
+    if (context.containsKey("disable-default-backend"))
+      return new ArrayList<CompilationCommand>();
+
     final String instancesFileName = BasicInstanceSourceGenerator
         .getInstancesFileName(instanceDesc);
 

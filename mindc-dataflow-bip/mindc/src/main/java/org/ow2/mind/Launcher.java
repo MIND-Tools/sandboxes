@@ -165,6 +165,10 @@ public class Launcher extends AbstractLauncher {
                                                                       "e",
                                                                       null,
                                                                       "Print error stack traces");
+  protected final CmdFlag              disableDefaultBackendOpt   = new CmdFlag(
+                                                                      null,
+                                                                      "disable-default-backend",
+                                                                      "Disable the default backend");
 
   protected final CmdFlag              checkADLModeOpt            = new CmdFlag(
                                                                       null,
@@ -211,6 +215,7 @@ public class Launcher extends AbstractLauncher {
   protected boolean                    printStackTrace            = false;
 
   protected boolean                    checkADLMode               = false;
+  protected boolean                    disableDefaultBackend      = false;
 
   protected File                       buildDir;
 
@@ -294,7 +299,11 @@ public class Launcher extends AbstractLauncher {
 
     printStackTrace = printStackTraceOpt.isPresent(cmdLine);
 
+    disableDefaultBackend = disableDefaultBackendOpt.isPresent(cmdLine);
+    compilerContext.put(disableDefaultBackendOpt.longName, true);
+
     checkADLMode = checkADLModeOpt.isPresent(cmdLine);
+
     generateSrc = generateDefSrcOpt.isPresent(cmdLine);
     compileDef = compileDefOpt.isPresent(cmdLine);
 
@@ -730,13 +739,13 @@ public class Launcher extends AbstractLauncher {
     options.addOptions(targetDescOpt, compilerCmdOpt, cFlagsOpt,
         includePathOpt, linkerCmdOpt, ldFlagsOpt, ldPathOpt, linkerScriptOpt,
         concurrentJobCmdOpt, printStackTraceOpt, checkADLModeOpt,
-        generateDefSrcOpt, compileDefOpt, forceOpt, keepTempOpt, noBinASTOpt);
+        disableDefaultBackendOpt, generateDefSrcOpt, compileDefOpt, forceOpt,
+        keepTempOpt, noBinASTOpt);
 
     for (final CmdOption option : CommandLineOptionExtensionHelper
         .getCommandOptions(pluginManagerItf, context)) {
       options.addOption(option);
     }
-
   }
 
   protected void invokeOptionHandlers(final PluginManager pluginManagerItf,
