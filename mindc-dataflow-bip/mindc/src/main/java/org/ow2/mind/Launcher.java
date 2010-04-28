@@ -297,7 +297,8 @@ public class Launcher extends AbstractLauncher {
     printStackTrace = printStackTraceOpt.isPresent(cmdLine);
 
     disableDefaultBackend = disableDefaultBackendOpt.isPresent(cmdLine);
-    compilerContext.put(disableDefaultBackendOpt.longName, true);
+    if (disableDefaultBackend)
+      compilerContext.put(disableDefaultBackendOpt.longName, true);
 
     checkADLMode = checkADLModeOpt.isPresent(cmdLine);
 
