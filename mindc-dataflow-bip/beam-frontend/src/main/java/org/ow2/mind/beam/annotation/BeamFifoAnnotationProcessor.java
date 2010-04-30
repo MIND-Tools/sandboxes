@@ -137,12 +137,19 @@ public class BeamFifoAnnotationProcessor
     
     String returnType = null;
     String paramType = null;
-    
-    StringBuffer generated_code = new StringBuffer();
-    
+        
+    /*
+     * The following loop does the following:
+     *  - get the type of the data used on by the link
+     *  - various type check consistency using assertion().
+     */
     for (Method m: ifacedef.getMethods()){
       if (m.getName().equals("get")){
-        returnType = getTypeName(m);
+        if (returnType == null) {
+          returnType = getTypeName(m);
+        } else {
+          assert(returnType.equals(getTypeName(m)));
+        }
         assert(m.getParameters().length == 0);
         
       } else if (m.getName().equals("put")) {
@@ -152,6 +159,20 @@ public class BeamFifoAnnotationProcessor
           assert(p instanceof TypeContainer);
           paramType = getTypeName(p);
         }
+      }  else if (m.getName().equals("peek")) {
+        assert(m.getParameters().length == 1);
+
+        for (Parameter p : m.getParameters()){
+          assert(p instanceof TypeContainer);
+          assert(getTypeName(p).equals("int"));
+        }
+        
+        if (returnType == null) {
+          returnType = getTypeName(m);
+        } else {
+          assert(returnType.equals(getTypeName(m)));
+        }
+        
       } else {
         assert(false);
       }

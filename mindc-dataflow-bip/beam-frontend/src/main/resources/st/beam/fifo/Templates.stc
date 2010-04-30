@@ -11,15 +11,23 @@ FIFO_INIT(<type>, <id>)
 FIFO_PUSH(<type>, <size>, <id>)
 FIFO_POP(<type>, <size>, <id>)
 FIFO_TOP(<type>, <id>)
+FIFO_PEEK(<type>, <size>, <id>)
 FIFO_REQUEUE(<type>, <id>)
+
 /* Server method for GET*/
-int METH(buffer,get) (void) {
-   return FIFO_POP_N(int, <id>)(&(PRIVATE.myFifo));
+<type> METH(buffer,get) (void) {
+   return FIFO_POP_N(<type>, <id>)(&(PRIVATE.myFifo));
 }
 /* Server method for PUT */
-void METH(buffer, put)(int x) {
-   FIFO_PUSH_N(int, <id>)(x, &(PRIVATE.myFifo));
+void METH(buffer, put)(<type> x) {
+   FIFO_PUSH_N(<type>, <id>)(x, &(PRIVATE.myFifo));
 }
+
+/* Server method for PEEK */
+<type> METH(buffer, peek)(int i) {
+   FIFO_PEEK_N(<type>, <id>)(i, &(PRIVATE.myFifo));
+}
+
 /* Server Method for control::init */
 void METH(control,init)(void) {
  FIFO_INIT_N(int, <id>)(&(PRIVATE.myFifo));
