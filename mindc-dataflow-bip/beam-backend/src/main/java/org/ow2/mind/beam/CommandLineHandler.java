@@ -11,6 +11,7 @@ import org.ow2.mind.CommandOptionHandler;
 import org.ow2.mind.AbstractLauncher.CmdOption;
 
 public class CommandLineHandler implements CommandOptionHandler {
+  public final static String BEAM_CLI_GEN_BIP = "beam-generate-bip";
 
   protected static Logger logger = FractalADLLogManager.getLogger("beam-cli");
 
@@ -21,9 +22,7 @@ public class CommandLineHandler implements CommandOptionHandler {
     logger.log(Level.INFO, "Beam CLI handler for " + cmdOption.getLongName());
     if (s.equals("beam-bip")) {
       logger.log(Level.INFO, "  - setting 'only bip'");
-      context.put(Constants.BEAM_CLI_GEN_BIP, true);
+      context.put(BEAM_CLI_GEN_BIP, true);
     }
-
   }
-
 }

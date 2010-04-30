@@ -16,7 +16,6 @@ public interface Constants {
    */
   final String BEAM_CONTEXT_FILTERS_COMP = "beam-filters-comp";
   final String BEAM_CONTEXT_FIFO_COMP = "beam-fifo-comp";
-  final String BEAM_DEFINITION_VISITOR_MAP = "beam-definition-visitor-map";
   
   final String BEAM_CLI_GEN_BIP = "beam-generate-bip";
 }

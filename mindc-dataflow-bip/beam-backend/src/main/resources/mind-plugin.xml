@@ -1,0 +1,15 @@
+<plugin id="org.ow2.mind.beam" name="Beam plug-in.">
+
+  <extension point="org.ow2.mind.adl.definition-source-generators">
+    <visitor class="org.ow2.mind.beam.adl.BipDefinitionSourceGenerator" name="bip-definition"/>
+  </extension>
+
+  <extension point="org.ow2.mind.adl.instance-source-generators">
+  	<visitor class="org.ow2.mind.beam.adl.BipInstanceSourceGenerator" name="bip-instance"/>
+  </extension>
+
+  <extension point="org.ow2.mind.mindc.command-line-options">
+    <cmdFlag shortName="b" longName="beam-bip" description="beam" 
+	     handler="org.ow2.mind.beam.CommandLineHandler"/>
+  </extension>
+</plugin>

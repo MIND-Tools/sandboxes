@@ -43,6 +43,7 @@
         <module>fractal-adl-bundle</module>
         <module>beam-frontend</module>
         <module>plugin-loader</module>
+        <module>beam-backend</module>
     </modules>
 
     <developers>
