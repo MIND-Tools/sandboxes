@@ -1,0 +1,50 @@
+template st.beam.fifo.Templates {
+
+$${
+
+SimpleFifo(type,size,id) ::= <<
+#include \<beam/template/buffer.h\>
+/* the fifo type */
+// use macro to create fifo's methods
+FIFO_SIZE(<type>, <size>, <id>)
+FIFO_INIT(<type>, <id>)
+FIFO_PUSH(<type>, <size>, <id>)
+FIFO_POP(<type>, <size>, <id>)
+FIFO_TOP(<type>, <id>)
+FIFO_REQUEUE(<type>, <id>)
+/* Server method for GET*/
+int METH(buffer,get) (void) {
+   return FIFO_POP_N(int, <id>)(&(PRIVATE.myFifo));
+}
+/* Server method for PUT */
+void METH(buffer, put)(int x) {
+   FIFO_PUSH_N(int, <id>)(x, &(PRIVATE.myFifo));
+}
+/* Server Method for control::init */
+void METH(control,init)(void) {
+ FIFO_INIT_N(int, <id>)(&(PRIVATE.myFifo));
+}
+/* Server Method for control::max_size */ 
+int METH(control, max_size)(void) {
+ return <size>;
+}
+/* Server Method for control::current_size */
+int METH(control, current_size)(void) {
+ FIFO_SIZE_N(int, <id>)(&(PRIVATE.myFifo));
+}
+
+>>
+
+SimpleFifoData(type,size,id) ::= <<
+#define TYPE_NAME(ptype,id) fifo_##ptype##id##_t
+#define FIFO_TYPE(ptype, size, id)      \
+typedef struct { \
+ptype data[size];\
+int s;\
+int e;\
+} TYPE_NAME(ptype,id);
+FIFO_TYPE(<type>, <size>, <id>)
+struct { TYPE_NAME(<type>, <id>) myFifo;} PRIVATE;
+>>
+}$$
+}

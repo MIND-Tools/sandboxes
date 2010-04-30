@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.antlr.stringtemplate.StringTemplate;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
@@ -161,81 +162,26 @@ public class BeamFifoAnnotationProcessor
      * We checked that only get/put methods are needed and that their types are
      * correct. We can generate code for both method
      */
-    /*
-     * Common part
-     */
-    addCCode(generated_code, "#include <beam/template/buffer.h>");
-    addCCode(generated_code, "/* the fifo type */");
 
+    StringTemplate fifo_st =  getTemplate("st.beam.fifo.Templates", "SimpleFifo");
+    
+    fifo_st.setAttribute("type", returnType);
+    fifo_st.setAttribute("size", size);
+    fifo_st.setAttribute("id", buffer_uniq_id);
 
-    addCCode(generated_code, "// use macro to create fifo's methods");
-    addCCode(generated_code, "FIFO_SIZE(" + returnType + ", " + size + ", "+ buffer_uniq_id + ")");
-    addCCode(generated_code, "FIFO_INIT(" + returnType + ", "+ buffer_uniq_id + ")");
-    addCCode(generated_code, "FIFO_PUSH(" + returnType + ", " + size + ", "+ buffer_uniq_id + ")");
-    addCCode(generated_code, "FIFO_POP(" + returnType + ", " + size + ", "+ buffer_uniq_id + ")");
-    addCCode(generated_code, "FIFO_TOP(" + returnType + ", "+ buffer_uniq_id + ")");
-    addCCode(generated_code, "FIFO_REQUEUE(" + returnType + ", "+ buffer_uniq_id + ")");
-
-    /*
-     * for GET
-     */
-    addCCode(generated_code, "/* Server method for GET*/");
-    addCCode(generated_code, returnType + " METH(buffer,get) (void) {");
-    addCCode(generated_code, "   return FIFO_POP_N(" + returnType + ", " + buffer_uniq_id + ")(&(PRIVATE.myFifo));");
-    addCCode(generated_code, "}");
-
-    /*
-     * for PUT
-     */
-    addCCode(generated_code, "/* Server method for PUT */");
-    addCCode(generated_code, "void METH(buffer, put)(" + returnType + " x) {");
-    addCCode(generated_code, "   FIFO_PUSH_N(" + returnType + ", " + buffer_uniq_id + ")(x, &(PRIVATE.myFifo));");
-    addCCode(generated_code, "}");
-    
-    /*
-     * Control interface implementation follows.
-     */
-    
-    // create code for control::init
-    
-    addCCode(generated_code, "/* Server Method for control::init */");
-    addCCode(generated_code, "void METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ",init)(void) {");
-    addCCode(generated_code, " FIFO_INIT_N(" + returnType + ", " + buffer_uniq_id + ")(&(PRIVATE.myFifo));");
-    addCCode(generated_code, "}");
-    
-    
-    // create code for control::max_size method
-    addCCode(generated_code, "/* Server Method for control::max_size */ ");
-    addCCode(generated_code, "int METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ", max_size)(void) {");
-    addCCode(generated_code, " return " + size +";");
-    addCCode(generated_code, "}");
-    
-    // create code for control::current_size method
-    addCCode(generated_code, "/* Server Method for control::current_size */");
-    addCCode(generated_code, "int METH(" + BEAM_FIFO_CTRL_IFACE_NAME + ", current_size)(void) {");
-    addCCode(generated_code, " FIFO_SIZE_N(" + returnType + ", " + buffer_uniq_id + ")(&(PRIVATE.myFifo));");
-    addCCode(generated_code, "}");
-    
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
-    src.setCCode(generated_code.toString());
-    
+    src.setCCode(fifo_st.toString());
     ((ImplementationContainer)comp_def).addSource(src);
   
     final Data data = CommonASTHelper.newNode(nodeFactoryItf, "data", Data.class);
 
-    StringBuffer pdata = new StringBuffer();
-    addCCode(pdata, "#define TYPE_NAME(ptype,id) fifo_##ptype##id##_t");
-    addCCode(pdata, "#define FIFO_TYPE(ptype, size, id)      \\");
-    addCCode(pdata, "typedef struct { \\");
-    addCCode(pdata, "ptype data[size];\\");
-    addCCode(pdata, "int s;\\");
-    addCCode(pdata, "int e;\\");
-    addCCode(pdata, "} TYPE_NAME(ptype,id);");
-    addCCode(pdata, "FIFO_TYPE(" + returnType + ", " + size + ", "+ buffer_uniq_id +")");
+    StringTemplate fifo_data_st =  getTemplate("st.beam.fifo.Templates", "SimpleFifoData");
+    
+    fifo_data_st.setAttribute("type", returnType);
+    fifo_data_st.setAttribute("size", size);
+    fifo_data_st.setAttribute("id", buffer_uniq_id);
 
-    addCCode(pdata, "struct { TYPE_NAME(" + returnType + ", "+ buffer_uniq_id + ") myFifo;} PRIVATE;");
-
-    data.setCCode(pdata.toString());
+    data.setCCode(fifo_data_st.toString());
     ((ImplementationContainer)comp_def).setData(data);
   }
   protected Component createFifoBufferComponent(String name, String ifacename, 
