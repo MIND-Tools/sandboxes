@@ -53,6 +53,7 @@ import org.ow2.mind.adl.ast.MindInterface;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.beam.CommandLineHandler;
 import org.ow2.mind.beam.Constants;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
 import org.ow2.mind.idl.ast.Method;
@@ -337,7 +338,7 @@ public class BeamFifoAnnotationProcessor
 
     String newbuffer_name = getBufferMangledName(b);
     
-    if (context.containsKey(BEAM_CLI_GEN_BIP)){
+    if (context.containsKey(CommandLineHandler.BEAM_CLI_GEN_BIP)){
       logger.log(Level.INFO, "not doing anything as --beam-bip used");
       return null;
     }
