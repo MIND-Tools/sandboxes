@@ -43,6 +43,13 @@
   return t;\
 }
 
+#define FIFO_PEEK_N(ptype,id) _peek_##ptype##id
+#define FIFO_PEEK(ptype,size,id)				\
+  ptype FIFO_PEEK_N(ptype,id) (int i, TYPE_NAME(ptype,id) *f) {	\
+    ptype t = f->data[(f->e+i)%size];				\
+  return t; \
+}
+
 #define FIFO_TOP_N(ptype,id) _top_##ptype##id
 #define FIFO_TOP(ptype,id)			\
   ptype FIFO_TOP_N(ptype,id) (TYPE_NAME(ptype,id) *f) {	\
@@ -56,5 +63,7 @@
     FIFO_PUSH_N(ptype,id)(out, f);					\
     FIFO_POP_N(ptype,id)(f);						\
 }
+
+
 
 #endif /*  __BEAM_BUFFER_TEMPLATE__H */
