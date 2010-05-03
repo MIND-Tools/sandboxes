@@ -3,12 +3,12 @@
   <parent>
     <artifactId>mind-compiler</artifactId>
     <groupId>org.ow2.mind</groupId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-alpha-1-SNAPSHOT</version>
   </parent>
 
   <groupId>org.ow2.mind</groupId>
   <artifactId>beam-backend</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.3-alpha-1-SNAPSHOT</version>
   <name>beam-backend</name>
   <description>Beam Backend</description>
 
