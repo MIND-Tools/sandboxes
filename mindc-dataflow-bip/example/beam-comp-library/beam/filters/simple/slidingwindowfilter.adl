@@ -1,7 +1,10 @@
 primitive beam.filters.simple.slidingwindowfilter {
   provides beam.BeamFilter as filterctrl;
 
+  @BeamInterface(cons=1, peek=2, prod=0)
   provides beam.links.SingleInt as input;
+
+  @BeamInterface(cons=0, peek=0, prod=2)
   requires beam.links.SingleInt as output;
 
   data {{

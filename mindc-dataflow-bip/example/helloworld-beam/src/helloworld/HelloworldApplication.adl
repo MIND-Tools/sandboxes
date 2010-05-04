@@ -2,7 +2,7 @@ import boot.Bootstrap;
 
 @Singleton
 //@BeamScheduler(kind="existing", arg={"helloworld/myscheduler.c"})
-@BeamScheduler(kind="template", arg={"RoundRobin"})
+@BeamScheduler(kind="template", arg={"PeekAwareRoundRobin"})
 composite helloworld.HelloworldApplication {
   contains Bootstrap as bootstrap;
 

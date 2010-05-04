@@ -1,7 +1,10 @@
 primitive beam.filters.simple.maxfilter {
   provides beam.BeamFilter as filterctrl;
 
+  @BeamInterface(cons=1, peek=1)
   provides beam.links.SingleInt as input;
+
+  @BeamInterface(prod=2)
   requires beam.links.SingleInt as output;
 
   data {{
