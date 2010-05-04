@@ -45,7 +45,6 @@ import org.objectweb.fractal.adl.ADLErrors;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.CompilerError;
 import org.objectweb.fractal.adl.Definition;
-import org.objectweb.fractal.adl.error.Error;
 import org.objectweb.fractal.adl.error.GenericErrors;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
 import org.ow2.mind.plugin.PluginManager;
@@ -189,13 +188,13 @@ public class BasicMPPWrapper implements MPPWrapper {
               "MPP parse error.");
         }
 
-        final List<Error> errors = (List<Error>) invokeMethod(mpp, "getErrors",
-            new Class[]{}, new Object[]{});
+        final List<String> errors = (List<String>) invokeMethod(mpp,
+            "getErrors", new Class[]{}, new Object[]{});
         if (errors != null && errors.size() > 0) {
           final StringBuilder msg = new StringBuilder();
-          final Iterator<Error> iter = errors.iterator();
+          final Iterator<String> iter = errors.iterator();
           while (iter.hasNext()) {
-            final Error e = iter.next();
+            final String e = iter.next();
             msg.append(e);
             if (iter.hasNext()) msg.append("\n    ");
           }
