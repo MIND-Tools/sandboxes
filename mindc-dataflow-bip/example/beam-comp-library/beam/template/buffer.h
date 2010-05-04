@@ -3,15 +3,6 @@
 
 //typedef int size_tt;
 
-/* #define TYPE_NAME(ptype,id) fifo_##ptype##id##_t */
-
-/* #define FIFO_TYPE(ptype, size, id)			\ */
-/* typedef struct { \ */
-/*   ptype data[size];\ */
-/*   size_tt s;\ */
-/*   size_tt e;\ */
-/* } TYPE_NAME(ptype,id); */
-
 #define FIFO_INIT_N(ptype,id) _fifo_init_##ptype##id
 #define FIFO_INIT(ptype,id)				\
   void FIFO_INIT_N(ptype,id) (TYPE_NAME(ptype,id) *f) {	\
@@ -63,7 +54,6 @@
     FIFO_PUSH_N(ptype,id)(out, f);					\
     FIFO_POP_N(ptype,id)(f);						\
 }
-
 
 
 #endif /*  __BEAM_BUFFER_TEMPLATE__H */
