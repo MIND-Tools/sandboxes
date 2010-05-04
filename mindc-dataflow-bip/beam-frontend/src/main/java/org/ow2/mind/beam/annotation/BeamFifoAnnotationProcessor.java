@@ -25,8 +25,10 @@
 package org.ow2.mind.beam.annotation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,7 +72,8 @@ public class BeamFifoAnnotationProcessor
     implements
       Constants {
 
-  
+  public final static String WAS_SERVER_INTERFACE = "was-server-interface";
+
   /*
    * Stolen from "InterfaceSignatureLoader"
    */
@@ -290,6 +293,16 @@ public class BeamFifoAnnotationProcessor
     
     return name;
   }
+  
+  protected void addInterfaceToWSI(MindInterface mif, Definition d){
+    Set<MindInterface> mifs = (Set<MindInterface>) d.astGetDecoration(WAS_SERVER_INTERFACE);
+    
+    if (mifs == null){
+      mifs = new HashSet<MindInterface>();
+      d.astSetDecoration(WAS_SERVER_INTERFACE, mifs);
+    }
+    mifs.add(mif);
+  }
   // ---------------------------------------------------------------------------
   // Implementation of the ADLLoaderAnnotationProcessor interface
   // ---------------------------------------------------------------------------
@@ -351,6 +364,7 @@ public class BeamFifoAnnotationProcessor
           MindInterface mi = (MindInterface)i;
           assert(mi.getRole().equals(TypeInterface.SERVER_ROLE));
           mi.setRole(TypeInterface.CLIENT_ROLE);
+          addInterfaceToWSI(mi, to_def);
           logger.log(Level.INFO, "Changed role for " + b.getToComponent() + "." + b.getToInterface() +
               " in def " + to_def.getName());
         }

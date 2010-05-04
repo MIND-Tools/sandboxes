@@ -25,14 +25,15 @@
 package org.ow2.mind.beam.annotation;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.CharBuffer;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +41,7 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
+import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
 import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.adl.util.ClassLoaderHelper;
@@ -59,6 +61,7 @@ import org.ow2.mind.adl.ast.MindInterface;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationHelper;
 import org.ow2.mind.beam.CommandLineHandler;
 import org.ow2.mind.beam.Constants;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
@@ -70,6 +73,7 @@ public class BeamSchedulerAnnotationProcessor
     implements
       Constants {
 
+  
   public URL findResource(final String name, final Map<Object, Object> context) {
     return ClassLoaderHelper.getClassLoader(this, context).getResource(name);
   }
@@ -135,18 +139,63 @@ public class BeamSchedulerAnnotationProcessor
    * @param filters The list of all filters in the system
    * @param kindarg The arguments for the generation
    * @return
+   * @throws ADLException 
    */
   protected Source createFromTemplateImplementation(List<Component> filters, 
-      List<Component> fifos, String[] kindarg){
+      List<Component> fifos, String[] kindarg, Map<Object, Object> context) throws ADLException{
     logger.log(Level.INFO, "  - Loading scheduler template for " + kindarg[0]);
 
     StringTemplate sched_st =  getTemplate("st.beam.scheduler.Templates", kindarg[0]);
     
-    sched_st.setAttribute("filters", filters);
-    sched_st.setAttribute("fifos", fifos);
+ 
 
     //sched_st.setAttribute("includes", new String[]{"<beam.h>"});
+
+    Map<String, Map<String, BeamInterface>> filters_server_ifaces = new HashMap<String, Map<String, BeamInterface>>();
+    Map<String, Map<String, Component>>     fifos_for_comps       = new HashMap<String, Map<String, Component>>();
+    Set<Component> no_input_filters = new HashSet<Component>();
     
+    for (Component c: filters){
+      c.getDefinitionReference();
+      Definition def = ASTHelper.getResolvedComponentDefinition(c, loaderItf, context);
+
+      Set<MindInterface> s = (Set<MindInterface>)def.astGetDecoration(BeamFifoAnnotationProcessor.WAS_SERVER_INTERFACE);
+      if (s == null || s.isEmpty()){
+        no_input_filters.add(c);
+        continue;
+      }
+      
+      Map<String, Component> fifo_for_comp = new HashMap<String, Component>();
+      fifos_for_comps.put(c.getName(), fifo_for_comp);
+
+      for (Interface iface : s){
+        for (Component fifo: fifos){
+          if (fifo.getName().endsWith(c.getName() + "_" + iface.getName())){
+            fifo_for_comp.put(iface.getName(), fifo);
+          }
+        }
+      }
+
+      
+      Map<String, BeamInterface> server_iface_map = new HashMap<String, BeamInterface>();
+      filters_server_ifaces.put(c.getName(), server_iface_map);
+
+      for (MindInterface mif : s){
+        logger.log(Level.INFO, "iface: " + mif.getName());
+        BeamInterface a = AnnotationHelper.getAnnotation(mif, BeamInterface.class);
+        if (a == null)
+          assert(false);
+        
+        server_iface_map.put(mif.getName(), a);
+      }
+    }
+    
+    sched_st.setAttribute("fifos_for_comps", fifos_for_comps);
+    sched_st.setAttribute("no_input_filters", no_input_filters);
+    sched_st.setAttribute("filters", filters);
+    sched_st.setAttribute("fifos", fifos);
+    sched_st.setAttribute("server_ifaces", filters_server_ifaces);
+
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(sched_st.toString());
     return src;
@@ -159,7 +208,7 @@ public class BeamSchedulerAnnotationProcessor
    * @return
    */
   protected Source createAutomaticSchedulerImplementation(List<Component> filters, 
-      List<Component> fifos, String[] kindarg){
+      List<Component> fifos, String[] kindarg, Map<Object, Object> context){
     
     String kindarg0 = kindarg[0];
 
@@ -300,12 +349,12 @@ public class BeamSchedulerAnnotationProcessor
       }
       if (kind.equals("automatic")){
         logger.log(Level.INFO, "  - using automatic implementation, with arg: " + args);
-        Source implem = createAutomaticSchedulerImplementation(filters,fifos, beam_sched_annot.arg);
+        Source implem = createAutomaticSchedulerImplementation(filters,fifos, beam_sched_annot.arg, context);
         logger.log(Level.INFO, "  - Adding implementation code in scheduler");
         ((ImplementationContainer)scheduler_definition).addSource(implem);
       } else if (kind.equals("template")){
         logger.log(Level.INFO, "  - creating implementation from template, with arg: " + args);
-        Source implem = createFromTemplateImplementation(filters, fifos, beam_sched_annot.arg);
+        Source implem = createFromTemplateImplementation(filters, fifos, beam_sched_annot.arg, context);
         logger.log(Level.INFO, "  - Adding implementation code in scheduler");
         ((ImplementationContainer)scheduler_definition).addSource(implem);
       } else if (kind.equals("existing")) {

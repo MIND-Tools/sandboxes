@@ -28,5 +28,21 @@ int METH(main, main) (int argc, char *argv[]){
 }
 >>
 
+
+PeekAwareRoundRobin(filters, no_input_filters, fifos, includes, fifos_for_comps, server_ifaces) ::= <<
+
+int METH(main, main) (int argc, char *argv[]){
+  <fifos:{CALL(<it.name>, init)();<\n>}>
+
+
+
+  for(;;){
+    <no_input_filters:{CALL(<it.name>, act)(1);<\n>}>
+  <server_ifaces.keys:{filter1|
+  if (<server_ifaces.(filter1).keys:{iface| (CALL(<fifos_for_comps.(filter1).(iface).name>, current_size)() >= <server_ifaces.(filter1).(iface).peek>)}; separator=" && ">) CALL(<filter1>, act)(1);}; separator="\n">    
+  }
+  return 0;
+}
+>>
 }$$
 }
