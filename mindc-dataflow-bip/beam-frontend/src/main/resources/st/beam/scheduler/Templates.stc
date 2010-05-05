@@ -28,19 +28,43 @@ int METH(main, main) (int argc, char *argv[]){
 }
 >>
 
+BegExecComp(comp) ::= "Begining execution of <comp>\n"
+EndExecComp(comp) ::= "Ending execution of <comp>\n"
+ 
+DebugPrint(debug, message) ::= <<
+<if(debug)>
+	printf("<message>");
+<endif>
+>>
 
-PeekAwareRoundRobin(filters, no_input_filters, fifos, includes, fifos_for_comps, server_ifaces) ::= <<
+PeekAwareRoundRobin(filters, no_input_filters, fifos, includes, fifos_for_comps, server_ifaces, debug) ::= <<
 
 int METH(main, main) (int argc, char *argv[]){
+
+  <DebugPrint(debug=debug, message="Buffer Init\\n")>
+
   <fifos:{CALL(<it.name>, init)();<\n>}>
 
-
+  <DebugPrint(debug=debug, message="End of Buffer Init\\n")>
 
   for(;;){
-    <no_input_filters:{CALL(<it.name>, act)(1);<\n>}>
-  <server_ifaces.keys:{filter1|
-  if (<server_ifaces.(filter1).keys:{iface| (CALL(<fifos_for_comps.(filter1).(iface).name>, current_size)() >= <server_ifaces.(filter1).(iface).peek>)}; separator=" && ">) CALL(<filter1>, act)(1);}; separator="\n">    
-  }
+    <DebugPrint(debug=debug, message="Orphaned filters exec\\n")>
+    <no_input_filters:{
+<DebugPrint(debug=debug, message=BegExecComp(it.name))>
+CALL(<it.name>, act)(1);
+<DebugPrint(debug=debug, message=BegExecComp(it.name))>
+<\n>}>
+    <DebugPrint(debug=debug, message="End of Orphaned filters exec\\n")>
+
+    <server_ifaces.keys:{filter1|
+    if (
+    <server_ifaces.(filter1).keys:{iface| (CALL(<fifos_for_comps.(filter1).(iface).name>, current_size)() >= <server_ifaces.(filter1).(iface).peek>)}; separator=" && ">
+       )\{
+<DebugPrint(debug=debug, message=BegExecComp(filter1))>
+CALL(<filter1>, act)(1);
+<DebugPrint(debug=debug, message=EndExecComp(filter1))>\}
+  }>
+}
   return 0;
 }
 >>

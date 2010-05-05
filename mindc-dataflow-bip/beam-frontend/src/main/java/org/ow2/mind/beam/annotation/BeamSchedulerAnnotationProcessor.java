@@ -195,6 +195,8 @@ public class BeamSchedulerAnnotationProcessor
     sched_st.setAttribute("filters", filters);
     sched_st.setAttribute("fifos", fifos);
     sched_st.setAttribute("server_ifaces", filters_server_ifaces);
+    sched_st.setAttribute("debug", true);
+
 
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(sched_st.toString());
