@@ -149,8 +149,6 @@ public class BeamSchedulerAnnotationProcessor
     
  
 
-    //sched_st.setAttribute("includes", new String[]{"<beam.h>"});
-
     Map<String, Map<String, BeamInterface>> filters_server_ifaces = new HashMap<String, Map<String, BeamInterface>>();
     Map<String, Map<String, Component>>     fifos_for_comps       = new HashMap<String, Map<String, Component>>();
     Set<Component> no_input_filters = new HashSet<Component>();
@@ -216,7 +214,6 @@ public class BeamSchedulerAnnotationProcessor
 
     if (kindarg0.equals("RoundRobin")){
       StringBuffer inline_code = new StringBuffer();
-      //inline_code.append("#include <beam.h>\n");
       
       inline_code.append("int METH(main, main) (int argc, char *argv[]){\n");
       
