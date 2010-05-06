@@ -52,7 +52,7 @@ int METH(main, main) (int argc, char *argv[]){
     <no_input_filters:{
 <DebugPrint(debug=debug, message=BegExecComp(it.name))>
 CALL(<it.name>, act)(1);
-<DebugPrint(debug=debug, message=BegExecComp(it.name))>
+<DebugPrint(debug=debug, message=EndExecComp(it.name))>
 <\n>}>
     <DebugPrint(debug=debug, message="End of Orphaned filters exec\\n")>
 
