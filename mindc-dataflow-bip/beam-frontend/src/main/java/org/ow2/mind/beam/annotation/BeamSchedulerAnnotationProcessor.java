@@ -73,6 +73,7 @@ public class BeamSchedulerAnnotationProcessor
     implements
       Constants {
 
+  public final String SCHEDULER_DEBUG_EXEC_TRACE = "scheduler-trace";
   
   public URL findResource(final String name, final Map<Object, Object> context) {
     return ClassLoaderHelper.getClassLoader(this, context).getResource(name);
@@ -193,8 +194,14 @@ public class BeamSchedulerAnnotationProcessor
     sched_st.setAttribute("filters", filters);
     sched_st.setAttribute("fifos", fifos);
     sched_st.setAttribute("server_ifaces", filters_server_ifaces);
-    sched_st.setAttribute("debug", true);
-
+    
+    Set<String> debug_set = (Set<String>) context.get(CommandLineHandler.BEAM_EXEC_DEBUG_MAP);
+    if (debug_set == null || !debug_set.contains(SCHEDULER_DEBUG_EXEC_TRACE)){
+      sched_st.setAttribute("debug", false);
+    } else {
+      sched_st.setAttribute("debug", true);
+    }
+      
 
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(sched_st.toString());
