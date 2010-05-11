@@ -1,0 +1,16 @@
+#ifndef TEST2_IDT
+#define TEST2_IDT
+
+#include "../test3.idt"
+#include "foo.h"
+
+typedef enum {
+  A =0,
+  B =1
+} myEnum;
+
+typedef struct s myStruct;
+
+typedef test2 test2ItfRef; 
+
+#endif

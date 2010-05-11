@@ -1,0 +1,8 @@
+
+@controller.Component
+@Singleton
+primitive EmptyControlledSingletonPrimitive extends ApplicationType {
+
+  source empty_main.c
+
+}

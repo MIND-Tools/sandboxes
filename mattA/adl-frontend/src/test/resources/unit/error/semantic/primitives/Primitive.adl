@@ -1,0 +1,4 @@
+//#SemanticError GroupId=MADL ErrorId=SOURCE_NOT_FOUND line=3
+primitive primitives.Primitive {
+	source my.c;	
+}
