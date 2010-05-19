@@ -31,10 +31,10 @@ import org.ow2.mind.annotation.AnnotationTarget;
 /**
  * @author Matthieu ANNE
  */
-@ADLLoaderProcessor(processor = DumpASTAnnotationProcessor.class, phases = { ADLLoaderPhase.AFTER_CHECKING })
-public class DumpAST implements Annotation {
+@ADLLoaderProcessor(processor = WrapAnnotationProcessor.class, phases = { ADLLoaderPhase.AFTER_CHECKING })
+public class Wrap implements Annotation {
 
-    private static final AnnotationTarget[] ANNOTATION_TARGETS = { ADLAnnotationTarget.DEFINITION };
+    private static final AnnotationTarget[] ANNOTATION_TARGETS = { ADLAnnotationTarget.INTERFACE };
 
     /*
      * (non-Javadoc)
