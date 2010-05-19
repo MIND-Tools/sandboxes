@@ -1,3 +1,6 @@
+template st.interfaceWrapping.IDL2CPLWRAPPER : st.interfaces.IDL2C{
+  $${
+
 /**
  * Copyright (C) 2010 France Telecom
  *
@@ -18,11 +21,8 @@
  *
  * Authors: Matthieu ANNE
  * Contributors:
- */
+ */  
 
-
-template st.interfaceWrapping.IDL2CPLWRAPPER : st.interfaces.IDL2C{
-  $${
 /** 
  * Generates a ".c" wrapper file.
  */
