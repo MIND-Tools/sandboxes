@@ -26,6 +26,7 @@ import static org.ow2.mind.SourceFileWriter.writeToFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
@@ -35,6 +36,7 @@ import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
 import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.types.TypeInterface;
+import org.objectweb.fractal.adl.types.TypeInterfaceUtil;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
 import org.ow2.mind.adl.ast.ASTHelper;
@@ -42,7 +44,10 @@ import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationHelper;
+import org.ow2.mind.idl.annotations.VarArgsDual;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
+import org.ow2.mind.idl.ast.Method;
 import org.ow2.mind.io.IOErrors;
 
 /**
@@ -69,41 +74,58 @@ public class WrapAnnotationProcessor extends
 	assert annotation instanceof Wrap;
 
 	if (ASTHelper.isPrimitive(definition)) {
-	    // if (definition instanceof InterfaceContainer) {
-	    // for (final Interface itf : ((InterfaceContainer) definition)
-	    // .getInterfaces()) {
 	    Interface itf = (Interface) node;
-	    final InterfaceDefinition itfDef = InterfaceDefinitionDecorationHelper
-		    .getResolvedInterfaceDefinition((TypeInterface) itf,
-			    idlLoaderItf, context);
-	    final File cplFile = new File("src"
-		    + File.separator
-		    + "wrap_"
-		    + itfDef.getName().substring(
-			    itfDef.getName().lastIndexOf('.') + 1) + ".c");
-	    final StringTemplate st = getTemplate(IDL2CPLWRAPPER_TEMPLATE_NAME,
-		    "cplFile");
-	    st.setAttribute("idl", itfDef);
-	    st.setAttribute("itfName", itf.getName());
-	    try {
-		writeToFile(cplFile, st.toString());
-	    } catch (IOException e) {
-		throw new CompilerError(IOErrors.WRITE_ERROR, e, cplFile
-			.getAbsolutePath());
-	    }
+	    if (TypeInterfaceUtil.isServer(itf)) {
+		final InterfaceDefinition itfDef = InterfaceDefinitionDecorationHelper
+			.getResolvedInterfaceDefinition((TypeInterface) itf,
+				idlLoaderItf, context);
 
-	    try {
-		Source source = (Source) nodeFactoryItf.newNode("source",
-			Source.class.getName());
-		source.setPath("/" + cplFile.getName());
-		((ImplementationContainer) definition).addSource(source);
-	    } catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		Map<String, String> dualMeths = new HashMap<String, String>();
+
+		for (final Method meth : itfDef.getMethods()) {
+		    for (final Annotation methAnnotation : AnnotationHelper
+			    .getAnnotations(meth)) {
+			if (methAnnotation instanceof VarArgsDual) {
+			    dualMeths.put(meth.getName(),
+				    ((VarArgsDual) methAnnotation).dualMeth);
+			}
+		    }
+		}
+
+		// TODO generate file elsewhere
+		final File cplFile = new File("src"
+			+ File.separator
+			+ "wrap_"
+			+ itfDef.getName().substring(
+				itfDef.getName().lastIndexOf('.') + 1) + ".c");
+		final StringTemplate st = getTemplate(
+			IDL2CPLWRAPPER_TEMPLATE_NAME, "cplFile");
+		st.setAttribute("idl", itfDef);
+		st.setAttribute("itfName", itf.getName());
+		st.setAttribute("dualMeths", dualMeths);
+		try {
+		    writeToFile(cplFile, st.toString());
+		} catch (IOException e) {
+		    throw new CompilerError(IOErrors.WRITE_ERROR, e, cplFile
+			    .getAbsolutePath());
+		}
+
+		try {
+		    Source source = (Source) nodeFactoryItf.newNode("source",
+			    Source.class.getName());
+		    source.setPath("/" + cplFile.getName());
+		    ((ImplementationContainer) definition).addSource(source);
+		} catch (ClassNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+	    } else {
+		// TODO exception has to be handle properly
+		throw new ADLException(
+			"Throw a proper adl exception to specify that the wrap annotation is only available on server interfaces");
 	    }
-	    // }
-	    // }
 	} else {
+	    // TODO exception has to be handle properly
 	    throw new ADLException(
 		    "Throw a proper adl exception to specify that the wrap annotation is only available on primitive components");
 	}

@@ -27,21 +27,35 @@ template st.interfaceWrapping.IDL2CPLWRAPPER : st.interfaces.IDL2C{
  * Generates a ".c" wrapper file.
  */
  
-cplFile(idl,itfName) ::= <<
+cplFile(idl,itfName,dualMeths) ::= <<
 
 /* This file is a generated file, do not edit. */
- <idl.methods:{<externPrototype(method=it)>};separator="\n">
+ <idl.methods:{<externPrototype(method=it, dualMeths=dualMeths)>};separator="\n">
  
- <idl.methods:{<wrapMethod(itfName=itfName, method=it)>};separator="\n\n">
+ <idl.methods:{<wrapMethod(itfName=itfName, method=it, dualMeths=dualMeths)>};separator="\n\n">
 >>
 
-externPrototype(method) ::=<<
+externPrototype(method, dualMeths) ::=<<
+<if(dualMeths.(method.name))>
+extern <methodPrototype(name=dualMeths.(method.name) , parameters=method.parameters, withThisPtr="false", vaArgs="true")>;
+<else>
 extern <methodPrototype(name=method.name , parameters=method.parameters , withThisPtr="false", vaArgs=vaArgsMap.(method.vaArgs))>;
+<endif>
 >>
 
-wrapMethod(itfName, method) ::= <<
+wrapMethod(itfName, method, dualMeths) ::= <<
+<if(dualMeths.(method.name))>
+<methDef(itfName=itfName, method=method, vaArgs="false")>{
+<varDef(type=method.type, name="ret")>;
+va_list paramList;
+va_start(paramList, <first(method.parameters).name>);
+ret = <dualMeths.(method.name)>(<method.parameters:parameterName(parameter=it); separator=", ">, paramList);
+va_end(paramList);
+return ret;
+<else>
 <methDef(itfName=itfName, method=method, vaArgs=vaArgsMap.(method.vaArgs))>{
-return <fctCall(method=method, vaArgs = vaArgsMap.(method.vaArgs))> ;
+return <fctCall(method=method)> ;
+<endif>
 }
 >>
 
@@ -60,7 +74,7 @@ void
 <endif>)
 >>
 
-fctCall(method, vaArgs) ::= <<
+fctCall(method) ::= <<
 <method.name>(<method.parameters:parameterName(parameter=it); separator=", ">)
 >>
 
