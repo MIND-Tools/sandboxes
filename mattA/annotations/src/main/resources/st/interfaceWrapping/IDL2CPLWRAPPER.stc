@@ -28,33 +28,38 @@ template st.interfaceWrapping.IDL2CPLWRAPPER : st.interfaces.IDL2C{
  */
  
 cplFile(idl,itfName,dualMeths) ::= <<
-
 /* This file is a generated file, do not edit. */
- <idl.methods:{<externPrototype(method=it, dualMeths=dualMeths)>};separator="\n">
+
+<idl.methods:{<externPrototype(method=it, dualMeths=dualMeths)>};separator="\n">
  
- <idl.methods:{<wrapMethod(itfName=itfName, method=it, dualMeths=dualMeths)>};separator="\n\n">
+<idl.methods:{<wrapMethod(itfName=itfName, method=it, dualMeths=dualMeths)>};separator="\n\n">
 >>
 
-externPrototype(method, dualMeths) ::=<<
+externPrototype(method, dualMeths) ::= <<
 <if(dualMeths.(method.name))>
-extern <methodPrototype(name=dualMeths.(method.name) , parameters=method.parameters, withThisPtr="false", vaArgs="true")>;
+extern <dualMethPrototype(name=dualMeths.(method.name) , parameters=method.parameters)>;
 <else>
 extern <methodPrototype(name=method.name , parameters=method.parameters , withThisPtr="false", vaArgs=vaArgsMap.(method.vaArgs))>;
 <endif>
 >>
 
+dualMethPrototype(name, parameters) ::= <<
+<name>(<parameters:parameterDef(parameter=it); separator=", ">, va_list param_list)
+>>
+
 wrapMethod(itfName, method, dualMeths) ::= <<
 <if(dualMeths.(method.name))>
 <methDef(itfName=itfName, method=method, vaArgs="false")>{
-<varDef(type=method.type, name="ret")>;
+<if (isVoidMap.(method.type.name))><else><varDef(type=method.type, name="ret")>;<endif>
 va_list paramList;
 va_start(paramList, <first(method.parameters).name>);
-ret = <dualMeths.(method.name)>(<method.parameters:parameterName(parameter=it); separator=", ">, paramList);
+<if (isVoidMap.(method.type.name))><else>ret = <endif><dualMeths.(method.name)>(<method.parameters:parameterName(parameter=it); separator=", ">, paramList);
 va_end(paramList);
-return ret;
+<if (isVoidMap.(method.type.name))><else>return <endif>ret;
 <else>
 <methDef(itfName=itfName, method=method, vaArgs=vaArgsMap.(method.vaArgs))>{
-return <fctCall(method=method)> ;
+<if (isVoidMap.(method.type.name))><else>
+return <endif><fctCall(method=method)>;
 <endif>
 }
 >>

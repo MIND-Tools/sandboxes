@@ -92,6 +92,10 @@ public class WrapAnnotationProcessor extends
 		    }
 		}
 
+		// TODO might need a #line in generated file to find error in
+		// source file
+		// NodeErrorLocator sourceInfo = new NodeErrorLocator(node);
+
 		// TODO generate file elsewhere
 		final File cplFile = new File("src"
 			+ File.separator
@@ -103,6 +107,7 @@ public class WrapAnnotationProcessor extends
 		st.setAttribute("idl", itfDef);
 		st.setAttribute("itfName", itf.getName());
 		st.setAttribute("dualMeths", dualMeths);
+		// st.setAttribute("sourceInfo", sourceInfo);
 		try {
 		    writeToFile(cplFile, st.toString());
 		} catch (IOException e) {
