@@ -44,6 +44,7 @@ import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationErrors;
 import org.ow2.mind.annotation.AnnotationHelper;
 import org.ow2.mind.idl.annotations.VarArgsDual;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
@@ -125,14 +126,15 @@ public class WrapAnnotationProcessor extends
 		    e.printStackTrace();
 		}
 	    } else {
-		// TODO exception has to be handle properly
-		throw new ADLException(
-			"Throw a proper adl exception to specify that the wrap annotation is only available on server interfaces");
+		throw new ADLException(AnnotationErrors.INVALID_ANNOTATION,
+			node, "@Wrap. Client's interfaces cannot be wrapped.");
 	    }
 	} else {
-	    // TODO exception has to be handle properly
-	    throw new ADLException(
-		    "Throw a proper adl exception to specify that the wrap annotation is only available on primitive components");
+	    throw new ADLException(AnnotationErrors.INVALID_ANNOTATION, node,
+		    "@Wrap applied to interface "
+			    + ((Interface) node).getName()
+			    + ".\n Composite's interfaces cannot be wrapped: "
+			    + definition.astGetSource());
 	}
 	return null;
     }

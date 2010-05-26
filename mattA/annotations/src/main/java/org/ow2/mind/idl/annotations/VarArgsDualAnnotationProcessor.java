@@ -27,9 +27,11 @@ import java.util.Map;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Node;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationErrors;
 import org.ow2.mind.idl.annotation.IDLLoaderAnnotationProcessor;
 import org.ow2.mind.idl.annotation.IDLLoaderPhase;
 import org.ow2.mind.idl.ast.IDL;
+import org.ow2.mind.idl.ast.Method;
 
 public class VarArgsDualAnnotationProcessor implements
 	IDLLoaderAnnotationProcessor {
@@ -38,6 +40,17 @@ public class VarArgsDualAnnotationProcessor implements
 	    IDLLoaderPhase phase, Map<Object, Object> context)
 	    throws ADLException {
 	assert annotation instanceof VarArgsDual;
-    }
+	if (((Method) node).getVaArgs() != null) {
+	    if (((Method) node).getVaArgs().compareTo(Method.TRUE) == 0) {
+		// TODO not really needed as getVaArgs() only return "true" or
+		// null (cf org.ow2.mind.idl.parser.JTBProcessor)
+		return;
+	    }
+	}
 
+	throw new ADLException(
+		AnnotationErrors.INVALID_ANNOTATION,
+		node,
+		"@VarArgsDual. Variadic's dual function can only be specified for variadic functions.");
+    }
 }
