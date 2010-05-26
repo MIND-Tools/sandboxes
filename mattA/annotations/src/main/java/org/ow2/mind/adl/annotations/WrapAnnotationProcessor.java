@@ -22,18 +22,14 @@
 
 package org.ow2.mind.adl.annotations;
 
-import static org.ow2.mind.SourceFileWriter.writeToFile;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.objectweb.fractal.adl.ADLException;
-import org.objectweb.fractal.adl.CompilerError;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
+import org.objectweb.fractal.adl.error.GenericErrors;
 import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.adl.types.TypeInterfaceUtil;
@@ -49,7 +45,6 @@ import org.ow2.mind.annotation.AnnotationHelper;
 import org.ow2.mind.idl.annotations.VarArgsDual;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
 import org.ow2.mind.idl.ast.Method;
-import org.ow2.mind.io.IOErrors;
 
 /**
  * @author Matthieu ANNE
@@ -97,33 +92,20 @@ public class WrapAnnotationProcessor extends
 		// source file
 		// NodeErrorLocator sourceInfo = new NodeErrorLocator(node);
 
-		// TODO generate file elsewhere
-		final File cplFile = new File("src"
-			+ File.separator
-			+ "wrap_"
-			+ itfDef.getName().substring(
-				itfDef.getName().lastIndexOf('.') + 1) + ".c");
 		final StringTemplate st = getTemplate(
 			IDL2CPLWRAPPER_TEMPLATE_NAME, "cplFile");
 		st.setAttribute("idl", itfDef);
 		st.setAttribute("itfName", itf.getName());
 		st.setAttribute("dualMeths", dualMeths);
 		// st.setAttribute("sourceInfo", sourceInfo);
-		try {
-		    writeToFile(cplFile, st.toString());
-		} catch (IOException e) {
-		    throw new CompilerError(IOErrors.WRITE_ERROR, e, cplFile
-			    .getAbsolutePath());
-		}
 
 		try {
-		    Source source = (Source) nodeFactoryItf.newNode("source",
+		    Source src = (Source) nodeFactoryItf.newNode("source",
 			    Source.class.getName());
-		    source.setPath("/" + cplFile.getName());
-		    ((ImplementationContainer) definition).addSource(source);
+		    src.setCCode(st.toString());
+		    ((ImplementationContainer) definition).addSource(src);
 		} catch (ClassNotFoundException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
+		    throw new ADLException(GenericErrors.INTERNAL_ERROR, e);
 		}
 	    } else {
 		throw new ADLException(AnnotationErrors.INVALID_ANNOTATION,
