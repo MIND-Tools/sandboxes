@@ -30,6 +30,9 @@ import org.ow2.mind.idl.annotation.IDLLoaderPhase;
 import org.ow2.mind.idl.annotation.IDLLoaderProcessor;
 
 /**
+ * The VarArgsDual annotation is used to specify the dual function name of a
+ * variadic function.
+ * 
  * @author Matthieu ANNE
  * 
  */
@@ -37,24 +40,14 @@ import org.ow2.mind.idl.annotation.IDLLoaderProcessor;
 public class VarArgsDual implements Annotation {
 
     @AnnotationElement
-    public String dualMeth;
+    public String value;
 
     private static final AnnotationTarget[] TARGETS = { IDLAnnotationTarget.METHOD };
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ow2.mind.annotation.Annotation#getAnnotationTargets()
-     */
     public AnnotationTarget[] getAnnotationTargets() {
 	return TARGETS;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ow2.mind.annotation.Annotation#isInherited()
-     */
     public boolean isInherited() {
 	return true;
     }

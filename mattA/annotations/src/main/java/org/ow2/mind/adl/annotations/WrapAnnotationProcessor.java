@@ -54,15 +54,6 @@ public class WrapAnnotationProcessor extends
 
     protected static final String IDL2CPLWRAPPER_TEMPLATE_NAME = "st.interfaceWrapping.IDL2CPLWRAPPER";
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.ow2.mind.adl.annotation.ADLLoaderAnnotationProcessor#processAnnotation
-     * (org.ow2.mind.annotation.Annotation, org.objectweb.fractal.adl.Node,
-     * org.objectweb.fractal.adl.Definition,
-     * org.ow2.mind.adl.annotation.ADLLoaderPhase, java.util.Map)
-     */
     public Definition processAnnotation(final Annotation annotation,
 	    final Node node, final Definition definition,
 	    final ADLLoaderPhase phase, final Map<Object, Object> context)
@@ -83,7 +74,7 @@ public class WrapAnnotationProcessor extends
 			    .getAnnotations(meth)) {
 			if (methAnnotation instanceof VarArgsDual) {
 			    dualMeths.put(meth.getName(),
-				    ((VarArgsDual) methAnnotation).dualMeth);
+				    ((VarArgsDual) methAnnotation).value);
 			}
 		    }
 		}

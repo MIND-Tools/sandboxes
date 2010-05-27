@@ -29,6 +29,10 @@ import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.annotation.AnnotationTarget;
 
 /**
+ * The Wrap annotation can be associate to a server interface to specify that
+ * its implementation will be generated wrapping every methods from this
+ * interface.
+ * 
  * @author Matthieu ANNE
  */
 @ADLLoaderProcessor(processor = WrapAnnotationProcessor.class, phases = { ADLLoaderPhase.AFTER_CHECKING })
@@ -36,20 +40,10 @@ public class Wrap implements Annotation {
 
     private static final AnnotationTarget[] ANNOTATION_TARGETS = { ADLAnnotationTarget.INTERFACE };
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ow2.mind.annotation.Annotation#getAnnotationTargets()
-     */
     public AnnotationTarget[] getAnnotationTargets() {
 	return ANNOTATION_TARGETS;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.ow2.mind.annotation.Annotation#isInherited()
-     */
     public boolean isInherited() {
 	return true;
     }
