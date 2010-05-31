@@ -42,7 +42,7 @@
         <module>fractal-runtime</module>
         <module>fractal-adl-bundle</module>
         <module>plugin-loader</module>
-    <module>annotations</module>
+        <module>annotations</module>
   </modules>
 
     <developers>
@@ -178,6 +178,12 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>plugin-loader</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>annotations</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

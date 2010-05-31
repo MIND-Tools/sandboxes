@@ -50,15 +50,15 @@ dualMethPrototype(name, parameters) ::= <<
 wrapMethod(itfName, method, dualMeths) ::= <<
 <if(dualMeths.(method.name))>
 <methDef(itfName=itfName, method=method, vaArgs="false")>{
-<if (isVoidMap.(method.type.name))><else><varDef(type=method.type, name="ret")>;<endif>
+<if (! isVoidMap.(method.type.name))><varDef(type=method.type, name="ret")>;<endif>
 va_list paramList;
 va_start(paramList, <first(method.parameters).name>);
-<if (isVoidMap.(method.type.name))><else>ret = <endif><dualMeths.(method.name)>(<method.parameters:parameterName(parameter=it); separator=", ">, paramList);
+<if (! isVoidMap.(method.type.name))>ret = <endif><dualMeths.(method.name)>(<method.parameters:parameterName(parameter=it); separator=", ">, paramList);
 va_end(paramList);
-<if (isVoidMap.(method.type.name))><else>return <endif>ret;
+<if (! isVoidMap.(method.type.name))>return <endif>ret;
 <else>
 <methDef(itfName=itfName, method=method, vaArgs=vaArgsMap.(method.vaArgs))>{
-<if (isVoidMap.(method.type.name))><else>
+<if (! isVoidMap.(method.type.name))>
 return <endif><fctCall(method=method)>;
 <endif>
 }

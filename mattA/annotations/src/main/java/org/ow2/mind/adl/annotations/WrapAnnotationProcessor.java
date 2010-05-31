@@ -49,66 +49,63 @@ import org.ow2.mind.idl.ast.Method;
 /**
  * @author Matthieu ANNE
  */
-public class WrapAnnotationProcessor extends
-	AbstractADLLoaderAnnotationProcessor {
+public class WrapAnnotationProcessor
+    extends
+      AbstractADLLoaderAnnotationProcessor {
 
-    protected static final String IDL2CPLWRAPPER_TEMPLATE_NAME = "st.interfaceWrapping.IDL2CPLWRAPPER";
+  protected static final String IDL2CPLWRAPPER_TEMPLATE_NAME = "st.interfaceWrapping.IDL2CPLWRAPPER";
 
-    public Definition processAnnotation(final Annotation annotation,
-	    final Node node, final Definition definition,
-	    final ADLLoaderPhase phase, final Map<Object, Object> context)
-	    throws ADLException {
-	assert annotation instanceof Wrap;
+  public Definition processAnnotation(final Annotation annotation,
+      final Node node, final Definition definition, final ADLLoaderPhase phase,
+      final Map<Object, Object> context) throws ADLException {
+    assert annotation instanceof Wrap;
 
-	if (ASTHelper.isPrimitive(definition)) {
-	    Interface itf = (Interface) node;
-	    if (TypeInterfaceUtil.isServer(itf)) {
-		final InterfaceDefinition itfDef = InterfaceDefinitionDecorationHelper
-			.getResolvedInterfaceDefinition((TypeInterface) itf,
-				idlLoaderItf, context);
+    if (ASTHelper.isPrimitive(definition)) {
+      final Interface itf = (Interface) node;
+      if (TypeInterfaceUtil.isServer(itf)) {
+        final InterfaceDefinition itfDef = InterfaceDefinitionDecorationHelper
+            .getResolvedInterfaceDefinition((TypeInterface) itf, idlLoaderItf,
+                context);
 
-		Map<String, String> dualMeths = new HashMap<String, String>();
+        final Map<String, String> dualMeths = new HashMap<String, String>();
 
-		for (final Method meth : itfDef.getMethods()) {
-		    for (final Annotation methAnnotation : AnnotationHelper
-			    .getAnnotations(meth)) {
-			if (methAnnotation instanceof VarArgsDual) {
-			    dualMeths.put(meth.getName(),
-				    ((VarArgsDual) methAnnotation).value);
-			}
-		    }
-		}
+        for (final Method meth : itfDef.getMethods()) {
+          final VarArgsDual methAnnotation = AnnotationHelper.getAnnotation(
+              meth, VarArgsDual.class);
+          if (methAnnotation != null) {
+            dualMeths.put(meth.getName(), (methAnnotation).value);
+          }
+        }
 
-		// TODO might need a #line in generated file to find error in
-		// source file
-		// NodeErrorLocator sourceInfo = new NodeErrorLocator(node);
+        // TODO might need a #line in generated file to find error in
+        // source file
+        // NodeErrorLocator sourceInfo = new NodeErrorLocator(node);
 
-		final StringTemplate st = getTemplate(
-			IDL2CPLWRAPPER_TEMPLATE_NAME, "cplFile");
-		st.setAttribute("idl", itfDef);
-		st.setAttribute("itfName", itf.getName());
-		st.setAttribute("dualMeths", dualMeths);
-		// st.setAttribute("sourceInfo", sourceInfo);
+        final StringTemplate st = getTemplate(IDL2CPLWRAPPER_TEMPLATE_NAME,
+            "cplFile");
+        st.setAttribute("idl", itfDef);
+        st.setAttribute("itfName", itf.getName());
+        st.setAttribute("dualMeths", dualMeths);
+        // st.setAttribute("sourceInfo", sourceInfo);
 
-		try {
-		    Source src = (Source) nodeFactoryItf.newNode("source",
-			    Source.class.getName());
-		    src.setCCode(st.toString());
-		    ((ImplementationContainer) definition).addSource(src);
-		} catch (ClassNotFoundException e) {
-		    throw new ADLException(GenericErrors.INTERNAL_ERROR, e);
-		}
-	    } else {
-		throw new ADLException(AnnotationErrors.INVALID_ANNOTATION,
-			node, "@Wrap. Client's interfaces cannot be wrapped.");
-	    }
-	} else {
-	    throw new ADLException(AnnotationErrors.INVALID_ANNOTATION, node,
-		    "@Wrap applied to interface "
-			    + ((Interface) node).getName()
-			    + ".\n Composite's interfaces cannot be wrapped: "
-			    + definition.astGetSource());
-	}
-	return null;
+        try {
+          final Source src = (Source) nodeFactoryItf.newNode("source",
+              Source.class.getName());
+          src.setCCode(st.toString());
+          ((ImplementationContainer) definition).addSource(src);
+        } catch (final ClassNotFoundException e) {
+          throw new ADLException(GenericErrors.INTERNAL_ERROR, e);
+        }
+      } else {
+        throw new ADLException(AnnotationErrors.INVALID_ANNOTATION, node,
+            "@Wrap. Client's interfaces cannot be wrapped.");
+      }
+    } else {
+      throw new ADLException(AnnotationErrors.INVALID_ANNOTATION, node,
+          "@Wrap applied to interface " + ((Interface) node).getName()
+              + ".\n Composite's interfaces cannot be wrapped: "
+              + definition.astGetSource());
     }
+    return null;
+  }
 }
