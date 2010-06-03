@@ -28,7 +28,7 @@ public class TestHelloworld extends AbstractFunctionalTest {
 
   @Test(groups = {"checkin"})
   public void testHelloworld() throws Exception {
-    initSourcePath("functional");
+    initSourcePath("common", "functional");
     runner.compileRunAndCheck("helloworld.HelloworldApplication", null);
   }
 
