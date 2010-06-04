@@ -1,4 +1,4 @@
-<plugin id="org.ow2.mind.beam" name="Beam plug-in.">
+<plugin id="org.ow2.mind.beam-backend" name="Beam Backend Plugin">
 
   <extension point="org.ow2.mind.adl.definition-source-generators">
     <visitor class="org.ow2.mind.beam.adl.BipDefinitionSourceGenerator" name="bip-definition"/>

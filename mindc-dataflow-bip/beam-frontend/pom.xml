@@ -45,6 +45,10 @@
   		<artifactId>adl-backend</artifactId>
    	</dependency>
 
+        <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>beam-backend</artifactId>
+        </dependency>
 
         <dependency>
                 <groupId>org.mod4j.org.eclipse.emf</groupId>
