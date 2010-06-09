@@ -1,0 +1,45 @@
+gunit YATL;
+
+@header {
+package org.ow2.mind.yatl;
+}
+
+templateFile :
+  "class foo { }" OK
+  "package foo.bar; class toto extends foo.bar.Titi { }" OK 
+
+template :
+  "$foo() { }" OK
+  "$foo() { helloworld }" OK
+  "$foo(Object o, String s) { helloworld }" OK
+  "$foo(Object o, String s) { helloworld <%s%> }" OK
+
+templateBody :
+  "<foo>" 
+    -> (SIMPLE_EXPR (EXPR foo))
+  "<(foo)>" 
+    -> (SIMPLE_EXPR (( (EXPR foo) )))
+  "<foo.bar.toString()>" 
+    -> (SIMPLE_EXPR (EXPR foo (EXPR . (EXPR bar (EXPR . (EXPR toString (( ))))))))
+
+  "<$tmpl()>" 
+    -> (CALL_EXPR tmpl)
+  "<$tmpl(a, b)>" 
+    -> (CALL_EXPR tmpl (EXPR a (EXPR , (EXPR b))))
+
+  "<Object o : foo | o.toString()>" 
+    -> (ITERABLE_EXPR (DECL o Object) (EXPR foo) (SIMPLE_EXPR (EXPR o (EXPR . (EXPR toString (( )))))))
+  "<Object o : foo | {foo_<o>}>" 
+    -> (ITERABLE_EXPR (DECL o Object) (EXPR foo) (TEMPLATE foo_ (SIMPLE_EXPR (EXPR o))))
+  "<Object o : foo | $tmpl1(o)>" 
+    -> (ITERABLE_EXPR (DECL o Object) (EXPR foo) (CALL_EXPR tmpl1 (EXPR o)))
+  "<Object o : foo | $tmpl1(o); separator=\" \">" 
+    -> (ITERABLE_EXPR (DECL o Object) (EXPR foo) (CALL_EXPR tmpl1 (EXPR o)) (separator " "))
+  "<List<String> l : foo | String s : l | s>" 
+    -> (ITERABLE_EXPR (DECL l (List (< String))) (EXPR foo) (ITERABLE_EXPR (DECL s String) (EXPR l) (SIMPLE_EXPR (EXPR s))))
+
+  "<(m = new HashMap()).toString()>" OK
+
+  "<(o!=null)?o.toString()>" OK
+  "<(o!=null)?{foo_<o.toString()>}>" OK
+  "<(o==null)?NULL:o.toString()>" OK

@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+  <groupId>org.ow2.mind.yatl</groupId>
+  <artifactId>yatl-parent</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>maven-yatlc-plugin</artifactId>
+  <packaging>maven-plugin</packaging>
+  <name>Yet Another Template Language (Mojo)</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>yatlc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.2.0</version>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <!-- The integration-test profile is always activated unless the "integration-test.skip" 
+      property is defined. -->
+    <profile>
+      <id>integration-test</id>
+      <activation>
+        <property>
+          <name>!integration-test.skip</name>
+        </property>
+      </activation>
+
+      <properties>
+        <yatl-plugin.version>${project.version}</yatl-plugin.version>
+      </properties>
+
+      <build>
+        <testResources>
+          <testResource>
+            <directory>src/it</directory>
+            <targetPath>${project.build.directory}/it</targetPath>
+            <filtering>true</filtering>
+          </testResource>
+        </testResources>
+
+        <plugins>
+          <plugin>
+            <artifactId>maven-install-plugin</artifactId>
+            <executions>
+              <execution>
+                <id></id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>install</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Execute pom.xml into target/it -->
+          <plugin>
+            <artifactId>maven-invoker-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <projectsDirectory>
+                    ${project.build.directory}/it
+                  </projectsDirectory>
+                  <pomIncludes>
+                    <pomInclude>*/pom.xml</pomInclude>
+                  </pomIncludes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

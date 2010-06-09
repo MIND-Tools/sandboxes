@@ -1,0 +1,224 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>mind-parent</artifactId>
+    <groupId>org.ow2.mind</groupId>
+    <version>3</version>
+  </parent>
+
+  <groupId>org.ow2.mind.yatl</groupId>
+  <artifactId>yatl-parent</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <name>Yet Another Template Language (parent module)</name>
+  <packaging>pom</packaging>
+
+    <url>http://mind.ow2.org/mindc-${project.version}/</url>
+
+    <licenses>
+        <license>
+            <name>LGPL</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+        </license>
+    </licenses>
+
+    <modules>
+        <module>yatlc</module>
+        <module>maven-yatlc-plugin</module>
+</modules>
+
+
+    <developers>
+        <developer>
+            <id>ozcan</id>
+            <name>Ali-Erdem Ozcan</name>
+            <email>ali-erdem.ozcan@st.com</email>
+            <organization>STMicroelectronics</organization>
+        </developer>
+        <developer>
+            <id>leclercq</id>
+            <name>Matthieu Leclercq</name>
+            <email>matthieu.leclercq@st.com</email>
+            <organization>STMicroelectronics</organization>
+        </developer>
+  </developers>
+
+
+    <scm>
+        <connection>scm:svn:svn://svn.forge.objectweb.org/svnroot/mind/yatl/trunk</connection>
+        <developerConnection>scm:svn:svn+ssh://svn.forge.objectweb.org/svnroot/mind/yatl/trunk</developerConnection>
+        <url>http://fisheye.ow2.org/browse/MIND/yatl/trunk</url>
+    </scm>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Sub-modules dependencies. This avoid to specify versions in sub-poms -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>yatlc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>maven-yatlc-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+</dependencies>
+    </dependencyManagement>
+
+
+    <distributionManagement>
+        <site>
+            <id>OW2</id>
+            <name>YATL OW2's site</name>
+            <url>scp://${ow2.hostname}${ow2.site.deploy.dir}/yatl-${project.version}</url>
+        </site>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <!-- Sub modules have the same version as this one. -->
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+
+                    <!--
+                        Workaround of
+                        http://jira.codehaus.org/browse/MJAVADOC-276. Force
+                        installation of artifacts at preparation stage
+                    -->
+                    <preparationGoals>clean install</preparationGoals>
+                </configuration>
+            </plugin>
+      </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.3</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                    
+                </plugin>
+            
+                <!-- By default run tests for groups "functional" and "checkin" -->
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <groups>${test.groups}</groups>
+                    </configuration>
+                </plugin>
+
+                <!-- Configure JavaCC plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>javacc-maven-plugin</artifactId>
+                    <version>2.6</version>
+                    <executions>
+                        <execution>
+                            <id>jtb-javacc</id>
+                            <goals>
+                                <goal>jtb-javacc</goal>
+                            </goals>
+                            <configuration>
+                                <specialTokens>true</specialTokens>
+                                <printer>true</printer>
+                                <javadocFriendlyComments>true</javadocFriendlyComments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Configure antlr plugin -->
+                <plugin>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr3-maven-plugin</artifactId>
+                    <version>3.1.3-1</version>
+                    <executions>
+                        <execution>
+                            <id>generate parser</id>
+                            <goals>
+                                <goal>antlr</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+
+        <profile>
+            <id>release-profile</id>
+
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>update version link</id>
+                                <phase>site-deploy</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <inherited>false</inherited>
+                                <configuration>
+                                    <tasks>
+                                        <!--
+                                            This Ant task updates the 'mindc'
+                                            synbolic link to point to the new
+                                            version.
+                                        -->
+                                        <sshexec host="${ow2.hostname}" username="${ow2.username}" passphrase="" keyfile="${user.home}/.ssh/id_rsa" command="cd ${ow2.site.deploy.dir}; ln -nfs yatl-${project.version} yatl" />
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>test-deploy</id>
+
+            <properties>
+                <ow2.hostname>localhost</ow2.hostname>
+                <ow2.site.deploy.dir>/tmp/mind/site</ow2.site.deploy.dir>
+            </properties>
+
+            <distributionManagement>
+                <site>
+                    <id>test</id>
+                    <url>file://${ow2.site.deploy.dir}/mindc-${project.version}</url>
+                </site>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+
+</project>

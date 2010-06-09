@@ -1,0 +1,38 @@
+
+import foo.bar;
+
+template foo extends foo2 implements foo.bar.Toto, foo.babar.Titi {
+
+  tmpl1() <<
+    Helloworld foo 123bar !
+    <%if (i == 0) {%>
+      Bye
+    <%}%>
+    <foo.bar<bidule>.getMachin()>
+    <foo.getComponents():{Component subComp | subComp.getName()}>
+  >>
+
+  tmpl2(Component c, Map<Object, Object> context) <<
+    <%
+      if (c instanceof InterfaceContainer) {
+        for (Interface itf : ((InterfaceContainer) c).getInterfaces) {
+    %>
+      <itf.getName()> = { <itf.getSignature()>_VTable, selfData };
+      <tmpl1(itf.getName())>
+    <%
+        }
+      }
+    %>
+    
+    <((ComponentContainer) c).getComponents 
+     :{Component subComp |
+        ((InterfaceContainer) subComp).getInterfaces 
+        :{Interface itf | 
+           tmpl1(itf.getName()) }
+      }>
+    <(o==null)?"":o.toString()>
+    <(o!=null)?o.toString()>
+    <o;null="">
+  >>
+
+}
