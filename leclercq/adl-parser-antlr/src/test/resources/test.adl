@@ -1,0 +1,12 @@
+@foo.A
+@foo.A1
+import foo.Bar;
+import foo.Toto;
+
+@foo.B
+type titi.toto extends tutu {
+    
+  provides Bar as sItf;
+  requires Bar ass cItf;
+  binds this.truc tp bidule.machin;
+}

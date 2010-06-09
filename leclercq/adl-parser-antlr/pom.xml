@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>mind-compiler</artifactId>
+        <groupId>org.ow2.mind</groupId>
+        <version>0.3-alpha-1-SNAPSHOT</version>
+    </parent>
+    <artifactId>adl-parser-antlr</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>adl-frontend</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <classifier>jdk15</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>gunit</artifactId>
+            <version>3.1.3</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr3-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>maven-gunit-plugin</artifactId>
+                <version>3.1.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>gunit</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                  <includes>
+                    <include>**/*.gunit</include>
+                  </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,117 @@
+gunit ADL;
+
+@header {
+package org.ow2.mind.adl.parser;
+}
+
+adlFile :
+  "import foo.bar; type foo.bar {}"
+    -> (ADL (import foo bar) (type (FQN foo bar)))
+  "import foo.bar; import foo.bar2; type foo.bar {}"
+    -> (ADL (import foo bar) (import foo bar2) (type (FQN foo bar)))
+
+  "@foo.Annotation import foo.bar; type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (import foo bar) (type (FQN foo bar)))
+  "@foo.Annotation @foo.Annotation2 import foo.bar; type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (import foo bar) (type (FQN foo bar)))
+
+  "@foo.Annotation type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (type (FQN foo bar)))
+  "@foo.Annotation @foo.Annotation2 type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (type (FQN foo bar)))
+
+  "@foo.Annotation @foo.Annotation2 import foo.bar; import foo.bar2; type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (import foo bar) (import foo bar2) (type (FQN foo bar)))
+  "@foo.Annotation @foo.Annotation2 import foo.bar; @foo.Annotation3 type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (import foo bar) (@ (FQN foo Annotation3)) (type (FQN foo bar)))
+  "@foo.Annotation @foo.Annotation2 import foo.bar; @foo.Annotation3 import foo.bar2; type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (import foo bar) (@ (FQN foo Annotation3)) (import foo bar2) (type (FQN foo bar)))
+  "@foo.Annotation @foo.Annotation2 import foo.bar; @foo.Annotation3 import foo.bar2; @foo.Annotation4 type foo.bar {}"
+    -> (ADL (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (import foo bar) (@ (FQN foo Annotation3)) (import foo bar2) (@ (FQN foo Annotation4)) (type (FQN foo bar)))
+
+importDirective :
+  "import foo.bar;" -> (import foo bar)
+  "import foo.bar.*;" -> (import foo bar *)
+ 
+  "import foo;" FAIL
+  "import foo.;" FAIL
+  "import foo.bar" FAIL
+
+typeDefinition :
+  "type foo.bar {}" -> (type (FQN foo bar))
+  "type foo.bar extends foo.toto {}" 
+    -> (type (FQN foo bar) (extends (DEF_REF (FQN foo toto))))
+  "type foo {provides foo.Itf as itf1;}"
+    -> (type (FQN foo) (provides (FQN foo Itf) itf1))
+  "type foo {@foo.Annotation provides foo.Itf as itf1;}"
+    -> (type (FQN foo) (@ (FQN foo Annotation)) (provides (FQN foo Itf) itf1))
+  "type foo {@foo.Annotation @foo.Annotation2 provides foo.Itf as itf1;}"
+    -> (type (FQN foo) (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (provides (FQN foo Itf) itf1))
+  "type foo {@foo.Annotation provides foo.Itf as itf1; provides foo.Itf as itf2;}"
+    -> (type (FQN foo) (@ (FQN foo Annotation)) (provides (FQN foo Itf) itf1) (provides (FQN foo Itf) itf2))
+  "type foo {@foo.Annotation provides foo.Itf as itf1; @foo.Annotation2 provides foo.Itf as itf2;}"
+    -> (type (FQN foo) (@ (FQN foo Annotation)) (provides (FQN foo Itf) itf1) (@ (FQN foo Annotation2)) (provides (FQN foo Itf) itf2))
+
+  "type foo.bar extends foo.toto(12) {}" FAIL
+  "type foo.bar { contains foo.toto as subComp1; }" FAIL
+  "type foo.bar { attribute int a; }" FAIL
+
+primitiveDefinition :
+  "primitive foo.bar {}" -> (primitive (FQN foo bar))
+
+  "primitive foo.bar(a) {}" -> (primitive (FQN foo bar) (PARAM_DECL a))
+  "primitive foo.bar(a, b) {}" -> (primitive (FQN foo bar) (PARAM_DECL a b))
+  "primitive foo.bar() {}" FAIL
+  "primitive foo.bar(a, b,) {}" FAIL
+
+  "primitive foo.bar extends foo.toto {}" 
+    -> (primitive (FQN foo bar) (extends (DEF_REF (FQN foo toto))))
+  "primitive foo {provides foo.Itf as itf1;}"
+    -> (primitive (FQN foo) (provides (FQN foo Itf) itf1))
+  "primitive foo {@foo.Annotation provides foo.Itf as itf1;}"
+    -> (primitive (FQN foo) (@ (FQN foo Annotation)) (provides (FQN foo Itf) itf1))
+  "primitive foo {@foo.Annotation @foo.Annotation2 provides foo.Itf as itf1;}"
+    -> (primitive (FQN foo) (@ (FQN foo Annotation)) (@ (FQN foo Annotation2)) (provides (FQN foo Itf) itf1))
+  "primitive foo {@foo.Annotation provides foo.Itf as itf1; data impl.c;}"
+    -> (primitive (FQN foo) (@ (FQN foo Annotation)) (provides (FQN foo Itf) itf1) (data impl . c))
+  "primitive foo {@foo.Annotation provides foo.Itf as itf1; @foo.Annotation2 data impl.c;}"
+    -> (primitive (FQN foo) (@ (FQN foo Annotation)) (provides (FQN foo Itf) itf1) (@ (FQN foo Annotation2)) (data impl . c))
+  
+
+primitiveDefinitionReference :
+  "foo.toto(a, b)" 
+    -> (DEF_REF (FQN foo toto) (ARGS a b))
+  "foo.toto(10, b)" 
+    -> (DEF_REF (FQN foo toto) (ARGS 10 b))
+  "foo.toto(a=2, b=\"toto\")" 
+    -> (DEF_REF (FQN foo toto) (ARGS (= a 2) (= b "toto")))
+  "foo.toto(a=2, \"toto\")" FAIL 
+
+
+fullyQualifiedName :
+ "foo" OK
+ "foo.bar" OK
+ ".bar" FAIL
+ "bar." FAIL
+ 
+ "foo" -> (FQN foo)
+ "foo.bar" -> (FQN foo bar)
+ 
+INTEGER_LITERAL :
+ "1234" OK   // decimal
+ "0xFFF" OK  // hexa
+ "0123" OK   // octal
+ 
+ "1234L" OK
+ "0xffffL" OK
+ "0123L" OK
+ 
+ "088" FAIL // invalid octal
+ "0xffg" FAIL // invalid hexa
+
+ID :
+ "foo" OK
+ "_foo" OK
+ "_0" OK
+ "0foo" FAIL
+ 

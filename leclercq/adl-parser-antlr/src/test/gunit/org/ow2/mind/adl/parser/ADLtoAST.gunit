@@ -1,0 +1,34 @@
+gunit ADLtoAST walks ADL;
+
+@header {
+package org.ow2.mind.adl.parser;
+}
+
+importDirective walks importDirective:
+ "import foo.bar;" -> (import packageName foo simpleName bar)
+ "import foo.bar.*;" -> (import packageName foo.bar simpleName *)
+ "import foo.bar.toto;" -> (import packageName foo.bar simpleName toto)
+
+typeDefinition walks typeDefinition:
+  "type foo.bar {}" -> (type name foo.bar)
+  "type foo.bar extends foo.toto {}" 
+    -> (type name foo.bar (extends (definition name foo.toto)))
+  "type foo.bar extends foo.toto, foo.titi {}" 
+    -> (type name foo.bar (extends (definition name foo.toto) (definition name foo.titi)))
+  "type foo {provides foo.Itf as itf1;}"
+    -> (type name foo (interface name itf1 role server signature foo.Itf contingency mandatory cardinality singleton))
+
+adlFile walks adlFile :
+  "@foo.Annotation type foo.bar {}"
+    -> (type name foo.bar (annotation type foo.Annotation))
+  "@foo.Annotation @foo.Annotation2 type foo.bar {}"
+    -> (type name foo.bar (annotation type foo.Annotation) (annotation type foo.Annotation2))
+
+interfaceDefinition walks interfaceDefinition :
+  "provides foo.Itf as itf1" 
+    -> (interface name itf1 role server signature foo.Itf contingency mandatory cardinality singleton)
+
+fullyQualifiedName walks fullyQualifiedName:
+ "foo" -> "foo"
+ "foo.bar" -> "foo.bar"
+ 
