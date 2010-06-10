@@ -27,7 +27,6 @@ package org.ow2.mind.beam.adl;
 import static org.ow2.mind.BindingControllerImplHelper.checkItfName;
 import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,8 +39,7 @@ import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.DefinitionSourceGenerator;
-import org.ow2.mind.adl.InstancesDescriptor;
-import org.ow2.mind.adl.graph.ComponentGraph;
+
 import org.ow2.mind.io.OutputFileLocator;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
@@ -62,7 +60,7 @@ import ujf.verimag.bip.metamodelAPI.BipCreator;
 public class BipDefinitionSourceGenerator implements BindingController,
     DefinitionSourceGenerator {
   
-  final public static String BEAM_DEFINITION_VISITOR_MAP = "beam-definition-visitor-map";
+  final public static String BEAM_BIP_MODEL = "beam-bip-model";
 
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-bip-visitor::definition");
@@ -134,7 +132,16 @@ public class BipDefinitionSourceGenerator implements BindingController,
     }
   }
 
-
+  /**
+   * Mangles a mind component definition name into its corresponding
+   * BIP component definition name
+   * @param mindName the name of the mind component definition
+   * @return the corresponding BIP component definition name
+   */
+  public static String mindToBipMangleName(String mindName){
+      return mindName.replace(".","__");
+  }
+  
   // ---------------------------------------------------------------------------
   // Implementation of the Visitor interface
   // ---------------------------------------------------------------------------
@@ -143,14 +150,13 @@ public class BipDefinitionSourceGenerator implements BindingController,
       throws ADLException {
     logger.log(Level.INFO, "Visiting definition " + input.getName());
     
-    Map<Definition, AtomType> m = (Map<Definition,AtomType>) context.get(BEAM_DEFINITION_VISITOR_MAP);
-    
-    if (m == null){
-      m = new HashMap<Definition, AtomType>();
-      context.put(BEAM_DEFINITION_VISITOR_MAP, m);
+
+    if (!context.containsKey(BEAM_BIP_MODEL)){
+        context.put(BEAM_BIP_MODEL, this.model);
     }
+
     PetriNet behav = BipCreator.createPetriNet();
-    AtomType ct = BipCreator.createAtomType(behav, input.getName().replace(".","__"), this.model);
+    AtomType ct = BipCreator.createAtomType(behav, mindToBipMangleName(input.getName()), this.model);
    
     State s1 = BipCreator.createState(behav, "S1", true);
     State s2 = BipCreator.createState(behav, "S2", false);
@@ -162,7 +168,6 @@ public class BipDefinitionSourceGenerator implements BindingController,
     BipCreator.createTransition(pd1, null, s1, s2, ct);
     BipCreator.createTransition(pd2, null, s2, s1, ct);
     
-    m.put(input, ct);
   }
 
 }

@@ -20,12 +20,14 @@ import org.ow2.mind.adl.graph.ComponentGraph;
 import org.ow2.mind.io.OutputFileLocator;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
+import ujf.verimag.bip.Core.Modules.Module;
+import ujf.verimag.bip.metamodelAPI.BipUtil;
 
 public class BipInstanceSourceGenerator implements BindingController,
     InstanceSourceGenerator {
   
   protected static Logger logger = FractalADLLogManager
-  .getLogger("beam-bip-visitor");
+  .getLogger("beam-bip-visitor::instance");
   
   
   // ---------------------------------------------------------------------------
@@ -93,8 +95,8 @@ public class BipInstanceSourceGenerator implements BindingController,
   public void visit(InstancesDescriptor input, Map<Object, Object> context)
       throws ADLException {
     assert(input.instances.size() == 1);
-    
-    Map<Definition, AtomType> bip_types = (Map<Definition,AtomType>) context.get(BipDefinitionSourceGenerator.BEAM_DEFINITION_VISITOR_MAP);
+
+    Module bip_module = (Module)context.get(BipDefinitionSourceGenerator.BEAM_BIP_MODEL);
     
     ComponentGraph comp_instance = null;
     
@@ -116,7 +118,10 @@ public class BipInstanceSourceGenerator implements BindingController,
     logger.log(Level.INFO, "Visiting instance..." + n);
     
     Definition instance_def = comp_instance.getDefinition();
-    AtomType at = bip_types.get(instance_def);
+    AtomType at = BipUtil.getAtomTypeDefinition(
+        BipDefinitionSourceGenerator.mindToBipMangleName(instance_def.getName()), 
+        bip_module);
+    
     assert(at != null);
     logger.log(Level.INFO, "  - found BIP type: " + at.getName());
   }
