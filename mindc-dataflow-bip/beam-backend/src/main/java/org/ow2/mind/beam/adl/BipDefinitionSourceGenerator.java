@@ -51,13 +51,21 @@ import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Behaviors.State;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
 
+/*
+ * If you wonder why all the backend is not part of a single class...
+ * The single would have to implement DefinitionSG *and* InstanceSG,
+ * which in turn makes the class inherits from two conflicting interface:
+ * each one implement VoidVisitor with different generic types, which
+ * is not supported by Java.
+ */
+
 public class BipDefinitionSourceGenerator implements BindingController,
     DefinitionSourceGenerator {
   
   final public static String BEAM_DEFINITION_VISITOR_MAP = "beam-definition-visitor-map";
 
   protected static Logger logger = FractalADLLogManager
-  .getLogger("beam-bip-visitor");
+  .getLogger("beam-bip-visitor::definition");
   
   // ---------------------------------------------------------------------------
   // Client Interfaces
@@ -156,37 +164,5 @@ public class BipDefinitionSourceGenerator implements BindingController,
     
     m.put(input, ct);
   }
-
-  public void visit(InstancesDescriptor input, Map<Object, Object> context)
-  throws ADLException {
-    assert(input.instances.size() == 1);
-
-    Map<Definition, AtomType> bip_types = (Map<Definition,AtomType>) context.get(BEAM_DEFINITION_VISITOR_MAP);
-
-    ComponentGraph comp_instance = null;
-
-    for (ComponentGraph cg : input.instances){
-      comp_instance = cg;
-    }
-
-    String n;
-
-    // we don't support shared components...
-    assert(comp_instance.getParents().length <= 1);
-
-    if (comp_instance.getParents().length == 0){
-      n = "TOPLEVEL"; // it has no name.
-    } else {
-      n = comp_instance.getNameInParent(comp_instance.getParents()[0]);
-    }
-
-    logger.log(Level.INFO, "Visiting instance..." + n);
-
-    Definition instance_def = comp_instance.getDefinition();
-    AtomType at = bip_types.get(instance_def);
-    assert(at != null);
-    logger.log(Level.INFO, "  - found BIP type: " + at.getName());
-  }
-
 
 }
