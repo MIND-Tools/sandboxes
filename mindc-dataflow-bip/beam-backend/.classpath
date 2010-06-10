@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ujf.verimag.bip.metamodel"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ujf.verimag.bip.parser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/C"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
