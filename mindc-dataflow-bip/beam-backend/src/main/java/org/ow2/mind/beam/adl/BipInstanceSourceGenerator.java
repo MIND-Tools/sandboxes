@@ -117,13 +117,17 @@ public class BipInstanceSourceGenerator implements BindingController,
     
     logger.log(Level.INFO, "Visiting instance..." + n);
     
-    Definition instance_def = comp_instance.getDefinition();
-    AtomType at = BipUtil.getAtomTypeDefinition(
-        BipDefinitionSourceGenerator.mindToBipMangleName(instance_def.getName()), 
-        bip_module);
-    
-    assert(at != null);
-    logger.log(Level.INFO, "  - found BIP type: " + at.getName());
+    if (comp_instance.getSubComponents().length == 0){
+        Definition instance_def = comp_instance.getDefinition();
+        AtomType at = BipUtil.getAtomTypeDefinition(
+                BipDefinitionSourceGenerator.mindToBipMangleName(instance_def.getName()), 
+                bip_module);
+
+        assert(at != null);
+        logger.log(Level.INFO, "  - found BIP type: " + at.getName());
+    } else {
+        logger.log(Level.INFO, "  - found BIP composite type...");
+    }
   }
 
 }

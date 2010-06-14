@@ -39,6 +39,7 @@ import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.DefinitionSourceGenerator;
+import org.ow2.mind.adl.ast.ASTHelper;
 
 import org.ow2.mind.io.OutputFileLocator;
 
@@ -155,18 +156,22 @@ public class BipDefinitionSourceGenerator implements BindingController,
         context.put(BEAM_BIP_MODEL, this.model);
     }
 
-    PetriNet behav = BipCreator.createPetriNet();
-    AtomType ct = BipCreator.createAtomType(behav, mindToBipMangleName(input.getName()), this.model);
-   
-    State s1 = BipCreator.createState(behav, "S1", true);
-    State s2 = BipCreator.createState(behav, "S2", false);
+    if (ASTHelper.isComposite(input)){
+        
+    } else {
+        PetriNet behav = BipCreator.createPetriNet();
+        AtomType ct = BipCreator.createAtomType(behav, mindToBipMangleName(input.getName()), this.model);
 
-    PortType pt = BipCreator.createPortType("SamplePortType", this.model);
-    PortDefinition pd1 = BipCreator.createPortDefinition(pt, "aPort1", ct);
-    PortDefinition pd2 = BipCreator.createPortDefinition(pt, "aPort2", ct);
+        State s1 = BipCreator.createState(behav, "S1", true);
+        State s2 = BipCreator.createState(behav, "S2", false);
 
-    BipCreator.createTransition(pd1, null, s1, s2, ct);
-    BipCreator.createTransition(pd2, null, s2, s1, ct);
+        PortType pt = BipCreator.createPortType("SamplePortType", this.model);
+        PortDefinition pd1 = BipCreator.createPortDefinition(pt, "aPort1", ct);
+        PortDefinition pd2 = BipCreator.createPortDefinition(pt, "aPort2", ct);
+
+        BipCreator.createTransition(pd1, null, s1, s2, ct);
+        BipCreator.createTransition(pd2, null, s2, s1, ct);
+    }
     
   }
 
