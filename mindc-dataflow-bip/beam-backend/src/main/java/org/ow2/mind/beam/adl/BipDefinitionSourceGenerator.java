@@ -48,6 +48,7 @@ import ujf.verimag.bip.Core.Behaviors.PetriNet;
 import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Behaviors.State;
+import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
 
 /*
@@ -157,7 +158,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
     }
 
     if (ASTHelper.isComposite(input)){
-        
+        CompoundType ct = BipCreator.createCompoundType(mindToBipMangleName(input.getName()), this.model);
     } else {
         PetriNet behav = BipCreator.createPetriNet();
         AtomType ct = BipCreator.createAtomType(behav, mindToBipMangleName(input.getName()), this.model);

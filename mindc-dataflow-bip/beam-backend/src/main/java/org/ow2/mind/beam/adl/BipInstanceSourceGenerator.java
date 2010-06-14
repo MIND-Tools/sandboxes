@@ -20,7 +20,10 @@ import org.ow2.mind.adl.graph.ComponentGraph;
 import org.ow2.mind.io.OutputFileLocator;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
+import ujf.verimag.bip.Core.Interactions.Component;
+import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Modules.Module;
+import ujf.verimag.bip.metamodelAPI.BipCreator;
 import ujf.verimag.bip.metamodelAPI.BipUtil;
 
 public class BipInstanceSourceGenerator implements BindingController,
@@ -125,8 +128,27 @@ public class BipInstanceSourceGenerator implements BindingController,
 
         assert(at != null);
         logger.log(Level.INFO, "  - found BIP type: " + at.getName());
+
+        String parent_bip_def_name = BipDefinitionSourceGenerator.mindToBipMangleName(comp_instance.getParents()[0].getDefinition().getName());
+        logger.log(Level.INFO, "  - parent type: " + parent_bip_def_name);
+        
+        CompoundType ct = BipUtil.getCompoundTypeDefinition(parent_bip_def_name, bip_module);
+        assert (ct != null);
+        
+        Component c = BipCreator.createComponentInstance(n, ct, at);
+        logger.log(Level.INFO, "    - added instance '" + n + "'");
     } else {
-        logger.log(Level.INFO, "  - found BIP composite type...");
+        Definition instance_def = comp_instance.getDefinition();
+        CompoundType ct = BipUtil.getCompoundTypeDefinition(
+                BipDefinitionSourceGenerator.mindToBipMangleName(instance_def.getName()), 
+                bip_module);
+        assert(ct != null);
+        logger.log(Level.INFO, "  - found BIP composite type: " + ct.getName());
+        assert(bip_module instanceof ujf.verimag.bip.Core.Modules.System);
+        
+        logger.log(Level.INFO, "    - added as Root in system");
+        BipCreator.createRoot(ct, n, (ujf.verimag.bip.Core.Modules.System)bip_module);
+        
     }
   }
 
