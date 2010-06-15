@@ -39,17 +39,16 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>org.objectweb.fractal.cecilia.toolchain</groupId>
             <artifactId>target-descriptor</artifactId>
         </dependency>
 
         <dependency>
-                        <groupId>org.testng</groupId>
-                        <artifactId>testng</artifactId>
-                        <classifier>jdk15</classifier>
-                </dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<classifier>jdk15</classifier>
+		</dependency>
         
         <dependency>
         	<groupId>org.ow2.mind</groupId>
