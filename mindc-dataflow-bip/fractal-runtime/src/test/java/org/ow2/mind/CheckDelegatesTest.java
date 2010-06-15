@@ -95,8 +95,6 @@ public class CheckDelegatesTest {
   @Test(groups = {"checkin", "functional"})
   public void compileCCdelegate() throws Exception {
     compileIDL("fractal.api.ContentController");
-    compileIDL("fractal.api.BindingController");
-    compileIDL("fractal.api.LifeCycleController");
     compileDelegate("CCdelegate");
   }
 
