@@ -43,6 +43,7 @@ import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
 import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.api.control.BindingController;
 import org.ow2.mind.NodeContainerDecoration;
+import org.ow2.mind.PathHelper;
 import org.ow2.mind.adl.annotation.predefined.Singleton;
 import org.ow2.mind.adl.generic.ast.FormalTypeParameterContainer;
 import org.ow2.mind.adl.generic.ast.TypeArgumentContainer;
@@ -490,8 +491,8 @@ public class ASTHelper {
    */
   public static Component newComponent(final NodeFactory nodeFactory,
       final String name, final String definitionName) {
-    return newComponent(nodeFactory, name, newDefinitionReference(nodeFactory,
-        definitionName));
+    return newComponent(nodeFactory, name,
+        newDefinitionReference(nodeFactory, definitionName));
   }
 
   // ---------------------------------------------------------------------------
@@ -544,6 +545,48 @@ public class ASTHelper {
    */
   public static Binding newBinding(final NodeFactory nodeFactory) {
     return newNode(nodeFactory, "binding", Binding.class);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Implementation helper methods
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Returns <code>true</code> if the given source node refers to a pre-compiled
+   * file (i.e. it refers to a file that ends with <code>.o</code>,
+   * <code>.a</code>, <code>.so</code> or <code>.dll</code>.
+   * 
+   * @param src a source node.
+   * @return code>true</code> if the given source node refers to a pre-compiled
+   *         file.
+   */
+  public static boolean isPreCompiled(final Source src) {
+    final String srcPath = src.getPath();
+    if (srcPath == null) return false;
+    final String srcExt = PathHelper.getExtension(srcPath);
+    return srcExt != null
+        && (srcExt.equals("o") || srcExt.equals("a") || srcExt.equals("so") || srcExt
+            .equals("dll"));
+  }
+
+  /**
+   * Create a new {@link Source} node using the given {@link NodeFactory}
+   * 
+   * @param nodeFactory the {@link NodeFactory} to use to create the node.
+   * @return a new {@link Source} node.
+   */
+  public static Source newSource(final NodeFactory nodeFactory) {
+    return newNode(nodeFactory, "source", Source.class);
+  }
+
+  /**
+   * Create a new {@link Data} node using the given {@link NodeFactory}
+   * 
+   * @param nodeFactory the {@link NodeFactory} to use to create the node.
+   * @return a new {@link Data} node.
+   */
+  public static Data newData(final NodeFactory nodeFactory) {
+    return newNode(nodeFactory, "data", Data.class);
   }
 
   // ---------------------------------------------------------------------------
