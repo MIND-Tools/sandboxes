@@ -22,8 +22,11 @@
 
 package org.ow2.mind.adl;
 
+import java.util.Map;
+
 import org.ow2.mind.AbstractVoidVisitorDispatcher;
 import org.ow2.mind.VoidVisitor;
+import org.ow2.mind.adl.graph.ComponentGraph;
 
 public class InstanceSourceGeneratorDispatcher
     extends
@@ -35,6 +38,26 @@ public class InstanceSourceGeneratorDispatcher
   protected VoidVisitor<InstancesDescriptor> castVisitorInterface(
       final Object serverItf) {
     return (InstanceSourceGenerator) serverItf;
+  }
+
+  public void endVisit(final ComponentGraph graph,
+      final Map<Object, Object> context) {
+
+    for (final VoidVisitor<InstancesDescriptor> visitorItf : visitorsItf
+        .values()) {
+      assert (visitorItf instanceof InstanceSourceGenerator);
+      ((InstanceSourceGenerator) visitorItf).endVisit(graph, context);
+    }
+  }
+
+  public void startVisit(final ComponentGraph graph,
+      final Map<Object, Object> context) {
+
+    for (final VoidVisitor<InstancesDescriptor> visitorItf : visitorsItf
+        .values()) {
+      assert (visitorItf instanceof InstanceSourceGenerator);
+      ((InstanceSourceGenerator) visitorItf).startVisit(graph, context);
+    }
   }
 
 }

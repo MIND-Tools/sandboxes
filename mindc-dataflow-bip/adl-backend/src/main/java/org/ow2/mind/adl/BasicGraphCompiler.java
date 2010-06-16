@@ -67,10 +67,12 @@ public class BasicGraphCompiler implements GraphCompiler, BindingController {
 
     if (instanceCompilerItf != null) {
       final Definition topLevelDef = graph.getDefinition();
+      instanceCompilerItf.startVisit(graph, context);
       for (final Definition def : definitionList) {
         result.addAll(instanceCompilerItf.visit(new InstancesDescriptor(
             topLevelDef, def, instanceMap.get(def.getName())), context));
       }
+      instanceCompilerItf.endVisit(graph, context);
     }
 
     return result;

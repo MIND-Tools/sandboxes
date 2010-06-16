@@ -47,6 +47,7 @@ import org.ow2.mind.adl.annotation.predefined.CFlags;
 import org.ow2.mind.adl.ast.ASTHelper;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.Source;
+import org.ow2.mind.adl.graph.ComponentGraph;
 import org.ow2.mind.compilation.CompilationCommand;
 import org.ow2.mind.compilation.CompilerCommand;
 import org.ow2.mind.compilation.CompilerWrapper;
@@ -78,8 +79,18 @@ public class BasicInstanceCompiler
   public MPPWrapper              mppWrapperItf;
 
   // ---------------------------------------------------------------------------
-  // Implementation of the Visitor interface
+  // Implementation of the InstanceCompiler (Visitor) interface
   // ---------------------------------------------------------------------------
+
+  public void endVisit(final ComponentGraph graph,
+      final Map<Object, Object> context) {
+    instanceSourceGeneratorItf.endVisit(graph, context);
+  }
+
+  public void startVisit(final ComponentGraph graph,
+      final Map<Object, Object> context) {
+    instanceSourceGeneratorItf.startVisit(graph, context);
+  }
 
   public Collection<CompilationCommand> visit(
       final InstancesDescriptor instanceDesc, final Map<Object, Object> context)
@@ -292,4 +303,5 @@ public class BasicInstanceCompiler
           + itfName + "'");
     }
   }
+
 }
