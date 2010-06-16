@@ -152,4 +152,11 @@ public class BipInstanceSourceGenerator implements BindingController,
     }
   }
 
+public void endVisit(final ComponentGraph graph, Map<Object, Object> context) {
+    // Generate the actual BIP source code.
+}
+
+public void startVisit(final ComponentGraph graph, Map<Object, Object> context) {
+}
+
 }
