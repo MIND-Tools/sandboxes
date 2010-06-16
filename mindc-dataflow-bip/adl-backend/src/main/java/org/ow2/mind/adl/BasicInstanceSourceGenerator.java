@@ -139,6 +139,16 @@ public class BasicInstanceSourceGenerator extends AbstractSourceGenerator
     }
   }
 
+  public void endVisit(final ComponentGraph graph,
+      final Map<Object, Object> context) {
+    // Empty because nothing to do at end of visit
+  }
+
+  public void startVisit(final ComponentGraph graph,
+      final Map<Object, Object> context) {
+    // Empty because nothing to do at the beginning of visit
+  }
+
   protected void addDefinitions(final ComponentGraph graph,
       final Set<Definition> definitions) {
     definitions.add(graph.getDefinition());
