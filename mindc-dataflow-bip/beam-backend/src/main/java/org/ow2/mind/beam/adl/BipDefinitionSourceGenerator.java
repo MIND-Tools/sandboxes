@@ -27,6 +27,7 @@ package org.ow2.mind.beam.adl;
 import static org.ow2.mind.BindingControllerImplHelper.checkItfName;
 import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +41,9 @@ import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.DefinitionSourceGenerator;
 import org.ow2.mind.adl.ast.ASTHelper;
+import org.ow2.mind.adl.ast.ImplementationContainer;
+import org.ow2.mind.adl.ast.Source;
+import org.ow2.mind.adl.implementation.ImplementationLocator;
 
 import org.ow2.mind.io.OutputFileLocator;
 
@@ -49,6 +53,8 @@ import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Behaviors.State;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
+import ujf.verimag.bip.codegen.C2BIPUtil;
+import ujf.verimag.bip.codegen.InteractionPoint;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
 
 /*
@@ -63,7 +69,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
     DefinitionSourceGenerator {
   
   final public static String BEAM_BIP_MODEL = "beam-bip-model";
-
+  final public static String ENTRY_METHOD_IN_FILTERS = "act";
+  
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-bip-visitor::definition");
   
@@ -76,6 +83,9 @@ public class BipDefinitionSourceGenerator implements BindingController,
 
   /** client interface used to checks timestamps of input resources. */
   public InputResourceLocator inputResourceLocatorItf;
+  
+  public ImplementationLocator implementationLocatorItf;
+
 
   protected ujf.verimag.bip.Core.Modules.System model;
   
@@ -95,6 +105,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
       outputFileLocatorItf = (OutputFileLocator) value;
     } else if (itfName.equals(InputResourceLocator.ITF_NAME)) {
       inputResourceLocatorItf = (InputResourceLocator) value;
+    } else if (itfName.equals(ImplementationLocator.ITF_NAME)) {
+      implementationLocatorItf = (ImplementationLocator) value;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
@@ -103,7 +115,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
 
   public String[] listFc() {
     return listFcHelper(OutputFileLocator.ITF_NAME,
-        InputResourceLocator.ITF_NAME);
+        InputResourceLocator.ITF_NAME,
+        ImplementationLocator.ITF_NAME);
   }
 
   
@@ -160,6 +173,18 @@ public class BipDefinitionSourceGenerator implements BindingController,
     if (ASTHelper.isComposite(input)){
         CompoundType ct = BipCreator.createCompoundType(mindToBipMangleName(input.getName()), this.model);
     } else {
+        assert(input instanceof ImplementationContainer);
+        ImplementationContainer ic = (ImplementationContainer) input;
+        for (final Source src : ic.getSources()){
+            URL f = implementationLocatorItf.findResource(src.getPath(), context);
+
+//          Package res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
+//          mindToBipMangleName(input.getName()), true, context, 
+//          new InteractionPoint[0], this.model);
+        }
+        //        
+
+
         PetriNet behav = BipCreator.createPetriNet();
         AtomType ct = BipCreator.createAtomType(behav, mindToBipMangleName(input.getName()), this.model);
 
