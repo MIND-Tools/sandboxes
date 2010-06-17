@@ -1,5 +1,0 @@
-abstract primitive pkg1.abstracts.AbstractPrimitive {
-  provides I1 as itf1;
-  
-  source {{ }};
-}

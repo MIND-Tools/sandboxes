@@ -1,4 +1,0 @@
-//#SemanticError GroupId=MADL ErrorId=INCOMPATIBLE_ARGUMENT_VALUE line=4
-// argument: integer assigned to string
-primitive attributes.attr71 extends attr7(
- 2) {}

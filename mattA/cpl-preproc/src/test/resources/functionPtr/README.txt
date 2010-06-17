@@ -1,1 +1,0 @@
-Use of a pointer to a private method.

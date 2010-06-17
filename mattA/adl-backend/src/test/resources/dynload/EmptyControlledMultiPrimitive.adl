@@ -1,7 +1,0 @@
-
-@controller.Component
-primitive EmptyControlledMultiPrimitive extends ApplicationType {
-
-  source empty_main.c
-
-}

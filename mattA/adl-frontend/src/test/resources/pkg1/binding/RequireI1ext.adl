@@ -1,4 +1,0 @@
-
-primitive pkg1.binding.RequireI1ext {
-  requires I1ext as i1;
-}

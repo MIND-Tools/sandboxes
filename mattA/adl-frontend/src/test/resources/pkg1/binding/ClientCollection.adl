@@ -1,6 +1,0 @@
-
-import pkg1.I2;
-
-primitive pkg1.binding.ClientCollection {
-  requires I2 as cItf[3];
-}

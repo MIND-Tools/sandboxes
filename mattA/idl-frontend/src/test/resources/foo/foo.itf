@@ -1,7 +1,0 @@
-
-#include "../test2.idt"
-#include "foo/bar.idt"
-
-interface foo.foo {
-  void m();
-}

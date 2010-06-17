@@ -1,6 +1,0 @@
-//#SemanticError GroupId=ATTR ErrorId=CAST_NEGATIVE_TO_UNSIGNED line=4
-primitive attributes.attr1 {
-  attribute uint8_t attr = 
-  -26 ;
-  source my.c;	
-}

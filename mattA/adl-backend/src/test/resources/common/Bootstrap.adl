@@ -1,8 +1,0 @@
-@Singleton
-primitive Bootstrap {
-
-  requires Main as entryPoint;
-  
-  source bootstrap.c
-  
-}

@@ -1,5 +1,0 @@
-
-@Run
-composite controller.lcc.TestMultiPrimitiveComponent 
-    extends LCCTester<MultiPrimitiveComponent> {
-}

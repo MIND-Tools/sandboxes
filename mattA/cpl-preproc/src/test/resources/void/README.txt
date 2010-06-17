@@ -1,1 +1,0 @@
-Declaration of a private method with "void" as argument

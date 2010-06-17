@@ -1,5 +1,0 @@
-primitive pkg1.annotations.Foo extends pkg1.pkg2.Type1 {
-
-  @org.ow2.mind.adl.annotations.FooAnnotation
-  source foo.c;
-}

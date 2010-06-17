@@ -1,5 +1,0 @@
-
-@Run
-composite controller.attr.TestMultiPrimitiveComponent 
-    extends ACTester<MultiPrimitiveComponent> {
-}

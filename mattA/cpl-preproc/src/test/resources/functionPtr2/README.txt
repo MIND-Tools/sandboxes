@@ -1,1 +1,0 @@
-use of an array of two pointers to private methods.

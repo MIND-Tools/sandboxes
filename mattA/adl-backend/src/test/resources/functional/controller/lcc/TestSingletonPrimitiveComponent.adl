@@ -1,5 +1,0 @@
-
-@Run
-composite controller.lcc.TestSingletonPrimitiveComponent 
-    extends LCCTester<SingletonPrimitiveComponent> {
-}

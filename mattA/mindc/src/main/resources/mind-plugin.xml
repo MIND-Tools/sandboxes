@@ -1,3 +1,0 @@
-<plugin id="org.ow2.mind.mindc" name="The MIND Compiler">
-	<extension-point id="command-line-options"/>
-</plugin>

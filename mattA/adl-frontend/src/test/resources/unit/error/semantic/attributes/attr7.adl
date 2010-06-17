@@ -1,3 +1,0 @@
-primitive attributes.attr7(a) {
-  attribute string stringAttr = a;
-}

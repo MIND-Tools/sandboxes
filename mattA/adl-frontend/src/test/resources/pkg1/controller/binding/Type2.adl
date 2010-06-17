@@ -1,5 +1,0 @@
-
-@controller.BindingController(allowNoRequiredItf=true)
-type pkg1.controller.binding.Type2 {
-  provides I1 as i1;
-}

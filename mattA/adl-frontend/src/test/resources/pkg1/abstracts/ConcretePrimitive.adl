@@ -1,3 +1,0 @@
-primitive pkg1.abstracts.ConcretePrimitive extends AbstractPrimitive {
-  source {{ }};
-}

@@ -1,1 +1,0 @@
-Very simple example, compile without problems

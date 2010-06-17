@@ -1,4 +1,0 @@
-
-composite pkg1.factory.Factory1 {
-  contains Factory<pkg1.Composite1> as factory;
-}

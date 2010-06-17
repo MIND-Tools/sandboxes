@@ -1,3 +1,0 @@
-abstract primitive Abstract1 {
-  provides Print as B_Print;
-}

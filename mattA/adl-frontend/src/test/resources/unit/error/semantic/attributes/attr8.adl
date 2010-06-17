@@ -1,3 +1,0 @@
-primitive attributes.attr8(a) {
-  attribute int intAttr = a;
-}

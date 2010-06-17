@@ -1,1 +1,0 @@
-Declaration of a method with the Kardigan and Richie syntax

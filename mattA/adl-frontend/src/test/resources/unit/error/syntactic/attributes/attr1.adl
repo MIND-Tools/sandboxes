@@ -1,4 +1,0 @@
-// attribute declaration in composite
-composite attributes.attr1 {
-  attribute uint8_t attr ;
-}

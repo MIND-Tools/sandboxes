@@ -1,3 +1,0 @@
-interface Itf1 ;
-
-print(message);

@@ -1,1 +1,0 @@
-Simple test with constructor and destructor

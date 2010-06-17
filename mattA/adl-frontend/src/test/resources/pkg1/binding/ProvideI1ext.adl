@@ -1,4 +1,0 @@
-
-primitive pkg1.binding.ProvideI1ext {
-  provides I1ext as i1;
-}
