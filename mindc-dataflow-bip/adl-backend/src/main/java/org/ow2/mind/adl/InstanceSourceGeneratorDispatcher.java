@@ -24,6 +24,7 @@ package org.ow2.mind.adl;
 
 import java.util.Map;
 
+import org.objectweb.fractal.adl.ADLException;
 import org.ow2.mind.AbstractVoidVisitorDispatcher;
 import org.ow2.mind.VoidVisitor;
 import org.ow2.mind.adl.graph.ComponentGraph;
@@ -41,7 +42,7 @@ public class InstanceSourceGeneratorDispatcher
   }
 
   public void endVisit(final ComponentGraph graph,
-      final Map<Object, Object> context) {
+      final Map<Object, Object> context) throws ADLException {
 
     for (final VoidVisitor<InstancesDescriptor> visitorItf : visitorsItf
         .values()) {
@@ -51,7 +52,7 @@ public class InstanceSourceGeneratorDispatcher
   }
 
   public void startVisit(final ComponentGraph graph,
-      final Map<Object, Object> context) {
+      final Map<Object, Object> context) throws ADLException {
 
     for (final VoidVisitor<InstancesDescriptor> visitorItf : visitorsItf
         .values()) {

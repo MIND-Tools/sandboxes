@@ -83,12 +83,12 @@ public class BasicInstanceCompiler
   // ---------------------------------------------------------------------------
 
   public void endVisit(final ComponentGraph graph,
-      final Map<Object, Object> context) {
+      final Map<Object, Object> context) throws ADLException {
     instanceSourceGeneratorItf.endVisit(graph, context);
   }
 
   public void startVisit(final ComponentGraph graph,
-      final Map<Object, Object> context) {
+      final Map<Object, Object> context) throws ADLException {
     instanceSourceGeneratorItf.startVisit(graph, context);
   }
 

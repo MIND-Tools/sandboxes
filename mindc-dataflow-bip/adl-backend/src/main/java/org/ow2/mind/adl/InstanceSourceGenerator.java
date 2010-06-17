@@ -24,13 +24,16 @@ package org.ow2.mind.adl;
 
 import java.util.Map;
 
+import org.objectweb.fractal.adl.ADLException;
 import org.ow2.mind.VoidVisitor;
 import org.ow2.mind.adl.graph.ComponentGraph;
 
 public interface InstanceSourceGenerator
     extends
       VoidVisitor<InstancesDescriptor> {
-  public void startVisit(final ComponentGraph graph, Map<Object, Object> context);
+  public void startVisit(final ComponentGraph graph, Map<Object, Object> context)
+      throws ADLException;
 
-  public void endVisit(final ComponentGraph graph, Map<Object, Object> context);
+  public void endVisit(final ComponentGraph graph, Map<Object, Object> context)
+      throws ADLException;
 }

@@ -25,6 +25,7 @@ package org.ow2.mind.adl;
 import java.util.Collection;
 import java.util.Map;
 
+import org.objectweb.fractal.adl.ADLException;
 import org.ow2.mind.Visitor;
 import org.ow2.mind.adl.graph.ComponentGraph;
 import org.ow2.mind.compilation.CompilationCommand;
@@ -34,8 +35,8 @@ public interface InstanceCompiler
       Visitor<InstancesDescriptor, Collection<CompilationCommand>> {
 
   public void startVisit(final ComponentGraph graph,
-      final Map<Object, Object> context);
+      final Map<Object, Object> context) throws ADLException;
 
   public void endVisit(final ComponentGraph graph,
-      final Map<Object, Object> context);
+      final Map<Object, Object> context) throws ADLException;
 }
