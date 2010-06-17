@@ -72,6 +72,7 @@ public final class ADLBackendFactory {
   // ///////////////////////////////////////////////////////////
   // Services that can be used by visitor plugins //
   // //////////////////////////////////////////////////////////
+  public static final String IMPLEMENTATION_LOCATOR_ITF_NAME = ImplementationLocator.ITF_NAME;
   public static final String INPUT_RESOURCE_LOCATOR_ITF_NAME = InputResourceLocator.ITF_NAME;
   public static final String OUTPUT_FILE_LOCATOR_ITF_NAME    = OutputFileLocator.ITF_NAME;
   public static final String IDL_LOADER_ITF_NAME             = IDLLoader.ITF_NAME;
@@ -83,6 +84,7 @@ public final class ADLBackendFactory {
     final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader();
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
     final BasicOutputFileLocator outputFileLocator = new BasicOutputFileLocator();
+    final ImplementationLocator implementationLocator = new BasicImplementationLocator();
     final BasicPluginManager pluginManager = new BasicPluginManager();
     final STNodeFactoryImpl nodeFactory = new STNodeFactoryImpl();
     pluginManager.nodeFactoryItf = nodeFactory;
@@ -92,14 +94,15 @@ public final class ADLBackendFactory {
         inputResourceLocator, outputFileLocator, stcLoader);
 
     return newDefinitionSourceGenerator(inputResourceLocator,
-        outputFileLocator, idlLoader, idlCompiler, stcLoader, pluginManager,
-        context);
+        outputFileLocator, implementationLocator, idlLoader, idlCompiler,
+        stcLoader, pluginManager, context);
   }
 
   public static final DefinitionSourceGenerator newDefinitionSourceGenerator(
       final InputResourceLocator inputResourceLocator,
-      final OutputFileLocator outputFileLocator, final IDLLoader idlLoader,
-      final IDLVisitor idlCompiler,
+      final OutputFileLocator outputFileLocator,
+      final ImplementationLocator implementationLocator,
+      final IDLLoader idlLoader, final IDLVisitor idlCompiler,
       final StringTemplateGroupLoader templateGroupLoader,
       final PluginManager pluginManagerItf, final Map<Object, Object> context)
       throws ADLException {
@@ -109,6 +112,7 @@ public final class ADLBackendFactory {
     serviceMap.put(IDL_LOADER_ITF_NAME, idlLoader);
     serviceMap.put(IDL_COMPILER_ITF_NAME, idlCompiler);
     serviceMap.put(TEMPLATE_GROUP_LOADER_ITF_NAME, templateGroupLoader);
+    serviceMap.put(IMPLEMENTATION_LOCATOR_ITF_NAME, implementationLocator);
 
     DefinitionSourceGenerator definitionSourceGenerator;
     final CollectionInterfaceDefinitionSourceGenerator cidsg = new CollectionInterfaceDefinitionSourceGenerator();
@@ -181,8 +185,8 @@ public final class ADLBackendFactory {
     final IDLVisitor idlCompiler = IDLBackendFactory.newIDLCompiler(idlLoader,
         inputResourceLocator, outputFileLocator, stcLoader);
     final DefinitionSourceGenerator definitionSourceGenerator = newDefinitionSourceGenerator(
-        inputResourceLocator, outputFileLocator, idlLoader, idlCompiler,
-        stcLoader, pluginManager, context);
+        inputResourceLocator, outputFileLocator, implementationLocator,
+        idlLoader, idlCompiler, stcLoader, pluginManager, context);
     final CompilerWrapper compilerWrapper = new GccCompilerWrapper();
     final MPPWrapper mppWrapper = new BasicMPPWrapper();
     return newDefinitionCompiler(definitionSourceGenerator,
@@ -297,8 +301,8 @@ public final class ADLBackendFactory {
         inputResourceLocator, outputFileLocator, stcLoader);
 
     final DefinitionSourceGenerator definitionSourceGenerator = newDefinitionSourceGenerator(
-        inputResourceLocator, outputFileLocator, idlLoader, idlCompiler,
-        stcLoader, pluginManager, context);
+        inputResourceLocator, outputFileLocator, implementationLocator,
+        idlLoader, idlCompiler, stcLoader, pluginManager, context);
     final CompilerWrapper compilerWrapper = new GccCompilerWrapper();
     final MPPWrapper mppWrapper = new BasicMPPWrapper();
 

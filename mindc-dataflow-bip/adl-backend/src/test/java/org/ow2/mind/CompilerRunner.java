@@ -150,7 +150,8 @@ public class CompilerRunner {
         inputResourceLocator, outputFileLocator, stcLoader);
     final DefinitionSourceGenerator definitionSourceGenerator = ADLBackendFactory
         .newDefinitionSourceGenerator(inputResourceLocator, outputFileLocator,
-            idlLoader, idlCompiler, stcLoader, pluginManager, context);
+            implementationLocator, idlLoader, idlCompiler, stcLoader,
+            pluginManager, context);
     definitionCompiler = ADLBackendFactory.newDefinitionCompiler(
         definitionSourceGenerator, implementationLocator, outputFileLocator,
         compilerWrapper, mppWrapper);

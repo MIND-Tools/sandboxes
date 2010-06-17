@@ -528,8 +528,8 @@ public class Launcher extends AbstractLauncher {
     final IDLVisitor idlCompiler = IDLBackendFactory.newIDLCompiler(idlLoader,
         inputResourceLocator, outputFileLocator, stcLoader);
     definitionSourceGenerator = ADLBackendFactory.newDefinitionSourceGenerator(
-        inputResourceLocator, outputFileLocator, idlLoader, idlCompiler,
-        stcLoader, pluginManager, compilerContext);
+        inputResourceLocator, outputFileLocator, implementationLocator,
+        idlLoader, idlCompiler, stcLoader, pluginManager, compilerContext);
 
     definitionCompiler = ADLBackendFactory.newDefinitionCompiler(
         definitionSourceGenerator, implementationLocator, outputFileLocator,
