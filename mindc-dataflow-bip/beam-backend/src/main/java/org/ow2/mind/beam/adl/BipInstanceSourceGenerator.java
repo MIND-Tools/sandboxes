@@ -3,6 +3,12 @@ package org.ow2.mind.beam.adl;
 import static org.ow2.mind.BindingControllerImplHelper.checkItfName;
 import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,12 +23,14 @@ import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.InstanceSourceGenerator;
 import org.ow2.mind.adl.InstancesDescriptor;
 import org.ow2.mind.adl.graph.ComponentGraph;
+import org.ow2.mind.io.IOErrors;
 import org.ow2.mind.io.OutputFileLocator;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Modules.Module;
+import ujf.verimag.bip.bip2src.Reverse;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
 import ujf.verimag.bip.metamodelAPI.BipUtil;
 
@@ -152,11 +160,25 @@ public class BipInstanceSourceGenerator implements BindingController,
     }
   }
 
-public void endVisit(final ComponentGraph graph, Map<Object, Object> context) {
-    // Generate the actual BIP source code.
-}
+  public void endVisit(final ComponentGraph graph, Map<Object, Object> context) throws ADLException {
+      String output_path = "/" + BeamHelper.getBipFileName(context);
 
-public void startVisit(final ComponentGraph graph, Map<Object, Object> context) {
-}
+      File outputfile = outputFileLocatorItf.getCSourceOutputFile(output_path, context);
+
+      try {
+          PrintStream ps = new PrintStream(new FileOutputStream(outputfile));
+          Reverse r = new Reverse(ps);
+          Module bip_module = (Module)context.get(
+                  BipDefinitionSourceGenerator.BEAM_BIP_MODEL);
+          assert(bip_module != null);
+          r.decompile(bip_module);
+          ps.close();
+      } catch (FileNotFoundException e) {
+          throw new ADLException(IOErrors.WRITE_ERROR, e);
+      }
+  }
+
+  public void startVisit(final ComponentGraph graph, Map<Object, Object> context) {
+  }
 
 }
