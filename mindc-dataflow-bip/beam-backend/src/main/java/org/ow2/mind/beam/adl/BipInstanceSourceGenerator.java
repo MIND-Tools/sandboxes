@@ -23,6 +23,10 @@ import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.InstanceSourceGenerator;
 import org.ow2.mind.adl.InstancesDescriptor;
 import org.ow2.mind.adl.graph.ComponentGraph;
+import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationHelper;
+import org.ow2.mind.beam.annotation.BeamFilter;
+import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 import org.ow2.mind.io.IOErrors;
 import org.ow2.mind.io.OutputFileLocator;
 
@@ -130,6 +134,12 @@ public class BipInstanceSourceGenerator implements BindingController,
     
     if (comp_instance.getSubComponents().length == 0){
         Definition instance_def = comp_instance.getDefinition();
+        
+        // if no decoration found, means that it is not a filter => do not translate it.
+        Object o = instance_def.astGetDecoration(BeamFilterAnnotationProcessor.DEFINITION_HAS_INSTANCE_FILTER);
+        if (o == null)
+            return;
+        
         AtomType at = BipUtil.getAtomTypeDefinition(
                 BipDefinitionSourceGenerator.mindToBipMangleName(instance_def.getName()), 
                 bip_module);

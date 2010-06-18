@@ -56,6 +56,8 @@ public class BeamFilterAnnotationProcessor
     implements
       Constants {
 
+    public static String DEFINITION_HAS_INSTANCE_FILTER = "definition-has-instance-filter";
+    
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-filter-annot");
 
@@ -106,13 +108,15 @@ public class BeamFilterAnnotationProcessor
     
     assert node instanceof Component;
 
-    if (context.containsKey(CommandLineHandler.BEAM_CLI_GEN_BIP)){
-      logger.log(Level.INFO, "not doing anything as --beam-bip used");
-      return null;
-    }
-    
+    boolean apply_ast_transformations = !context.containsKey(CommandLineHandler.BEAM_CLI_GEN_BIP);
+
     Component c = (Component) node;
     if (phase == ADLLoaderPhase.AFTER_PARSING){
+        if (!apply_ast_transformations){
+            logger.log(Level.INFO, "not doing anything as --beam-bip used");
+            return null;
+        }
+        
       filters.add(c);
       addFilterToContext(c, context);
       
@@ -124,6 +128,12 @@ public class BeamFilterAnnotationProcessor
       Definition def = ASTHelper.getResolvedComponentDefinition(c, loaderItf, context);
       assert(def != null);
       assert def instanceof InterfaceContainer;
+      def.astSetDecoration(DEFINITION_HAS_INSTANCE_FILTER, Boolean.TRUE);
+
+      if (!apply_ast_transformations){
+          logger.log(Level.INFO, "not doing anything as --beam-bip used");
+          return null;
+      }
       
       /*
        * Create Scheduler -> filter binding

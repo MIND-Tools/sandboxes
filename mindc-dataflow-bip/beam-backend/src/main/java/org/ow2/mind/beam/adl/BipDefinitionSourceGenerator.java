@@ -173,6 +173,11 @@ public class BipDefinitionSourceGenerator implements BindingController,
     if (ASTHelper.isComposite(input)){
         CompoundType ct = BipCreator.createCompoundType(mindToBipMangleName(input.getName()), this.model);
     } else {
+        // if no decoration found, means that it is not a filter => do not translate it.
+        Object o = input.astGetDecoration(BeamFilterAnnotationProcessor.DEFINITION_HAS_INSTANCE_FILTER);
+        if (o == null)
+            return;
+        
         assert(input instanceof ImplementationContainer);
         ImplementationContainer ic = (ImplementationContainer) input;
         for (final Source src : ic.getSources()){
