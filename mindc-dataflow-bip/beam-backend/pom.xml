@@ -17,6 +17,10 @@
                <groupId>${project.groupId}</groupId>
                 <artifactId>mindc</artifactId>
         </dependency>
+        <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>beam-frontend</artifactId>
+        </dependency>
 
 
 
