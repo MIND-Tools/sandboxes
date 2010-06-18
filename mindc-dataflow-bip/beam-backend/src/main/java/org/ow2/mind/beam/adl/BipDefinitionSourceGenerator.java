@@ -44,6 +44,12 @@ import org.ow2.mind.adl.ast.ASTHelper;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
+import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.AnnotationHelper;
+import org.ow2.mind.annotation.ast.AnnotationASTHelper;
+import org.ow2.mind.annotation.ast.AnnotationContainer;
+import org.ow2.mind.beam.annotation.BeamFilter;
+import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 
 import org.ow2.mind.io.OutputFileLocator;
 
@@ -53,6 +59,7 @@ import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Behaviors.State;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
+import ujf.verimag.bip.Core.Modules.Module;
 import ujf.verimag.bip.codegen.C2BIPUtil;
 import ujf.verimag.bip.codegen.InteractionPoint;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
@@ -165,7 +172,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
       throws ADLException {
     logger.log(Level.INFO, "Visiting definition " + input.getName());
     
-
+ 
     if (!context.containsKey(BEAM_BIP_MODEL)){
         context.put(BEAM_BIP_MODEL, this.model);
     }
@@ -183,9 +190,17 @@ public class BipDefinitionSourceGenerator implements BindingController,
         for (final Source src : ic.getSources()){
             URL f = implementationLocatorItf.findResource(src.getPath(), context);
 
-//          Package res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
-//          mindToBipMangleName(input.getName()), true, context, 
-//          new InteractionPoint[0], this.model);
+            try {
+                String local_c_context = 
+                    "#define METH(x,y) x##__##y\n" +
+                    "#define CALL(x,y) x##__##y\n";
+                
+                Module res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
+                        mindToBipMangleName(input.getName()), true, local_c_context, 
+                        new InteractionPoint[0], this.model);
+            } catch (Exception e) {
+                throw new ADLException(BeamErrors.BEAM_ERROR, e);
+            }
         }
         //        
 
