@@ -1,4 +1,6 @@
+#ifndef BEAM_PARSE_SHIELD
 #include <stdlib.h>
+#endif
 
 void METH(filterctrl, act) (int c){
   int r,i;
