@@ -41,6 +41,7 @@ import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.DefinitionSourceGenerator;
 import org.ow2.mind.adl.ast.ASTHelper;
+import org.ow2.mind.adl.ast.Data;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
@@ -76,7 +77,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
     DefinitionSourceGenerator {
   
   final public static String BEAM_BIP_MODEL = "beam-bip-model";
-  final public static String ENTRY_METHOD_IN_FILTERS = "act";
+  final public static String ENTRY_METHOD_IN_FILTERS = "filterctrl__act";
   
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-bip-visitor::definition");
@@ -187,14 +188,26 @@ public class BipDefinitionSourceGenerator implements BindingController,
         
         assert(input instanceof ImplementationContainer);
         ImplementationContainer ic = (ImplementationContainer) input;
-        for (final Source src : ic.getSources()){
+        
+        Source[] srcs = ic.getSources();
+        // Currently, we do not support components with multiple source files.
+        // All files could be concatenated into a single file and then parsed.
+        assert(srcs.length == 1);
+        
+        // we loop over all srcs. First version of the code forces
+        // the list to contain only one element (looping only once...)
+        for (final Source src : srcs){
             URL f = implementationLocatorItf.findResource(src.getPath(), context);
-
+            String local_c_context = 
+                "#define BEAM_PARSE_SHIELD\n" +
+                "#define METH(x,y) x##__##y\n" +
+                "#define CALL(x,y) x##__##y\n";
+            Data data = ic.getData();
+            if (data != null){
+                local_c_context += data.getCCode() + "\n";
+            }
+            
             try {
-                String local_c_context = 
-                    "#define METH(x,y) x##__##y\n" +
-                    "#define CALL(x,y) x##__##y\n";
-                
                 Module res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
                         mindToBipMangleName(input.getName()), true, local_c_context, 
                         new InteractionPoint[0], this.model);
@@ -202,21 +215,6 @@ public class BipDefinitionSourceGenerator implements BindingController,
                 throw new ADLException(BeamErrors.BEAM_ERROR, e);
             }
         }
-        //        
-
-
-        PetriNet behav = BipCreator.createPetriNet();
-        AtomType ct = BipCreator.createAtomType(behav, mindToBipMangleName(input.getName()), this.model);
-
-        State s1 = BipCreator.createState(behav, "S1", true);
-        State s2 = BipCreator.createState(behav, "S2", false);
-
-        PortType pt = BipCreator.createPortType("SamplePortType", this.model);
-        PortDefinition pd1 = BipCreator.createPortDefinition(pt, "aPort1", ct);
-        PortDefinition pd2 = BipCreator.createPortDefinition(pt, "aPort2", ct);
-
-        BipCreator.createTransition(pd1, null, s1, s2, ct);
-        BipCreator.createTransition(pd2, null, s2, s1, ct);
     }
     
   }
