@@ -1,3 +1,7 @@
+#ifndef BEAM_PARSE_SHIELD
+#define START_ACT_LOOP {int act_idx; for (act_idx=0;act_idx<c;act_idx++){
+#define END_ACT_LOOP }}
+#endif
 void METH(filterctrl, act) (int c){
   int z;
   int m = 0;
@@ -11,7 +15,7 @@ void METH(filterctrl, act) (int c){
       PRIVATE.history[i]=0;
   }
 
-  for (i=0; i<c; i++){
+  START_ACT_LOOP
     z = CALL(input, get)();
 #ifdef BEAM_DEBUG
     printf("SW: input = %d\n", z);
@@ -26,5 +30,5 @@ void METH(filterctrl, act) (int c){
 #endif
     CALL(output, put)(m);
     PRIVATE.ptr = (PRIVATE.ptr+1)%256;
-  }
+  END_ACT_LOOP
 }
