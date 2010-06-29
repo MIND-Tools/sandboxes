@@ -25,6 +25,7 @@ import org.ow2.mind.adl.InstancesDescriptor;
 import org.ow2.mind.adl.graph.ComponentGraph;
 import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.annotation.AnnotationHelper;
+import org.ow2.mind.beam.BackendCommandLineHandler;
 import org.ow2.mind.beam.annotation.BeamFilter;
 import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 import org.ow2.mind.io.IOErrors;
@@ -109,6 +110,11 @@ public class BipInstanceSourceGenerator implements BindingController,
 
   public void visit(InstancesDescriptor input, Map<Object, Object> context)
       throws ADLException {
+
+    if (!context.containsKey(BackendCommandLineHandler.BEAM_ENABLE_BIP_BACKEND)){
+        return;
+    }
+    
     assert(input.instances.size() == 1);
 
     Module bip_module = (Module)context.get(BipDefinitionSourceGenerator.BEAM_BIP_MODEL);
@@ -171,6 +177,11 @@ public class BipInstanceSourceGenerator implements BindingController,
   }
 
   public void endVisit(final ComponentGraph graph, Map<Object, Object> context) throws ADLException {
+      
+      if (!context.containsKey(BackendCommandLineHandler.BEAM_ENABLE_BIP_BACKEND)){
+          return;
+      }
+      
       String output_path = "/" + BeamHelper.getBipFileName(context);
 
       File outputfile = outputFileLocatorItf.getCSourceOutputFile(output_path, context);

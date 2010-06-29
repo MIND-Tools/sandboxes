@@ -51,6 +51,7 @@ import org.ow2.mind.adl.ast.MindInterface;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
+import org.ow2.mind.beam.BackendCommandLineHandler;
 import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
 import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.ast.InterfaceDefinition;
@@ -198,7 +199,10 @@ public class BipDefinitionSourceGenerator implements BindingController,
       throws ADLException {
     logger.log(Level.INFO, "Visiting definition " + input.getName());
     
- 
+    if (!context.containsKey(BackendCommandLineHandler.BEAM_ENABLE_BIP_BACKEND)){
+        return;
+    }
+        
     if (!context.containsKey(BEAM_BIP_MODEL)){
         context.put(BEAM_BIP_MODEL, this.model);
     }
