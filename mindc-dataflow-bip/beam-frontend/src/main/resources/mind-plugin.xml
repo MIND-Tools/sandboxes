@@ -8,8 +8,7 @@
   </extension>
 
   <extension point="org.ow2.mind.mindc.command-line-options">
-    <cmdAppendOption longName="beam-exec-debug" description="Enable debug exec trace
-             for given point" allowMultiple="true" separator=":"
+    <cmdAppendOption longName="beam-exec-debug" description="Enable debug exec trace for given point" allowMultiple="true" separator=":"
              handler="org.ow2.mind.beam.CommandLineHandler"/>
   </extension>
 
