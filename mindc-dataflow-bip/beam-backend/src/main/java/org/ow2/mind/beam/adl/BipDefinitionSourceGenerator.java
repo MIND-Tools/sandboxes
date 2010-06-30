@@ -231,7 +231,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
             MindInterface miface = (MindInterface)iface;
 
             
-            if (miface.getRole().equals(TypeInterface.CLIENT_ROLE)){
+           // if (miface.getRole().equals(TypeInterface.CLIENT_ROLE)){
                 InterfaceDefinition idef = InterfaceDefinitionDecorationHelper.getResolvedInterfaceDefinition(miface, idlLoaderItf, context);
                 for (final Method m: idef.getMethods()){
                     String fname = miface.getName() + "__" + m.getName();
@@ -249,7 +249,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
                     InteractionPoint ip = new InteractionPoint(return_type, fname, params_string);
                     ips.add(ip);
                 }
-            }
+            //}
         }
 
         InteractionPoint[] ips_array = ips.toArray(new InteractionPoint[0]);
