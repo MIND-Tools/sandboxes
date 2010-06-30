@@ -8,11 +8,12 @@ primitive beam.filters.simple.slidingwindowfilter {
   requires beam.links.SingleInt as output;
 
   data {{
-       struct {
+       typedef struct {
        	      int history[256];
 	      int init_hack;
 	      int ptr;
-       } PRIVATE;
+       } slidingwindfilter_t;
+       slidingwindfilter_t PRIVATE;
   }};
 
   source slidingwindowfilter.c;
