@@ -37,7 +37,6 @@ import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
-import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -64,6 +63,7 @@ import org.ow2.mind.io.OutputFileLocator;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Modules.Module;
 import ujf.verimag.bip.codegen.C2BIPUtil;
+import ujf.verimag.bip.codegen.C2BIPVisitor;
 import ujf.verimag.bip.codegen.InteractionPoint;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
 
@@ -270,9 +270,13 @@ public class BipDefinitionSourceGenerator implements BindingController,
             }
             
             try {
+                C2BIPVisitor c2bipVisitor= new C2BIPVisitor(ENTRY_METHOD_IN_FILTERS,
+                        mindToBipMangleName(input.getName()), 
+                        this.model, true);
+                
                 Module res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
                         mindToBipMangleName(input.getName()), true, local_c_context, 
-                        ips_array, this.model);
+                        ips_array, this.model, c2bipVisitor);
             } catch (Exception e) {
                 throw new ADLException(BeamErrors.BEAM_ERROR, e);
             }
