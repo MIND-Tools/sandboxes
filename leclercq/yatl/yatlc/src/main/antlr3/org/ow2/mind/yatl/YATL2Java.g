@@ -113,9 +113,15 @@ templatePrototype
   List params = new ArrayList();
   List paramNames = new ArrayList();
 }:
-  ^(ID q+=qualifier* (declarator{params.add($declarator.st);
-                   paramNames.add($declarator.name);})* )
-    ->templateProto(name={$ID.text}, qualifiers={$q}, params={params}, paramNames={paramNames});
+  ^(ID q+=qualifier* 
+      (declarator{params.add($declarator.st);
+                  paramNames.add($declarator.name);})*
+      t=templateThrows? )
+    ->templateProto(name={$ID.text}, qualifiers={$q}, params={params}, paramNames={paramNames}, throwNames={$t.st});
+
+templateThrows :
+  ^(THROWS t+=ID+)
+    ->templateThrow(names={$t});
 
 templateBody
 @init {
@@ -149,8 +155,10 @@ iterableExpr
     ->appendForEach(decl={$declarator.st}, iterable={$e1.st}, iteration={$e2.st}, separator={$qualifiers::separator}, nullValue={$qualifiers::nullValue});
 
 innerExpr :
-  anonymousTemplate 
-  | templateExpr;
+  anonymousTemplate
+    -> {$anonymousTemplate.st}
+  | templateExpr
+    -> {$templateExpr.st};
 
 anonymousTemplate :
   ^(TEMPLATE content+=templateBody*)
@@ -166,12 +174,18 @@ callExpr :
     ->callTemplate(name={$ID.text}, params={$expr.st});
 
 exprQualifier :
-  ^(SEPARATOR STRING_LITERAL)
-    {$qualifiers::separator=$STRING_LITERAL.text;}
-  | ^(NULL STRING_LITERAL)
-    {$qualifiers::nullValue=$STRING_LITERAL.text;};
+  ^(SEPARATOR STRING)
+    {$qualifiers::separator=$STRING.text;}
+  | ^(NULL STRING)
+    {$qualifiers::nullValue=$STRING.text;};
 
 expr :
+  ^(QUOTE e1=expr1? QUOTE e2=expr?)
+    ->quoteExpr(e1={$e1.st}, e2={$e2.st})
+  | expr1
+    ->{$expr1.st};
+
+expr1 :
   ^(LPAREN e1=expr? RPAREN e2=expr?)
     ->parentExpr(e1={$e1.st}, e2={$e2.st})
   | ^(LT e1=expr? GT e2=expr?)

@@ -14,7 +14,7 @@ template :
   "$foo(Object o, String s) { helloworld }" OK
   "$foo(Object o, String s) { helloworld <%s%> }" OK
 
-templateBody :
+templateBodyExpr :
   "<foo>" 
     -> (SIMPLE_EXPR (EXPR foo))
   "<(foo)>" 
@@ -43,3 +43,7 @@ templateBody :
   "<(o!=null)?o.toString()>" OK
   "<(o!=null)?{foo_<o.toString()>}>" OK
   "<(o==null)?NULL:o.toString()>" OK
+  
+templateContent :
+  "#include \"toto\"" OK
+  "#include \"<foo.bar()>\"" OK

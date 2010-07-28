@@ -84,20 +84,27 @@ templateMethod(proto, content) ::= <<
 }
 >>
 
-templateProto(name, qualifiers, params, paramNames) ::= <<
-<qualifiers> String <name>(<params;separator=", ">) {
+templateProto(name, qualifiers, params, paramNames, throwNames) ::= <<
+<qualifiers> String <name>(<params;separator=", ">) <if (throwNames)> <throwNames> <endif> {
   StringBuilder stringBuilder = new StringBuilder();
   <name>(<if (paramNames)><paramNames;separator=", ">, stringBuilder<else>stringBuilder<endif>);
   return stringBuilder.toString();
 }
 
-<qualifiers> void <name> (<if (params)><params;separator=", ">, StringBuilder stringBuilder<else>StringBuilder stringBuilder<endif>)
+<qualifiers> void <name> (<if (params)><params;separator=", ">, StringBuilder stringBuilder<else>StringBuilder stringBuilder<endif>) <if (throwNames)> <throwNames> <endif>
+>>
+
+templateThrow(names) ::= <<
+throws <names;separator=", ">
 >>
 
 inlinedCode(code) ::= <<
 <code>
 >>
 
+quoteExpr(e1, e2) ::= <<
+"<e1>"<e2>
+>>
 parentExpr(e1, e2) ::= "(<e1>)<e2>"
 ltExpr(e1, e2) ::= "\<<e1>><e2>"
 

@@ -32,7 +32,7 @@ public class Test1 {
   public void test1() throws Exception {
     YATL2JavaCompiler compiler = new YATL2JavaCompiler();
     String output = compiler.yatl2Java(new File("target/test-classes/test1.tmpl"));
-    //System.out.println("output=\"" + output + "\"");
+    System.out.println("output=\"" + output + "\"");
     
   }
   

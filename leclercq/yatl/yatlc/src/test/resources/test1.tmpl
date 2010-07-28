@@ -20,12 +20,16 @@ public class foo {
     foreach 4: <String s : array | s.substring(2,3); null="{}">
     
     m1=<(m==null)?"":m.toString()>
-    m2=<(m!=null)?m.toString()>
+    m2=<(m!=null)?m.toString()> {
     m3=<(m!=null)?$tmpl2(m.toString())>
     m4=<m;null="">
+    }
+    $/* This is an output comment */
+    $// This is another output comment.
+    #include "<m.toString()>"
   }
 
-  private $tmpl2(String s) {
+  private $tmpl2(String s) throws ADLException {
     <s.substring(2,3)>
   }
 }

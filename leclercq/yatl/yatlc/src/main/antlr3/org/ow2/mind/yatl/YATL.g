@@ -21,6 +21,7 @@ tokens {
   STATIC = 'static';
   FINAL = 'final';
   SYNCHRONIZED = 'syncronized';
+  THROWS = 'throws';
   LPAREN     = '(';
   RPAREN     = ')';
   LBRACE     = '{';
@@ -29,6 +30,7 @@ tokens {
   RBRACKET   = ']';
   LT         = '<';
   GT         = '>';
+  QUOTE      = '"';
   SEMICOLON  = ';';
   DASH       = ':';
   COMMA      = ',';
@@ -38,6 +40,7 @@ tokens {
   QUESTION   = '?';
   DOLLAR     = '$';
   ASSIGN     = '=';
+  ESC        = '\\';
 
   // imaginary token
   FQN;
@@ -173,22 +176,30 @@ qualifier :
 // -----------------------------------------------------------------------------
 
 template :
-  templatePrototype LBRACE templateBody* RBRACE
-   -> ^(TEMPLATE templatePrototype templateBody* );
+  templatePrototype LBRACE templateContent RBRACE
+   -> ^(TEMPLATE templatePrototype templateContent? );
 
 templatePrototype :
-  qualifier* DOLLAR! ID^ LPAREN! (declarator (COMMA! declarator)*)? RPAREN!;
+  qualifier* DOLLAR! ID^ LPAREN! (declarator (COMMA! declarator)*)? RPAREN! templateThrows?;
+
+templateThrows :
+  THROWS^ ID (COMMA! ID)*;
+
+templateContent :
+  templateBody*;
 
 templateBody :
-  templateBodyInlinedCode
+ l=QUOTE templateBody1* r=QUOTE
+    -> STRING[$l] templateBody1* STRING[$r] 
+ | templateBody1;
+
+templateBody1 :
+  INLINED_CODE
   | templateBodyExpr
   | LBRACE templateBody* RBRACE
-    -> STRING[$LBRACE] templateBody* STRING[$RBRACE]
+    -> STRING[$LBRACE] templateBody* STRING[$RBRACE] 
   | templateBodyAny
   ;
-
-templateBodyInlinedCode :
-  INLINED_CODE;
 
 templateBodyExpr @init {Token ws = null;} :
   LT e1=templateExpr GT
@@ -204,7 +215,13 @@ templateBodyAny @init {Token ws = null;} :
     ws = nextWithSpace($e.tree.getToken());
    }
     -> {ws!= null}? STRING[$e.tree.getText() + ws.getText()]
-    -> STRING[$e.tree.getText()];
+    -> STRING[$e.tree.getText()]
+  | OUTPUT_COMMENT
+   {
+    ws = nextWithSpace($OUTPUT_COMMENT);
+   }
+    -> {ws!= null}? STRING[$OUTPUT_COMMENT.text.substring(1) + ws.getText()]
+    -> STRING[$OUTPUT_COMMENT.text.substring(1)];
     
 templateBodyAny1 : 
   ~(
@@ -212,6 +229,8 @@ templateBodyAny1 :
     | LT
     | LBRACE
     | RBRACE
+    | OUTPUT_COMMENT
+    | QUOTE
    );
 
 templateExpr :
@@ -236,14 +255,31 @@ anonymousTemplate :
    -> ^(TEMPLATE templateBody*);
 
 exprQualifier :
-  SEPARATOR^ ASSIGN! STRING_LITERAL
-  | NULL^ ASSIGN! STRING_LITERAL;
+  SEPARATOR^ ASSIGN! string
+  | NULL^ ASSIGN! string;
+
+string @init {String s = "";} :
+  QUOTE (stringContent {s += $stringContent.text;})* QUOTE
+    -> STRING[$string.text];
+
+stringContent:
+  ~ (QUOTE|ESC)
+  | ESC QUOTE
+  | ESC ESC
+  | ESC '\''
+  | ESC 'n'
+  | ESC 'r'
+  | ESC 't';
 
 callExpr :
   DOLLAR ID LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN
     -> ^(CALL_EXPR ID $params? );
 
 expr :
+  QUOTE^ expr1? QUOTE expr?
+  | expr1;
+
+expr1 :
   LPAREN^ expr? RPAREN expr?
   | LT^ expr? GT expr?
   | e1=anyExpr e2=expr?
@@ -262,6 +298,8 @@ anyExpr :
     | PIPE
     | SEMICOLON
     | QUESTION
+    | OUTPUT_COMMENT
+    | QUOTE
    );
 
 fullyQualifiedName :
@@ -297,6 +335,15 @@ ID :
     | '0'..'9'
     | '_'
   )*;
+
+OUTPUT_COMMENT :
+  '$//' ~(
+    '\n'
+    | '\r'
+   )*
+  '\r'? '\n' 
+  | '$/*'(.)* '*/';
+  
 
 COMMENT :
   '//'
@@ -387,18 +434,6 @@ fragment HEX_LITERAL :
 
 fragment OCTAL_LITERAL :
   '0' ('0'..'7')+;
-
-STRING_LITERAL :
-  '"'
-  (
-    ESC_SEQ
-    |
-    ~(
-      '\\'
-      | '"'
-     )
-  )*
-  '"';
 
 fragment HEX_DIGIT :
   (
