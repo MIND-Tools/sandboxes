@@ -28,9 +28,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to be attached to a class that defines an ADL annotation to
- * specify which {@link ADLLoaderAnnotationProcessor} component should be
- * executed while loading the definition.
+ * Annotation to be attached to class that defines an ADL annotation to specify
+ * which {@link ADLLoaderAnnotationProcessor} component should be executed while
+ * loading the definition.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

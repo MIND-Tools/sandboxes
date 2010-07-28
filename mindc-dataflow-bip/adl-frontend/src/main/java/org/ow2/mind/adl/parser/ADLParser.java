@@ -47,7 +47,9 @@ import org.ow2.mind.InputResourcesHelper;
 import org.ow2.mind.adl.ADLLocator;
 import org.ow2.mind.adl.jtb.ParseException;
 import org.ow2.mind.adl.jtb.Parser;
+import org.ow2.mind.adl.jtb.TokenMgrError;
 import org.ow2.mind.adl.jtb.syntaxtree.ADLFile;
+import org.ow2.mind.error.ErrorManager;
 
 /**
  * Parser the ADL source file located by the {@link #adlLocatorItf}.
@@ -59,6 +61,9 @@ public class ADLParser implements Loader, BindingController {
   // ---------------------------------------------------------------------------
   // Client interfaces
   // ---------------------------------------------------------------------------
+
+  /** The {@link ErrorManager} client interface used to log errors. */
+  public ErrorManager           errorManagerItf;
 
   /**
    * Client interface bound to the {@link XMLNodeFactory node factory}
@@ -88,7 +93,7 @@ public class ADLParser implements Loader, BindingController {
         return (Definition) registeredADL;
       } else if (registeredADL instanceof String) {
         is = new ByteArrayInputStream(((String) registeredADL).getBytes());
-        path = "<generated>";
+        path = "<generated:" + name + ">";
       } else {
         throw new CompilerError(GenericErrors.INTERNAL_ERROR,
             "Unexpected type for registered ADL");
@@ -99,7 +104,9 @@ public class ADLParser implements Loader, BindingController {
       try {
         is = adlFile.openStream();
       } catch (final IOException e) {
-        throw new ADLException(ADLErrors.IO_ERROR, e, path);
+        errorManagerItf.logFatal(ADLErrors.IO_ERROR, e, path);
+        // never executed (logFatal throw an ADLException).
+        return null;
       }
     }
 
@@ -107,16 +114,26 @@ public class ADLParser implements Loader, BindingController {
     try {
       d = readADL(is, path);
     } catch (final IOException e) {
-      throw new ADLException(ADLErrors.IO_ERROR, e, path);
+      errorManagerItf.logFatal(ADLErrors.IO_ERROR, e, path);
+      // never executed (logFatal throw an ADLException).
+      return null;
     } catch (final ParseException e) {
       final ErrorLocator locator = new BasicErrorLocator(path,
           e.currentToken.next.beginLine, e.currentToken.next.endLine,
           e.currentToken.next.beginColumn, e.currentToken.next.endColumn);
-      throw new ADLException(ADLErrors.PARSE_ERROR, locator, e.getMessage());
+      errorManagerItf.logFatal(ADLErrors.PARSE_ERROR, locator, e.getMessage());
+      // never executed (logFatal throw an ADLException).
+      return null;
+    } catch (final TokenMgrError e) {
+      // TokenMgrError do not have location info.
+      final ErrorLocator locator = new BasicErrorLocator(path, -1, -1);
+      errorManagerItf.logFatal(ADLErrors.PARSE_ERROR, locator, e.getMessage());
+      // never executed (logFatal throw an ADLException).
+      return null;
     }
 
-    InputResourcesHelper.addInputResource(d, adlLocatorItf
-        .toInputResource(name));
+    InputResourcesHelper.addInputResource(d,
+        adlLocatorItf.toInputResource(name));
 
     return d;
   }
@@ -137,8 +154,8 @@ public class ADLParser implements Loader, BindingController {
   protected Definition readADL(final InputStream is, final String fileName)
       throws IOException, ParseException, ADLException {
     final Parser parser = new Parser(is);
-    final JTBProcessor processor = new JTBProcessor(nodeFactoryItf, DTD,
-        fileName);
+    final JTBProcessor processor = new JTBProcessor(errorManagerItf,
+        nodeFactoryItf, DTD, fileName);
     final ADLFile content = parser.ADLFile();
     return processor.toDefinition(content);
   }
@@ -151,7 +168,9 @@ public class ADLParser implements Loader, BindingController {
       throws NoSuchInterfaceException, IllegalBindingException {
     checkItfName(itfName);
 
-    if (itfName.equals(XMLNodeFactory.ITF_NAME)) {
+    if (itfName.equals(ErrorManager.ITF_NAME)) {
+      this.errorManagerItf = (ErrorManager) value;
+    } else if (itfName.equals(XMLNodeFactory.ITF_NAME)) {
       this.nodeFactoryItf = (XMLNodeFactory) value;
     } else if (itfName.equals(ADLLocator.ITF_NAME)) {
       this.adlLocatorItf = (ADLLocator) value;
@@ -163,13 +182,16 @@ public class ADLParser implements Loader, BindingController {
   }
 
   public String[] listFc() {
-    return listFcHelper(XMLNodeFactory.ITF_NAME, ADLLocator.ITF_NAME);
+    return listFcHelper(ErrorManager.ITF_NAME, XMLNodeFactory.ITF_NAME,
+        ADLLocator.ITF_NAME);
   }
 
   public Object lookupFc(final String itfName) throws NoSuchInterfaceException {
     checkItfName(itfName);
 
-    if (itfName.equals(XMLNodeFactory.ITF_NAME)) {
+    if (itfName.equals(ErrorManager.ITF_NAME)) {
+      return this.errorManagerItf;
+    } else if (itfName.equals(XMLNodeFactory.ITF_NAME)) {
       return this.nodeFactoryItf;
     } else if (itfName.equals(ADLLocator.ITF_NAME)) {
       return this.adlLocatorItf;
@@ -183,7 +205,9 @@ public class ADLParser implements Loader, BindingController {
       IllegalBindingException {
     checkItfName(itfName);
 
-    if (itfName.equals(XMLNodeFactory.ITF_NAME)) {
+    if (itfName.equals(ErrorManager.ITF_NAME)) {
+      this.errorManagerItf = null;
+    } else if (itfName.equals(XMLNodeFactory.ITF_NAME)) {
       this.nodeFactoryItf = null;
     } else if (itfName.equals(ADLLocator.ITF_NAME)) {
       this.adlLocatorItf = null;

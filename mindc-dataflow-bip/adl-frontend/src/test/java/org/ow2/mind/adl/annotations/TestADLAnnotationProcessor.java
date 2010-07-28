@@ -41,16 +41,21 @@ import org.objectweb.fractal.adl.Node;
 import org.ow2.mind.BasicInputResourceLocator;
 import org.ow2.mind.adl.ADLLocator;
 import org.ow2.mind.adl.ASTChecker;
+import org.ow2.mind.adl.ErrorLoader;
 import org.ow2.mind.adl.Factory;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
 import org.ow2.mind.adl.annotation.AnnotationProcessorTemplateInstantiator;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
 import org.ow2.mind.annotation.Annotation;
-import org.ow2.mind.idl.IDLLoader;
+import org.ow2.mind.error.ErrorManager;
+import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
+import org.ow2.mind.idl.IDLLoaderChainFactory.IDLFrontend;
 import org.ow2.mind.idl.IDLLocator;
 import org.ow2.mind.idl.annotation.AnnotationProcessorLoader;
+import org.ow2.mind.idl.ast.IDL;
+import org.ow2.mind.idl.ast.InterfaceDefinition;
 import org.ow2.mind.plugin.SimpleClassPluginFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -61,6 +66,9 @@ public class TestADLAnnotationProcessor {
 
   @BeforeMethod(alwaysRun = true)
   public void setUp() throws Exception {
+    final ErrorManager errorManager = ErrorManagerFactory
+        .newSimpleErrorManager();
+
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
     final IDLLocator idlLocator = IDLLoaderChainFactory
@@ -73,12 +81,15 @@ public class TestADLAnnotationProcessor {
     final org.objectweb.fractal.adl.Factory pluginFactory = new SimpleClassPluginFactory();
 
     // loader chains
-    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader(idlLocator,
-        inputResourceLocator);
-    final Loader adlLoader = Factory
-        .newLoader(inputResourceLocator, adlLocator, idlLocator,
-            implementationLocator, idlLoader, pluginFactory);
-    loader = adlLoader;
+    final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(errorManager,
+        idlLocator, inputResourceLocator, pluginFactory);
+    final Loader adlLoader = Factory.newLoader(errorManager,
+        inputResourceLocator, adlLocator, idlLocator, implementationLocator,
+        idlFrontend.cache, idlFrontend.loader, pluginFactory);
+    final ErrorLoader errorLoader = new ErrorLoader();
+    errorLoader.clientLoader = adlLoader;
+    errorLoader.errorManagerItf = errorManager;
+    loader = errorLoader;
     // ensure that phases are empty.
     FooProcessor.phases = new ArrayList<ProcessParams>();
   }
@@ -159,8 +170,23 @@ public class TestADLAnnotationProcessor {
         final ASTChecker checker = new ASTChecker();
         checker.assertDefinition(d).containsInterfaces("itf").whereFirst()
             .isServer().hasSignature("pkg1.I2");
+
+        final String idlName = "pkg1.annotations.GeneratedIDL";
+        final StringTemplate stIDL = getTemplate(
+            "pkg1.annotations.ADLGenerator", "GenerateIDL");
+        stIDL.setAttribute("idlName", idlName);
+
+        loadIDLFromSource(idlName, stIDL.toString(), context);
+        assertTrue(isIDLAlreadyGenerated(idlName, context));
+        final IDL idl = idlLoaderItf.load(idlName, context);
+        assertNotNull(idl);
+        assertTrue(idl instanceof InterfaceDefinition);
+        assertEquals(((InterfaceDefinition) idl).getMethods().length, 2);
+
       } else if (phase == ADLLoaderPhase.AFTER_CHECKING) {
         assertTrue(isAlreadyGenerated("pkg1.annotations.Generated", context));
+        assertTrue(isIDLAlreadyGenerated("pkg1.annotations.GeneratedIDL",
+            context));
       }
 
       return null;

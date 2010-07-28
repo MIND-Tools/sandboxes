@@ -25,12 +25,16 @@ package org.ow2.mind.adl.binding;
 import static java.lang.Integer.parseInt;
 import static org.objectweb.fractal.adl.NodeUtil.castNodeError;
 import static org.objectweb.fractal.adl.types.TypeInterfaceUtil.isCollection;
+import static org.ow2.mind.BindingControllerImplHelper.checkItfName;
+import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 import static org.ow2.mind.adl.ast.ASTHelper.getNumberOfElement;
 import static org.ow2.mind.adl.ast.ASTHelper.getResolvedComponentDefinition;
 import static org.ow2.mind.adl.ast.Binding.THIS_COMPONENT;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.AbstractLoader;
@@ -40,10 +44,17 @@ import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.IllegalBindingException;
+import org.ow2.mind.adl.ast.ASTHelper;
 import org.ow2.mind.adl.ast.Binding;
 import org.ow2.mind.adl.ast.BindingContainer;
 import org.ow2.mind.adl.ast.Component;
 import org.ow2.mind.adl.ast.ComponentContainer;
+import org.ow2.mind.adl.membrane.ast.Controller;
+import org.ow2.mind.adl.membrane.ast.ControllerContainer;
+import org.ow2.mind.adl.membrane.ast.ControllerInterface;
+import org.ow2.mind.adl.membrane.ast.InternalInterfaceContainer;
+import org.ow2.mind.adl.membrane.ast.MembraneASTHelper;
+import org.ow2.mind.error.ErrorManager;
 
 public class BindingCheckerLoader extends AbstractLoader {
 
@@ -51,6 +62,10 @@ public class BindingCheckerLoader extends AbstractLoader {
   // Client interfaces
   // ---------------------------------------------------------------------------
 
+  /** The {@link ErrorManager} client interface used to log errors. */
+  public ErrorManager   errorManagerItf;
+
+  /** The {@link BindingChecker} client interface used to log errors. */
   public BindingChecker bindingCheckerItf;
 
   // ---------------------------------------------------------------------------
@@ -83,24 +98,46 @@ public class BindingCheckerLoader extends AbstractLoader {
           subComponent, null, context);
       assert subCompDef != null;
 
-      final Interface[] interfaces = castNodeError(subCompDef,
-          InterfaceContainer.class).getInterfaces();
-      final Map<String, Interface> subComponentItfs = new HashMap<String, Interface>(
-          interfaces.length);
-      for (final Interface itf : interfaces) {
-        subComponentItfs.put(itf.getName(), itf);
+      final Map<String, Interface> subComponentItfs = new HashMap<String, Interface>();
+      if (subCompDef instanceof InterfaceContainer) {
+        final Interface[] interfaces = ((InterfaceContainer) subCompDef)
+            .getInterfaces();
+        for (final Interface itf : interfaces) {
+          subComponentItfs.put(itf.getName(), itf);
+        }
       }
       subComponentInterfaces.put(subComponent.getName(), subComponentItfs);
     }
 
-    final Interface[] interfaces = castNodeError(container,
-        InterfaceContainer.class).getInterfaces();
-    final Map<String, Interface> componentItfs = new HashMap<String, Interface>(
-        interfaces.length);
-    for (final Interface itf : interfaces) {
-      componentItfs.put(itf.getName(), itf);
-    }
+    // add composite interfaces
+    final Map<String, Interface> componentItfs = new HashMap<String, Interface>();
     subComponentInterfaces.put(null, componentItfs);
+    // first add internal interfaces
+    if (container instanceof InternalInterfaceContainer) {
+      for (final Interface itf : ((InternalInterfaceContainer) container)
+          .getInternalInterfaces()) {
+        componentItfs.put(itf.getName(), itf);
+      }
+    }
+    // then add server interfaces of controllers
+    final Set<Interface> controllerItfs = new HashSet<Interface>();
+    if (container instanceof ControllerContainer) {
+      for (final Controller controller : ((ControllerContainer) container)
+          .getControllers()) {
+        for (final ControllerInterface ctrlItf : controller
+            .getControllerInterfaces()) {
+          if (!componentItfs.containsKey(ctrlItf.getName())
+              && !MembraneASTHelper.isInternalInterface(ctrlItf)) {
+            final Interface itf = ASTHelper.getInterface(container,
+                ctrlItf.getName());
+            if (itf != null) {
+              componentItfs.put(ctrlItf.getName(), itf);
+              controllerItfs.add(itf);
+            }
+          }
+        }
+      }
+    }
 
     for (final Binding binding : bindings) {
 
@@ -110,13 +147,22 @@ public class BindingCheckerLoader extends AbstractLoader {
       final Interface to = getInterface(binding, binding.getToComponent(),
           binding.getToInterface(), binding.getToInterfaceNumber(),
           subComponentInterfaces);
+      if (from == null || to == null) continue;
 
       if (THIS_COMPONENT.equals(binding.getFromComponent())) {
         bindingCheckerItf.checkFromCompositeToSubcomponentBinding(from, to,
             binding, binding);
+        if (controllerItfs.contains(from)) {
+          // From itf is a controller interface
+          ASTHelper.setFromCompositeControllerDecoration(binding, true);
+        }
       } else if (THIS_COMPONENT.equals(binding.getToComponent())) {
         bindingCheckerItf.checkFromSubcomponentToCompositeBinding(from, to,
             binding, binding);
+        if (controllerItfs.contains(to)) {
+          // To itf is a controller interface
+          ASTHelper.setToCompositeControllerDecoration(binding, true);
+        }
       } else {
         bindingCheckerItf.checkBinding(from, to, binding, binding);
       }
@@ -135,30 +181,35 @@ public class BindingCheckerLoader extends AbstractLoader {
     } else {
       interfaces = subComponentInterfaces.get(componentName);
       if (interfaces == null) {
-        throw new ADLException(BindingErrors.INVALID_ITF_NO_SUCH_COMPONENT,
+        errorManagerItf.logError(BindingErrors.INVALID_ITF_NO_SUCH_COMPONENT,
             binding, componentName);
+        return null;
       }
     }
 
     final Interface itf = interfaces.get(interfaceName);
     if (itf == null) {
-      throw new ADLException(BindingErrors.INVALID_ITF_NO_SUCH_INTERFACE,
+      errorManagerItf.logError(BindingErrors.INVALID_ITF_NO_SUCH_INTERFACE,
           binding, componentName, interfaceName);
+      return null;
     }
 
     if (interfaceNumber != null) {
       if (!isCollection(itf)) {
-        throw new ADLException(BindingErrors.INVALID_ITF_NO_SUCH_INTERFACE,
-            binding, componentName, interfaceName + "[" + interfaceNumber + "]");
+        errorManagerItf
+            .logError(BindingErrors.INVALID_ITF_NO_SUCH_INTERFACE, binding,
+                componentName, interfaceName + "[" + interfaceNumber + "]");
+        return null;
       }
 
       final int nbElement = getNumberOfElement(itf);
       if (nbElement != -1) {
         final int itfNumber = parseInt(interfaceNumber);
         if (itfNumber < 0 || itfNumber >= nbElement) {
-          throw new ADLException(BindingErrors.INVALID_ITF_NO_SUCH_INTERFACE,
+          errorManagerItf.logError(BindingErrors.INVALID_ITF_NO_SUCH_INTERFACE,
               binding, componentName, interfaceName + "[" + interfaceNumber
                   + "]");
+          return null;
         }
       }
     }
@@ -172,12 +223,11 @@ public class BindingCheckerLoader extends AbstractLoader {
   @Override
   public void bindFc(final String itfName, final Object value)
       throws NoSuchInterfaceException, IllegalBindingException {
+    checkItfName(itfName);
 
-    if (itfName == null) {
-      throw new IllegalArgumentException("Interface name can't be null");
-    }
-
-    if (itfName.equals(BindingChecker.ITF_NAME)) {
+    if (itfName.equals(ErrorManager.ITF_NAME)) {
+      errorManagerItf = (ErrorManager) value;
+    } else if (itfName.equals(BindingChecker.ITF_NAME)) {
       bindingCheckerItf = (BindingChecker) value;
     } else {
       super.bindFc(itfName, value);
@@ -187,21 +237,17 @@ public class BindingCheckerLoader extends AbstractLoader {
 
   @Override
   public String[] listFc() {
-    final String[] superList = super.listFc();
-    final String[] list = new String[superList.length + 1];
-    list[0] = BindingChecker.ITF_NAME;
-    System.arraycopy(superList, 0, list, 1, superList.length);
-    return list;
+    return listFcHelper(super.listFc(), ErrorManager.ITF_NAME,
+        BindingChecker.ITF_NAME);
   }
 
   @Override
   public Object lookupFc(final String itfName) throws NoSuchInterfaceException {
+    checkItfName(itfName);
 
-    if (itfName == null) {
-      throw new IllegalArgumentException("Interface name can't be null");
-    }
-
-    if (itfName.equals(BindingChecker.ITF_NAME)) {
+    if (itfName.equals(ErrorManager.ITF_NAME)) {
+      return errorManagerItf;
+    } else if (itfName.equals(BindingChecker.ITF_NAME)) {
       return bindingCheckerItf;
     } else {
       return super.lookupFc(itfName);
@@ -211,12 +257,11 @@ public class BindingCheckerLoader extends AbstractLoader {
   @Override
   public void unbindFc(final String itfName) throws NoSuchInterfaceException,
       IllegalBindingException {
+    checkItfName(itfName);
 
-    if (itfName == null) {
-      throw new IllegalArgumentException("Interface name can't be null");
-    }
-
-    if (itfName.equals(BindingChecker.ITF_NAME)) {
+    if (itfName.equals(ErrorManager.ITF_NAME)) {
+      errorManagerItf = null;
+    } else if (itfName.equals(BindingChecker.ITF_NAME)) {
       bindingCheckerItf = null;
     } else {
       super.unbindFc(itfName);
