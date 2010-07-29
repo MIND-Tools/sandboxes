@@ -223,6 +223,12 @@
                 <type>bundle</type>
             </dependency>
 
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>beamc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Other dependencies -->
             <dependency>
                 <groupId>org.objectweb.fractal.fractaladl</groupId>
