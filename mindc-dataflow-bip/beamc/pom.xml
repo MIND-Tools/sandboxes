@@ -50,6 +50,52 @@
                 <artifactId>beam-frontend</artifactId>
         </dependency>
 
+        <dependency>
+                <groupId>ujf.verimag.bip</groupId>
+                <artifactId>metamodel</artifactId>
+                <version>0.1</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/../beam-backend/externals/ujf.verimag.bip.metamodel_wip.jar</systemPath>
+        </dependency>
+
+        <dependency>
+                <groupId>ujf.verimag.bip</groupId>
+                <artifactId>parser</artifactId>
+                <version>0.1</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/../beam-backend/externals/ujf.verimag.bip.parser_wip.jar</systemPath>
+        </dependency>
+
+        <dependency>
+                <groupId>ujf.verimag.bip</groupId>
+                <artifactId>C2bip</artifactId>
+                <version>0.1</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/../beam-backend/externals/C_wip.jar</systemPath>
+        </dependency>
+
+        <dependency>
+                <groupId>org.ow2.think</groupId>
+                <artifactId>codegen</artifactId>
+                <version>0.1</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/../beam-backend/externals/codegen.jar</systemPath>
+        </dependency>
+
+        <dependency>
+        	<groupId>org.mod4j.org.eclipse.emf</groupId>
+        	<artifactId>common</artifactId>
+        	<version>2.5.0</version>
+        	<type>jar</type>
+        	<scope>runtime</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.mod4j.org.eclipse.emf</groupId>
+        	<artifactId>ecore</artifactId>
+        	<version>2.5.0</version>
+        	<type>jar</type>
+        	<scope>runtime</scope>
+        </dependency>
   </dependencies>
   
   
