@@ -1,16 +1,27 @@
+#ifndef BEAM_PARSE_SHIELD
+#include <stdlib.h>
+#define START_ACT_LOOP {int act_idx; for (act_idx=0;act_idx<c;act_idx++){
+#define END_ACT_LOOP }}
+#endif
+
+
 void METH(filterctrl, act) (int c){
   int z;
-  int m = 0;
-  int w = 1;
-  int i,j;
+  int m;
+  int w;
+  int j;
 
-  for (i=0; i<c; i++){
+  m = 0;
+  w = 1;
 
+  START_ACT_LOOP
     for (j=0; j<ATTR(width); j++){
-      m = (CALL(input, peek)(j) + m*j)/(j+1);
+      int tmp;
+      tmp = CALL(input, peek)(j);
+      m = (tmp + m*j)/(j+1);
     }
     CALL(input, get)();
     
     CALL(output, put)(m);
-  }
+  END_ACT_LOOP
 }
