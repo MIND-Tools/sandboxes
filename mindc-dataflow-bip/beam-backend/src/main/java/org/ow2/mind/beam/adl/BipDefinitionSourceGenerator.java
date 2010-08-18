@@ -29,6 +29,7 @@ import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -44,6 +45,8 @@ import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.DefinitionSourceGenerator;
 import org.ow2.mind.adl.ast.ASTHelper;
+import org.ow2.mind.adl.ast.Attribute;
+import org.ow2.mind.adl.ast.AttributeContainer;
 import org.ow2.mind.adl.ast.Data;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.MindInterface;
@@ -252,6 +255,13 @@ public class BipDefinitionSourceGenerator implements BindingController,
             //}
         }
 
+        Map<String,String> attributes = new HashMap<String,String>();
+        
+        assert (input instanceof AttributeContainer);
+        for(final Attribute attr: ((AttributeContainer)input).getAttributes()){
+            attributes.put(attr.getType(), "attr_" + attr.getName());
+        }
+        
         InteractionPoint[] ips_array = ips.toArray(new InteractionPoint[0]);
         
         // we loop over all srcs. First version of the code forces
@@ -263,7 +273,9 @@ public class BipDefinitionSourceGenerator implements BindingController,
                 "#define START_ACT_LOOP \n" +
                 "#define END_ACT_LOOP \n" +
                 "#define METH(x,y) x##__##y\n" +
-                "#define CALL(x,y) x##__##y\n";
+                "#define CALL(x,y) x##__##y\n" +
+                "#define ATTR(x) attr_##x\n";
+            
             Data data = ic.getData();
             if (data != null){
                 local_c_context += data.getCCode() + "\n";
@@ -271,7 +283,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
             
             try {
                 C2BIPVisitor c2bipVisitor= new C2BIPVisitor(ENTRY_METHOD_IN_FILTERS,
-                        mindToBipMangleName(input.getName()), 
+                        mindToBipMangleName(input.getName()), attributes,
                         this.model, true);
                 
                 Module res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
