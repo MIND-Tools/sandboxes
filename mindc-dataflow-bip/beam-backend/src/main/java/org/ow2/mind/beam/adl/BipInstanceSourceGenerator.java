@@ -35,7 +35,8 @@ import ujf.verimag.bip.Core.Behaviors.AtomType;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Modules.Module;
-import ujf.verimag.bip.bip2src.Reverse;
+import ujf.verimag.bip.backend.bip2src.Reverse;
+import ujf.verimag.bip.compiler.backend.BackendException;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
 import ujf.verimag.bip.metamodelAPI.BipUtil;
 
@@ -195,6 +196,8 @@ public class BipInstanceSourceGenerator implements BindingController,
           r.decompile(bip_module);
           ps.close();
       } catch (FileNotFoundException e) {
+          throw new ADLException(IOErrors.WRITE_ERROR, e);
+      } catch (BackendException e){
           throw new ADLException(IOErrors.WRITE_ERROR, e);
       }
   }

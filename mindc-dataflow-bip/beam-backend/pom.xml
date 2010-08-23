@@ -59,6 +59,23 @@
         </dependency>
 
         <dependency>
+                <groupId>ujf.verimag.bip</groupId>
+                <artifactId>BIP-common-backend</artifactId>
+                <version>0.1</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/externals/backend-common_wip.jar</systemPath>
+        </dependency>
+
+        <dependency>
+                <groupId>ujf.verimag.bip</groupId>
+                <artifactId>BIP-bip2src-backend</artifactId>
+                <version>0.1</version>
+                <scope>system</scope>
+                <systemPath>${basedir}/externals/bip2src_wip.jar</systemPath>
+        </dependency>
+
+
+        <dependency>
                 <groupId>org.ow2.think</groupId>
                 <artifactId>codegen</artifactId>
                 <version>0.1</version>
