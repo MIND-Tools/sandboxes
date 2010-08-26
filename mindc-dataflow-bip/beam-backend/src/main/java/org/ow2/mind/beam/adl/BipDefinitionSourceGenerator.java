@@ -29,15 +29,20 @@ import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.interfaces.InterfaceContainer;
+import org.objectweb.fractal.adl.types.TypeInterface;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -63,12 +68,31 @@ import org.ow2.mind.idl.ast.PointerOf;
 import org.ow2.mind.idl.ast.PrimitiveType;
 import org.ow2.mind.idl.ast.Type;
 import org.ow2.mind.io.OutputFileLocator;
+import ujf.verimag.bip.Core.Interactions.PortParameter;
+
+import ujf.verimag.bip.Core.Behaviors.AtomType;
+import ujf.verimag.bip.Core.Behaviors.Behavior;
+import ujf.verimag.bip.Core.Behaviors.DataParameter;
+import ujf.verimag.bip.Core.Behaviors.DataType;
+import ujf.verimag.bip.Core.Behaviors.PetriNet;
+import ujf.verimag.bip.Core.Behaviors.Port;
+import ujf.verimag.bip.Core.Behaviors.PortDefinition;
+import ujf.verimag.bip.Core.Behaviors.PortType;
+import ujf.verimag.bip.Core.Behaviors.State;
+import ujf.verimag.bip.Core.Behaviors.Transition;
+import ujf.verimag.bip.Core.Behaviors.Variable;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
+import ujf.verimag.bip.Core.Interactions.ConnectorType;
+import ujf.verimag.bip.Core.Interactions.PortParameter;
+import ujf.verimag.bip.Core.Interactions.PortParameterReference;
 import ujf.verimag.bip.Core.Modules.Module;
+import ujf.verimag.bip.Core.Modules.OpaqueElement;
+import ujf.verimag.bip.Core.PortExpressions.ACFusion;
 import ujf.verimag.bip.codegen.C2BIPUtil;
 import ujf.verimag.bip.codegen.C2BIPVisitor;
 import ujf.verimag.bip.codegen.InteractionPoint;
 import ujf.verimag.bip.metamodelAPI.BipCreator;
+import ujf.verimag.bip.metamodelAPI.BipUtil;
 
 /*
  * If you wonder why all the backend is not part of a single class...
@@ -103,6 +127,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
 
 
   protected ujf.verimag.bip.Core.Modules.System model;
+  
+  protected Set<String> header_types_for_buffers = new HashSet<String>();
   
   public BipDefinitionSourceGenerator(){
     this.model = BipCreator.createSystem("mysystem");
@@ -194,6 +220,54 @@ public class BipDefinitionSourceGenerator implements BindingController,
       return the_type;
   }
   
+  protected void createPTPConnectorType(String typename, String buffername){
+      PortType ptin = BipUtil.getPortType(this.model, "in_" + buffername);
+      PortType ptout = BipUtil.getPortType(this.model, "out_" + buffername);
+      assert(ptin != null && ptout != null);
+      
+      ConnectorType ct = BipCreator.createConnectorType(this.model, "ptp_" + typename);
+      
+      
+      PortParameter ppin = BipCreator.createPortParameter("in", ptin, ct);
+      PortParameter ppout = BipCreator.createPortParameter("out", ptin, ct);
+      
+      List<PortParameter> sync = new ArrayList<PortParameter>();
+      sync.add(ppin);
+      sync.add(ppout);
+      
+      ACFusion portdef = BipCreator.createPortExpressionFusion(null,sync);
+
+      ct.setDefinition(portdef);
+  }
+  
+  protected void createBufferAtom(String typedefs, String buffername, String typename){
+      PetriNet behav = BipCreator.createPetriNet();
+ 
+      AtomType buffer = BipCreator.createAtomType(behav, buffername, this.model);
+      State single = BipCreator.createState(behav, "SINGLE", true);
+      
+      DataType dt = BipCreator.createDataType(typename, this.model);
+      
+      DataParameter dpi = BipCreator.createDataParameter("ind", dt);
+      DataParameter dpo = BipCreator.createDataParameter("outd", dt);
+
+      PortType ptin = BipCreator.createPortType("in_" + buffername, this.model, new DataParameter[]{dpi});
+      PortType ptout = BipCreator.createPortType("out_" + buffername, this.model, new DataParameter[]{dpo});
+      Variable inv = BipCreator.createVariable(dt, "inv", buffer, false, false);
+      Variable outv = BipCreator.createVariable(dt, "outv", buffer, false, false);
+
+      PortDefinition pin = BipCreator.createPortDefinition(ptin, "in", new Variable[]{inv}, buffer);
+      PortDefinition pout = BipCreator.createPortDefinition(ptout, "out", new Variable[]{outv}, buffer);
+      
+      Transition tin = BipCreator.createTransition(pin, null, single, single, buffer);
+      Transition tout = BipCreator.createTransition(pout, null, single, single, buffer);
+      
+      OpaqueElement header_oe = BipCreator.createOpaqueElementFromCCode(typedefs,true);
+      BipUtil.addDeclarationToModule(this.model, header_oe);
+      
+      // FIXME not sure this is the best location for invoking this method.
+      createPTPConnectorType(typename, buffername);
+  }
   // ---------------------------------------------------------------------------
   // Implementation of the Visitor interface
   // ---------------------------------------------------------------------------
@@ -232,12 +306,27 @@ public class BipDefinitionSourceGenerator implements BindingController,
         for(final Interface iface: ((InterfaceContainer)input).getInterfaces()){
             assert(iface instanceof MindInterface);
             MindInterface miface = (MindInterface)iface;
-
+            InterfaceDefinition idef = 
+                InterfaceDefinitionDecorationHelper.getResolvedInterfaceDefinition(miface, 
+                        idlLoaderItf, context);
             
-           // if (miface.getRole().equals(TypeInterface.CLIENT_ROLE)){
-                InterfaceDefinition idef = InterfaceDefinitionDecorationHelper.getResolvedInterfaceDefinition(miface, idlLoaderItf, context);
+            /*
+             * Following SB are used to create a union type, wrapped in a struct. One
+             * for each interface. This is used to create a fifo component that will hold
+             * the data to be queued.
+             * This is overkill for the current task, as our FIFO should hold only elements of the same type.
+             */
+            StringBuffer iface_struct = new StringBuffer();
+            iface_struct.append("\ntypedef struct {\n");
+            iface_struct.append("   int tid;\n");
+            iface_struct.append("   union {\n");
+            
                 for (final Method m: idef.getMethods()){
                     String fname = miface.getName() + "__" + m.getName();
+                    String mname = m.getName();
+                    StringBuffer struct_declaration = new StringBuffer();
+
+                    struct_declaration.append("struct {\n");
                     
                     Type t = m.getType();
                     String return_type = typeToString(t);
@@ -246,13 +335,26 @@ public class BipDefinitionSourceGenerator implements BindingController,
                     List<String> param_types = new ArrayList<String>();
                     for (final Parameter param: params){
                         Type param_t = param.getType();
-                        param_types.add(typeToString(param_t));
+                        String param_t_name = typeToString(param_t); 
+                        param_types.add(param_t_name);
+                        
+                        struct_declaration.append("       " + param_t_name + " " + param.getName() + ";\n");
                     }
                     String[] params_string = param_types.toArray(new String[0]);
                     InteractionPoint ip = new InteractionPoint(return_type, fname, params_string);
                     ips.add(ip);
+                    
+//                    struct_declaration.append("} " + mname + "_arg_t;\n");
+                    struct_declaration.append("    } ");
+                    iface_struct.append("      " + struct_declaration.toString() + mname + ";\n");
                 }
-            //}
+                String iface_union_wrapped_tname = idef.getName().replace('.', '_') + "_arg_t";
+                iface_struct.append("   } data;\n} " + iface_union_wrapped_tname + ";\n");
+                
+                if (miface.getRole().equals(TypeInterface.CLIENT_ROLE) && !header_types_for_buffers.contains(iface_union_wrapped_tname)){
+                    createBufferAtom(iface_struct.toString(), idef.getName().replace('.', '_'), iface_union_wrapped_tname);
+                    header_types_for_buffers.add(iface_union_wrapped_tname);
+                }
         }
 
         Map<String,String> attributes = new HashMap<String,String>();
