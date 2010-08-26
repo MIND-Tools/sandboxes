@@ -7,12 +7,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
+import org.objectweb.fractal.adl.interfaces.Interface;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -20,13 +23,23 @@ import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.adl.InstanceSourceGenerator;
 import org.ow2.mind.adl.InstancesDescriptor;
+import org.ow2.mind.adl.ast.ASTHelper;
+import org.ow2.mind.adl.ast.Binding;
+import org.ow2.mind.adl.ast.BindingContainer;
+import org.ow2.mind.adl.ast.MindInterface;
 import org.ow2.mind.adl.graph.ComponentGraph;
+import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
 import org.ow2.mind.beam.BackendCommandLineHandler;
 import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
+import org.ow2.mind.idl.IDLLoader;
+import org.ow2.mind.idl.ast.InterfaceDefinition;
+import org.ow2.mind.idl.ast.Method;
 import org.ow2.mind.io.IOErrors;
 import org.ow2.mind.io.OutputFileLocator;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
+import ujf.verimag.bip.Core.Behaviors.PortDefinition;
+import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Modules.Module;
@@ -52,6 +65,7 @@ public class BipInstanceSourceGenerator implements BindingController,
   /** client interface used to checks timestamps of input resources. */
   public InputResourceLocator inputResourceLocatorItf;
 
+  public IDLLoader idlLoaderItf;
 
   // ---------------------------------------------------------------------------
   // Implementation of the BindingController interface
@@ -65,6 +79,8 @@ public class BipInstanceSourceGenerator implements BindingController,
       outputFileLocatorItf = (OutputFileLocator) value;
     } else if (itfName.equals(InputResourceLocator.ITF_NAME)) {
       inputResourceLocatorItf = (InputResourceLocator) value;
+    }  else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      idlLoaderItf = (IDLLoader) value;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
@@ -73,7 +89,8 @@ public class BipInstanceSourceGenerator implements BindingController,
 
   public String[] listFc() {
     return listFcHelper(OutputFileLocator.ITF_NAME,
-        InputResourceLocator.ITF_NAME);
+        InputResourceLocator.ITF_NAME,
+        IDLLoader.ITF_NAME);
   }
 
   
@@ -84,6 +101,8 @@ public class BipInstanceSourceGenerator implements BindingController,
       return outputFileLocatorItf;
     } else if (itfName.equals(InputResourceLocator.ITF_NAME)) {
       return inputResourceLocatorItf;
+    } else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      return idlLoaderItf;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
@@ -104,6 +123,94 @@ public class BipInstanceSourceGenerator implements BindingController,
     }
   }
 
+  protected void createConnectors(ujf.verimag.bip.Core.Modules.Module bip_module, CompoundType ct, 
+          InstancesDescriptor input, Map<Object, Object> context) throws ADLException{
+      for (Binding binding : ((BindingContainer) input.instanceDefinition).getBindings()){
+          String from_comp_name = binding.getFromComponent();
+          String from_iface_name = binding.getFromInterface();
+          String to_comp_name = binding.getToComponent();
+          String to_iface_name = binding.getToInterface();
+
+         
+          org.ow2.mind.adl.ast.Component from_comp = ASTHelper.getComponent(input.instanceDefinition, from_comp_name);
+          org.ow2.mind.adl.ast.Component to_comp = ASTHelper.getComponent(input.instanceDefinition, to_comp_name);
+          
+          Definition from_comp_def = ASTHelper.getResolvedDefinition(from_comp.getDefinitionReference(), null, context);
+          Definition to_comp_def = ASTHelper.getResolvedDefinition(to_comp.getDefinitionReference(), null, context);
+          
+          AtomType from_atom_type = BipUtil.getAtomTypeDefinition(
+                  BipDefinitionSourceGenerator.mindToBipMangleName(from_comp_def.getName()), bip_module);
+          AtomType to_atom_type = BipUtil.getAtomTypeDefinition(
+                  BipDefinitionSourceGenerator.mindToBipMangleName(to_comp_def.getName()), bip_module);
+          assert(from_atom_type != null);
+          assert(to_atom_type != null);
+          
+          Interface from_iface_ = ASTHelper.getInterface(from_comp_def, from_iface_name);
+          Interface to_iface_ = ASTHelper.getInterface(to_comp_def, to_iface_name);
+          
+          assert(from_iface_ instanceof MindInterface);
+          assert(to_iface_ instanceof MindInterface);
+          
+          MindInterface from_iface = (MindInterface) from_iface_;
+          MindInterface to_iface = (MindInterface) to_iface_;
+          
+          InterfaceDefinition from_idef = 
+              InterfaceDefinitionDecorationHelper.getResolvedInterfaceDefinition(from_iface, 
+                      idlLoaderItf, context);
+          
+          InterfaceDefinition to_idef = 
+              InterfaceDefinitionDecorationHelper.getResolvedInterfaceDefinition(to_iface, 
+                      idlLoaderItf, context);
+          assert(from_idef == to_idef);
+          
+          String bip_atom_buffer_type_name = from_idef.getName().replace('.', '_');
+          AtomType buffer_type = BipUtil.getAtomTypeDefinition(bip_atom_buffer_type_name, bip_module);
+          String buffer_instance_name = "buffer__" + from_comp_name + "_" + from_iface_name +"__" + to_comp_name + "_" + to_iface_name;
+          
+          Component buffer_instance = BipCreator.createComponentInstance(buffer_instance_name, ct, buffer_type);
+          
+          for (Method m: from_idef.getMethods()){
+              String mname = m.getName();
+              String client_callp_name = from_iface_name + "__" + mname + "_CALLp";
+              
+              PortDefinition client_callp_def = BipUtil.getPortDefinition(from_atom_type, client_callp_name);
+              // if null, Atom does not have the port, no need to create the connector.
+              if (client_callp_def == null)
+                  continue;
+              
+              PortType client_callp_type = client_callp_def.getType();
+              PortDefinition in_s_def = BipUtil.getPortDefinition(buffer_type, "in_S");
+              assert(in_s_def != null);
+              
+              PortType in_s_type = in_s_def.getType();
+              
+              List<PortType> synchrons = new ArrayList<PortType>();
+              synchrons.add(client_callp_type);
+              synchrons.add(in_s_type);
+              
+              BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
+              
+              String client_retp_name = from_iface_name + "__" + mname + "_RETp";
+              
+              PortDefinition client_retp_def = BipUtil.getPortDefinition(from_atom_type, client_retp_name);
+              assert (client_retp_def != null);
+                  
+              PortType client_retp_type = client_retp_def.getType();
+              PortDefinition in_e_def = BipUtil.getPortDefinition(buffer_type, "in_E");
+              assert(in_e_def != null);
+              
+              PortType in_e_type = in_e_def.getType();
+              
+              synchrons = new ArrayList<PortType>();
+              synchrons.add(client_retp_type);
+              synchrons.add(in_e_type);
+              
+              BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
+          }
+          
+      }
+  }
+  
   public void visit(InstancesDescriptor input, Map<Object, Object> context)
       throws ADLException {
 
@@ -168,6 +275,9 @@ public class BipInstanceSourceGenerator implements BindingController,
         
         logger.log(Level.INFO, "    - added as Root in system");
         BipCreator.createRoot(ct, n, (ujf.verimag.bip.Core.Modules.System)bip_module);
+        
+        createConnectors(bip_module, ct, input, context);
+        
         
     }
   }

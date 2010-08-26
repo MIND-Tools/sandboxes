@@ -108,6 +108,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
   final public static String BEAM_BIP_MODEL = "beam-bip-model";
   final public static String ENTRY_METHOD_IN_FILTERS = "filterctrl__act";
   
+  final public static String PORTTYPE_BUFFER_PREFIX = "ptbuf_";
+  
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-bip-visitor::definition");
   
@@ -171,6 +173,10 @@ public class BipDefinitionSourceGenerator implements BindingController,
       return outputFileLocatorItf;
     } else if (itfName.equals(InputResourceLocator.ITF_NAME)) {
       return inputResourceLocatorItf;
+    } else if (itfName.equals(ImplementationLocator.ITF_NAME)) {
+      return implementationLocatorItf;
+    } else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      return idlLoaderItf;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
@@ -219,54 +225,41 @@ public class BipDefinitionSourceGenerator implements BindingController,
       assert(the_type != null);
       return the_type;
   }
-  
-  protected void createPTPConnectorType(String typename, String buffername){
-      PortType ptin = BipUtil.getPortType(this.model, "in_" + buffername);
-      PortType ptout = BipUtil.getPortType(this.model, "out_" + buffername);
-      assert(ptin != null && ptout != null);
-      
-      ConnectorType ct = BipCreator.createConnectorType(this.model, "ptp_" + typename);
-      
-      
-      PortParameter ppin = BipCreator.createPortParameter("in", ptin, ct);
-      PortParameter ppout = BipCreator.createPortParameter("out", ptin, ct);
-      
-      List<PortParameter> sync = new ArrayList<PortParameter>();
-      sync.add(ppin);
-      sync.add(ppout);
-      
-      ACFusion portdef = BipCreator.createPortExpressionFusion(null,sync);
 
-      ct.setDefinition(portdef);
-  }
-  
   protected void createBufferAtom(String typedefs, String buffername, String typename){
       PetriNet behav = BipCreator.createPetriNet();
  
       AtomType buffer = BipCreator.createAtomType(behav, buffername, this.model);
-      State single = BipCreator.createState(behav, "SINGLE", true);
+      State idle = BipCreator.createState(behav, "IDLE", true);
+      State in_state = BipCreator.createState(behav, "IN", true);
+      State out_state = BipCreator.createState(behav, "OUT", true);
       
       DataType dt = BipCreator.createDataType(typename, this.model);
       
       DataParameter dpi = BipCreator.createDataParameter("ind", dt);
       DataParameter dpo = BipCreator.createDataParameter("outd", dt);
 
-      PortType ptin = BipCreator.createPortType("in_" + buffername, this.model, new DataParameter[]{dpi});
-      PortType ptout = BipCreator.createPortType("out_" + buffername, this.model, new DataParameter[]{dpo});
+      PortType pt_buf = BipCreator.createPortType(PORTTYPE_BUFFER_PREFIX + buffername, this.model, new DataParameter[]{dpi});
+      
       Variable inv = BipCreator.createVariable(dt, "inv", buffer, false, false);
       Variable outv = BipCreator.createVariable(dt, "outv", buffer, false, false);
 
-      PortDefinition pin = BipCreator.createPortDefinition(ptin, "in", new Variable[]{inv}, buffer);
-      PortDefinition pout = BipCreator.createPortDefinition(ptout, "out", new Variable[]{outv}, buffer);
+      PortDefinition pin_s = BipCreator.createPortDefinition(pt_buf, "in_S", new Variable[]{inv}, buffer);
+      PortDefinition pin_e = BipCreator.createPortDefinition(pt_buf, "in_E", buffer);
+      PortDefinition pout_s = BipCreator.createPortDefinition(pt_buf, "out_S", buffer);
+      PortDefinition pout_e = BipCreator.createPortDefinition(pt_buf, "out_E", new Variable[]{outv}, buffer);
       
-      Transition tin = BipCreator.createTransition(pin, null, single, single, buffer);
-      Transition tout = BipCreator.createTransition(pout, null, single, single, buffer);
+      BipCreator.createTransition(pin_s, null, idle, in_state, buffer);
+      BipCreator.createTransition(pin_e, null, in_state, idle, buffer);
+      
+      BipCreator.createTransition(pout_s, null, idle, out_state, buffer);
+      BipCreator.createTransition(pout_e, null, out_state, idle, buffer);
       
       OpaqueElement header_oe = BipCreator.createOpaqueElementFromCCode(typedefs,true);
       BipUtil.addDeclarationToModule(this.model, header_oe);
       
       // FIXME not sure this is the best location for invoking this method.
-      createPTPConnectorType(typename, buffername);
+//      createPTPConnectorType(typename, buffername);
   }
   // ---------------------------------------------------------------------------
   // Implementation of the Visitor interface
