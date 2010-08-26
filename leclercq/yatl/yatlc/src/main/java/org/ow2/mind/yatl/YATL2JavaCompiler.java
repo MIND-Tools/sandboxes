@@ -86,7 +86,7 @@ public class YATL2JavaCompiler {
       // error detected
       throw new ParseException(parser.errors);
     }
-    System.out.println("tree1=" + ((Tree) templateFile.tree).toStringTree());
+    //System.out.println("tree1=" + ((Tree) templateFile.tree).toStringTree());
     CommonTreeNodeStream nodes = new CommonTreeNodeStream(templateFile.tree);
     nodes.setTokenStream(tokens);
     YATL2Java yatl2Java = new YATL2Java(nodes);

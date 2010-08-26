@@ -11,21 +11,22 @@ public class foo {
       HashMap<String, String> m = new HashMap<String, String>();
     %>
     <m.get("foo")>
-    foreach 1: <String s : m.values() | {foo_<$tmpl2(s)>}>
+    foreach 1: <String s : m.values() | { foo_<$tmpl2(s)> }>
     foreach 2: <String s : m.values() | s.substring(2,3); null="void">
     
     
     <% String[] array = new String[]{"toto", "titi"}; %>
     foreach 3: <String s : array | s.substring(2,3); separator="\n">
     foreach 4: <String s : array | s.substring(2,3); null="{}">
+    foreach 5: <String s : array | { <byte b : s.getBytes() | b ;separator=", "> } ; separator = "\n">
     
-    m1=<(m==null)?"":m.toString()>
-    m2=<(m!=null)?m.toString()> {
+    m1=<(m==null)?";":m.toString()>
+    m2=<(m!=null)?m.toString()> { foo }
     m3=<(m!=null)?$tmpl2(m.toString())>
+    <(!(type instanceof ConstantDefinition)) ? ";">
     m4=<m;null="">
-    }
-    $/* This is an output comment */
-    $// This is another output comment.
+    /* This is an output comment */
+    // This is another output comment.
     #include "<m.toString()>"
   }
 

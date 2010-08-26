@@ -41,6 +41,9 @@ tokens {
   DOLLAR     = '$';
   ASSIGN     = '=';
   ESC        = '\\';
+  CMT_START  = '/*';
+  CMT_END    = '*/';
+  CMT_LINE   = '//';
 
   // imaginary token
   FQN;
@@ -54,6 +57,7 @@ tokens {
   STRING;
   EXPR;
   DECL;
+  WS;
 }
 
 @header {
@@ -77,13 +81,6 @@ public String formatError(RecognitionException e) {
 public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
   errors.add(formatError(e));
 }
-
-private Token nextWithSpace(Token e) {
-  List tokens = ((CommonTokenStream) input).getTokens();
-  if (e.getTokenIndex() +1 >= tokens.size()) return null;
-	Token ws = (Token) tokens.get(e.getTokenIndex()+1);
-	return (ws.getType() == WHITESPACE) ? ws : null;
-}
 }
 
 // -----------------------------------------------------------------------------
@@ -91,29 +88,29 @@ private Token nextWithSpace(Token e) {
 // -----------------------------------------------------------------------------
 
 templateFile :
-  packageDirective? importDirective* templateClass+
+  wsc? packageDirective? (wsc? importDirective)* (wsc? templateClass)+ wsc?
     -> ^(TEMPLATE_FILE importDirective* packageDirective? templateClass+ );
 
 importDirective :
-  IMPORT^ STATIC? ID DOT! (ID DOT!)*
+  IMPORT^ wsc!? STATIC? wsc!? ID wsc!? DOT! wsc!? (ID wsc!? DOT! wsc!?)*
   (
     STAR
     | ID
-  )
+  ) wsc!?
   SEMICOLON!;
 
 packageDirective :
-  PACKAGE^ fullyQualifiedName SEMICOLON!;
+  PACKAGE^ wsc!? fullyQualifiedName wsc!? SEMICOLON!;
 
 templateClass :
-  qualifier* CLASS^ ID (EXTENDS type)? (IMPLEMENTS type (COMMA! type)*)? LBRACE! templateClassBody* RBRACE!;
+  (qualifier wsc!)* CLASS^ wsc! ID (wsc! EXTENDS wsc! type)? (wsc! IMPLEMENTS wsc! type wsc!? (COMMA! wsc!? type wsc!?)*)? wsc!? LBRACE! (wsc!? templateClassBody)* wsc!? RBRACE!;
 
 templateClassBody :
-  (qualifier* DOLLAR) => template
+  ((qualifier wsc)* DOLLAR) => template
   | memberDeclaration;
 
 memberDeclaration :
-  inMemberDeclaration+ memberDeclarationRest
+  inMemberDeclaration+ wsc? memberDeclarationRest
     -> ^(MEMBER inMemberDeclaration+ memberDeclarationRest);
 
 inMemberDeclaration :
@@ -143,24 +140,24 @@ memberDeclarationRest :
   | LBRACE innerMemberDeclaration* RBRACE;
 
 type :
-  ID^ genericSpecifierList? (DOT! ID genericSpecifierList?)* (LBRACKET RBRACKET)*;
+  ID^ (wsc!? genericSpecifierList )? (wsc!? DOT! wsc!? ID (wsc!? genericSpecifierList)?)* (wsc!? LBRACKET wsc!? RBRACKET)*;
 
 genericSpecifierList :
-  LT^ genericSpecifier (COMMA! genericSpecifier)* GT!;
+  LT^ wsc!? genericSpecifier (wsc!? COMMA! wsc!? genericSpecifier)* wsc!? GT!;
 
 genericSpecifier :
   type
   | QUESTION
   (
-    (
+    wsc!? (
       EXTENDS
       | SUPER
     )
-    type
+    wsc!? type
   )?;
 
 declarator :
-  type ID
+  type wsc ID
     -> ^(DECL ID type );
 
 qualifier :
@@ -176,17 +173,17 @@ qualifier :
 // -----------------------------------------------------------------------------
 
 template :
-  templatePrototype LBRACE templateContent RBRACE
+  templatePrototype wsc? LBRACE ws? (templateContent ws?)?  RBRACE
    -> ^(TEMPLATE templatePrototype templateContent? );
 
 templatePrototype :
-  qualifier* DOLLAR! ID^ LPAREN! (declarator (COMMA! declarator)*)? RPAREN! templateThrows?;
+  (qualifier wsc!)* DOLLAR! wsc!? ID^ wsc!? LPAREN! (wsc!? declarator (wsc!? COMMA! wsc!? declarator)*)? wsc!? RPAREN! (wsc!? templateThrows)?;
 
 templateThrows :
-  THROWS^ ID (COMMA! ID)*;
+  THROWS^ wsc! ID (wsc!? COMMA! wsc!? ID)*;
 
 templateContent :
-  templateBody*;
+  templateBody (ws? templateBody)*;
 
 templateBody :
  l=QUOTE templateBody1* r=QUOTE
@@ -196,70 +193,69 @@ templateBody :
 templateBody1 :
   INLINED_CODE
   | templateBodyExpr
-  | LBRACE templateBody* RBRACE
-    -> STRING[$LBRACE] templateBody* STRING[$RBRACE] 
+  | LBRACE ws1=ws? (templateContent ws2=ws?)? RBRACE
+    -> STRING[$LBRACE] $ws1? templateContent? $ws2? STRING[$RBRACE] 
   | templateBodyAny
   ;
 
-templateBodyExpr @init {Token ws = null;} :
-  LT e1=templateExpr GT
-   {
-    ws = nextWithSpace($GT);
-   }
-    -> {ws!=null}? $e1 STRING[ws]
-    -> $e1;
-
-templateBodyAny @init {Token ws = null;} :
+templateBodyAny :
   e=templateBodyAny1
-   {
-    ws = nextWithSpace($e.tree.getToken());
-   }
-    -> {ws!= null}? STRING[$e.tree.getText() + ws.getText()]
-    -> STRING[$e.tree.getText()]
-  | OUTPUT_COMMENT
-   {
-    ws = nextWithSpace($OUTPUT_COMMENT);
-   }
-    -> {ws!= null}? STRING[$OUTPUT_COMMENT.text.substring(1) + ws.getText()]
-    -> STRING[$OUTPUT_COMMENT.text.substring(1)];
-    
-templateBodyAny1 : 
+     ->STRING[$e.tree.getText()];
+
+templateBodyAny1 :
   ~(
     INLINED_CODE
     | LT
     | LBRACE
     | RBRACE
-    | OUTPUT_COMMENT
     | QUOTE
+    | WHITESPACE
+    | NEW_LINE
    );
 
+templateBodyExpr :
+  LT! templateExpr GT!;
+
 templateExpr :
-  DOLLAR ID LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN
-    -> ^(CALL_EXPR ID $params? )
-  | declarator DASH expr PIPE innerExpr (SEMICOLON qualif+=exprQualifier (COMMA qualif+=exprQualifier)*)?
+  ws? DOLLAR ws? fullyQualifiedName LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN
+    -> ^(CALL_EXPR fullyQualifiedName $params? )
+  | ws? declarator ws? DASH expr PIPE innerExpr qualif=qualifiers?
       -> ^(ITERABLE_EXPR declarator expr innerExpr $qualif? )
   | e1=expr
   (
-    QUESTION e2=innerExpr (DASH e3=innerExpr)? (SEMICOLON qualif+=exprQualifier (COMMA qualif+=exprQualifier)*)?
+    QUESTION e2=innerExpr (DASH e3=innerExpr)? qualif=qualifiers?
       -> ^(QUESTION_EXPR $e1 $e2 $e3? $qualif? )
-    | (SEMICOLON qualif+=exprQualifier (COMMA qualif+=exprQualifier)*)?
+    | qualif=qualifiers?
       -> ^(SIMPLE_EXPR $e1 $qualif? )
   );
 
 innerExpr :
   anonymousTemplate 
-  | templateExpr;
+  | ws? DOLLAR ws? fullyQualifiedName LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN ws?
+    -> ^(CALL_EXPR fullyQualifiedName $params? )
+  | ws? declarator ws? DASH expr PIPE innerExpr
+      -> ^(ITERABLE_EXPR declarator expr innerExpr)
+  | e1=expr
+  (
+    QUESTION e2=innerExpr (DASH e3=innerExpr)?
+      -> ^(QUESTION_EXPR $e1 $e2 $e3? )
+    |
+      -> ^(SIMPLE_EXPR $e1 )
+  );
 
 anonymousTemplate :
-  LBRACE templateBody* RBRACE
-   -> ^(TEMPLATE templateBody*);
+  ws? LBRACE ws1=ws? (templateContent ws2=ws?)? RBRACE ws?
+   -> ^(TEMPLATE templateContent);
+
+qualifiers :
+  SEMICOLON! ws!? exprQualifier (ws!? COMMA! ws!? exprQualifier)* ws!?;
 
 exprQualifier :
-  SEPARATOR^ ASSIGN! string
-  | NULL^ ASSIGN! string;
+  SEPARATOR^ ws!? ASSIGN! ws!? string
+  | NULL^ ws!? ASSIGN! ws!? string;
 
-string @init {String s = "";} :
-  QUOTE (stringContent {s += $stringContent.text;})* QUOTE
+string :
+  QUOTE stringContent* QUOTE
     -> STRING[$string.text];
 
 stringContent:
@@ -275,8 +271,9 @@ callExpr :
   DOLLAR ID LPAREN (params+=expr (COMMA params+=expr)*)? RPAREN
     -> ^(CALL_EXPR ID $params? );
 
-expr :
-  QUOTE^ expr1? QUOTE expr?
+expr @init {String s = "";} :
+  q1=QUOTE (stringContent {s += $stringContent.text;})* q2=QUOTE expr?
+    -> ^($q1 STRING[s] $q2 expr?)
   | expr1;
 
 expr1 :
@@ -298,7 +295,6 @@ anyExpr :
     | PIPE
     | SEMICOLON
     | QUESTION
-    | OUTPUT_COMMENT
     | QUOTE
    );
 
@@ -306,22 +302,32 @@ fullyQualifiedName :
   ID (DOT ID)*
     -> ^(FQN ID+ );
 
+ws :
+  e=ws_
+    -> WS[$e.text];
+
+ws_ :
+  (WHITESPACE | NEW_LINE)+;
+
+wsc :
+  (WHITESPACE | NEW_LINE | comment)+;
+
+comment :
+  CMT_START ~(CMT_END|CMT_START)* CMT_END
+  | CMT_LINE ~(NEW_LINE)* NEW_LINE;
+
 // -----------------------------------------------------------------------------
 //  Tokens
 // -----------------------------------------------------------------------------
 
 WHITESPACE :
-  (
-    '\t'
-    | ' '
-    | '\r'
-    | '\n'
-    | '\u000C'
-  )+
-  
-   {
-    $channel = HIDDEN;
-   };
+  '\t'
+  | ' ';
+
+NEW_LINE :
+  '\r'
+  | '\n'
+  ;
 
 ID :
   (
@@ -335,30 +341,6 @@ ID :
     | '0'..'9'
     | '_'
   )*;
-
-OUTPUT_COMMENT :
-  '$//' ~(
-    '\n'
-    | '\r'
-   )*
-  '\r'? '\n' 
-  | '$/*'(.)* '*/';
-  
-
-COMMENT :
-  '//'
-  ~(
-    '\n'
-    | '\r'
-   )*
-  '\r'? '\n' 
-   {
-    $channel = HIDDEN;
-   }
-  | '/*' (.)* '*/' 
-   {
-    $channel = HIDDEN;
-   };
 
 ASSIGNEMENT_OPERATORS :
   '+='

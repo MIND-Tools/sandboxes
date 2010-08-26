@@ -30,6 +30,12 @@ public String formatError(RecognitionException e) {
 public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
   errors.add(formatError(e));
 }
+
+protected int counter = 0;
+
+protected String getCounter() {
+  return Integer.toString(counter++);
+} 
 }
 // -----------------------------------------------------------------------------
 //  Top-level grammar
@@ -123,16 +129,20 @@ templateThrows :
   ^(THROWS t+=ID+)
     ->templateThrow(names={$t});
 
-templateBody
-@init {
-  String s = "";
-} :
-  INLINED_CODE
-    ->inlinedCode(code={$INLINED_CODE.text.substring(2, $INLINED_CODE.text.length()-2)})
+templateBody :
+  INLINED_CODE WS?
+    ->inlinedCode(code={$INLINED_CODE.text.trim().substring(2, $INLINED_CODE.text.trim().length()-2)})
   | templateExpr
     ->inlinedCode(code={$templateExpr.st})
-  | (STRING{s+=StringHelper.escapeString($STRING.text);})+
-    ->appendString(s={s});
+  | templateStrings
+    ->appendString(s={$templateStrings.res});
+
+templateStrings returns [String res = ""] :
+  (templateString {$res += StringHelper.escapeString($templateString.text);})+;
+
+templateString :
+  STRING
+  | WS;
 
 templateExpr :
   simpleExpr
@@ -152,7 +162,7 @@ simpleExpr
 iterableExpr 
   scope qualifiers;
   : ^(ITERABLE_EXPR declarator e1=expr e2=innerExpr exprQualifier*)
-    ->appendForEach(decl={$declarator.st}, iterable={$e1.st}, iteration={$e2.st}, separator={$qualifiers::separator}, nullValue={$qualifiers::nullValue});
+    ->appendForEach(decl={$declarator.st}, iterable={$e1.st}, iteration={$e2.st}, separator={$qualifiers::separator}, nullValue={$qualifiers::nullValue}, counter={getCounter()});
 
 innerExpr :
   anonymousTemplate
@@ -170,8 +180,8 @@ questionExpr
     ->appendQuestion(test={$e1.st}, then_={$e2.st}, else_={$e3.st}, nullValue={$qualifiers::nullValue});
 
 callExpr :
-  ^(CALL_EXPR ID expr? )
-    ->callTemplate(name={$ID.text}, params={$expr.st});
+  ^(CALL_EXPR fullyQualifiedName expr? )
+    ->callTemplate(name={$fullyQualifiedName.text}, params={$expr.st});
 
 exprQualifier :
   ^(SEPARATOR STRING)
@@ -180,8 +190,8 @@ exprQualifier :
     {$qualifiers::nullValue=$STRING.text;};
 
 expr :
-  ^(QUOTE e1=expr1? QUOTE e2=expr?)
-    ->quoteExpr(e1={$e1.st}, e2={$e2.st})
+  ^(QUOTE STRING QUOTE e2=expr?)
+    ->quoteExpr(e1={$STRING.text}, e2={$e2.st})
   | expr1
     ->{$expr1.st};
 

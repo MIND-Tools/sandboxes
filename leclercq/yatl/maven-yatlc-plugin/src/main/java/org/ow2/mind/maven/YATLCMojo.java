@@ -110,19 +110,10 @@ public class YATLCMojo extends AbstractMojo {
 
       getLog().debug("Compile template '" + inputFileName + "'.");
 
-      outputFile.getParentFile().mkdirs();
-      PrintStream outputStream;
-      try {
-        outputStream = new PrintStream(outputFile);
-      } catch (FileNotFoundException e) {
-        throw new MojoExecutionException("Can't write output file", e);
-      }
-
       YATL2JavaCompiler compiler = new YATL2JavaCompiler();
       String javaCode;
       try {
         javaCode = compiler.yatl2Java(inputFile);
-        outputStream.print(javaCode);
       } catch (ParseException e) {
         getLog().error(
             "Parse error in template " + inputFileName + ": ");
@@ -131,13 +122,23 @@ public class YATLCMojo extends AbstractMojo {
         }
         
         inError = true;
+        continue;
       } catch (IOException e) {
         throw new MojoExecutionException(
             "Can't read template " + inputFileName, e);
       } finally {
-        nbBuild ++;
-        outputStream.close();
       }
+      
+      outputFile.getParentFile().mkdirs();
+      PrintStream outputStream;
+      try {
+        outputStream = new PrintStream(outputFile);
+      } catch (FileNotFoundException e) {
+        throw new MojoExecutionException("Can't write output file", e);
+      }
+      outputStream.print(javaCode);
+      outputStream.close();
+      nbBuild ++;
     }
 
     if (inError) {

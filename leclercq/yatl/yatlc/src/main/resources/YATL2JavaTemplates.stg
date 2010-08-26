@@ -125,10 +125,15 @@ appendExpr(s, nullValue) ::= <<
 <endif>
 >>
 
-appendForEach(decl, iterable, iteration, separator, nullValue) ::= <<
+appendForEach(decl, iterable, iteration, separator, nullValue, counter) ::= <<
+<if (separator)>boolean firstIter_<counter>=true;<endif>
 for(<decl> : <if (nullValue)>appendNullOrIterate(<iterable>, <nullValue>, stringBuilder)<else><iterable><endif>) {
+  <if (separator)>if (firstIter_<counter>) {
+    firstIter_<counter> = false;
+  } else {
+    stringBuilder.append(<separator>);
+  }<endif>
   <iteration>
-  <if (separator)>stringBuilder.append(<separator>);<endif>
 } 
 >>
 
