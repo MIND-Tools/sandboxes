@@ -4,9 +4,12 @@
 #endif
 void METH(filterctrl, act) (int c){
   int z;
-  int m = 0;
-  int w = 1;
+  int m;
+  int w;
   int i,j;
+
+  m=0;
+  w=1;
 
   if (!PRIVATE.init_hack){
     int i;
