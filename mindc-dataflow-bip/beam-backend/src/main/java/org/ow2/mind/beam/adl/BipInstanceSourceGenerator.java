@@ -42,6 +42,8 @@ import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
+import ujf.verimag.bip.Core.Interactions.Connector;
+import ujf.verimag.bip.Core.Interactions.ConnectorType;
 import ujf.verimag.bip.Core.Modules.Module;
 import ujf.verimag.bip.backend.bip2src.Reverse;
 import ujf.verimag.bip.compiler.backend.BackendException;
@@ -171,41 +173,89 @@ public class BipInstanceSourceGenerator implements BindingController,
           
           for (Method m: from_idef.getMethods()){
               String mname = m.getName();
+              ConnectorType connector_t;
+              
+              /*
+               * Client to buffer side
+               */
               String client_callp_name = from_iface_name + "__" + mname + "_CALLp";
               
               PortDefinition client_callp_def = BipUtil.getPortDefinition(from_atom_type, client_callp_name);
               // if null, Atom does not have the port, no need to create the connector.
-              if (client_callp_def == null)
-                  continue;
+              if (client_callp_def != null) {
+                  PortType client_callp_type = client_callp_def.getType();
+                  PortDefinition in_s_def = BipUtil.getPortDefinition(buffer_type, "in_S");
+                  assert(in_s_def != null);
+
+                  PortType in_s_type = in_s_def.getType();
+
+                  List<PortType> synchrons = new ArrayList<PortType>();
+                  synchrons.add(client_callp_type);
+                  synchrons.add(in_s_type);
+
+                  connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL");
+
+                  String client_retp_name = from_iface_name + "__" + mname + "_RETp";
+
+                  PortDefinition client_retp_def = BipUtil.getPortDefinition(from_atom_type, client_retp_name);
+                  assert (client_retp_def != null);
+
+                  PortType client_retp_type = client_retp_def.getType();
+                  PortDefinition in_e_def = BipUtil.getPortDefinition(buffer_type, "in_E");
+                  assert(in_e_def != null);
+
+                  PortType in_e_type = in_e_def.getType();
+
+                  synchrons = new ArrayList<PortType>();
+                  synchrons.add(client_retp_type);
+                  synchrons.add(in_e_type);
+
+                  connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET");
+              }
               
-              PortType client_callp_type = client_callp_def.getType();
-              PortDefinition in_s_def = BipUtil.getPortDefinition(buffer_type, "in_S");
-              assert(in_s_def != null);
               
-              PortType in_s_type = in_s_def.getType();
+              /*
+               * buffer to server side
+               */
+              String server_callp_name = to_iface_name + "__" + mname + "_CALLp";
               
-              List<PortType> synchrons = new ArrayList<PortType>();
-              synchrons.add(client_callp_type);
-              synchrons.add(in_s_type);
-              
-              BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
-              
-              String client_retp_name = from_iface_name + "__" + mname + "_RETp";
-              
-              PortDefinition client_retp_def = BipUtil.getPortDefinition(from_atom_type, client_retp_name);
-              assert (client_retp_def != null);
-                  
-              PortType client_retp_type = client_retp_def.getType();
-              PortDefinition in_e_def = BipUtil.getPortDefinition(buffer_type, "in_E");
-              assert(in_e_def != null);
-              
-              PortType in_e_type = in_e_def.getType();
-              
-              synchrons = new ArrayList<PortType>();
-              synchrons.add(client_retp_type);
-              synchrons.add(in_e_type);
-              
-              BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
+              PortDefinition server_callp_def = BipUtil.getPortDefinition(to_atom_type, server_callp_name);
+              // if null, Atom does not have the port, no need to create the connector.
+              if (server_callp_def != null) {
+                  PortType server_callp_type = server_callp_def.getType();
+                  PortDefinition out_s_def = BipUtil.getPortDefinition(buffer_type, "out_S");
+                  assert(out_s_def != null);
+
+                  PortType out_s_type = out_s_def.getType();
+
+                  List<PortType> synchrons = new ArrayList<PortType>();
+                  synchrons.add(server_callp_type);
+                  synchrons.add(out_s_type);
+
+                  connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL");
+
+                  String server_retp_name = to_iface_name + "__" + mname + "_RETp";
+
+                  PortDefinition server_retp_def = BipUtil.getPortDefinition(to_atom_type, server_retp_name);
+                  assert (server_retp_def != null);
+
+                  PortType server_retp_type = server_retp_def.getType();
+                  PortDefinition out_e_def = BipUtil.getPortDefinition(buffer_type, "out_E");
+                  assert(out_e_def != null);
+
+                  PortType out_e_type = out_e_def.getType();
+
+                  synchrons = new ArrayList<PortType>();
+                  synchrons.add(server_retp_type);
+                  synchrons.add(out_e_type);
+
+                  connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET");
+
+              }
           }
           
       }
