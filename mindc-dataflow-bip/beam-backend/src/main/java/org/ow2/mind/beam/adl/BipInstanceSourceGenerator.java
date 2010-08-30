@@ -43,7 +43,6 @@ import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
-import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Interactions.ConnectorType;
 import ujf.verimag.bip.Core.Interactions.InnerPortReference;
 import ujf.verimag.bip.Core.Modules.Module;
@@ -132,6 +131,14 @@ public class BipInstanceSourceGenerator implements BindingController,
     }
   }
 
+  /**
+   * Creates the connector types & instance between the filters and the buffers
+   * @param bip_module the root bip module
+   * @param ct the root compound type hosting all instances
+   * @param input the input instance
+   * @param context the compiler context
+   * @throws ADLException
+   */
   protected void createConnectors(ujf.verimag.bip.Core.Modules.Module bip_module, CompoundType ct, 
           InstancesDescriptor input, Map<Object, Object> context) throws ADLException{
       for (Binding binding : ((BindingContainer) input.instanceDefinition).getBindings()){
@@ -209,9 +216,12 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(in_s_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
-                 
-                  InnerPortReference in_s_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, in_s_def.getName()), buffer_instance);
-                  InnerPortReference call_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, client_callp_def.getName()), from_comp_instance);
+                  Port buffer_port = BipUtil.getPort(buffer_type, in_s_def.getName());
+                  Port filter_port = BipUtil.getPort(from_atom_type, client_callp_def.getName());
+                  assert(buffer_port != null && filter_port != null);
+                  
+                  InnerPortReference in_s_ipr = BipCreator.createInnerPortReferenceUnbounded(buffer_port, buffer_instance);
+                  InnerPortReference call_ipr = BipCreator.createInnerPortReferenceUnbounded(filter_port, from_comp_instance);
                   
                   BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL",  new InnerPortReference[]{in_s_ipr, call_ipr});
 
@@ -231,9 +241,12 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(in_e_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
+                  buffer_port = BipUtil.getPort(buffer_type, in_e_def.getName());
+                  filter_port = BipUtil.getPort(from_atom_type, client_retp_def.getName());
+                  assert(buffer_port != null && filter_port != null);
 
-                  InnerPortReference in_e_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, in_e_def.getName()), buffer_instance);
-                  InnerPortReference ret_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, client_retp_def.getName()), from_comp_instance);
+                  InnerPortReference in_e_ipr = BipCreator.createInnerPortReferenceUnbounded(buffer_port, buffer_instance);
+                  InnerPortReference ret_ipr = BipCreator.createInnerPortReferenceUnbounded(filter_port, from_comp_instance);
                   BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET",  new InnerPortReference[]{in_e_ipr, ret_ipr});
 
               }
@@ -258,8 +271,12 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(out_s_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
-                  InnerPortReference out_s_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, out_s_def.getName()), buffer_instance);
-                  InnerPortReference call_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, server_callp_def.getName()), to_comp_instance);
+                  Port buffer_port = BipUtil.getPort(buffer_type, out_s_def.getName());
+                  Port filter_port = BipUtil.getPort(to_atom_type, server_callp_def.getName());
+                  assert(buffer_port != null && filter_port != null);
+                  
+                  InnerPortReference out_s_ipr = BipCreator.createInnerPortReferenceUnbounded(buffer_port, buffer_instance);
+                  InnerPortReference call_ipr = BipCreator.createInnerPortReferenceUnbounded(filter_port, to_comp_instance);
                   
                   BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL", new InnerPortReference[]{out_s_ipr, call_ipr});
 
@@ -277,10 +294,14 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons = new ArrayList<PortType>();
                   synchrons.add(server_retp_type);
                   synchrons.add(out_e_type);
-
+                  
+                  buffer_port = BipUtil.getPort(buffer_type, out_e_def.getName());
+                  filter_port = BipUtil.getPort(to_atom_type, server_retp_def.getName());
+                  assert(buffer_port != null && filter_port != null);
+                  
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
-                  InnerPortReference out_e_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, out_e_def.getName()), buffer_instance);
-                  InnerPortReference ret_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, server_retp_def.getName()), to_comp_instance);
+                  InnerPortReference out_e_ipr = BipCreator.createInnerPortReferenceUnbounded(buffer_port, buffer_instance);
+                  InnerPortReference ret_ipr = BipCreator.createInnerPortReferenceUnbounded(filter_port, to_comp_instance);
                   
                   BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET", new InnerPortReference[]{out_e_ipr, ret_ipr});
 
