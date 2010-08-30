@@ -95,6 +95,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
     DefinitionSourceGenerator {
   
   final public static String BEAM_BIP_MODEL = "beam-bip-model";
+  final public static String BEAM_BIP_ROOT_COMP_DEF = "beam-bip-root-comp-def";
+  
   final public static String ENTRY_METHOD_IN_FILTERS = "filterctrl__act";
   
   final public static String PORTTYPE_BUFFER_PREFIX = "ptbuf_";
@@ -233,10 +235,10 @@ public class BipDefinitionSourceGenerator implements BindingController,
       Variable inv = BipCreator.createVariable(dt, "inv", buffer, false, false);
       Variable outv = BipCreator.createVariable(dt, "outv", buffer, false, false);
 
-      PortDefinition pin_s = BipCreator.createPortDefinition(pt_buf, "in_S", new Variable[]{inv}, buffer);
-      PortDefinition pin_e = BipCreator.createPortDefinition(pt_buf, "in_E", buffer);
-      PortDefinition pout_s = BipCreator.createPortDefinition(pt_buf, "out_S", buffer);
-      PortDefinition pout_e = BipCreator.createPortDefinition(pt_buf, "out_E", new Variable[]{outv}, buffer);
+      PortDefinition pin_s = BipCreator.createPortDefinitionAndExport(pt_buf, "in_S", new Variable[]{inv}, buffer);
+      PortDefinition pin_e = BipCreator.createPortDefinitionAndExport(pt_buf, "in_E", buffer);
+      PortDefinition pout_s = BipCreator.createPortDefinitionAndExport(pt_buf, "out_S", buffer);
+      PortDefinition pout_e = BipCreator.createPortDefinitionAndExport(pt_buf, "out_E", new Variable[]{outv}, buffer);
       
       BipCreator.createTransition(pin_s, null, idle, in_state, buffer);
       BipCreator.createTransition(pin_e, null, in_state, idle, buffer);
@@ -268,6 +270,7 @@ public class BipDefinitionSourceGenerator implements BindingController,
 
     if (ASTHelper.isComposite(input)){
         CompoundType ct = BipCreator.createCompoundType(mindToBipMangleName(input.getName()), this.model);
+        context.put(BEAM_BIP_ROOT_COMP_DEF, ct);
     } else {
         // if no decoration found, means that it is not a filter => do not translate it.
         Object o = input.astGetDecoration(BeamFilterAnnotationProcessor.DEFINITION_HAS_INSTANCE_FILTER);

@@ -38,12 +38,14 @@ import org.ow2.mind.io.IOErrors;
 import org.ow2.mind.io.OutputFileLocator;
 
 import ujf.verimag.bip.Core.Behaviors.AtomType;
+import ujf.verimag.bip.Core.Behaviors.Port;
 import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Interactions.Component;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Interactions.Connector;
 import ujf.verimag.bip.Core.Interactions.ConnectorType;
+import ujf.verimag.bip.Core.Interactions.InnerPortReference;
 import ujf.verimag.bip.Core.Modules.Module;
 import ujf.verimag.bip.backend.bip2src.Reverse;
 import ujf.verimag.bip.compiler.backend.BackendException;
@@ -56,6 +58,11 @@ public class BipInstanceSourceGenerator implements BindingController,
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-bip-visitor::instance");
   
+  
+  protected InstancesDescriptor root_input = null;
+  protected CompoundType root_ct = null;
+  protected int subcomponent_count = -1;
+  protected int subcomponent_done = 0;
   
   // ---------------------------------------------------------------------------
   // Client Interfaces
@@ -134,6 +141,14 @@ public class BipInstanceSourceGenerator implements BindingController,
           String to_iface_name = binding.getToInterface();
 
          
+          CompoundType root_ct = (CompoundType)context.get(BipDefinitionSourceGenerator.BEAM_BIP_ROOT_COMP_DEF);
+          assert(root_ct != null);
+          
+          Component to_comp_instance = BipUtil.getComponentInstance(root_ct, to_comp_name);
+          Component from_comp_instance = BipUtil.getComponentInstance(root_ct, from_comp_name);
+          assert(to_comp_instance != null);
+          assert(from_comp_instance != null);
+          
           org.ow2.mind.adl.ast.Component from_comp = ASTHelper.getComponent(input.instanceDefinition, from_comp_name);
           org.ow2.mind.adl.ast.Component to_comp = ASTHelper.getComponent(input.instanceDefinition, to_comp_name);
           
@@ -194,7 +209,11 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(in_s_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
-                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL");
+                 
+                  InnerPortReference in_s_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, in_s_def.getName()), buffer_instance);
+                  InnerPortReference call_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, client_callp_def.getName()), from_comp_instance);
+                  
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL",  new InnerPortReference[]{in_s_ipr, call_ipr});
 
                   String client_retp_name = from_iface_name + "__" + mname + "_RETp";
 
@@ -212,7 +231,11 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(in_e_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
-                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET");
+
+                  InnerPortReference in_e_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, in_e_def.getName()), buffer_instance);
+                  InnerPortReference ret_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, client_retp_def.getName()), from_comp_instance);
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET",  new InnerPortReference[]{in_e_ipr, ret_ipr});
+
               }
               
               
@@ -235,7 +258,10 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(out_s_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
-                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL");
+                  InnerPortReference out_s_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, out_s_def.getName()), buffer_instance);
+                  InnerPortReference call_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, server_callp_def.getName()), to_comp_instance);
+                  
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "CALL", new InnerPortReference[]{out_s_ipr, call_ipr});
 
                   String server_retp_name = to_iface_name + "__" + mname + "_RETp";
 
@@ -253,7 +279,10 @@ public class BipInstanceSourceGenerator implements BindingController,
                   synchrons.add(out_e_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
-                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET");
+                  InnerPortReference out_e_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(buffer_type, out_e_def.getName()), buffer_instance);
+                  InnerPortReference ret_ipr = BipCreator.createInnerPortReferenceUnbounded(BipUtil.getPort(to_atom_type, server_retp_def.getName()), to_comp_instance);
+                  
+                  BipCreator.createConnector(connector_t, ct, buffer_instance_name + "__" + m.getName() + "RET", new InnerPortReference[]{out_e_ipr, ret_ipr});
 
               }
           }
@@ -314,6 +343,7 @@ public class BipInstanceSourceGenerator implements BindingController,
         
         Component c = BipCreator.createComponentInstance(n, ct, at);
         logger.log(Level.INFO, "    - added instance '" + n + "'");
+        subcomponent_done++;
     } else {
         Definition instance_def = comp_instance.getDefinition();
         CompoundType ct = BipUtil.getCompoundTypeDefinition(
@@ -326,9 +356,13 @@ public class BipInstanceSourceGenerator implements BindingController,
         logger.log(Level.INFO, "    - added as Root in system");
         BipCreator.createRoot(ct, n, (ujf.verimag.bip.Core.Modules.System)bip_module);
         
-        createConnectors(bip_module, ct, input, context);
-        
-        
+        root_input = input;
+        root_ct = ct;
+        subcomponent_count = comp_instance.getSubComponents().length - 1;
+    }
+    
+    if (subcomponent_done == subcomponent_count && (root_input != null && root_ct != null)){
+        createConnectors(bip_module, root_ct, root_input, context);
     }
   }
 
