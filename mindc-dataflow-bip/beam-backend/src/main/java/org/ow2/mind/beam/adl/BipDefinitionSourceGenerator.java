@@ -236,8 +236,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
       Variable outv = BipCreator.createVariable(dt, "outv", buffer, false, false);
 
       PortDefinition pin_s = BipCreator.createPortDefinitionAndExport(pt_buf, "in_S", new Variable[]{inv}, buffer);
-      PortDefinition pin_e = BipCreator.createPortDefinitionAndExport(pt_buf, "in_E", buffer);
-      PortDefinition pout_s = BipCreator.createPortDefinitionAndExport(pt_buf, "out_S", buffer);
+      PortDefinition pin_e = BipCreator.createPortDefinitionAndExport(pt_buf, "in_E", new Variable[]{inv}, buffer);
+      PortDefinition pout_s = BipCreator.createPortDefinitionAndExport(pt_buf, "out_S", new Variable[]{outv}, buffer);
       PortDefinition pout_e = BipCreator.createPortDefinitionAndExport(pt_buf, "out_E", new Variable[]{outv}, buffer);
       
       BipCreator.createTransition(pin_s, null, idle, in_state, buffer);

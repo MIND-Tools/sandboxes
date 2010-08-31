@@ -212,8 +212,8 @@ public class BipInstanceSourceGenerator implements BindingController,
                   PortType in_s_type = in_s_def.getType();
 
                   List<PortType> synchrons = new ArrayList<PortType>();
-                  synchrons.add(client_callp_type);
                   synchrons.add(in_s_type);
+                  synchrons.add(client_callp_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
                   Port buffer_port = BipUtil.getPort(buffer_type, in_s_def.getName());
@@ -237,9 +237,9 @@ public class BipInstanceSourceGenerator implements BindingController,
                   PortType in_e_type = in_e_def.getType();
 
                   synchrons = new ArrayList<PortType>();
-                  synchrons.add(client_retp_type);
                   synchrons.add(in_e_type);
-
+                  synchrons.add(client_retp_type);
+                  
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "RET_t", synchrons);
                   buffer_port = BipUtil.getPort(buffer_type, in_e_def.getName());
                   filter_port = BipUtil.getPort(from_atom_type, client_retp_def.getName());
@@ -267,8 +267,8 @@ public class BipInstanceSourceGenerator implements BindingController,
                   PortType out_s_type = out_s_def.getType();
 
                   List<PortType> synchrons = new ArrayList<PortType>();
-                  synchrons.add(server_callp_type);
                   synchrons.add(out_s_type);
+                  synchrons.add(server_callp_type);
 
                   connector_t = BipCreator.createRDVConnectorType(bip_module, buffer_instance_name + "__" + m.getName() + "CALL_t", synchrons);
                   Port buffer_port = BipUtil.getPort(buffer_type, out_s_def.getName());
@@ -292,8 +292,8 @@ public class BipInstanceSourceGenerator implements BindingController,
                   PortType out_e_type = out_e_def.getType();
 
                   synchrons = new ArrayList<PortType>();
-                  synchrons.add(server_retp_type);
                   synchrons.add(out_e_type);
+                  synchrons.add(server_retp_type);
                   
                   buffer_port = BipUtil.getPort(buffer_type, out_e_def.getName());
                   filter_port = BipUtil.getPort(to_atom_type, server_retp_def.getName());
