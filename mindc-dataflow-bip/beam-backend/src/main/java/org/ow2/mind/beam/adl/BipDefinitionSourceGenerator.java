@@ -36,6 +36,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.antlr.stringtemplate.StringTemplate;
+import org.antlr.stringtemplate.StringTemplateGroup;
+import org.antlr.stringtemplate.StringTemplateGroupLoader;
+import org.antlr.stringtemplate.language.AngleBracketTemplateLexer;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.interfaces.Interface;
@@ -55,6 +60,7 @@ import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.MindInterface;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.idl.InterfaceDefinitionDecorationHelper;
+import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
 import org.ow2.mind.beam.BackendCommandLineHandler;
 import org.ow2.mind.beam.annotation.BeamFilterAnnotationProcessor;
@@ -66,13 +72,20 @@ import org.ow2.mind.idl.ast.PointerOf;
 import org.ow2.mind.idl.ast.PrimitiveType;
 import org.ow2.mind.idl.ast.Type;
 import org.ow2.mind.io.OutputFileLocator;
+import org.ow2.mind.st.StringTemplateComponentLoader;
+
+import ujf.verimag.bip.Core.ActionLanguage.Actions.CompositeAction;
+import ujf.verimag.bip.Core.ActionLanguage.Expressions.FunctionCallExpression;
+import ujf.verimag.bip.Core.ActionLanguage.Expressions.VariableReference;
 import ujf.verimag.bip.Core.Behaviors.AtomType;
 import ujf.verimag.bip.Core.Behaviors.DataParameter;
 import ujf.verimag.bip.Core.Behaviors.DataType;
+import ujf.verimag.bip.Core.Behaviors.Expression;
 import ujf.verimag.bip.Core.Behaviors.PetriNet;
 import ujf.verimag.bip.Core.Behaviors.PortDefinition;
 import ujf.verimag.bip.Core.Behaviors.PortType;
 import ujf.verimag.bip.Core.Behaviors.State;
+import ujf.verimag.bip.Core.Behaviors.Transition;
 import ujf.verimag.bip.Core.Behaviors.Variable;
 import ujf.verimag.bip.Core.Interactions.CompoundType;
 import ujf.verimag.bip.Core.Modules.Module;
@@ -104,6 +117,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
   protected static Logger logger = FractalADLLogManager
   .getLogger("beam-bip-visitor::definition");
   
+  protected static int buffer_uniq_id = 0;
+  
   // ---------------------------------------------------------------------------
   // Client Interfaces
   // ---------------------------------------------------------------------------
@@ -118,6 +133,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
 
   public IDLLoader idlLoaderItf;
 
+  /** The {@link StringTemplateGroupLoader} client interface. */
+  public StringTemplateGroupLoader   templateLoaderItf;
 
   protected ujf.verimag.bip.Core.Modules.System model;
   
@@ -143,6 +160,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
       implementationLocatorItf = (ImplementationLocator) value;
     } else if (itfName.equals(IDLLoader.ITF_NAME)) {
       idlLoaderItf = (IDLLoader) value;
+    } else if (itfName.equals(StringTemplateComponentLoader.ITF_NAME)) {
+      templateLoaderItf = (StringTemplateGroupLoader) value;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
@@ -153,7 +172,10 @@ public class BipDefinitionSourceGenerator implements BindingController,
     return listFcHelper(OutputFileLocator.ITF_NAME,
         InputResourceLocator.ITF_NAME,
         ImplementationLocator.ITF_NAME,
-        IDLLoader.ITF_NAME);
+        OutputFileLocator.ITF_NAME,
+        IDLLoader.ITF_NAME,
+        StringTemplateComponentLoader.ITF_NAME
+    );
   }
 
   
@@ -168,6 +190,8 @@ public class BipDefinitionSourceGenerator implements BindingController,
       return implementationLocatorItf;
     } else if (itfName.equals(IDLLoader.ITF_NAME)) {
       return idlLoaderItf;
+    } else if (itfName.equals(StringTemplateComponentLoader.ITF_NAME)) {
+      return templateLoaderItf;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
@@ -182,12 +206,36 @@ public class BipDefinitionSourceGenerator implements BindingController,
       outputFileLocatorItf = null;
     } else if (itfName.equals(InputResourceLocator.ITF_NAME)) {
       inputResourceLocatorItf = null;
+    } else if (itfName.equals(ImplementationLocator.ITF_NAME)) {
+      implementationLocatorItf = null;
+    } else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      idlLoaderItf = null;
+    } else if (itfName.equals(StringTemplateComponentLoader.ITF_NAME)) {
+      templateLoaderItf = null;
     } else {
       throw new NoSuchInterfaceException("There is no interface named '"
           + itfName + "'");
     }
   }
 
+  
+  /**
+   * Returns the StringTemplate template with the given
+   * <code>templateName</code> name and found in the
+   * <code>templateGroupName</code> group.
+   * 
+   * @param templateGroupName the groupName from which the template must be
+   *          loaded.
+   * @param templateName the name of the template.
+   * @return a StringTemplate template
+   * @see StringTemplateGroupLoader
+   */
+  protected StringTemplate getTemplate(final String templateGroupName,
+      final String templateName) {
+    final StringTemplateGroup templateGroup = templateLoaderItf.loadGroup(
+        templateGroupName, AngleBracketTemplateLexer.class, null);
+    return templateGroup.getInstanceOf(templateName);
+  }
   /**
    * Mangles a mind component definition name into its corresponding
    * BIP component definition name
@@ -221,11 +269,14 @@ public class BipDefinitionSourceGenerator implements BindingController,
       PetriNet behav = BipCreator.createPetriNet();
  
       AtomType buffer = BipCreator.createAtomType(behav, buffername, this.model);
+      
       State idle = BipCreator.createState(behav, "IDLE", true);
       State in_state = BipCreator.createState(behav, "IN", true);
       State out_state = BipCreator.createState(behav, "OUT", true);
       
       DataType dt = BipCreator.createDataType(typename, this.model);
+      DataType fifo_type = BipCreator.createDataType("fifo_" + typename + buffer_uniq_id +"_t", this.model);
+
       
       DataParameter dpi = BipCreator.createDataParameter("ind", dt);
       DataParameter dpo = BipCreator.createDataParameter("outd", dt);
@@ -234,23 +285,48 @@ public class BipDefinitionSourceGenerator implements BindingController,
       
       Variable inv = BipCreator.createVariable(dt, "inv", buffer, false, false);
       Variable outv = BipCreator.createVariable(dt, "outv", buffer, false, false);
-
+      Variable innerfifo = BipCreator.createVariable(fifo_type, "innerfifo", buffer, false, false);
+      
       PortDefinition pin_s = BipCreator.createPortDefinitionAndExport(pt_buf, "in_S", new Variable[]{inv}, buffer);
       PortDefinition pin_e = BipCreator.createPortDefinitionAndExport(pt_buf, "in_E", new Variable[]{inv}, buffer);
       PortDefinition pout_s = BipCreator.createPortDefinitionAndExport(pt_buf, "out_S", new Variable[]{outv}, buffer);
       PortDefinition pout_e = BipCreator.createPortDefinitionAndExport(pt_buf, "out_E", new Variable[]{outv}, buffer);
       
-      BipCreator.createTransition(pin_s, null, idle, in_state, buffer);
+      Transition push_trans = BipCreator.createTransition(pin_s, null, idle, in_state, buffer);
+      CompositeAction ca = BipCreator.createCompositeAction();
+      push_trans.setAction(ca);
+      
+      FunctionCallExpression fce = BipCreator.createFunctionCallExpression("_push_" + typename + buffer_uniq_id, new Expression[]{
+              BipCreator.createVariableReference(inv),
+              BipCreator.createFunctionCallExpression("R", new Expression[]{BipCreator.createVariableReference(innerfifo)})
+      });
+      ca.getContent().add(fce);
+      
       BipCreator.createTransition(pin_e, null, in_state, idle, buffer);
       
-      BipCreator.createTransition(pout_s, null, idle, out_state, buffer);
+      Transition pop_trans = BipCreator.createTransition(pout_s, null, idle, out_state, buffer);
       BipCreator.createTransition(pout_e, null, out_state, idle, buffer);
+      ca = BipCreator.createCompositeAction();
+      pop_trans.setAction(ca);
+      VariableReference out_vr = BipCreator.createVariableReference(outv);
+      fce = BipCreator.createFunctionCallExpression("_pop_" + typename + buffer_uniq_id, new Expression[]{
+              BipCreator.createFunctionCallExpression("R", new Expression[]{BipCreator.createVariableReference(innerfifo)})
+      });
       
-      OpaqueElement header_oe = BipCreator.createOpaqueElementFromCCode(typedefs,true);
+      ca.getContent().add(BipCreator.createAssignmentAction(out_vr, fce));
+
+      
+      
+      StringTemplate buffer_st =  getTemplate("st.beam.bip.Buffer", "SimpleFifo");
+      assert(buffer_st != null);
+      
+      buffer_st.setAttribute("type", typename);
+      buffer_st.setAttribute("size", 256);
+      buffer_st.setAttribute("id", buffer_uniq_id);
+      
+      OpaqueElement header_oe = BipCreator.createOpaqueElementFromCCode(typedefs + buffer_st.toString(),true);
       BipUtil.addDeclarationToModule(this.model, header_oe);
-      
-      // FIXME not sure this is the best location for invoking this method.
-//      createPTPConnectorType(typename, buffername);
+      buffer_uniq_id++;
   }
   // ---------------------------------------------------------------------------
   // Implementation of the Visitor interface
