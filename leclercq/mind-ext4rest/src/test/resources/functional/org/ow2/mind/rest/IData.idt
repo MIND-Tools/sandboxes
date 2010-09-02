@@ -1,0 +1,39 @@
+/* ----------------------------------------------
+		Data list definition
+ ------------------------------------------------*/
+
+#ifndef DATA_LIST_
+#define DATA_LIST_
+
+
+/// Supported types for the value field -> this can be extended to support other types
+enum VALUE_DATA_TYPE {
+
+	 STRING,
+	 INT,
+	 FLOAT,
+	 DATA,	/// This type refers to the structure data_list (in order to create complex values)
+	 LIST	/// This type refers to the structure data_list (in order to create complex values)
+};
+
+
+/// A list containing pieces of data
+struct data_list
+{
+		/// Key
+    	char* key;
+
+		/// The type of value
+		enum VALUE_DATA_TYPE type;
+		
+    	/// Value
+    	void* value;
+		    	
+    	/// Next Element
+    	struct data_list* next;
+    	
+};
+
+typedef struct data_list data_list;
+
+#endif

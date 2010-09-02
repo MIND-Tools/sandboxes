@@ -1,0 +1,60 @@
+template st.membrane.RESTController
+  : st.common.ComponentHelper
+  implements st.membrane.ControllerGenerator {
+
+st.interfaces.IDLDefinition idl2c = st.interfaces.IDL2C; 
+
+$${
+
+// -----------------------------------------------------------------------------
+// Implementation of the ControllerGenerator interface
+// -----------------------------------------------------------------------------
+
+ControllerImplementation(definition, controller, interfaceDefinitions) ::= <<
+
+/* -----------------------------------------------------------------------------
+   Implementation of the org.ow2.mind.rest.IRestCompatibility interface
+----------------------------------------------------------------------------- */
+
+<getName(definition=definition, controller=controller, 
+  controlledItf=controller.astDecorations.("restControlledInterface"),
+  controlledIDL=interfaceDefinitions.(controller.astDecorations.("restControlledInterface").signature))>
+
+<getMethods(definition=definition, controller=controller, 
+  controlledItf=controller.astDecorations.("restControlledInterface"),
+  controlledIDL=interfaceDefinitions.(controller.astDecorations.("restControlledInterface").signature))>
+
+<invoke(definition=definition, controller=controller, 
+  controlledItf=controller.astDecorations.("restControlledInterface"),
+  controlledIDL=interfaceDefinitions.(controller.astDecorations.("restControlledInterface").signature))>
+
+>>
+
+// -----------------------------------------------------------------------------
+// Internal templates
+// -----------------------------------------------------------------------------
+
+getName(definition, controller, controlledItf, controlledIDL) ::= <<
+string METH(restController, getName)(void) {
+  return "<controlledItf.name>";
+}
+>>
+
+getMethods(definition, controller, controlledItf, controlledIDL) ::= <<
+method_list* METH(restController, getMethods)(void) {
+  // TODO
+  <controlledIDL.methods:{// method <it.name>}; separator="\n">
+  return NULL;
+}
+>>
+
+invoke(definition, controller, controlledItf, controlledIDL) ::= <<
+void* METH(restController, invoke)(char* method_name, param_list* parameters, data_list* body) {
+  // TODO
+  <controlledIDL.methods:{// method <it.name>}; separator="\n">
+  return NULL;
+}
+>>
+
+}$$
+}

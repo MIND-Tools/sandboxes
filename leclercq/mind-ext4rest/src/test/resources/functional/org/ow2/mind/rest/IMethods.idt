@@ -1,0 +1,38 @@
+/* ----------------------------------------------
+		External component method list
+ ------------------------------------------------*/
+
+#ifndef METHOD_LIST_
+#define METHOD_LIST_
+
+/// List of method descriptions (char*)
+struct method_list
+{
+		/// method description
+    	char* method;
+		    	
+    	/// Next Element
+    	struct method_list* next;
+    	
+};
+
+typedef struct method_list method_list;
+
+/// List of parameters
+struct param_list
+{
+
+		/// key
+    	char* key;
+    	
+		/// value
+    	void* value;
+		    	
+    	/// Next Element
+    	struct param_list* next;
+    	
+};
+
+typedef struct param_list param_list;
+
+#endif
