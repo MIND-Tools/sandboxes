@@ -1,5 +1,0 @@
-<plugin id="org.ow2.mind.extensions.rest" name="REST plug-in.">
- <extension point="org.ow2.mind.predefined-annotations">
-  	<annotation package="org.ow2.mind.extensions.rest.annotations"/>
-  </extension>
-</plugin>
