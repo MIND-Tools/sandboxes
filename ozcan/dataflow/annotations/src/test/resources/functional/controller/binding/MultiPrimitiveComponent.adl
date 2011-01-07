@@ -1,0 +1,7 @@
+
+@CompileDef
+@controller.BindingController
+primitive controller.binding.MultiPrimitiveComponent extends BCTested {
+
+  source primitiveComponent.c;
+}

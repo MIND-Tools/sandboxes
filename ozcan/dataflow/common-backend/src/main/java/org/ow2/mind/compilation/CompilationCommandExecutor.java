@@ -1,0 +1,44 @@
+/**
+ * Copyright (C) 2009 STMicroelectronics
+ *
+ * This file is part of "Mind Compiler" is free software: you can redistribute 
+ * it and/or modify it under the terms of the GNU Lesser General Public License 
+ * as published by the Free Software Foundation, either version 3 of the 
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Contact: mind@ow2.org
+ *
+ * Authors: Matthieu Leclercq
+ * Contributors: 
+ */
+
+package org.ow2.mind.compilation;
+
+import java.util.Collection;
+import java.util.Map;
+
+import org.objectweb.fractal.adl.ADLException;
+
+public interface CompilationCommandExecutor {
+
+  /**
+   * Execute the given collection of {@link CompilationCommand}.
+   * 
+   * @param commands the compilation command to execute
+   * @param context additional parameters
+   * @return <code>true</code> if and only if every {@link CompilationCommand}
+   *         have been executed successfully.
+   * @throws ADLException if an error occurs.
+   * @throws InterruptedException if the execution has been interrupted.
+   */
+  boolean exec(Collection<CompilationCommand> commands,
+      Map<Object, Object> context) throws ADLException, InterruptedException;
+}

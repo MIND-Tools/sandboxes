@@ -1,0 +1,20 @@
+template pkg1.annotations.ADLGenerator {
+
+$${
+
+Generate(adlName) ::= <<
+primitive <adlName> {
+  provides pkg1.I2 as itf;
+  source {{ }};
+}
+>>
+
+GenerateIDL(idlName) ::= <<
+interface <idlName> {
+  int add(int a, int b);
+  int sub(int a, int b);
+}
+>>
+
+}$$ 
+}
