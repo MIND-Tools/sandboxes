@@ -74,7 +74,7 @@ public abstract class AbstractErrorTest {
         errorManager, idlLocator, inputResourceLocator, pluginFactory);
     loader = Factory.newLoader(errorManager, inputResourceLocator, adlLocator,
         idlLocator, implementationLocator, idlFrontend.cache,
-        idlFrontend.loader, pluginFactory);
+        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
 
     context = new HashMap<Object, Object>();
   }

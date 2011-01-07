@@ -74,7 +74,7 @@ public class IncludeLoader extends AbstractIDLLoader {
         errorManagerItf.logError(IDLErrors.INVALID_INCLUDE, include, path);
       }
 
-      idlResolverItf.resolve(include, container, context);
+      idlResolverItf.resolve(include, container, null, context);
     }
   }
 

@@ -50,11 +50,13 @@ import org.ow2.mind.adl.jtb.syntaxtree.DataDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.ExtendedCompositeDefinitions;
 import org.ow2.mind.adl.jtb.syntaxtree.ExtendedPrimitiveDefinitions;
 import org.ow2.mind.adl.jtb.syntaxtree.ExtendedTypeDefinitions;
+import org.ow2.mind.adl.jtb.syntaxtree.FlowInterfaceDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.FormalParameterDeclaration;
 import org.ow2.mind.adl.jtb.syntaxtree.FormalParameterDeclarationList;
 import org.ow2.mind.adl.jtb.syntaxtree.FormalTypeParameterDeclaration;
 import org.ow2.mind.adl.jtb.syntaxtree.FormalTypeParameterDeclarationList;
 import org.ow2.mind.adl.jtb.syntaxtree.FullyQualifiedName;
+import org.ow2.mind.adl.jtb.syntaxtree.FunctionalInterfaceDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.ImplementationDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.ImportDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.IntegerValue;
@@ -339,13 +341,29 @@ public class EndTokenVisitor extends GJNoArguDepthFirst<NodeToken> {
 
   @Override
   public NodeToken visit(final InterfaceDefinition n) {
-    NodeToken t = n.f7.accept(this);
+    return n.f1.accept(this);
+  }
+
+  @Override
+  public NodeToken visit(final FunctionalInterfaceDefinition n) {
+    NodeToken t = n.f6.accept(this);
     if (t != null) return t;
 
-    t = n.f6.accept(this);
+    t = n.f5.accept(this);
     if (t != null) return t;
 
-    return n.f5;
+    return n.f4;
+  }
+
+  @Override
+  public NodeToken visit(final FlowInterfaceDefinition n) {
+    NodeToken t = n.f6.accept(this);
+    if (t != null) return t;
+
+    t = n.f5.accept(this);
+    if (t != null) return t;
+
+    return n.f4;
   }
 
   @Override

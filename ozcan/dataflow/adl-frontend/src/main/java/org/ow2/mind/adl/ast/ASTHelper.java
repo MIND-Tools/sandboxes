@@ -225,6 +225,54 @@ public class ASTHelper {
   // ---------------------------------------------------------------------------
 
   /**
+   * Returns <code>true</code> if the given interface is a flow interface (i.e.
+   * if its {@link TypeInterface#getRole() role} is either
+   * {@link MindInterface#INPUT_ROLE} or {@link MindInterface#OUTPUT_ROLE}).
+   * 
+   * @param itf an interface.
+   * @return <code>true</code> if the given interface is a flow interface.
+   */
+  public static boolean isFlowInterface(final Interface itf) {
+    if (!(itf instanceof TypeInterface)) return false;
+
+    final String role = ((TypeInterface) itf).getRole();
+    return (MindInterface.INPUT_ROLE.equals(role) || MindInterface.OUTPUT_ROLE
+        .equals(role));
+  }
+
+  /**
+   * Returns <code>true</code> if the given interface is an output flow
+   * interface (i.e. if its {@link TypeInterface#getRole() role} is
+   * {@link MindInterface#OUTPUT_ROLE}).
+   * 
+   * @param itf an interface.
+   * @return <code>true</code> if the given interface is an output flow
+   *         interface.
+   */
+  public static boolean isOutput(final Interface itf) {
+    if (!(itf instanceof TypeInterface)) return false;
+
+    final String role = ((TypeInterface) itf).getRole();
+    return MindInterface.OUTPUT_ROLE.equals(role);
+  }
+
+  /**
+   * Returns <code>true</code> if the given interface is an input flow interface
+   * (i.e. if its {@link TypeInterface#getRole() role} is
+   * {@link MindInterface#INPUT_ROLE}).
+   * 
+   * @param itf an interface.
+   * @return <code>true</code> if the given interface is an input flow
+   *         interface.
+   */
+  public static boolean isInput(final Interface itf) {
+    if (!(itf instanceof TypeInterface)) return false;
+
+    final String role = ((TypeInterface) itf).getRole();
+    return MindInterface.INPUT_ROLE.equals(role);
+  }
+
+  /**
    * Returns the integer value of the {@link MindInterface#getNumberOfElement()
    * numberOfElement} field of the given interface node.
    * 

@@ -57,6 +57,9 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
   /** The {@link RecursiveIDLLoader} interface used to load referenced IDLs. */
   public RecursiveIDLLoader recursiveIdlLoaderItf;
 
+  /** The {@link IDLLoader} interface used to load referenced IDLs. */
+  public IDLLoader          idlLoaderItf;
+
   /** The {@link IDLLocator} client interface used by this component. */
   public IDLLocator         idlLocatorItf;
 
@@ -65,7 +68,18 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
   // ---------------------------------------------------------------------------
 
   public IDL resolve(final Include include, final IDL encapsulatingIDL,
-      final Map<Object, Object> context) throws ADLException {
+      final String encapsulatingName, final Map<Object, Object> context)
+      throws ADLException {
+    final String encapsulatingIDLName;
+    if (encapsulatingName == null) {
+      if (encapsulatingIDL == null) {
+        throw new IllegalArgumentException(
+            "encapsulatingIDL and encapsulatingName cannot be both null");
+      }
+      encapsulatingIDLName = encapsulatingIDL.getName();
+    } else {
+      encapsulatingIDLName = encapsulatingName;
+    }
 
     String path = getIncludedPath(include);
     if (!PathHelper.isValid(path)) {
@@ -73,7 +87,6 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
       return IDLASTHelper.newUnresolvedIDLNode(nodeFactoryItf, path);
     }
 
-    final String encapsulatingIDLName = encapsulatingIDL.getName();
     final String encapsulatingDir;
     if (encapsulatingIDLName.startsWith("/")) {
       encapsulatingDir = PathHelper.getParent(encapsulatingIDLName);
@@ -121,7 +134,11 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
     IDLASTHelper.setIncludePathPreserveDelimiter(include, path);
 
     try {
-      return recursiveIdlLoaderItf.load(encapsulatingIDL, path, context);
+      if (encapsulatingIDL != null) {
+        return recursiveIdlLoaderItf.load(encapsulatingIDL, path, context);
+      } else {
+        return idlLoaderItf.load(path, context);
+      }
     } catch (final ADLException e) {
       // Log an error only if the exception is IDL_NOT_FOUND
       if (e.getError().getTemplate() == IDLErrors.IDL_NOT_FOUND) {
@@ -145,6 +162,8 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
       nodeFactoryItf = (NodeFactory) value;
     } else if (itfName.equals(RecursiveIDLLoader.ITF_NAME)) {
       recursiveIdlLoaderItf = (RecursiveIDLLoader) value;
+    } else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      idlLoaderItf = (IDLLoader) value;
     } else if (itfName.equals(IDLLocator.ITF_NAME)) {
       idlLocatorItf = (IDLLocator) value;
     } else {
@@ -156,7 +175,7 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
 
   public String[] listFc() {
     return listFcHelper(ErrorManager.ITF_NAME, NodeFactory.ITF_NAME,
-        RecursiveIDLLoader.ITF_NAME, IDLLocator.ITF_NAME);
+        RecursiveIDLLoader.ITF_NAME, IDLLoader.ITF_NAME, IDLLocator.ITF_NAME);
   }
 
   public Object lookupFc(final String itfName) throws NoSuchInterfaceException {
@@ -168,6 +187,8 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
       return nodeFactoryItf;
     } else if (itfName.equals(RecursiveIDLLoader.ITF_NAME)) {
       return recursiveIdlLoaderItf;
+    } else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      return idlLoaderItf;
     } else if (itfName.equals(IDLLocator.ITF_NAME)) {
       return idlLocatorItf;
     } else {
@@ -186,6 +207,8 @@ public class BasicIncludeResolver implements IncludeResolver, BindingController 
       nodeFactoryItf = null;
     } else if (itfName.equals(RecursiveIDLLoader.ITF_NAME)) {
       recursiveIdlLoaderItf = null;
+    } else if (itfName.equals(IDLLoader.ITF_NAME)) {
+      idlLoaderItf = null;
     } else if (itfName.equals(IDLLocator.ITF_NAME)) {
       idlLocatorItf = null;
     } else {

@@ -65,7 +65,8 @@ public class IncludeHeaderResolver extends AbstractIncludeResolver {
   // ---------------------------------------------------------------------------
 
   public IDL resolve(final Include include, final IDL encapsulatingIDL,
-      final Map<Object, Object> context) throws ADLException {
+      final String encapsulatingName, final Map<Object, Object> context)
+      throws ADLException {
     String path = getIncludedPath(include);
     if (getExtension(path).equals(HEADER_EXTENSION)) {
       // include node references a header C file.
@@ -73,7 +74,16 @@ public class IncludeHeaderResolver extends AbstractIncludeResolver {
       if (IDLASTHelper.getIncludeDelimiter(include) == IDLASTHelper.IncludeDelimiter.QUOTE) {
         // try to find header file and update the path if needed
 
-        final String encapsulatingIDLName = encapsulatingIDL.getName();
+        final String encapsulatingIDLName;
+        if (encapsulatingName == null) {
+          if (encapsulatingIDL == null) {
+            throw new IllegalArgumentException(
+                "encapsulatingIDL and encapsulatingName cannot be both null");
+          }
+          encapsulatingIDLName = encapsulatingIDL.getName();
+        } else {
+          encapsulatingIDLName = encapsulatingName;
+        }
         final String encapsulatingDir;
         if (encapsulatingIDLName.startsWith("/")) {
           encapsulatingDir = PathHelper.getParent(encapsulatingIDLName);
@@ -118,7 +128,8 @@ public class IncludeHeaderResolver extends AbstractIncludeResolver {
       header.setName(path);
       return header;
     } else {
-      return clientResolverItf.resolve(include, encapsulatingIDL, context);
+      return clientResolverItf.resolve(include, encapsulatingIDL,
+          encapsulatingName, context);
     }
   }
 

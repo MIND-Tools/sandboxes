@@ -8,6 +8,10 @@ composite fuu.Bop<T conformsto Toto>(arg1, arg2) extends Bar<T, Bar> {
   
   provides Allocator as alloc;
   requires FooItf as cItf[10];
+  output foo.idt:struct s as flowOut;
+  output ./foo.idt:struct s as flowOut1;
+  output ./../foo.idt:struct s as flowOut2;
+  output uint8_t as flowOut2;
   
   contains Tutu(a=arg1) as tutu;
 

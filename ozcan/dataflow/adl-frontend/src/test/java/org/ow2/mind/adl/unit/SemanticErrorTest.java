@@ -34,7 +34,7 @@ public class SemanticErrorTest extends AbstractErrorTest {
     return UnitTestDataProvider.listADLs("unit/error/semantic");
   }
 
-  @Test(dataProvider = "unit-test", groups = {"functional"})
+  @Test(dataProvider = "unit-test", groups = {"unsupported"})
   public void semanticErrorTest(final String rootDir, final String adlName)
       throws Exception {
     initSourcePath(rootDir);

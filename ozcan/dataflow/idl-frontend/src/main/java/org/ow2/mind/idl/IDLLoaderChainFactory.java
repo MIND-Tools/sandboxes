@@ -52,15 +52,17 @@ public final class IDLLoaderChainFactory {
   }
 
   public static final class IDLFrontend {
-    public final IDLLocator locator;
-    public final IDLCache   cache;
-    public final IDLLoader  loader;
+    public final IDLLocator      locator;
+    public final IDLCache        cache;
+    public final IDLLoader       loader;
+    public final IncludeResolver includeResolver;
 
     public IDLFrontend(final IDLLocator locator, final IDLCache cache,
-        final IDLLoader loader) {
+        final IDLLoader loader, final IncludeResolver includeResolver) {
       this.locator = locator;
       this.cache = cache;
       this.loader = loader;
+      this.includeResolver = includeResolver;
     }
   }
 
@@ -82,7 +84,6 @@ public final class IDLLoaderChainFactory {
 
     // Configuration of plugin factory components
     pluginFactory = scpf;
-
 
     return newLoader(errorManager, newIDLLocator(inputResourceLocator),
         inputResourceLocator, pluginFactory);
@@ -165,6 +166,7 @@ public final class IDLLoaderChainFactory {
     ihr.clientResolverItf = bir;
 
     bir.recursiveIdlLoaderItf = recursiveIDLLoader;
+    bir.idlLoaderItf = idlLoader;
     bir.idlLocatorItf = idlLocator;
     ihr.idlLocatorItf = idlLocator;
     cir.idlLoaderItf = idlLoader;
@@ -224,6 +226,6 @@ public final class IDLLoaderChainFactory {
           "adl-frontend instantiation error");
     }
 
-    return new IDLFrontend(idlLocator, idlCache, idlLoader);
+    return new IDLFrontend(idlLocator, idlCache, idlLoader, includeResolver);
   }
 }

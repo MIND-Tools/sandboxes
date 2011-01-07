@@ -155,7 +155,7 @@ public class CompilerRunner {
 
     adlLoader = Factory.newLoader(errorManager, inputResourceLocator,
         adlLocator, idlLocator, implementationLocator, idlFrontend.cache,
-        idlFrontend.loader, pluginFactory);
+        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
 
     // instantiator chain
     graphInstantiator = Factory.newInstantiator(errorManager, adlLoader);
@@ -225,6 +225,10 @@ public class CompilerRunner {
     final Collection<CompilationCommand> c = definitionCompiler.visit(d,
         context);
     executor.exec(c, context);
+    final List<Error> errors = errorManager.getErrors();
+    if (!errors.isEmpty()) {
+      throw new ADLException(new ErrorCollection(errors));
+    }
     final List<File> result = new ArrayList<File>();
     for (final CompilationCommand command : c) {
       if (command instanceof CompilerCommand)

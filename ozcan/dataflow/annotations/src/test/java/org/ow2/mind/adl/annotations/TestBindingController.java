@@ -81,11 +81,12 @@ public class TestBindingController {
     final org.objectweb.fractal.adl.Factory pluginFactory = new SimpleClassPluginFactory();
 
     // loader chains
-    final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(errorManager,
-        idlLocator, inputResourceLocator, pluginFactory);
+    final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
+        errorManager, idlLocator, inputResourceLocator, pluginFactory);
     final Loader adlLoader = Factory.newLoader(errorManager,
         inputResourceLocator, adlLocator, idlLocator, implementationLocator,
-        idlFrontend.cache, idlFrontend.loader, pluginFactory);
+        idlFrontend.cache, idlFrontend.loader, idlFrontend.includeResolver,
+        pluginFactory);
     final ErrorLoader errorLoader = new ErrorLoader();
     errorLoader.errorManagerItf = errorManager;
     errorLoader.clientLoader = adlLoader;

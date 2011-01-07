@@ -143,9 +143,11 @@ TOKEN : {
 	<DATA: "data"> |
 	<EXTENDS: "extends"> |
 	<IMPORT: "import"> |
+    <INPUT: "input"> |
 	<MANDATORY: "mandatory"> |
 	<NULL: "NULL" | "null"> |
 	<OPTIONAL: "optional"> |
+	<OUTPUT: "output"> |
 	<PRIMITIVE: "primitive"> |
 	<PROPERTY: "property"> |
 	<PROVIDES: "provides"> |
@@ -194,6 +196,7 @@ TOKEN :
 | < LT: "<" >
 | < GT: ">" >
 | < SEMICOLON: ";" >
+| < DASH : ":" >
 | < COMMA: "," >
 | < DOT: "." >
 | < DOTDOT: ".." >
@@ -339,7 +342,7 @@ void PrimitiveDefinitionBody() : {}
 
 void PrimitiveDefinitionElement() : {}
 {
-  LOOKAHEAD( (Annotation())* (<PROVIDES>|<REQUIRES>) ) InterfaceDefinition()
+  LOOKAHEAD( (Annotation())* (<PROVIDES>|<REQUIRES>|<INPUT>|<OUTPUT>) ) InterfaceDefinition()
   | LOOKAHEAD( (Annotation())* <ATTRIBUTE> ) AttributeDefinition()
   | LOOKAHEAD( (Annotation())* <DATA> ) DataDefinition()
   | LOOKAHEAD( (Annotation())* <SOURCE> ) ImplementationDefinition()
@@ -409,7 +412,7 @@ void CompositeDefinitionBody() : {}
 
 void CompositeDefinitionElement() : {}
 {
-  LOOKAHEAD( (Annotation())* (<PROVIDES>|<REQUIRES>) ) InterfaceDefinition()
+  LOOKAHEAD( (Annotation())* (<PROVIDES>|<REQUIRES>|<INPUT>|<OUTPUT>) ) InterfaceDefinition()
   | LOOKAHEAD( (Annotation())* <BINDS> ) BindingDefinition()
   | SubComponentDefinition()
 }
@@ -421,11 +424,37 @@ void CompositeDefinitionElement() : {}
 void InterfaceDefinition() : {}
 {
   Annotations()
+  ( FunctionalInterfaceDefinition()
+    | FlowInterfaceDefinition() )
+}
+
+void FunctionalInterfaceDefinition() : {}
+{
   ( <PROVIDES> | <REQUIRES> ) [ <OPTIONAL> ]
   FullyQualifiedName() <AS>
   <IDENTIFIER> [ <LBRACKET> [ <INTEGER_LITERAL> ] <RBRACKET> ]
   [ <SEMICOLON> ]
 }
+
+void FlowInterfaceDefinition() : {}
+{
+  ( <INPUT> | <OUTPUT> ) [ <OPTIONAL> ]
+  FlowType() <AS>
+  <IDENTIFIER> [ <LBRACKET> [ <INTEGER_LITERAL> ] <RBRACKET> ]
+  [ <SEMICOLON> ]
+}
+
+void FlowType() : {}
+{
+  AttributeType()
+  | IDTType()
+}
+
+void IDTType() : {}
+{
+  Path() <DASH> [ < STRUCT > | < ENUM > | < UNION > ] <IDENTIFIER> 
+}
+
 
 /******************************************************************************/
 

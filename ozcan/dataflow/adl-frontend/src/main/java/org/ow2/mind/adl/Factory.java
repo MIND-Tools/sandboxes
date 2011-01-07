@@ -95,6 +95,7 @@ import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
 import org.ow2.mind.idl.IDLLoaderChainFactory.IDLFrontend;
 import org.ow2.mind.idl.IDLLocator;
+import org.ow2.mind.idl.IncludeResolver;
 import org.ow2.mind.plugin.SimpleClassPluginFactory;
 import org.ow2.mind.st.STLoaderFactory;
 import org.ow2.mind.st.STNodeFactoryImpl;
@@ -152,7 +153,7 @@ public final class Factory {
 
     return newLoader(errorManager, inputResourceLocator, adlLocator,
         idlLocator, implementationLocator, idlFrontend.cache,
-        idlFrontend.loader, pluginFactory);
+        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
   }
 
   public static Loader newLoader(final ErrorManager errorManager,
@@ -160,6 +161,7 @@ public final class Factory {
       final ADLLocator adlLocator, final IDLLocator idlLocator,
       final ImplementationLocator implementationLocator,
       final IDLCache idlCache, final IDLLoader idlLoader,
+      final IncludeResolver includeResolver,
       final org.objectweb.fractal.adl.Factory pluginFactory) {
 
     // plugin manager components
@@ -194,6 +196,7 @@ public final class Factory {
     final NoAnySubComponentLoader nascl = new NoAnySubComponentLoader();
     final AnnotationProcessorLoader apl2 = new AnnotationProcessorLoader();
     final AnnotationProcessorLoader apl3 = new AnnotationProcessorLoader();
+    final FlowInterfaceConverterLoader ficl = new FlowInterfaceConverterLoader();
     final InterfaceNormalizerLoader inl = new InterfaceNormalizerLoader();
     final InterfaceCheckerLoader itfcl = new InterfaceCheckerLoader();
     final InterfaceSignatureLoader isl = new InterfaceSignatureLoader();
@@ -227,7 +230,8 @@ public final class Factory {
     ciil.clientLoader = isl;
     isl.clientLoader = itfcl;
     itfcl.clientLoader = inl;
-    inl.clientLoader = apl3;
+    inl.clientLoader = ficl;
+    ficl.clientLoader = apl3;
     apl3.clientLoader = apl2;
     apl2.clientLoader = nascl;
     nascl.clientLoader = el;
@@ -249,6 +253,7 @@ public final class Factory {
     isl.nodeFactoryItf = nodeFactory;
     gdl.nodeFactoryItf = nodeFactory;
     acl.nodeFactoryItf = nodeFactory;
+    ficl.nodeFactoryItf = nodeFactory;
 
     ap.errorManagerItf = errorManager;
     al.errorManagerItf = errorManager;
@@ -262,6 +267,7 @@ public final class Factory {
     itfcl.errorManagerItf = errorManager;
     isl.errorManagerItf = errorManager;
     mcl.errorManagerItf = errorManager;
+    ficl.errorManagerItf = errorManager;
     bnl.errorManagerItf = errorManager;
     bcl.errorManagerItf = errorManager;
     uicl.errorManagerItf = errorManager;
@@ -293,6 +299,10 @@ public final class Factory {
     ciil.nodeMergerItf = nodeMerger;
 
     gidl.nodeFactoryItf = nodeFactory;
+
+    ficl.idlCacheItf = idlCache;
+    ficl.idlLoaderItf = idlLoader;
+    ficl.includeResolverItf = includeResolver;
 
     // Interface signature resolver chain
     InterfaceSignatureResolver interfaceSignatureResolver;

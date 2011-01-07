@@ -518,7 +518,7 @@ public class Launcher extends AbstractLauncher {
 
     adlLoader = Factory.newLoader(errorManager, inputResourceLocator,
         adlLocator, idlLocator, implementationLocator, idlFrontend.cache,
-        idlFrontend.loader, pluginFactory);
+        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
 
     // instantiator chain
     graphInstantiator = Factory.newInstantiator(errorManager, adlLoader);

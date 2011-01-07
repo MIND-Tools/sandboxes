@@ -49,11 +49,13 @@ public class CachingIncludeResolver extends AbstractIncludeResolver {
   // ---------------------------------------------------------------------------
 
   public IDL resolve(final Include usedIDL, final IDL encapsulatingIDL,
-      final Map<Object, Object> context) throws ADLException {
+      final String encapsulatingName, final Map<Object, Object> context)
+      throws ADLException {
 
     IDL idl = getIncludedIDL(usedIDL, idlLoaderItf, context);
     if (idl == null) {
-      idl = clientResolverItf.resolve(usedIDL, encapsulatingIDL, context);
+      idl = clientResolverItf.resolve(usedIDL, encapsulatingIDL,
+          encapsulatingName, context);
       setIncludedIDL(usedIDL, idl);
     }
 

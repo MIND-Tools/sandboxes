@@ -81,9 +81,13 @@ import org.ow2.mind.adl.jtb.syntaxtree.DataDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.ExtendedCompositeDefinitions;
 import org.ow2.mind.adl.jtb.syntaxtree.ExtendedPrimitiveDefinitions;
 import org.ow2.mind.adl.jtb.syntaxtree.ExtendedTypeDefinitions;
+import org.ow2.mind.adl.jtb.syntaxtree.FlowInterfaceDefinition;
+import org.ow2.mind.adl.jtb.syntaxtree.FlowType;
 import org.ow2.mind.adl.jtb.syntaxtree.FormalParameterDeclaration;
 import org.ow2.mind.adl.jtb.syntaxtree.FormalTypeParameterDeclaration;
 import org.ow2.mind.adl.jtb.syntaxtree.FullyQualifiedName;
+import org.ow2.mind.adl.jtb.syntaxtree.FunctionalInterfaceDefinition;
+import org.ow2.mind.adl.jtb.syntaxtree.IDTType;
 import org.ow2.mind.adl.jtb.syntaxtree.ImplementationDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.ImportDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.IntegerValue;
@@ -574,39 +578,109 @@ public class JTBProcessor extends GJDepthFirst<Node, Node>
   @Override
   public Node visit(final InterfaceDefinition n, final Node argu) {
     assert argu != null;
-    final MindInterface itf = (MindInterface) newNode("interface", n);
+    // process FunctionalInterfaceDefinition | FlowInterfaceDefinition
+    final MindInterface itf = (MindInterface) n.f1.accept(this, argu);
 
     // process annotations
     n.f0.accept(this, itf);
 
-    // process PROVIDES/REQUIRES
-    if (((NodeToken) n.f1.choice).kind == PROVIDES) {
+    castNodeError(argu, InterfaceContainer.class).addInterface(itf);
+    return itf;
+  }
+
+  @Override
+  public Node visit(final FunctionalInterfaceDefinition n, final Node argu) {
+
+    final MindInterface itf = (MindInterface) newNode("interface", n);
+
+    if (((NodeToken) n.f0.choice).kind == PROVIDES) {
       itf.setRole(TypeInterface.SERVER_ROLE);
     } else {
-      assert ((NodeToken) n.f1.choice).kind == REQUIRES;
+      assert ((NodeToken) n.f0.choice).kind == REQUIRES;
       itf.setRole(TypeInterface.CLIENT_ROLE);
     }
 
     // process contingency
-    if (n.f2.present()) itf.setContingency(TypeInterface.OPTIONAL_CONTINGENCY);
+    if (n.f1.present()) itf.setContingency(TypeInterface.OPTIONAL_CONTINGENCY);
 
     // process IDL signature
-    itf.setSignature(fullyQualifiedName(n.f3));
+    itf.setSignature(fullyQualifiedName(n.f2));
 
     // process name
-    itf.setName(n.f5.tokenImage);
+    itf.setName(n.f4.tokenImage);
 
     // process [count]
-    if (n.f6.present()) {
+    if (n.f5.present()) {
       itf.setCardinality(TypeInterface.COLLECTION_CARDINALITY);
-      if (((NodeOptional) ((NodeSequence) n.f6.node).elementAt(1)).present()) {
-        final NodeToken count = (NodeToken) ((NodeOptional) ((NodeSequence) n.f6.node)
+      if (((NodeOptional) ((NodeSequence) n.f5.node).elementAt(1)).present()) {
+        final NodeToken count = (NodeToken) ((NodeOptional) ((NodeSequence) n.f5.node)
             .elementAt(1)).node;
         itf.setNumberOfElement(count.tokenImage);
       }
     }
 
-    castNodeError(argu, InterfaceContainer.class).addInterface(itf);
+    return itf;
+  }
+
+  @Override
+  public Node visit(final FlowInterfaceDefinition n, final Node argu) {
+
+    final MindInterface itf = (MindInterface) newNode("interface", n);
+
+    if (((NodeToken) n.f0.choice).kind == INPUT) {
+      itf.setRole(MindInterface.INPUT_ROLE);
+    } else {
+      assert ((NodeToken) n.f0.choice).kind == OUTPUT;
+      itf.setRole(MindInterface.OUTPUT_ROLE);
+    }
+
+    // process contingency
+    if (n.f1.present()) itf.setContingency(TypeInterface.OPTIONAL_CONTINGENCY);
+
+    // process type
+    n.f2.accept(this, itf);
+
+    // process name
+    itf.setName(n.f4.tokenImage);
+
+    // process [count]
+    if (n.f5.present()) {
+      itf.setCardinality(TypeInterface.COLLECTION_CARDINALITY);
+      if (((NodeOptional) ((NodeSequence) n.f5.node).elementAt(1)).present()) {
+        final NodeToken count = (NodeToken) ((NodeOptional) ((NodeSequence) n.f5.node)
+            .elementAt(1)).node;
+        itf.setNumberOfElement(count.tokenImage);
+      }
+    }
+
+    return itf;
+  }
+
+  @Override
+  public Node visit(final FlowType n, final Node argu) {
+    assert argu != null;
+    final MindInterface itf = castNodeError(argu, MindInterface.class);
+    if (n.f0.choice instanceof AttributeType) {
+      final AttributeType type = (AttributeType) n.f0.choice;
+      itf.setSignature(((NodeToken) type.f0.choice).tokenImage);
+    } else {
+      assert n.f0.choice instanceof IDTType;
+      n.f0.choice.accept(this, itf);
+    }
+    return itf;
+  }
+
+  @Override
+  public Node visit(final IDTType n, final Node argu) {
+    assert argu != null;
+    final MindInterface itf = (MindInterface) argu;
+    String signature = path(n.f0) + ":";
+    if (n.f2.present()) {
+      signature += ((NodeToken) ((NodeChoice) n.f2.node).choice).tokenImage
+          + " ";
+    }
+    signature += n.f3.tokenImage;
+    itf.setSignature(signature);
     return itf;
   }
 

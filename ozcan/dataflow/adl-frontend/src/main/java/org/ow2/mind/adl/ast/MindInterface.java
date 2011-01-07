@@ -26,6 +26,9 @@ import org.objectweb.fractal.adl.types.TypeInterface;
 
 public interface MindInterface extends TypeInterface {
 
+  String INPUT_ROLE  = "input";
+  String OUTPUT_ROLE = "output";
+
   String getNumberOfElement();
 
   void setNumberOfElement(String numberOfElement);
