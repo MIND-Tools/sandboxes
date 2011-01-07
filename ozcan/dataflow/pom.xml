@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>mind-compiler</artifactId>
-    <version>0.3-alpha-1-SNAPSHOT</version>
+    <version>0.3-alpha-1-dataflow-SNAPSHOT</version>
     <name>Mind compiler</name>
     <packaging>pom</packaging>
 
