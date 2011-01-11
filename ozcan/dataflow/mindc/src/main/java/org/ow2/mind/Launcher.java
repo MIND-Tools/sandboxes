@@ -867,12 +867,6 @@ public class Launcher extends AbstractLauncher {
     if (!l.errorManager.getErrors().isEmpty()) System.exit(1);
   }
 
-  public static void nonExitMain(final String... args)
-      throws InvalidCommandLineException, CompilerInstantiationException,
-      ADLException {
-    nonExitMain(null, null, args);
-  }
-
   public static void nonExitMain(final List<Error> errors,
       final List<Error> warnings, final String... args)
       throws InvalidCommandLineException, CompilerInstantiationException,
