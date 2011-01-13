@@ -1,0 +1,7 @@
+/**
+ * A simple implementation of a @component template_test.PrintServer.
+ * It prints the string on standard output.
+ */
+primitive template_test.PrintServerImpl extends PrintServer {
+   source print_server.c	
+}
