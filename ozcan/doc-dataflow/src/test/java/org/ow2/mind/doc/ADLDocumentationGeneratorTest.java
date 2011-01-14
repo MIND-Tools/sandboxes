@@ -36,6 +36,16 @@ public class ADLDocumentationGeneratorTest
   private final File target = new File("target/doc");
   private final File source[] = new File[] { new File("src/test/resources")};
 
+  /**
+   * Recursively compile all the ADL and IDL found under the source folder
+   * @throws Exception
+   */
+  @Test
+  public void testDefinitionDocumentationGenerator() throws Exception {
+    final DefinitionTreeDocumentationGenerator generator = new DefinitionTreeDocumentationGenerator(source);
+    generator.generateDocumentation(target);
+  }
+
   //@Test
   public void testPrimitive() throws Exception {
     compileADL("helloworld.Client");
@@ -79,8 +89,8 @@ public class ADLDocumentationGeneratorTest
   }
 
   @Test
-  public void testDefinitionDocumentationGenerator() throws Exception {
-    final DefinitionTreeDocumentationGenerator generator = new DefinitionTreeDocumentationGenerator(source);
-    generator.generateDocumentation(target);
+  public void testDataflow() throws Exception {
+    compileADL("dataflow.InputOutput");
   }
+
 }

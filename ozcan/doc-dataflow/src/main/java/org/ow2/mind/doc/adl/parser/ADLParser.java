@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2009 STMicroelectronics
  *
- * This file is part of "Mind Compiler" is free software: you can redistribute 
- * it and/or modify it under the terms of the GNU Lesser General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ * This file is part of "Mind Compiler" is free software: you can redistribute
+ * it and/or modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
  * details.
@@ -17,7 +17,7 @@
  * Contact: mind@ow2.org
  *
  * Authors: ali-erdem.ozcan@st.com
- * Contributors: 
+ * Contributors:
  */
 
 package org.ow2.mind.doc.adl.parser;
@@ -56,11 +56,12 @@ public class ADLParser extends org.ow2.mind.adl.parser.ADLParser {
     } catch (final ParseException e) {
       final ErrorLocator locator = new BasicErrorLocator(adlFile.getPath(),
           e.currentToken.beginLine, e.currentToken.beginColumn);
+      errorManagerItf.logFatal(ADLErrors.PARSE_ERROR, locator, e.getMessage());
+      // FIXME: never executed (logFatal throw an ADLException).
       throw new ADLException(ADLErrors.PARSE_ERROR, locator, e.getMessage());
     }
 
-    InputResourcesHelper.addInputResource(d, adlLocatorItf
-        .toInputResource(name));
+    InputResourcesHelper.addInputResource(d, adlLocatorItf.toInputResource(name));
 
     return d;
   }
@@ -69,7 +70,7 @@ public class ADLParser extends org.ow2.mind.adl.parser.ADLParser {
   protected Definition readADL(final InputStream is, final String fileName)
       throws IOException, ParseException, ADLException {
     final Parser parser = new Parser(is);
-    final JTBProcessor processor = new JTBProcessor(nodeFactoryItf, DTD,
+    final JTBProcessor processor = new JTBProcessor(errorManagerItf, nodeFactoryItf, DTD,
         fileName);
     final ADLFile content = parser.ADLFile();
     return processor.toDefinition(content);

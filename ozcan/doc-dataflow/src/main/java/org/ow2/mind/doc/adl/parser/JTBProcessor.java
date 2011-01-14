@@ -38,14 +38,15 @@ import org.ow2.mind.adl.jtb.syntaxtree.NodeToken;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.SubComponentDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.TypeDefinition;
+import org.ow2.mind.error.ErrorManager;
 
 public class JTBProcessor
     extends
       org.ow2.mind.adl.parser.JTBProcessor {
 
-  public JTBProcessor(final XMLNodeFactory nodeFactory, final String adlDtd,
+  public JTBProcessor(final ErrorManager errorManager, final XMLNodeFactory nodeFactory, final String adlDtd,
       final String filename) {
-    super(nodeFactory, adlDtd, filename);
+    super(errorManager, nodeFactory, adlDtd, filename);
   }
 
   private NodeToken getCommentFromAnnotation(final Annotations annotation) {

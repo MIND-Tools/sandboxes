@@ -1,0 +1,14 @@
+/** 
+ * Hi there, this is a component with input and output
+ * <br><br>
+ * <b><u>Something</u></b>
+ * <br><br>
+ * Bla bla
+ */
+primitive dataflow.InputOutput  {
+       
+    input int as theInput;
+    output int64_t as theOutput;
+    
+    source df.c;
+}

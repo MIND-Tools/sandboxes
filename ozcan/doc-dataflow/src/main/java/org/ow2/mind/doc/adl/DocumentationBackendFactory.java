@@ -34,6 +34,7 @@ import org.ow2.mind.adl.implementation.ImplementationLocator;
 import org.ow2.mind.compilation.CompilerWrapper;
 import org.ow2.mind.compilation.gcc.GccCompilerWrapper;
 import org.ow2.mind.doc.idl.IDLBackendFactory;
+import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
 import org.ow2.mind.idl.IDLVisitor;
@@ -88,8 +89,8 @@ public final class DocumentationBackendFactory {
     return definitionCompiler;
   }
 
-  public static DefinitionCompiler newDefinitionCompiler() {
-    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader().loader;
+  public static DefinitionCompiler newDefinitionCompiler(final ErrorManager errorManager) {
+    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader(errorManager).loader;
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
     final BasicOutputFileLocator outputFileLocator = new BasicOutputFileLocator();
     final ImplementationLocator implementationLocator = new BasicImplementationLocator();

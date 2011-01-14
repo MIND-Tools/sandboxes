@@ -26,6 +26,7 @@ import org.objectweb.fractal.adl.xml.XMLNodeFactory;
 import org.objectweb.fractal.adl.xml.XMLNodeFactoryImpl;
 import org.ow2.mind.BasicInputResourceLocator;
 import org.ow2.mind.InputResourceLocator;
+import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.IDLVisitor;
 import org.ow2.mind.io.BasicOutputFileLocator;
@@ -37,8 +38,8 @@ public final class IDLBackendFactory {
   private IDLBackendFactory() {
   }
 
-  public static IDLVisitor newIDLCompiler() {
-    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader();
+  public static IDLVisitor newIDLCompiler(final ErrorManager errorManager) {
+    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader(errorManager);
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
     final BasicOutputFileLocator outputFileLocator = new BasicOutputFileLocator();
 

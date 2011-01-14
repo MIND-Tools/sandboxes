@@ -23,6 +23,7 @@
 package org.ow2.mind.doc.adl;
 
 import static org.ow2.mind.adl.ADLLocator.ADL_RESOURCE_KIND;
+
 import org.objectweb.fractal.adl.Loader;
 import org.objectweb.fractal.adl.NodeFactory;
 import org.objectweb.fractal.adl.merger.NodeMerger;
@@ -87,6 +88,7 @@ import org.ow2.mind.adl.parameter.ParametricGenericDefinitionReferenceResolver;
 import org.ow2.mind.adl.parameter.ParametricTemplateInstantiator;
 import org.ow2.mind.annotation.AnnotationChainFactory;
 import org.ow2.mind.doc.adl.parser.ADLParser;
+import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
 import org.ow2.mind.idl.IDLLocator;
@@ -97,6 +99,7 @@ import org.ow2.mind.st.STNodeMergerImpl;
 import org.ow2.mind.st.XMLSTNodeFactoryImpl;
 
 public final class DocumentationFrontendFactory {
+
   private DocumentationFrontendFactory() {
   }
 
@@ -112,12 +115,11 @@ public final class DocumentationFrontendFactory {
    *
    * @return a {@link Loader} interface.
    */
-  public static Loader newLoader() {
+  public static Loader newLoader(final ErrorManager errorManager) {
 
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
     final ADLLocator adlLocator = newLocator();
-    final IDLLocator idlLocator = IDLLoaderChainFactory
-        .newIDLLocator(inputResourceLocator);
+    final IDLLocator idlLocator = IDLLoaderChainFactory.newIDLLocator(inputResourceLocator);
     final org.objectweb.fractal.adl.Factory pluginFactory;
     final SimpleClassPluginFactory scpf = new SimpleClassPluginFactory();
 
@@ -125,18 +127,19 @@ public final class DocumentationFrontendFactory {
     pluginFactory = scpf;
 
     // IDL Loader Chain
-    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader(idlLocator,
+    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader(errorManager, idlLocator,
         inputResourceLocator, pluginFactory).loader;
 
-    return newLoader(inputResourceLocator, adlLocator, idlLocator, idlLoader,
+    return newLoader(errorManager, inputResourceLocator, adlLocator, idlLocator, idlLoader,
         pluginFactory);
   }
 
-  public static Loader newLoader(
+  public static Loader newLoader(final ErrorManager errorManager,
       final BasicInputResourceLocator inputResourceLocator,
       final ADLLocator adlLocator, final IDLLocator idlLocator,
       final IDLLoader idlLoader,
       final org.objectweb.fractal.adl.Factory pluginFactory) {
+
     final ImplementationLocator implementationLocator = new BasicImplementationLocator();
 
     // plugin manager components
@@ -210,6 +213,22 @@ public final class DocumentationFrontendFactory {
     fl.clientLoader = al;
     al.clientLoader = anl;
     anl.clientLoader = ap;
+
+    ap.errorManagerItf = errorManager;
+    cl.errorManagerItf = errorManager;
+    bal.errorManagerItf = errorManager;
+    il.errorManagerItf = errorManager;
+    uicl.errorManagerItf = errorManager;
+    bcl.errorManagerItf = errorManager;
+    bnl.errorManagerItf = errorManager;
+    mcl.errorManagerItf = errorManager;
+    isl.errorManagerItf = errorManager;
+    nascl.errorManagerItf = errorManager;
+    el.errorManagerItf = errorManager;
+    scrl.errorManagerItf = errorManager;
+    adl.errorManagerItf = errorManager;
+    gdl.errorManagerItf = errorManager;
+    al.errorManagerItf = errorManager;
 
     bal.adlLocatorItf = adlLocator;
     bal.inputResourceLocatorItf = inputResourceLocator;

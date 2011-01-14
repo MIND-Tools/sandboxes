@@ -42,6 +42,9 @@ import org.ow2.mind.doc.adl.DocumentationBackendFactory;
 import org.ow2.mind.doc.adl.DocumentationFrontendFactory;
 import org.ow2.mind.doc.idl.IDLBackendFactory;
 import org.ow2.mind.doc.idl.IDLLoaderChainFactory;
+import org.ow2.mind.error.ErrorCollection;
+import org.ow2.mind.error.ErrorManager;
+import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.IDLLocator;
 import org.ow2.mind.idl.IDLVisitor;
@@ -57,6 +60,7 @@ import org.ow2.mind.st.templates.parser.StringTemplateLoader;
 public class DefinitionDocumentGenerator {
   public Loader                       adlLoader;
   public IDLLoader                    idlLoader;
+  ErrorManager               errorManager;
 
 // /public Instantiator graphInstantiator;
 
@@ -65,7 +69,9 @@ public class DefinitionDocumentGenerator {
 
   public Map<Object, Object>          context;
 
-  public DefinitionDocumentGenerator(final File sourceDirectories[], final File rootDirectory, final File targetDirectory) throws IOException, CompilerInstantiationException, ADLException {
+  public DefinitionDocumentGenerator(final File sourceDirectories[],
+      final File rootDirectory, final File targetDirectory) throws IOException,
+      CompilerInstantiationException, ADLException {
 
     // init context
     context = new HashMap<Object, Object>();
@@ -105,22 +111,27 @@ public class DefinitionDocumentGenerator {
 
     final org.objectweb.fractal.adl.Factory pluginFactory = new SimpleClassPluginFactory();
 
+    errorManager = ErrorManagerFactory.newStreamErrorManager(System.err, true);
+
     // loader chains
-    idlLoader = IDLLoaderChainFactory.newLoader(idlLocator);
+    idlLoader = IDLLoaderChainFactory.newLoader(errorManager, idlLocator);
 
-
-    adlLoader = DocumentationFrontendFactory.newLoader(inputResourceLocator,
+    adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator,
         adlLocator, idlLocator, idlLoader, pluginFactory);
 
     // instantiator chain
     // graphInstantiator = Factory.newInstantiator(adlLoader);
 
-    adlCompiler = DocumentationBackendFactory.newDefinitionCompiler();
+    adlCompiler = DocumentationBackendFactory.newDefinitionCompiler(errorManager);
 
-    idlCompiler = IDLBackendFactory.newIDLCompiler();
+    idlCompiler = IDLBackendFactory.newIDLCompiler(errorManager);
 
     AnnotationLocatorHelper.addDefaultAnnotationPackage("org.ow2.mind.adl.annotation.predefined",
         context);
+
+    if (!errorManager.getErrors().isEmpty()) {
+      throw new ADLException(new ErrorCollection(errorManager.getErrors()));
+    }
 
     String[] annotationPackages;
     try {

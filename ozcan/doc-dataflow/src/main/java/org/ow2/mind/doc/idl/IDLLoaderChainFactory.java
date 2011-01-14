@@ -24,13 +24,13 @@ package org.ow2.mind.doc.idl;
 
 import org.ow2.mind.annotation.AnnotationChainFactory;
 import org.ow2.mind.doc.idl.parser.IDLFileLoader;
+import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.idl.BasicIDLLocator;
 import org.ow2.mind.idl.BasicIncludeResolver;
 import org.ow2.mind.idl.BasicInterfaceReferenceResolver;
 import org.ow2.mind.idl.CacheIDLLoader;
 import org.ow2.mind.idl.CachingIncludeResolver;
 import org.ow2.mind.idl.ExtendsInterfaceLoader;
-import org.ow2.mind.idl.HeaderLoader;
 import org.ow2.mind.idl.IDLLoader;
 import org.ow2.mind.idl.IDLLocator;
 import org.ow2.mind.idl.IDLTypeCheckerLoader;
@@ -64,11 +64,11 @@ public final class IDLLoaderChainFactory {
     return idlLocator;
   }
 
-  public static IDLLoader newLoader() {
-    return newLoader(newLocator());
+  public static IDLLoader newLoader(final ErrorManager errorManager) {
+    return newLoader(errorManager, newLocator());
   }
 
-  public static IDLLoader newLoader(final IDLLocator idlLocator) {
+  public static IDLLoader newLoader(final ErrorManager errorManager, final IDLLocator idlLocator) {
 
     // Loader chain components
     IDLLoader idlLoader;
@@ -91,6 +91,15 @@ public final class IDLLoaderChainFactory {
     eil.clientIDLLoaderItf = apl1;
     apl1.clientIDLLoaderItf = al;
     al.clientIDLLoaderItf = ifl;
+
+    al.errorManagerItf = errorManager;
+    apl1.errorManagerItf = errorManager;
+    uil.errorManagerItf = errorManager;
+    eil.errorManagerItf = errorManager;
+    tcl.errorManagerItf = errorManager;
+    kdl.errorManagerItf = errorManager;
+    apl2.errorManagerItf = errorManager;
+    cil.errorManagerItf = errorManager;
 
     apl1.setPhase(IDLLoaderPhase.AFTER_PARSING.name());
     apl2.setPhase(IDLLoaderPhase.AFTER_CHECKING.name());
