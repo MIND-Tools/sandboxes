@@ -266,6 +266,8 @@ public final class DocumentationFrontendFactory {
 
     iisr.idlLocatorItf = idlLocator;
 
+    bisr.errorManagerItf = errorManager;
+
     isl.interfaceSignatureResolverItf = interfaceSignatureResolver;
 
     // Import checker chain
@@ -277,6 +279,8 @@ public final class DocumentationFrontendFactory {
     aic.clientCheckerOptItf = iic;
     aic.adlLocatorItf = adlLocator;
 
+    aic.errorManagerItf = errorManager;
+
     aic.adlLocatorItf = adlLocator;
     iic.idlLocatorItf = idlLocator;
 
@@ -287,6 +291,7 @@ public final class DocumentationFrontendFactory {
     final BasicBindingChecker bbc = new BasicBindingChecker();
     bindingChecker = bbc;
     bcl.bindingCheckerItf = bbc;
+    bbc.errorManagerItf = errorManager;
 
     uicl.recursiveLoaderItf = adlLoader;
 
@@ -309,6 +314,10 @@ public final class DocumentationFrontendFactory {
     bdrr.loaderItf = adlLoader;
     cdrr.loaderItf = adlLoader;
 
+    bdrr.errorManagerItf = errorManager;
+    pdrr.errorManagerItf = errorManager;
+    gdrr.errorManagerItf = errorManager;
+
     idrr.adlLocatorItf = adlLocator;
     gdrr.bindingCheckerItf = bindingChecker;
 
@@ -316,6 +325,7 @@ public final class DocumentationFrontendFactory {
 
     natadrr.clientResolverItf = cdrr;
     scrl.definitionReferenceResolverItf = natadrr;
+    natadrr.errorManagerItf = errorManager;
 
     final ExtendsGenericDefinitionReferenceResolver egdrr = new ExtendsGenericDefinitionReferenceResolver();
     final ExtendsParametricDefinitionReferenceResolver epdrr = new ExtendsParametricDefinitionReferenceResolver();
@@ -345,6 +355,8 @@ public final class DocumentationFrontendFactory {
     fti.definitionReferenceResolverItf = cdrr;
     ti.definitionReferenceResolverItf = cdrr;
     gidl.definitionReferenceResolverItf = cdrr;
+
+    fti.errorManagerItf = errorManager;
 
     gdrr.templateInstantiatorItf = cti;
 
@@ -388,6 +400,7 @@ public final class DocumentationFrontendFactory {
       ((BindingController) pluginManager).bindFc("template-loader",
           STLoaderFactory.newSTLoader());
     } catch (final Exception e) {
+      // ignore
     }
 
     // additional components

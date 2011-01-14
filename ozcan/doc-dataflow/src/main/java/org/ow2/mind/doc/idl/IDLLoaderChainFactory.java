@@ -101,6 +101,9 @@ public final class IDLLoaderChainFactory {
     apl2.errorManagerItf = errorManager;
     cil.errorManagerItf = errorManager;
 
+    ifl.idlLocatorItf = idlLocator;
+    tcl.idlLocatorItf = idlLocator;
+
     apl1.setPhase(IDLLoaderPhase.AFTER_PARSING.name());
     apl2.setPhase(IDLLoaderPhase.AFTER_CHECKING.name());
 
@@ -126,6 +129,7 @@ public final class IDLLoaderChainFactory {
 
     bir.recursiveIdlLoaderItf = recursiveIDLLoader;
     bir.idlLocatorItf = idlLocator;
+    ihr.idlLocatorItf = idlLocator;
     cir.idlLoaderItf = idlLoader;
 
     uil.idlResolverItf = includeResolver;
@@ -143,8 +147,6 @@ public final class IDLLoaderChainFactory {
 
     eil.interfaceReferenceResolverItf = interfaceReferenceResolver;
     tcl.interfaceReferenceResolverItf = interfaceReferenceResolver;
-
-    ifl.idlLocatorItf = idlLocator;
 
     // node factories
     final XMLSTNodeFactoryImpl xnf = new XMLSTNodeFactoryImpl();
