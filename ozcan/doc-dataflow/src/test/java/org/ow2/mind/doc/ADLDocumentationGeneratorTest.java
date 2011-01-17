@@ -88,7 +88,7 @@ public class ADLDocumentationGeneratorTest
     compileADL("parameters.ParameterComponent");
   }
 
-  @Test
+  //@Test
   public void testDataflow() throws Exception {
     compileADL("dataflow.InputOutput");
   }

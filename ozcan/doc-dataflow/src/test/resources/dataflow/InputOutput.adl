@@ -6,8 +6,11 @@
  * Bla bla
  */
 primitive dataflow.InputOutput  {
-       
+    
+    /** foobar42 A comment on theInput interface */   
     input int as theInput;
+    
+    /** foobar42 A comment on theOutput interface */
     output int64_t as theOutput;
     
     source df.c;

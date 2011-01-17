@@ -24,10 +24,11 @@ package org.ow2.mind.doc.adl;
 
 import static org.ow2.mind.adl.ADLLocator.ADL_RESOURCE_KIND;
 
+import org.objectweb.fractal.adl.CompilerError;
 import org.objectweb.fractal.adl.Loader;
 import org.objectweb.fractal.adl.NodeFactory;
+import org.objectweb.fractal.adl.error.GenericErrors;
 import org.objectweb.fractal.adl.merger.NodeMerger;
-import org.objectweb.fractal.adl.xml.XMLNodeFactory;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.cecilia.adl.plugin.JavaPluginManager;
 import org.objectweb.fractal.cecilia.adl.plugin.PluginManager;
@@ -40,20 +41,30 @@ import org.ow2.mind.adl.BinaryADLLoader;
 import org.ow2.mind.adl.CacheLoader;
 import org.ow2.mind.adl.CachingDefinitionReferenceResolver;
 import org.ow2.mind.adl.DefinitionCache;
+import org.ow2.mind.adl.DefinitionReferenceResolver;
 import org.ow2.mind.adl.ExtendsLoader;
+import org.ow2.mind.adl.FlowInterfaceConverterLoader;
 import org.ow2.mind.adl.InputResourcesDefinitionReferenceResolver;
+import org.ow2.mind.adl.InterfaceCheckerLoader;
+import org.ow2.mind.adl.InterfaceNormalizerLoader;
 import org.ow2.mind.adl.STCFNodeMerger;
+import org.ow2.mind.adl.SubComponentNormalizerLoader;
 import org.ow2.mind.adl.SubComponentResolverLoader;
 import org.ow2.mind.adl.annotation.ADLLoaderPhase;
 import org.ow2.mind.adl.annotation.AnnotationLoader;
 import org.ow2.mind.adl.annotation.AnnotationProcessorLoader;
+import org.ow2.mind.adl.annotation.AnnotationProcessorTemplateInstantiator;
 import org.ow2.mind.adl.anonymous.AnonymousDefinitionExtractorImpl;
 import org.ow2.mind.adl.anonymous.AnonymousDefinitionLoader;
 import org.ow2.mind.adl.anonymous.ImportAnonymousDefinitionExtractor;
+import org.ow2.mind.adl.anonymous.InputResourceAnonymousDefinitionExtractor;
+import org.ow2.mind.adl.attribute.AttributeCheckerLoader;
+import org.ow2.mind.adl.attribute.AttributesNormalizerLoader;
 import org.ow2.mind.adl.binding.BasicBindingChecker;
 import org.ow2.mind.adl.binding.BindingChecker;
 import org.ow2.mind.adl.binding.BindingCheckerLoader;
 import org.ow2.mind.adl.binding.BindingNormalizerLoader;
+import org.ow2.mind.adl.binding.IDLBindingChecker;
 import org.ow2.mind.adl.binding.UnboundInterfaceCheckerLoader;
 import org.ow2.mind.adl.factory.FactoryLoader;
 import org.ow2.mind.adl.factory.FactoryTemplateInstantiator;
@@ -63,6 +74,7 @@ import org.ow2.mind.adl.generic.ExtendsGenericDefinitionReferenceResolver;
 import org.ow2.mind.adl.generic.GenericAnonymousDefinitionExtractor;
 import org.ow2.mind.adl.generic.GenericDefinitionLoader;
 import org.ow2.mind.adl.generic.GenericDefinitionReferenceResolver;
+import org.ow2.mind.adl.generic.InputResourceTemplateInstantiator;
 import org.ow2.mind.adl.generic.NoAnySubComponentLoader;
 import org.ow2.mind.adl.generic.NoAnyTypeArgumentDefinitionReferenceResolver;
 import org.ow2.mind.adl.generic.TemplateInstanceLoader;
@@ -82,16 +94,20 @@ import org.ow2.mind.adl.imports.ImportInterfaceSignatureResolver;
 import org.ow2.mind.adl.membrane.CompositeInternalInterfaceLoader;
 import org.ow2.mind.adl.membrane.MembraneCheckerLoader;
 import org.ow2.mind.adl.parameter.ExtendsParametricDefinitionReferenceResolver;
+import org.ow2.mind.adl.parameter.ParameterNormalizerLoader;
 import org.ow2.mind.adl.parameter.ParametricAnonymousDefinitionExtractor;
 import org.ow2.mind.adl.parameter.ParametricDefinitionReferenceResolver;
 import org.ow2.mind.adl.parameter.ParametricGenericDefinitionReferenceResolver;
 import org.ow2.mind.adl.parameter.ParametricTemplateInstantiator;
 import org.ow2.mind.annotation.AnnotationChainFactory;
 import org.ow2.mind.doc.adl.parser.ADLParser;
+import org.ow2.mind.doc.idl.IDLLoaderChainFactory;
+import org.ow2.mind.doc.idl.IDLLoaderChainFactory.IDLFrontend;
 import org.ow2.mind.error.ErrorManager;
+import org.ow2.mind.idl.IDLCache;
 import org.ow2.mind.idl.IDLLoader;
-import org.ow2.mind.idl.IDLLoaderChainFactory;
 import org.ow2.mind.idl.IDLLocator;
+import org.ow2.mind.idl.IncludeResolver;
 import org.ow2.mind.plugin.SimpleClassPluginFactory;
 import org.ow2.mind.st.STLoaderFactory;
 import org.ow2.mind.st.STNodeFactoryImpl;
@@ -103,23 +119,37 @@ public final class DocumentationFrontendFactory {
   private DocumentationFrontendFactory() {
   }
 
-  public static ADLLocator newLocator() {
+  public static ADLLocator newADLLocator(
+      final BasicInputResourceLocator inputResourceLocator) {
     final ADLLocator adlLocator = new BasicADLLocator();
-
+    inputResourceLocator.genericResourceLocators.put(ADL_RESOURCE_KIND,
+        adlLocator);
     return adlLocator;
+  }
+
+  public static ImplementationLocator newImplementationLocator(
+      final BasicInputResourceLocator inputResourceLocator) {
+    final ImplementationLocator implementationLocator = new BasicImplementationLocator();
+    inputResourceLocator.genericResourceLocators.put(
+        ImplementationLocator.IMPLEMENTATION_RESOURCE_KIND,
+        implementationLocator);
+    return implementationLocator;
   }
 
   /**
    * Returns a {@link Loader} interface that can be used to parse and check an
    * ADL Definition.
    *
+   * @param errorManager the error manager component.
    * @return a {@link Loader} interface.
    */
   public static Loader newLoader(final ErrorManager errorManager) {
 
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
-    final ADLLocator adlLocator = newLocator();
-    final IDLLocator idlLocator = IDLLoaderChainFactory.newIDLLocator(inputResourceLocator);
+    final ADLLocator adlLocator = newADLLocator(inputResourceLocator);
+    final IDLLocator idlLocator = IDLLoaderChainFactory
+        .newIDLLocator(inputResourceLocator);
+    final ImplementationLocator implementationLocator = newImplementationLocator(inputResourceLocator);
     final org.objectweb.fractal.adl.Factory pluginFactory;
     final SimpleClassPluginFactory scpf = new SimpleClassPluginFactory();
 
@@ -127,20 +157,38 @@ public final class DocumentationFrontendFactory {
     pluginFactory = scpf;
 
     // IDL Loader Chain
-    final IDLLoader idlLoader = IDLLoaderChainFactory.newLoader(errorManager, idlLocator,
-        inputResourceLocator, pluginFactory).loader;
+    final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
+        errorManager, idlLocator, inputResourceLocator, pluginFactory);
 
-    return newLoader(errorManager, inputResourceLocator, adlLocator, idlLocator, idlLoader,
-        pluginFactory);
+    return newLoader(errorManager, inputResourceLocator, adlLocator,
+        idlLocator, implementationLocator, idlFrontend.cache,
+        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
+  }
+
+  // With different arguments for mindoc (test)
+  public static Loader newLoader(final ErrorManager errorManager,
+      final BasicInputResourceLocator inputResourceLocator,
+      final IDLFrontend idlFrontend) {
+
+    final ADLLocator adlLocator = DocumentationFrontendFactory
+        .newADLLocator(inputResourceLocator);
+    final ImplementationLocator implementationLocator = newImplementationLocator(inputResourceLocator);
+    final org.objectweb.fractal.adl.Factory pluginFactory;
+    final SimpleClassPluginFactory scpf = new SimpleClassPluginFactory();
+    pluginFactory = scpf;
+
+    return newLoader(errorManager, inputResourceLocator, adlLocator,
+        idlFrontend.locator, implementationLocator, idlFrontend.cache,
+        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
   }
 
   public static Loader newLoader(final ErrorManager errorManager,
       final BasicInputResourceLocator inputResourceLocator,
       final ADLLocator adlLocator, final IDLLocator idlLocator,
-      final IDLLoader idlLoader,
+      final ImplementationLocator implementationLocator,
+      final IDLCache idlCache, final IDLLoader idlLoader,
+      final IncludeResolver includeResolver,
       final org.objectweb.fractal.adl.Factory pluginFactory) {
-
-    final ImplementationLocator implementationLocator = new BasicImplementationLocator();
 
     // plugin manager components
     PluginManager pluginManager;
@@ -150,15 +198,13 @@ public final class DocumentationFrontendFactory {
 
     // node management components
     final STCFNodeMerger stcfNodeMerger = new STCFNodeMerger();
-    final XMLNodeFactory xmlNodeFactory = new XMLSTNodeFactoryImpl();
+    stcfNodeMerger.setClassLoader(DocumentationFrontendFactory.class.getClassLoader());
+    final XMLSTNodeFactoryImpl xmlNodeFactory = new XMLSTNodeFactoryImpl();
+    // set my class loader as classloader used by XMLNodeFactory
+    xmlNodeFactory.setClassLoader(DocumentationFrontendFactory.class.getClassLoader());
     final STNodeFactoryImpl nodeFactory = new STNodeFactoryImpl();
     final STNodeMergerImpl nodeMerger = new STNodeMergerImpl();
-
-    inputResourceLocator.genericResourceLocators.put(ADL_RESOURCE_KIND,
-        adlLocator);
-    inputResourceLocator.genericResourceLocators.put(
-        ImplementationLocator.IMPLEMENTATION_RESOURCE_KIND,
-        implementationLocator);
+    nodeMerger.setClassLoader(DocumentationFrontendFactory.class.getClassLoader());
 
     // ADL Loader chain components
     Loader adlLoader;
@@ -170,12 +216,16 @@ public final class DocumentationFrontendFactory {
     final ImportCheckerLoader icl = new ImportCheckerLoader();
     final GenericDefinitionLoader gdl = new GenericDefinitionLoader();
     final AnonymousDefinitionLoader adl = new AnonymousDefinitionLoader();
+    final SubComponentNormalizerLoader scnl = new SubComponentNormalizerLoader();
     final SubComponentResolverLoader scrl = new SubComponentResolverLoader();
     final HTMLDocumentationDecorationLoader hddl = new HTMLDocumentationDecorationLoader();
     final ExtendsLoader el = new ExtendsLoader();
     final NoAnySubComponentLoader nascl = new NoAnySubComponentLoader();
     final AnnotationProcessorLoader apl2 = new AnnotationProcessorLoader();
     final AnnotationProcessorLoader apl3 = new AnnotationProcessorLoader();
+    final FlowInterfaceConverterLoader ficl = new FlowInterfaceConverterLoader();
+    final InterfaceNormalizerLoader inl = new InterfaceNormalizerLoader();
+    final InterfaceCheckerLoader itfcl = new InterfaceCheckerLoader();
     final InterfaceSignatureLoader isl = new InterfaceSignatureLoader();
     final CompositeInternalInterfaceLoader ciil = new CompositeInternalInterfaceLoader();
     final MembraneCheckerLoader mcl = new MembraneCheckerLoader();
@@ -183,29 +233,39 @@ public final class DocumentationFrontendFactory {
     final BindingCheckerLoader bcl = new BindingCheckerLoader();
     final UnboundInterfaceCheckerLoader uicl = new UnboundInterfaceCheckerLoader();
     final ImplementationLoader il = new ImplementationLoader();
+    final ParameterNormalizerLoader pnl = new ParameterNormalizerLoader();
+    final AttributesNormalizerLoader attrnl = new AttributesNormalizerLoader();
+    final AttributeCheckerLoader acl = new AttributeCheckerLoader();
     final AnnotationProcessorLoader apl4 = new AnnotationProcessorLoader();
-    final BinaryADLLoader bal = new BinaryADLLoader();
     final TemplateInstanceLoader gidl = new TemplateInstanceLoader();
+    final BinaryADLLoader bal = new BinaryADLLoader();
     final CacheLoader cl = new CacheLoader();
 
     adlLoader = cl;
-    cl.clientLoader = gidl;
-    gidl.clientLoader = bal;
-    bal.clientLoader = apl4;
-    apl4.clientLoader = il;
+    cl.clientLoader = bal;
+    bal.clientLoader = gidl;
+    gidl.clientLoader = apl4;
+    apl4.clientLoader = acl;
+    acl.clientLoader = attrnl;
+    attrnl.clientLoader = pnl;
+    pnl.clientLoader = il;
     il.clientLoader = uicl;
     uicl.clientLoader = bcl;
     bcl.clientLoader = bnl;
     bnl.clientLoader = mcl;
     mcl.clientLoader = ciil;
     ciil.clientLoader = isl;
-    isl.clientLoader = apl3;
+    isl.clientLoader = itfcl;
+    itfcl.clientLoader = inl;
+    inl.clientLoader = ficl;
+    ficl.clientLoader = apl3;
     apl3.clientLoader = apl2;
     apl2.clientLoader = nascl;
     nascl.clientLoader = el;
     el.clientLoader = hddl;
     hddl.clientLoader = scrl;
-    scrl.clientLoader = adl;
+    scrl.clientLoader = scnl;
+    scnl.clientLoader = adl;
     adl.clientLoader = gdl;
     gdl.clientLoader = icl;
     icl.clientLoader = apl1;
@@ -214,25 +274,37 @@ public final class DocumentationFrontendFactory {
     al.clientLoader = anl;
     anl.clientLoader = ap;
 
-    ap.errorManagerItf = errorManager;
-    cl.errorManagerItf = errorManager;
-    bal.errorManagerItf = errorManager;
-    il.errorManagerItf = errorManager;
-    uicl.errorManagerItf = errorManager;
-    bcl.errorManagerItf = errorManager;
-    bnl.errorManagerItf = errorManager;
-    mcl.errorManagerItf = errorManager;
-    isl.errorManagerItf = errorManager;
-    nascl.errorManagerItf = errorManager;
-    el.errorManagerItf = errorManager;
-    scrl.errorManagerItf = errorManager;
-    adl.errorManagerItf = errorManager;
-    gdl.errorManagerItf = errorManager;
-    al.errorManagerItf = errorManager;
-
     bal.adlLocatorItf = adlLocator;
     bal.inputResourceLocatorItf = inputResourceLocator;
+    bal.nodeFactoryItf = nodeFactory;
     fl.nodeFactoryItf = nodeFactory;
+    isl.nodeFactoryItf = nodeFactory;
+    gdl.nodeFactoryItf = nodeFactory;
+    acl.nodeFactoryItf = nodeFactory;
+    ficl.nodeFactoryItf = nodeFactory;
+
+    ap.errorManagerItf = errorManager;
+    al.errorManagerItf = errorManager;
+    gdl.errorManagerItf = errorManager;
+    adl.errorManagerItf = errorManager;
+    scnl.errorManagerItf = errorManager;
+    scrl.errorManagerItf = errorManager;
+    el.errorManagerItf = errorManager;
+    nascl.errorManagerItf = errorManager;
+    inl.errorManagerItf = errorManager;
+    itfcl.errorManagerItf = errorManager;
+    isl.errorManagerItf = errorManager;
+    mcl.errorManagerItf = errorManager;
+    ficl.errorManagerItf = errorManager;
+    bnl.errorManagerItf = errorManager;
+    bcl.errorManagerItf = errorManager;
+    uicl.errorManagerItf = errorManager;
+    il.errorManagerItf = errorManager;
+    pnl.errorManagerItf = errorManager;
+    attrnl.errorManagerItf = errorManager;
+    acl.errorManagerItf = errorManager;
+    bal.errorManagerItf = errorManager;
+    cl.errorManagerItf = errorManager;
 
     il.implementationLocatorItf = implementationLocator;
 
@@ -245,7 +317,8 @@ public final class DocumentationFrontendFactory {
     apl3.pluginManagerItf = pluginManager;
     apl4.pluginManagerItf = pluginManager;
 
-    anl.annotationCheckerItf = AnnotationChainFactory.newAnnotationChecker();
+    anl.annotationCheckerItf = AnnotationChainFactory
+        .newAnnotationChecker(errorManager);
 
     el.nodeMergerItf = stcfNodeMerger;
     ap.adlLocatorItf = adlLocator;
@@ -254,6 +327,10 @@ public final class DocumentationFrontendFactory {
     ciil.nodeMergerItf = nodeMerger;
 
     gidl.nodeFactoryItf = nodeFactory;
+
+    ficl.idlCacheItf = idlCache;
+    ficl.idlLoaderItf = idlLoader;
+    ficl.includeResolverItf = includeResolver;
 
     // Interface signature resolver chain
     InterfaceSignatureResolver interfaceSignatureResolver;
@@ -265,7 +342,7 @@ public final class DocumentationFrontendFactory {
     bisr.idlLoaderItf = idlLoader;
 
     iisr.idlLocatorItf = idlLocator;
-
+    bisr.nodeFactoryItf = nodeFactory;
     bisr.errorManagerItf = errorManager;
 
     isl.interfaceSignatureResolverItf = interfaceSignatureResolver;
@@ -279,18 +356,22 @@ public final class DocumentationFrontendFactory {
     aic.clientCheckerOptItf = iic;
     aic.adlLocatorItf = adlLocator;
 
-    aic.errorManagerItf = errorManager;
-
     aic.adlLocatorItf = adlLocator;
+    aic.errorManagerItf = errorManager;
     iic.idlLocatorItf = idlLocator;
+    iic.errorManagerItf = errorManager;
 
     icl.importCheckerItf = importChecker;
 
     // binding checker
     final BindingChecker bindingChecker;
+    final IDLBindingChecker ibc = new IDLBindingChecker();
     final BasicBindingChecker bbc = new BasicBindingChecker();
-    bindingChecker = bbc;
+    bindingChecker = ibc;
+    ibc.clientBindingCheckerItf = bbc;
     bcl.bindingCheckerItf = bbc;
+
+    ibc.errorManagerItf = errorManager;
     bbc.errorManagerItf = errorManager;
 
     uicl.recursiveLoaderItf = adlLoader;
@@ -314,18 +395,22 @@ public final class DocumentationFrontendFactory {
     bdrr.loaderItf = adlLoader;
     cdrr.loaderItf = adlLoader;
 
+    idrr.adlLocatorItf = adlLocator;
+    gdrr.bindingCheckerItf = bindingChecker;
+
+    bdrr.nodeFactoryItf = nodeFactory;
+    gdrr.nodeFactoryItf = nodeFactory;
+
     bdrr.errorManagerItf = errorManager;
     pdrr.errorManagerItf = errorManager;
     gdrr.errorManagerItf = errorManager;
 
-    idrr.adlLocatorItf = adlLocator;
-    gdrr.bindingCheckerItf = bindingChecker;
-
     final NoAnyTypeArgumentDefinitionReferenceResolver natadrr = new NoAnyTypeArgumentDefinitionReferenceResolver();
 
     natadrr.clientResolverItf = cdrr;
-    scrl.definitionReferenceResolverItf = natadrr;
     natadrr.errorManagerItf = errorManager;
+
+    scrl.definitionReferenceResolverItf = natadrr;
 
     final ExtendsGenericDefinitionReferenceResolver egdrr = new ExtendsGenericDefinitionReferenceResolver();
     final ExtendsParametricDefinitionReferenceResolver epdrr = new ExtendsParametricDefinitionReferenceResolver();
@@ -339,41 +424,51 @@ public final class DocumentationFrontendFactory {
 
     // template instantiator chain
     final TemplateInstantiatorImpl ti = new TemplateInstantiatorImpl();
+    final InputResourceTemplateInstantiator irti = new InputResourceTemplateInstantiator();
     final FactoryTemplateInstantiator fti = new FactoryTemplateInstantiator();
     final ParametricTemplateInstantiator pti = new ParametricTemplateInstantiator();
     final ParametricFactoryTemplateInstantiator pfti = new ParametricFactoryTemplateInstantiator();
+    final AnnotationProcessorTemplateInstantiator ati = new AnnotationProcessorTemplateInstantiator();
     final CachingTemplateInstantiator cti = new CachingTemplateInstantiator();
 
-    cti.clientInstantiatorItf = pfti;
+    cti.clientInstantiatorItf = ati;
+    ati.clientInstantiatorItf = pfti;
     pfti.clientInstantiatorItf = pti;
     pti.clientInstantiatorItf = fti;
-    fti.clientInstantiatorItf = ti;
+    fti.clientInstantiatorItf = irti;
+    irti.clientInstantiatorItf = ti;
 
     cti.definitionCacheItf = cl;
     cti.definitionReferenceResolverItf = cdrr;
+    ati.definitionReferenceResolverItf = cdrr;
+    ati.pluginManagerItf = pluginManager;
     pti.definitionReferenceResolverItf = cdrr;
     fti.definitionReferenceResolverItf = cdrr;
+    irti.definitionReferenceResolverItf = cdrr;
     ti.definitionReferenceResolverItf = cdrr;
     gidl.definitionReferenceResolverItf = cdrr;
 
-    fti.errorManagerItf = errorManager;
-
     gdrr.templateInstantiatorItf = cti;
+    fti.loaderItf = adlLoader;
 
     pti.nodeFactoryItf = nodeFactory;
     pti.nodeMergerItf = nodeMerger;
     pfti.nodeFactoryItf = nodeFactory;
     pfti.nodeMergerItf = nodeMerger;
 
+    fti.errorManagerItf = errorManager;
+
     // anonymous definition resolver chain
     final AnonymousDefinitionExtractorImpl adr = new AnonymousDefinitionExtractorImpl();
     final ImportAnonymousDefinitionExtractor iadr = new ImportAnonymousDefinitionExtractor();
     final GenericAnonymousDefinitionExtractor gadr = new GenericAnonymousDefinitionExtractor();
     final ParametricAnonymousDefinitionExtractor padr = new ParametricAnonymousDefinitionExtractor();
+    final InputResourceAnonymousDefinitionExtractor iradr = new InputResourceAnonymousDefinitionExtractor();
 
     padr.clientExtractorItf = gadr;
     gadr.clientExtractorItf = iadr;
-    iadr.clientExtractorItf = adr;
+    iadr.clientExtractorItf = iradr;
+    iradr.clientExtractorItf = adr;
 
     adl.anonymousDefinitionExtractorItf = padr;
 
@@ -390,20 +485,27 @@ public final class DocumentationFrontendFactory {
 
     // configuration of plugin-manager
     try {
+      ((BindingController) pluginManager).bindFc(ErrorManager.ITF_NAME,
+          errorManager);
       ((BindingController) pluginManager).bindFc(NodeFactory.ITF_NAME,
           nodeFactory);
       ((BindingController) pluginManager).bindFc(NodeMerger.ITF_NAME,
           nodeMerger);
       ((BindingController) pluginManager).bindFc(DefinitionCache.ITF_NAME, cl);
       ((BindingController) pluginManager).bindFc("loader", adlLoader);
+      ((BindingController) pluginManager).bindFc(IDLCache.ITF_NAME, idlCache);
       ((BindingController) pluginManager).bindFc(IDLLoader.ITF_NAME, idlLoader);
+      ((BindingController) pluginManager).bindFc(
+          DefinitionReferenceResolver.ITF_NAME, cdrr);
+      ((BindingController) pluginManager).bindFc(
+          InterfaceSignatureResolver.ITF_NAME, interfaceSignatureResolver);
       ((BindingController) pluginManager).bindFc("template-loader",
           STLoaderFactory.newSTLoader());
     } catch (final Exception e) {
-      // ignore
+      throw new CompilerError(GenericErrors.INTERNAL_ERROR, e,
+          "adl-frontend instantiation error");
     }
 
-    // additional components
     return adlLoader;
   }
 

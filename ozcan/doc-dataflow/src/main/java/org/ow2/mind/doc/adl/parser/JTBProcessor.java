@@ -32,6 +32,8 @@ import org.ow2.mind.adl.jtb.syntaxtree.AttributeDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.BindingDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.CompositeDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.DataDefinition;
+import org.ow2.mind.adl.jtb.syntaxtree.FlowInterfaceDefinition;
+import org.ow2.mind.adl.jtb.syntaxtree.FunctionalInterfaceDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.ImplementationDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.InterfaceDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.NodeToken;
@@ -44,7 +46,8 @@ public class JTBProcessor
     extends
       org.ow2.mind.adl.parser.JTBProcessor {
 
-  public JTBProcessor(final ErrorManager errorManager, final XMLNodeFactory nodeFactory, final String adlDtd,
+  public JTBProcessor(final ErrorManager errorManager,
+      final XMLNodeFactory nodeFactory, final String adlDtd,
       final String filename) {
     super(errorManager, nodeFactory, adlDtd, filename);
   }
@@ -132,9 +135,24 @@ public class JTBProcessor
   @Override
   public Node visit(final InterfaceDefinition n, final Node argu) {
     final Node result = super.visit(n, argu);
-    NodeToken commentToken = getCommentFromAnnotation(n.f0);
-    if(commentToken == null)
-      commentToken = (NodeToken) n.f1.choice;
+    final NodeToken commentToken = getCommentFromAnnotation(n.f0);
+    if(commentToken != null)
+      setComment(result, getComment(commentToken));
+    return result;
+  }
+
+  @Override
+  public Node visit(final FunctionalInterfaceDefinition n, final Node argu) {
+    final Node result = super.visit(n, argu);
+    final NodeToken commentToken = (NodeToken) n.f0.choice;
+    setComment(result, getComment(commentToken));
+    return result;
+  }
+
+  @Override
+  public Node visit(final FlowInterfaceDefinition n, final Node argu) {
+    final Node result = super.visit(n, argu);
+    final NodeToken commentToken = (NodeToken) n.f0.choice;
     setComment(result, getComment(commentToken));
     return result;
   }

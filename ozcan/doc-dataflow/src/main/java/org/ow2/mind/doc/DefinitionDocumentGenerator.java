@@ -42,6 +42,7 @@ import org.ow2.mind.doc.adl.DocumentationBackendFactory;
 import org.ow2.mind.doc.adl.DocumentationFrontendFactory;
 import org.ow2.mind.doc.idl.IDLBackendFactory;
 import org.ow2.mind.doc.idl.IDLLoaderChainFactory;
+import org.ow2.mind.doc.idl.IDLLoaderChainFactory.IDLFrontend;
 import org.ow2.mind.error.ErrorCollection;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.error.ErrorManagerFactory;
@@ -84,8 +85,8 @@ public class DefinitionDocumentGenerator {
 
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
-    final IDLLocator idlLocator = IDLLoaderChainFactory.newLocator();
-    final ADLLocator adlLocator = DocumentationFrontendFactory.newLocator();
+    final IDLLocator idlLocator = IDLLoaderChainFactory.newIDLLocator(inputResourceLocator);
+    //final ADLLocator adlLocator = DocumentationFrontendFactory.newADLLocator(inputResourceLocator);
 
     // String Template Component Loaders
     final StringTemplateComponentLoader stcLoader = new StringTemplateComponentLoader();
@@ -109,15 +110,18 @@ public class DefinitionDocumentGenerator {
     //force the manager to load plugins
     pluginManager.getExtensionPointNames(context);
 
-    final org.objectweb.fractal.adl.Factory pluginFactory = new SimpleClassPluginFactory();
+    //final org.objectweb.fractal.adl.Factory pluginFactory = new SimpleClassPluginFactory();
 
     errorManager = ErrorManagerFactory.newStreamErrorManager(System.err, true);
 
     // loader chains
-    idlLoader = IDLLoaderChainFactory.newLoader(errorManager, idlLocator);
+    final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(errorManager);
+    idlLoader = idlFrontend.loader;
+    //idlLoader = IDLLoaderChainFactory.newLoader(errorManager, idlLocator);
 
-    adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator,
-        adlLocator, idlLocator, idlLoader, pluginFactory);
+    //adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator,
+    //    adlLocator, idlLocator, idlLoader, pluginFactory);
+    adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator, idlFrontend);
 
     // instantiator chain
     // graphInstantiator = Factory.newInstantiator(adlLoader);
