@@ -103,9 +103,9 @@ public final class ADLBackendFactory {
     final IDLDefinitionSourceGenerator idsg = new IDLDefinitionSourceGenerator();
     final GenericDefinitionNameSourceGenerator gdnsg = new GenericDefinitionNameSourceGenerator();
     final BinaryADLWriter baw = new BinaryADLWriter();
-    
+
     // Bind the default source generators to the dispatcher
-    if (!context.containsKey("disable-default-backend")) {
+    if (context != null && !context.containsKey("disable-default-backend")) {
       dsgd.visitorsItf.put("header", dhsg);
       dsgd.visitorsItf.put("include", disg);
       dsgd.visitorsItf.put("impl", ihsg);
@@ -193,7 +193,7 @@ public final class ADLBackendFactory {
     bic.mppWrapperItf = mppWrapper;
     bic.outputFileLocatorItf = outputFileLocator;
 
-    if (!context.containsKey("disable-default-backend")) {
+    if (context != null && !context.containsKey("disable-default-backend")) {
       // Create and bind the default instance source generator
       final InstanceSourceGenerator instanceSourceGenerator = new BasicInstanceSourceGenerator();
       for (final String itfName : ((BindingController) instanceSourceGenerator)
