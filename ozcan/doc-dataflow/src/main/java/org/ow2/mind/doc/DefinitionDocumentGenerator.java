@@ -34,9 +34,9 @@ import org.objectweb.fractal.adl.Loader;
 import org.objectweb.fractal.adl.xml.XMLNodeFactory;
 import org.objectweb.fractal.adl.xml.XMLNodeFactoryImpl;
 import org.ow2.mind.BasicInputResourceLocator;
-import org.ow2.mind.adl.ADLLocator;
 import org.ow2.mind.adl.DefinitionCompiler;
 import org.ow2.mind.annotation.AnnotationLocatorHelper;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.annotation.PredefinedAnnotationsHelper;
 import org.ow2.mind.doc.adl.DocumentationBackendFactory;
 import org.ow2.mind.doc.adl.DocumentationFrontendFactory;
@@ -52,7 +52,6 @@ import org.ow2.mind.idl.IDLVisitor;
 import org.ow2.mind.idl.ast.IDL;
 import org.ow2.mind.io.BasicOutputFileLocator;
 import org.ow2.mind.plugin.BasicPluginManager;
-import org.ow2.mind.plugin.SimpleClassPluginFactory;
 import org.ow2.mind.st.STNodeFactoryImpl;
 import org.ow2.mind.st.StringTemplateComponentLoader;
 import org.ow2.mind.st.templates.parser.StringTemplateLoader;
@@ -85,6 +84,7 @@ public class DefinitionDocumentGenerator {
 
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final IDLLocator idlLocator = IDLLoaderChainFactory.newIDLLocator(inputResourceLocator);
     //final ADLLocator adlLocator = DocumentationFrontendFactory.newADLLocator(inputResourceLocator);
 
@@ -121,7 +121,7 @@ public class DefinitionDocumentGenerator {
 
     //adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator,
     //    adlLocator, idlLocator, idlLoader, pluginFactory);
-    adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator, idlFrontend);
+    adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator, pathLocator, idlFrontend);
 
     // instantiator chain
     // graphInstantiator = Factory.newInstantiator(adlLoader);

@@ -100,6 +100,7 @@ import org.ow2.mind.adl.parameter.ParametricDefinitionReferenceResolver;
 import org.ow2.mind.adl.parameter.ParametricGenericDefinitionReferenceResolver;
 import org.ow2.mind.adl.parameter.ParametricTemplateInstantiator;
 import org.ow2.mind.annotation.AnnotationChainFactory;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.doc.adl.parser.ADLParser;
 import org.ow2.mind.doc.idl.IDLLoaderChainFactory;
 import org.ow2.mind.doc.idl.IDLLoaderChainFactory.IDLFrontend;
@@ -146,6 +147,7 @@ public final class DocumentationFrontendFactory {
   public static Loader newLoader(final ErrorManager errorManager) {
 
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final ADLLocator adlLocator = newADLLocator(inputResourceLocator);
     final IDLLocator idlLocator = IDLLoaderChainFactory
         .newIDLLocator(inputResourceLocator);
@@ -160,7 +162,7 @@ public final class DocumentationFrontendFactory {
     final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
         errorManager, idlLocator, inputResourceLocator, pluginFactory);
 
-    return newLoader(errorManager, inputResourceLocator, adlLocator,
+    return newLoader(errorManager, inputResourceLocator, pathLocator, adlLocator,
         idlLocator, implementationLocator, idlFrontend.cache,
         idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
   }
@@ -168,6 +170,7 @@ public final class DocumentationFrontendFactory {
   // With different arguments for mindoc (test)
   public static Loader newLoader(final ErrorManager errorManager,
       final BasicInputResourceLocator inputResourceLocator,
+      final BasicPathLocator pathLocator,
       final IDLFrontend idlFrontend) {
 
     final ADLLocator adlLocator = DocumentationFrontendFactory
@@ -177,13 +180,14 @@ public final class DocumentationFrontendFactory {
     final SimpleClassPluginFactory scpf = new SimpleClassPluginFactory();
     pluginFactory = scpf;
 
-    return newLoader(errorManager, inputResourceLocator, adlLocator,
+    return newLoader(errorManager, inputResourceLocator, pathLocator, adlLocator,
         idlFrontend.locator, implementationLocator, idlFrontend.cache,
         idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
   }
 
   public static Loader newLoader(final ErrorManager errorManager,
       final BasicInputResourceLocator inputResourceLocator,
+      final BasicPathLocator pathLocator,
       final ADLLocator adlLocator, final IDLLocator idlLocator,
       final ImplementationLocator implementationLocator,
       final IDLCache idlCache, final IDLLoader idlLoader,
@@ -318,7 +322,7 @@ public final class DocumentationFrontendFactory {
     apl4.pluginManagerItf = pluginManager;
 
     anl.annotationCheckerItf = AnnotationChainFactory
-        .newAnnotationChecker(errorManager);
+        .newAnnotationChecker(errorManager, pathLocator);
 
     el.nodeMergerItf = stcfNodeMerger;
     ap.adlLocatorItf = adlLocator;
