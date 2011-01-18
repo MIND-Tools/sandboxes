@@ -24,12 +24,14 @@ package org.ow2.mind.value;
 
 import java.util.Map;
 
+import org.objectweb.fractal.adl.Definition;
 import org.ow2.mind.value.ast.Value;
 
 public interface ValueEvaluator {
 
   String ITF_NAME = "evaluator";
 
-  <T> T evaluate(Value value, Class<T> expectedType, Map<Object, Object> context)
+  <T> T evaluate(Value value, Class<T> expectedType,
+      Definition annotationContextDef, Map<Object, Object> context)
       throws ValueEvaluationException;
 }

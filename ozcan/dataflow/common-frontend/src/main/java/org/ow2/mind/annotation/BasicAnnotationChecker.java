@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.objectweb.fractal.adl.ADLException;
+import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Node;
 import org.objectweb.fractal.adl.error.NodeErrorLocator;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
@@ -61,21 +62,25 @@ public class BasicAnnotationChecker
 
   public void checkAnnotations(final Node container,
       final Map<Object, Object> context) throws ADLException {
-    checkAnnotations(container, new HashSet<Node>(), context);
+    checkAnnotations(container, container, new HashSet<Node>(), context);
   }
 
-  protected void checkAnnotations(final Node container,
+  protected void checkAnnotations(final Node container, final Node def,
       final Set<Node> visitedNodes, final Map<Object, Object> context)
       throws ADLException {
     if (visitedNodes.add(container)) {
       if (container instanceof AnnotationContainer) {
-        checkAnnotationContainer((AnnotationContainer) container, context);
+        checkAnnotationContainer((AnnotationContainer) container, def, context);
       }
 
       for (final String nodeType : container.astGetNodeTypes()) {
         for (final Node subNode : container.astGetNodes(nodeType)) {
           if (subNode != null) {
-            checkAnnotations(subNode, visitedNodes, context);
+            if (def instanceof Definition) {
+              checkAnnotations(subNode, def, visitedNodes, context);
+            } else {
+              checkAnnotations(subNode, null, visitedNodes, context);
+            }
           }
         }
       }
@@ -83,11 +88,14 @@ public class BasicAnnotationChecker
   }
 
   protected void checkAnnotationContainer(final AnnotationContainer container,
-      final Map<Object, Object> context) throws ADLException {
+      final Node def, final Map<Object, Object> context) throws ADLException {
     for (final AnnotationNode annotationNode : container.getAnnotations()) {
       // remove annotation node from AST.
       container.removeAnnotation(annotationNode);
-
+      if (def != null) {
+        annotationNode.astSetDecoration(AnnotationLocator.ANNOTATION_CONTEXT,
+            def);
+      }
       Annotation annotation;
       try {
         annotation = annotationFactoryItf
@@ -97,7 +105,6 @@ public class BasicAnnotationChecker
             new NodeErrorLocator(e.getLocation()), e, e.getMessage());
         continue;
       }
-
       boolean isValidTarget = false;
       for (final AnnotationTarget target : annotation.getAnnotationTargets()) {
         if (target.isValidTarget(container)) {

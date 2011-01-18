@@ -35,7 +35,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
         "common", SRC_ROOT);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest1() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompileDefinition("helloworld.Client");
@@ -45,7 +45,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest11() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("helloworld.HelloworldApplication");
@@ -55,7 +55,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest12() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("helloworld.HelloworldApplication");
@@ -65,7 +65,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest13() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("helloworld.HelloworldApplication");
@@ -78,7 +78,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertChangedAll(".*\\.d", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest14() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("GenericApplication<helloworld.HelloworldMultiClient>");
@@ -89,7 +89,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest16() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("GenericApplication<helloworld.HelloworldFactoryClient>");
@@ -101,7 +101,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest17() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompileDefinition("asm.Assembly");
@@ -111,7 +111,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest18() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompileDefinition("asm.Assembly");
@@ -124,7 +124,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1, t2);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest2() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("helloworld.HelloworldApplication");
@@ -147,7 +147,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1Copy, t2Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest21() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("helloworld.HelloworldApplication");
@@ -183,7 +183,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t2Copy, t3Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest22() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("helloworld.HelloworldApplication");
@@ -214,7 +214,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t2Copy, t3Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest3() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompileDefinition("helloworld.ClientInlined");
@@ -234,7 +234,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1Copy, t2Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest31() throws Exception {
     cleanBuildDir();
     final Map<String, Long> t1 = recompile("GenericApplication<helloworld.HelloworldGeneric>");
@@ -261,7 +261,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1Copy, t2Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest4() throws Exception {
     cleanBuildDir();
     copyFile("helloworld/ClientInlined.adl",
@@ -296,7 +296,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1Copy, t2Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest5() throws Exception {
     cleanBuildDir();
     copyFile("helloworld/Client.adl", "helloworld/Client_modified.adl",
@@ -335,7 +335,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1Copy, t2Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest51() throws Exception {
     cleanBuildDir();
     copyFile("helloworld/ClientInlined.adl",
@@ -383,7 +383,7 @@ public class IncrementalTest extends AbstractIncrementalTest {
     assertUnchangedAll(".*", t1Copy, t2Copy);
   }
 
-  @Test(groups = {"functional"})
+  @Test(groups = {"unsupported"})
   public void incrementalTest6() throws Exception {
     cleanBuildDir();
 

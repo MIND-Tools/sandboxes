@@ -27,6 +27,7 @@ import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
 import java.util.Map;
 
+import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
@@ -54,7 +55,8 @@ public class AnnotationValueEvaluator
   // ---------------------------------------------------------------------------
 
   public <T> T evaluate(final Value value, final Class<T> expectedType,
-      final Map<Object, Object> context) throws ValueEvaluationException {
+      final Definition annotationContext, final Map<Object, Object> context)
+      throws ValueEvaluationException {
     if (value instanceof AnnotationNode) {
       if (!Annotation.class.isAssignableFrom(expectedType)) {
         throw new ValueEvaluationException(
@@ -82,7 +84,8 @@ public class AnnotationValueEvaluator
       }
       return result;
     } else {
-      return clientEvaluatorItf.evaluate(value, expectedType, context);
+      return clientEvaluatorItf.evaluate(value, expectedType,
+          annotationContext, context);
     }
   }
 

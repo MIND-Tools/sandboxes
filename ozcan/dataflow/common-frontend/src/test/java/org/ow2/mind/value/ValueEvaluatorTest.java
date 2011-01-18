@@ -62,7 +62,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testNumberLiteral1() throws Exception {
     final NumberLiteral v = newNumberLiteral(12);
 
-    final Integer i = evaluator.evaluate(v, Integer.class, context);
+    final Integer i = evaluator.evaluate(v, Integer.class, null, context);
     assertNotNull(i);
     assertEquals((Integer) 12, i);
   }
@@ -71,7 +71,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testNumberLiteral2() throws Exception {
     final NumberLiteral v = newNumberLiteral(12);
 
-    final Number n = evaluator.evaluate(v, Number.class, context);
+    final Number n = evaluator.evaluate(v, Number.class, null, context);
     assertNotNull(n);
     assertEquals(12, n);
   }
@@ -80,7 +80,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testNumberLiteral3() throws Exception {
     final NumberLiteral v = newNumberLiteral(12);
 
-    final int i = evaluator.evaluate(v, Integer.TYPE, context);
+    final int i = evaluator.evaluate(v, Integer.TYPE, null, context);
     assertEquals(12, i);
   }
 
@@ -88,7 +88,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testNumberLiteral4() throws Exception {
     final NumberLiteral v = newNumberLiteral(12);
 
-    final Object i = evaluator.evaluate(v, Object.class, context);
+    final Object i = evaluator.evaluate(v, Object.class, null, context);
     assertNotNull(i);
     assertEquals(12, i);
   }
@@ -98,7 +98,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
     final NumberLiteral v = newNumberLiteral(12);
 
     try {
-      evaluator.evaluate(v, String.class, context);
+      evaluator.evaluate(v, String.class, null, context);
       fail();
     } catch (final ValueEvaluationException e) {
       // ok
@@ -111,7 +111,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
     final NumberLiteral v = newNumberLiteral(12);
 
     try {
-      evaluator.evaluate(v, String.class, context);
+      evaluator.evaluate(v, String.class, null, context);
       fail();
     } catch (final ValueEvaluationException e) {
       // ok
@@ -123,7 +123,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testStringLiteral1() throws Exception {
     final StringLiteral v = newStringLiteral("foo");
 
-    final String s = evaluator.evaluate(v, String.class, context);
+    final String s = evaluator.evaluate(v, String.class, null, context);
     assertNotNull(s);
     assertEquals("foo", s);
   }
@@ -132,7 +132,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testStringLiteral2() throws Exception {
     final StringLiteral v = newStringLiteral("foo");
 
-    final Object s = evaluator.evaluate(v, Object.class, context);
+    final Object s = evaluator.evaluate(v, Object.class, null, context);
     assertNotNull(s);
     assertEquals("foo", s);
   }
@@ -167,7 +167,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
       throws ValueEvaluationException {
     final StringLiteral v = newStringLiteral(value);
 
-    final Object s = evaluator.evaluate(v, Object.class, context);
+    final Object s = evaluator.evaluate(v, Object.class, null, context);
     assertNotNull(s);
     assertEquals(s, expected);
   }
@@ -177,7 +177,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
     final StringLiteral v = newStringLiteral("foo");
 
     try {
-      evaluator.evaluate(v, Integer.class, context);
+      evaluator.evaluate(v, Integer.class, null, context);
       fail();
     } catch (final ValueEvaluationException e) {
       // ok
@@ -189,7 +189,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testArray1() throws Exception {
     final Array a = newArray(newStringLiteral("toto"), newStringLiteral("titi"));
 
-    final String[] tab = evaluator.evaluate(a, String[].class, context);
+    final String[] tab = evaluator.evaluate(a, String[].class, null, context);
     assertNotNull(tab);
     assertEquals(2, tab.length);
     assertEquals("toto", tab[0]);
@@ -200,7 +200,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
   public void testArray2() throws Exception {
     final Array a = newArray(newStringLiteral("toto"), newNumberLiteral(12));
 
-    final Object[] tab = evaluator.evaluate(a, Object[].class, context);
+    final Object[] tab = evaluator.evaluate(a, Object[].class, null, context);
     assertNotNull(tab);
     assertEquals(2, tab.length);
     assertEquals("toto", tab[0]);
@@ -213,7 +213,7 @@ public class ValueEvaluatorTest extends AbstractTestcase {
     final Array a = newArray(newStringLiteral("toto"), n);
 
     try {
-      evaluator.evaluate(a, String[].class, context);
+      evaluator.evaluate(a, String[].class, null, context);
       fail();
     } catch (final ValueEvaluationException e) {
       // ok

@@ -610,6 +610,7 @@ void AnnotationValue() : {}
   | AnnotationAnnotationValue()
   | ArrayAnnotationValue()
   | NullValue()
+  | PathValue()
 }
 
 void AnnotationAnnotationValue() : {}
@@ -646,6 +647,10 @@ void NullValue() : {}
 {  <NULL>
 }
 
+void PathValue() : {}
+{  Path()
+}
+
 void FullyQualifiedName() : {}
 {
   <IDENTIFIER> ( <DOT> <IDENTIFIER> ) *
@@ -654,5 +659,5 @@ void FullyQualifiedName() : {}
 void Path() : {}
 {
   [ <SLASH> ] [ <DOT> <SLASH> ] ( <DOTDOT> <SLASH> )* 
-  <IDENTIFIER> ( <SLASH> <IDENTIFIER> )* <DOT> <IDENTIFIER>
+  <IDENTIFIER> ( <SLASH> <IDENTIFIER> )* [ <DOT> <IDENTIFIER> ]
 }

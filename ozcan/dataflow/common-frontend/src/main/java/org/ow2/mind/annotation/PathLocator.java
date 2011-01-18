@@ -16,21 +16,32 @@
  *
  * Contact: mind@ow2.org
  *
- * Authors: Matthieu Leclercq
+ * Authors: Ali Erdem Ozcan
  * Contributors: 
  */
 
 package org.ow2.mind.annotation;
 
+import java.net.URL;
 import java.util.Map;
 
-import org.ow2.mind.annotation.ast.AnnotationNode;
+import javax.xml.transform.Source;
 
-public interface AnnotationFactory {
+import org.objectweb.fractal.adl.Definition;
+import org.ow2.mind.InputResource;
 
-  String ITF_NAME = "annotation-factory";
+public interface PathLocator {
+  /** Default name of this interface. */
+  String ITF_NAME           = "path-locator";
 
-  Annotation newAnnotation(AnnotationNode annotationNode,
-      Map<Object, Object> context) throws AnnotationInitializationException;
+  /**
+   * The value of {@link InputResource#getKind() input-resource's kind} that is
+   * used to reference a {@link Source}.
+   */
+  String PATH_RESOURCE_KIND = "path";
 
+  public URL findResource(String path, Definition pathContext,
+      final Map<Object, Object> context);
+
+  InputResource toInputResource(String path);
 }

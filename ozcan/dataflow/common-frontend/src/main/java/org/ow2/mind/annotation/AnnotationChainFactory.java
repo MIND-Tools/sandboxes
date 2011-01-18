@@ -32,38 +32,50 @@ public final class AnnotationChainFactory {
   }
 
   public static ValueEvaluator newValueEvaluator(
-      final AnnotationFactory annotationFactory) {
+      final AnnotationFactory annotationFactory, final PathLocator pathLocator) {
     final AnnotationValueEvaluator ave = new AnnotationValueEvaluator();
     final BasicValueEvaluator bve = new BasicValueEvaluator();
 
     final ValueEvaluator evaluator = ave;
     ave.clientEvaluatorItf = bve;
     bve.recursiveEvaluatorItf = evaluator;
+    bve.pathLocatorItf = pathLocator;
 
     ave.annotationFactoryItf = annotationFactory;
 
     return evaluator;
   }
 
-  public static AnnotationFactory newAnnotationFactory() {
+  public static AnnotationFactory newAnnotationFactory(
+      final PathLocator pathLocator) {
     AnnotationFactory annotationFactory;
     final BasicAnnotationFactory baf = new BasicAnnotationFactory();
     final BasicAnnotationLocator bal = new BasicAnnotationLocator();
 
     annotationFactory = baf;
-    baf.evaluatorItf = newValueEvaluator(annotationFactory);
+    baf.evaluatorItf = newValueEvaluator(annotationFactory, pathLocator);
     baf.annotationLocatorItf = bal;
 
     return annotationFactory;
   }
 
+  public static AnnotationFactory newAnnotationFactory() {
+    return newAnnotationFactory(new BasicPathLocator());
+  }
+
   public static AnnotationChecker newAnnotationChecker(
-      final ErrorManager errorManager) {
-    return newAnnotationChecker(newAnnotationFactory(), errorManager);
+      final ErrorManager errorManager, final PathLocator pathLocator) {
+    return newAnnotationChecker(newAnnotationFactory(pathLocator), errorManager);
+  }
+
+  public static AnnotationChecker newAnnotationChecker(
+      final PathLocator pathLocator) {
+    return newAnnotationChecker(newAnnotationFactory(pathLocator),
+        ErrorManagerFactory.newStreamErrorManager());
   }
 
   public static AnnotationChecker newAnnotationChecker() {
-    return newAnnotationChecker(newAnnotationFactory(),
+    return newAnnotationChecker(newAnnotationFactory(new BasicPathLocator()),
         ErrorManagerFactory.newStreamErrorManager());
   }
 

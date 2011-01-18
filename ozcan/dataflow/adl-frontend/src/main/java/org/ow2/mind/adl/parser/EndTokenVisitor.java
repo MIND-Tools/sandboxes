@@ -68,6 +68,7 @@ import org.ow2.mind.adl.jtb.syntaxtree.NodeSequence;
 import org.ow2.mind.adl.jtb.syntaxtree.NodeToken;
 import org.ow2.mind.adl.jtb.syntaxtree.NullValue;
 import org.ow2.mind.adl.jtb.syntaxtree.Path;
+import org.ow2.mind.adl.jtb.syntaxtree.PathValue;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveAnonymousDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveAnonymousExtension;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveDefinition;
@@ -405,7 +406,14 @@ public class EndTokenVisitor extends GJNoArguDepthFirst<NodeToken> {
 
   @Override
   public NodeToken visit(final Path n) {
-    return n.f6;
+    if (n.f5.present()) {
+      return (NodeToken) ((NodeSequence) n.f5.node).nodes.elementAt(1);
+    } else if (n.f4.present()) {
+      return (NodeToken) ((NodeSequence) (n.f4.nodes.lastElement()))
+          .elementAt(1);
+    } else {
+      return n.f3;
+    }
   }
 
   @Override
@@ -534,6 +542,11 @@ public class EndTokenVisitor extends GJNoArguDepthFirst<NodeToken> {
   @Override
   public NodeToken visit(final NullValue n) {
     return n.f0;
+  }
+
+  @Override
+  public NodeToken visit(final PathValue n) {
+    return n.f0.accept(this);
   }
 
 }

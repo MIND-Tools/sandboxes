@@ -63,6 +63,7 @@ import org.ow2.mind.adl.graph.Instantiator;
 import org.ow2.mind.adl.implementation.BasicImplementationLocator;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
 import org.ow2.mind.annotation.AnnotationLocatorHelper;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.annotation.PredefinedAnnotationsHelper;
 import org.ow2.mind.compilation.CompilationCommand;
 import org.ow2.mind.compilation.CompilationCommandExecutor;
@@ -477,6 +478,7 @@ public class Launcher extends AbstractLauncher {
 
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final OutputBinaryIDLLocator obil = new OutputBinaryIDLLocator();
     obil.clientLocatorItf = IDLLoaderChainFactory
         .newIDLLocator(inputResourceLocator);
@@ -517,8 +519,9 @@ public class Launcher extends AbstractLauncher {
     idlLoader = idlFrontend.loader;
 
     adlLoader = Factory.newLoader(errorManager, inputResourceLocator,
-        adlLocator, idlLocator, implementationLocator, idlFrontend.cache,
-        idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
+        pathLocator, adlLocator, idlLocator, implementationLocator,
+        idlFrontend.cache, idlFrontend.loader, idlFrontend.includeResolver,
+        pluginFactory);
 
     // instantiator chain
     graphInstantiator = Factory.newInstantiator(errorManager, adlLoader);

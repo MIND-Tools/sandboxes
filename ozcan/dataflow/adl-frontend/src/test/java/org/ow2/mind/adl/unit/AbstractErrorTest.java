@@ -35,6 +35,7 @@ import org.ow2.mind.BasicInputResourceLocator;
 import org.ow2.mind.adl.ADLLocator;
 import org.ow2.mind.adl.Factory;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
@@ -60,6 +61,7 @@ public abstract class AbstractErrorTest {
 
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final IDLLocator idlLocator = IDLLoaderChainFactory
         .newIDLLocator(inputResourceLocator);
     adlLocator = Factory.newADLLocator(inputResourceLocator);
@@ -72,8 +74,8 @@ public abstract class AbstractErrorTest {
     // loader chains
     final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
         errorManager, idlLocator, inputResourceLocator, pluginFactory);
-    loader = Factory.newLoader(errorManager, inputResourceLocator, adlLocator,
-        idlLocator, implementationLocator, idlFrontend.cache,
+    loader = Factory.newLoader(errorManager, inputResourceLocator, pathLocator,
+        adlLocator, idlLocator, implementationLocator, idlFrontend.cache,
         idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
 
     context = new HashMap<Object, Object>();

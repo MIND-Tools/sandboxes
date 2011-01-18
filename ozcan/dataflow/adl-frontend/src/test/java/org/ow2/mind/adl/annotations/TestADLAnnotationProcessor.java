@@ -48,6 +48,7 @@ import org.ow2.mind.adl.annotation.AbstractADLLoaderAnnotationProcessor;
 import org.ow2.mind.adl.annotation.AnnotationProcessorTemplateInstantiator;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
 import org.ow2.mind.annotation.Annotation;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
@@ -71,6 +72,7 @@ public class TestADLAnnotationProcessor {
 
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final IDLLocator idlLocator = IDLLoaderChainFactory
         .newIDLLocator(inputResourceLocator);
     final ADLLocator adlLocator = Factory.newADLLocator(inputResourceLocator);
@@ -84,9 +86,9 @@ public class TestADLAnnotationProcessor {
     final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
         errorManager, idlLocator, inputResourceLocator, pluginFactory);
     final Loader adlLoader = Factory.newLoader(errorManager,
-        inputResourceLocator, adlLocator, idlLocator, implementationLocator,
-        idlFrontend.cache, idlFrontend.loader, idlFrontend.includeResolver,
-        pluginFactory);
+        inputResourceLocator, pathLocator, adlLocator, idlLocator,
+        implementationLocator, idlFrontend.cache, idlFrontend.loader,
+        idlFrontend.includeResolver, pluginFactory);
     final ErrorLoader errorLoader = new ErrorLoader();
     errorLoader.clientLoader = adlLoader;
     errorLoader.errorManagerItf = errorManager;

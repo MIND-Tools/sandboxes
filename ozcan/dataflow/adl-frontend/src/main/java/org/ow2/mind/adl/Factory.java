@@ -89,6 +89,7 @@ import org.ow2.mind.adl.parameter.ParametricGenericDefinitionReferenceResolver;
 import org.ow2.mind.adl.parameter.ParametricTemplateInstantiator;
 import org.ow2.mind.adl.parser.ADLParser;
 import org.ow2.mind.annotation.AnnotationChainFactory;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.idl.IDLCache;
 import org.ow2.mind.idl.IDLLoader;
@@ -137,6 +138,7 @@ public final class Factory {
   public static Loader newLoader(final ErrorManager errorManager) {
 
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final ADLLocator adlLocator = newADLLocator(inputResourceLocator);
     final IDLLocator idlLocator = IDLLoaderChainFactory
         .newIDLLocator(inputResourceLocator);
@@ -151,14 +153,15 @@ public final class Factory {
     final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
         errorManager, idlLocator, inputResourceLocator, pluginFactory);
 
-    return newLoader(errorManager, inputResourceLocator, adlLocator,
-        idlLocator, implementationLocator, idlFrontend.cache,
+    return newLoader(errorManager, inputResourceLocator, pathLocator,
+        adlLocator, idlLocator, implementationLocator, idlFrontend.cache,
         idlFrontend.loader, idlFrontend.includeResolver, pluginFactory);
   }
 
   public static Loader newLoader(final ErrorManager errorManager,
       final BasicInputResourceLocator inputResourceLocator,
-      final ADLLocator adlLocator, final IDLLocator idlLocator,
+      final BasicPathLocator pathLocator, final ADLLocator adlLocator,
+      final IDLLocator idlLocator,
       final ImplementationLocator implementationLocator,
       final IDLCache idlCache, final IDLLoader idlLoader,
       final IncludeResolver includeResolver,
@@ -289,8 +292,8 @@ public final class Factory {
     apl3.pluginManagerItf = pluginManager;
     apl4.pluginManagerItf = pluginManager;
 
-    anl.annotationCheckerItf = AnnotationChainFactory
-        .newAnnotationChecker(errorManager);
+    anl.annotationCheckerItf = AnnotationChainFactory.newAnnotationChecker(
+        errorManager, pathLocator);
 
     el.nodeMergerItf = stcfNodeMerger;
     ap.adlLocatorItf = adlLocator;

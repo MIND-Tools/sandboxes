@@ -49,6 +49,7 @@ import org.ow2.mind.adl.membrane.ast.ControllerContainer;
 import org.ow2.mind.adl.membrane.ast.ControllerInterface;
 import org.ow2.mind.annotation.AnnotationHelper;
 import org.ow2.mind.annotation.AnnotationLocatorHelper;
+import org.ow2.mind.annotation.BasicPathLocator;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
@@ -71,6 +72,7 @@ public class TestBindingController {
 
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
+    final BasicPathLocator pathLocator = new BasicPathLocator();
     final IDLLocator idlLocator = IDLLoaderChainFactory
         .newIDLLocator(inputResourceLocator);
     final ADLLocator adlLocator = Factory.newADLLocator(inputResourceLocator);
@@ -84,9 +86,9 @@ public class TestBindingController {
     final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(
         errorManager, idlLocator, inputResourceLocator, pluginFactory);
     final Loader adlLoader = Factory.newLoader(errorManager,
-        inputResourceLocator, adlLocator, idlLocator, implementationLocator,
-        idlFrontend.cache, idlFrontend.loader, idlFrontend.includeResolver,
-        pluginFactory);
+        inputResourceLocator, pathLocator, adlLocator, idlLocator,
+        implementationLocator, idlFrontend.cache, idlFrontend.loader,
+        idlFrontend.includeResolver, pluginFactory);
     final ErrorLoader errorLoader = new ErrorLoader();
     errorLoader.errorManagerItf = errorManager;
     errorLoader.clientLoader = adlLoader;

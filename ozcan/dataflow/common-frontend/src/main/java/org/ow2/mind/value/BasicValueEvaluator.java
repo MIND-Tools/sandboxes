@@ -27,15 +27,20 @@ import static java.lang.reflect.Array.set;
 import static org.ow2.mind.BindingControllerImplHelper.checkItfName;
 import static org.ow2.mind.BindingControllerImplHelper.listFcHelper;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
+import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
+import org.ow2.mind.annotation.PathLocator;
 import org.ow2.mind.value.ast.Array;
 import org.ow2.mind.value.ast.BooleanLiteral;
 import org.ow2.mind.value.ast.NullLiteral;
 import org.ow2.mind.value.ast.NumberLiteral;
+import org.ow2.mind.value.ast.PathLiteral;
 import org.ow2.mind.value.ast.StringLiteral;
 import org.ow2.mind.value.ast.Value;
 import org.ow2.mind.value.ast.ValueASTHelper;
@@ -49,12 +54,16 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
   public static final String RECURSIVE_VALUE_EVALUATOR_ITF_NAME = "recursive-evaluator";
   public ValueEvaluator      recursiveEvaluatorItf;
 
+  public static final String INPUT_RESOURCE_LOCATOR_ITF_NAME    = "path-locator";
+  public PathLocator         pathLocatorItf;
+
   // ---------------------------------------------------------------------------
   // Implementation of the ValueEvaluator interface
   // ---------------------------------------------------------------------------
 
   public <T> T evaluate(final Value value, final Class<T> expectedType,
-      final Map<Object, Object> context) throws ValueEvaluationException {
+      final Definition annotationContext, final Map<Object, Object> context)
+      throws ValueEvaluationException {
     if (value instanceof NumberLiteral) {
       if (expectedType.isPrimitive()) {
         return evaluatePrimitiveType((NumberLiteral) value, expectedType);
@@ -188,7 +197,7 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
       final Object result = newInstance(arrayComponentType, arrayValues.length);
       for (int i = 0; i < arrayValues.length; i++) {
         set(result, i, recursiveEvaluatorItf.evaluate(arrayValues[i],
-            arrayComponentType, context));
+            arrayComponentType, annotationContext, context));
       }
       return expectedType.cast(result);
     } else if (value instanceof NullLiteral) {
@@ -198,6 +207,27 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
         throw new ValueEvaluationException(
             "Incompatible value type, found NULL where "
                 + expectedType.getName() + " was expected", value, e);
+      }
+    } else if (value instanceof PathLiteral) {
+      if (expectedType.isInstance(new String())) {
+        return expectedType.cast(((PathLiteral) value).getValue());
+      } else {
+        try {
+          if (expectedType.isInstance(new URL("file:///"))) {
+            return expectedType.cast(pathLocatorItf.findResource(
+                ((PathLiteral) value).getValue(), annotationContext, context));
+          } else {
+            throw new ValueEvaluationException(
+                "Incompatible value type, found a Path where "
+                    + expectedType.getName()
+                    + " was expected. Compatible types for a Path value are String or URL.",
+                value);
+          }
+
+        } catch (final MalformedURLException e) {
+          throw new ValueEvaluationException(
+              "Internal error while creating value from URL", value, e);
+        }
       }
     } else {
       throw new ValueEvaluationException("Unknow value type", value);
@@ -256,7 +286,8 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
   // ---------------------------------------------------------------------------
 
   public String[] listFc() {
-    return listFcHelper(RECURSIVE_VALUE_EVALUATOR_ITF_NAME);
+    return listFcHelper(RECURSIVE_VALUE_EVALUATOR_ITF_NAME,
+        INPUT_RESOURCE_LOCATOR_ITF_NAME);
   }
 
   public Object lookupFc(final String s) throws NoSuchInterfaceException {
@@ -264,6 +295,8 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
 
     if (RECURSIVE_VALUE_EVALUATOR_ITF_NAME.equals(s)) {
       return recursiveEvaluatorItf;
+    } else if (INPUT_RESOURCE_LOCATOR_ITF_NAME.equals(s)) {
+      return pathLocatorItf;
     } else {
       throw new NoSuchInterfaceException("No client interface named '" + s
           + "'");
@@ -276,6 +309,8 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
 
     if (RECURSIVE_VALUE_EVALUATOR_ITF_NAME.equals(s)) {
       recursiveEvaluatorItf = (ValueEvaluator) o;
+    } else if (INPUT_RESOURCE_LOCATOR_ITF_NAME.equals(s)) {
+      pathLocatorItf = (PathLocator) o;
     } else {
       throw new NoSuchInterfaceException("No client interface named '" + s
           + "' for binding the interface");
@@ -288,6 +323,8 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
 
     if (RECURSIVE_VALUE_EVALUATOR_ITF_NAME.equals(s)) {
       recursiveEvaluatorItf = null;
+    } else if (INPUT_RESOURCE_LOCATOR_ITF_NAME.equals(s)) {
+      pathLocatorItf = null;
     } else {
       throw new NoSuchInterfaceException("No client interface named '" + s
           + "'");

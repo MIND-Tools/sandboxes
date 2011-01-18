@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.objectweb.fractal.adl.CompilerError;
+import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.error.GenericErrors;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -110,6 +111,8 @@ public class BasicAnnotationFactory
       Object arguementValue;
       try {
         arguementValue = evaluatorItf.evaluate(argument.getValue(), fieldType,
+            (Definition) annotationNode
+                .astGetDecoration(AnnotationLocator.ANNOTATION_CONTEXT),
             context);
       } catch (final ValueEvaluationException e) {
         throw new AnnotationInitializationException(

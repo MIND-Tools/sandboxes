@@ -170,6 +170,9 @@
 <?add ast="array"     itf="org.ow2.mind.value.ast.Array" ?>
 <?map ast="array"     type="value" ?>
 
+<?add ast="path"      itf="org.ow2.mind.value.ast.PathLiteral" ?>
+<?map ast="path"      type="value" ?>
+
 
 <!-- *********************************************************************** -->
 <!-- Node grammar                                                            -->
@@ -286,12 +289,12 @@
   type CDATA #REQUIRED
 >
 
-<!ELEMENT annotationArgument ( string | integer | array | annotationValue | null ) >
+<!ELEMENT annotationArgument ( string | integer | array | annotationValue | null | path ) >
 <!ATTLIST annotationArgument
   name CDATA #IMPLIED
 >
 
-<!ELEMENT array ( ( string | integer | array | annotationValue | null )* ) >
+<!ELEMENT array ( ( string | integer | array | annotationValue | null | path )* ) >
 <!ATTLIST array >
 
 <!ELEMENT string EMPTY >
@@ -310,6 +313,11 @@
 <!ELEMENT reference EMPTY >
 <!ATTLIST reference
   ref CDATA #REQUIRED
+>
+
+<!ELEMENT path EMPTY >
+<!ATTLIST path
+  value CDATA #REQUIRED
 >
 
 

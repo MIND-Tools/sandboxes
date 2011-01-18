@@ -98,6 +98,7 @@ import org.ow2.mind.adl.jtb.syntaxtree.NodeSequence;
 import org.ow2.mind.adl.jtb.syntaxtree.NodeToken;
 import org.ow2.mind.adl.jtb.syntaxtree.NullValue;
 import org.ow2.mind.adl.jtb.syntaxtree.Path;
+import org.ow2.mind.adl.jtb.syntaxtree.PathValue;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveAnonymousDefinition;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveAnonymousExtension;
 import org.ow2.mind.adl.jtb.syntaxtree.PrimitiveDefinition;
@@ -123,6 +124,7 @@ import org.ow2.mind.value.ast.BooleanLiteral;
 import org.ow2.mind.value.ast.MultipleValueContainer;
 import org.ow2.mind.value.ast.NullLiteral;
 import org.ow2.mind.value.ast.NumberLiteral;
+import org.ow2.mind.value.ast.PathLiteral;
 import org.ow2.mind.value.ast.Reference;
 import org.ow2.mind.value.ast.SingleValueContainer;
 import org.ow2.mind.value.ast.StringLiteral;
@@ -1195,6 +1197,21 @@ public class JTBProcessor extends GJDepthFirst<Node, Node>
     return value;
   }
 
+  @Override
+  public Node visit(final PathValue n, final Node argu) {
+    assert argu != null;
+
+    final PathLiteral value = (PathLiteral) newNode("path", n);
+    value.setValue(path(n.f0));
+    if (argu instanceof SingleValueContainer) {
+      ((SingleValueContainer) argu).setValue(value);
+    } else {
+      castNodeError(argu, MultipleValueContainer.class).addValue(value);
+    }
+
+    return value;
+  }
+
   // ---------------------------------------------------------------------------
   // Utility
   // ---------------------------------------------------------------------------
@@ -1228,7 +1245,10 @@ public class JTBProcessor extends GJDepthFirst<Node, Node>
           + ((NodeToken) ((NodeSequence) pathElem).elementAt(1)).tokenImage;
     }
 
-    s += "." + n.f6.tokenImage;
+    if (n.f5.present()) {
+      s += "."
+          + ((NodeToken) ((NodeSequence) (n.f5.node)).elementAt(1)).tokenImage;
+    }
 
     return s;
   }
