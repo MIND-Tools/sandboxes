@@ -23,12 +23,10 @@
 package org.ow2.mind.adl;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.objectweb.fractal.adl.Definition;
@@ -52,10 +50,14 @@ public final class CompilationDecorationHelper {
       deco = new AdditionalCompilationUnitDecorationContainer();
       def.astSetDecoration(ADDITIONAL_COMPILATION_UNIT_DECORATION_NAME, deco);
     }
+    // remove previous equivalent decoration (if any)
+    if (deco.list.contains(decoration)) {
+      deco.list.remove(decoration);
+    }
     deco.list.add(decoration);
   }
 
-  public static List<AdditionalCompilationUnitDecoration> getAdditionalCompilationUnit(
+  public static Collection<AdditionalCompilationUnitDecoration> getAdditionalCompilationUnit(
       final Definition def) {
     final AdditionalCompilationUnitDecorationContainer deco = getDecoration(def);
     if (deco != null)
@@ -75,18 +77,20 @@ public final class CompilationDecorationHelper {
    * non serializable object to avoid the serialization of these decorations.
    */
   private static class AdditionalCompilationUnitDecorationContainer {
-    protected final List<AdditionalCompilationUnitDecoration> list = new ArrayList<AdditionalCompilationUnitDecoration>();
+    protected final Set<AdditionalCompilationUnitDecoration> list = new HashSet<AdditionalCompilationUnitDecoration>();
   }
 
   public static class AdditionalCompilationUnitDecoration {
     protected String           path;
     protected boolean          generatedFile;
+    protected boolean          skipMPP;
     protected Collection<File> dependencies;
 
     public AdditionalCompilationUnitDecoration(final String path,
         final boolean generatedFile, final File... dependencies) {
       this.path = path;
       this.generatedFile = generatedFile;
+      this.skipMPP = false;
       if (dependencies != null && dependencies.length > 0)
         this.dependencies = Arrays.asList(dependencies);
     }
@@ -95,6 +99,16 @@ public final class CompilationDecorationHelper {
         final boolean generatedFile, final Collection<File> dependencies) {
       this.path = path;
       this.generatedFile = generatedFile;
+      this.skipMPP = false;
+      this.dependencies = dependencies;
+    }
+
+    public AdditionalCompilationUnitDecoration(final String path,
+        final boolean generatedFile, final boolean skipMPP,
+        final Collection<File> dependencies) {
+      this.path = path;
+      this.generatedFile = generatedFile;
+      this.skipMPP = skipMPP;
       this.dependencies = dependencies;
     }
 
@@ -120,6 +134,22 @@ public final class CompilationDecorationHelper {
      */
     public boolean isGeneratedFile() {
       return generatedFile;
+    }
+
+    public boolean skipMPP() {
+      return skipMPP;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      if (obj == this) return true;
+      if (!(obj instanceof AdditionalCompilationUnitDecoration)) return false;
+      return path.equals(((AdditionalCompilationUnitDecoration) obj).path);
+    }
+
+    @Override
+    public int hashCode() {
+      return path.hashCode();
     }
   }
 

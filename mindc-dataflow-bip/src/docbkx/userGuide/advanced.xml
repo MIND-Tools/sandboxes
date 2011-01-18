@@ -121,9 +121,11 @@
     <title>Fractal Controllers</title>
     <para>A controller is an additional interface provided by a component that 
       allows to introspect or reconfigure it. The Fractal component model defines 
-      a set of standard controller interfaces. The &productName; toolchain allows
-      to specify in the ADL, the controllers provided by components using 
-      annotations.</para>
+      a set of standard controller interfaces.</para>
+    <para>The &productName; toolchain allows to specify in the ADL, the 
+      controllers provided by components using annotations. Controllers can be 
+      specified individualy using one annotation per controller, or can be 
+      specified all-together using a single annotation (see <xref linkend="adv-ctrl-std"/>).</para>
 
     <section id="adv-ctrl-cmp">
       <title>The <classname>component</classname> controller</title>
@@ -234,7 +236,7 @@
           must be added to the component <classname>foo.bar.MyControlledComponent</classname>.</para> 
       </example>
       
-      <para>When the <classname>@controller.BindingContrller</classname> annotation is
+      <para>When the <classname>@controller.BindingController</classname> annotation is
         attached to an ADL definition, a control interface called 
         <varname>bindingController</varname> is automatically added. The signature of this 
         interface is defined in the <classname>fractal.api.BindingController</classname>
@@ -242,6 +244,12 @@
         
       <para>See <xref linkend="api-fapi-BC"/> for details on the
         <classname>fractal.api.BindingController</classname> interface signature.</para>
+        
+      <para>By default, the <classname>@controller.BindingController</classname> annotation
+        can be specified only on components that have at least one required interface.
+        The annotation has an optional field called <code>allowNoRequiredItf</code>
+        that can be set to <code>true</code> to bypass this limitation (i.e. 
+        <code>@controller.BindingController(allowNoRequiredItf=true)</code>).</para>
     </section>
 
     <section id="adv-ctrl-cc">
@@ -320,10 +328,10 @@
       <para>See <xref linkend="api-fapi-LCC"/> for details on the
         <classname>fractal.api.LifeCycleController</classname> interface signature.</para>
       
-      <para>The <classname>@controller.LifeCycleController</classname> annotation 
-        can only be attached to primitive component definitions. In that case,
-        the component implementation must provides the implementation of at least 
-        one of the <varname>startFc</varname> or <varname>stopFc</varname> method of the
+      <para>When the <classname>@controller.LifeCycleController</classname> annotation 
+        is attached to a definitions of primitive compoent, 
+        the source code must contain at least the implementation of  
+        one of the <varname>startFc</varname> or <varname>stopFc</varname> methods of the
         <varname>lifeCycleController</varname> interface. For instance:</para>
         
       <example>
@@ -341,6 +349,12 @@
    return FRACTAL_API_OK;
  }</programlisting>
       </example>
+      
+      <para>If a composite contains at least one sub-component that 
+        provides a life-cycle controller, then a life-cycle controller is automatically 
+        added on the composite definition. So in most cases, it is not necessary to declare
+        explicitly the life-cycle controller on composite definition since it would be added
+        automatically when necessary.</para>
       
     </section>
 
@@ -369,6 +383,101 @@
         
       <para>See <xref linkend="api-fapi-AC"/> for details on the
         <classname>fractal.api.AttributeController</classname> interface signature.</para>
+
+      <para>By default, the <classname>@controller.AttributeController</classname> annotation
+        can be specified only on components that have at least one attribute.
+        The annotation has an optional field called <code>allowNoAttr</code>
+        that can be set to <code>true</code> to bypass this limitation (i.e. 
+        <code>@controller.AttributeController(allowNoAttr=true)</code>).</para>
+    </section>
+
+    <section id="adv-ctrl-std">
+      <title>The standard Fractal controllers</title>
+
+      <para>Specifying individual controllers on each component definition may 
+        be laborious. The <classname>@controller.StdControllers</classname> 
+        annotation can be used to specify that a component must provide 
+        every standard Fractal controllers according to its architecture.</para>
+
+      <para>When the <classname>@controller.StdControllers</classname> annotation is
+        attached to an ADL definition, the following controllers will be added 
+        to the component:</para>
+      <itemizedlist>
+        <listitem><para>
+          the  <classname>component</classname> controller (see <xref linkend="adv-ctrl-cmp"/>)
+        </para></listitem>
+        <listitem><para>
+          the <classname>binding-controller</classname> controller, if the 
+          component has at least one required interface,  (see <xref linkend="adv-ctrl-bc"/>)
+        </para></listitem>
+        <listitem><para>
+          the <classname>content-controller</classname> controller, if the 
+          component is a composite,  (see <xref linkend="adv-ctrl-cc"/>)
+        </para></listitem>
+        <listitem><para>
+          the <classname>attribute-controller</classname> controller, if the 
+          component has at least one attribute,  (see <xref linkend="adv-ctrl-ac"/>)
+        </para></listitem>
+      </itemizedlist>
+
+      <para>The <classname>life-cycle-controller</classname> is never added 
+        automatically by the <classname>@controller.StdControllers</classname>.
+        Indeed, the <classname>life-cycle-controller</classname> must be specified
+        explicitly on primitive component since it requires that the implementation
+        code contains at least the implementation of  
+        one of the <varname>startFc</varname> or <varname>stopFc</varname> methods.</para>
+      
+      <para>The <classname>@controller.StdControllers</classname> annotation is 
+        inherited, this means that the added controllers depends on the architecture
+        of the final definition in the inheritence graph and not the definition 
+        (in this inheritence graph) on which the annotation is added. For example:</para>
+        
+      <example>
+        <title><classname>@controller.StdControllers</classname> and definition inheritence</title>
+        
+        <programlisting linenumbering="numbered" language="adl"> @controller.StdControllers
+ type foo.bar.MyType {
+   requires foo.Itf1 as aRequiredInterface;
+ }</programlisting>
+ 
+        <programlisting linenumbering="numbered" language="adl"> primitive foo.bar.MyPrimitive extends foo.bar.MyType {
+   ...
+   attribute int myAttr;
+ }</programlisting>
+ 
+        <programlisting linenumbering="numbered" language="adl"> composite foo.bar.MyComposite extends foo.bar.MyType {
+   ...
+ }</programlisting>
+        <para>In the above ADLs:</para>
+        <itemizedlist>
+          <listitem>
+            <para>The <classname>foo.bar.MyPrimitive</classname> component will
+              have the following controllers : <classname>component</classname>,
+              <classname>binding-controller</classname> and 
+              <classname>attribute-controller</classname></para>
+          </listitem>
+          <listitem>
+            <para>The <classname>foo.bar.MyComposite</classname> component will
+              have the following controllers : <classname>component</classname>,
+              <classname>binding-controller</classname> and 
+              <classname>content-controller</classname></para>
+          </listitem>
+          <listitem>
+            <para>Moreover, if the <classname>foo.bar.MyType</classname> type
+              is used as the type of a template variable, then this template 
+              variable provides the <varname>component</varname> and 
+              <varname>bindingController</varname> interfaces. For instance :</para>
+              <programlisting linenumbering="numbered" language="adl"> composite foo.bar.MyTemplate&lt;T conformsto foo.bar.MyType&gt; {
+   ...
+   contains T as subComp;
+   ...
+   binds ... to subComp.component;
+   binds ... to subComp.bindingController;
+ }</programlisting>
+          </listitem>
+        </itemizedlist>
+        
+      </example>
     </section>
   </section>
 </chapter>

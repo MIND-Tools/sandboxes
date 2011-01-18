@@ -476,9 +476,9 @@ public class ASTHelper {
    * given name.
    * 
    * @param componentContainer a container.
-   * @param name the name of the interface to return.
+   * @param name the name of the component to return.
    * @return the component node contained by the given container and having the
-   *         given name, or <code>null</code> if the given container is not an
+   *         given name, or <code>null</code> if the given container is not a
    *         {@link ComponentContainer} or does not contain a component with the
    *         given name.
    */
@@ -618,7 +618,7 @@ public class ASTHelper {
    * <code>.a</code>, <code>.so</code> or <code>.dll</code>.
    * 
    * @param src a source node.
-   * @return code>true</code> if the given source node refers to a pre-compiled
+   * @return <code>true</code> if the given source node refers to a pre-compiled
    *         file.
    */
   public static boolean isPreCompiled(final Source src) {
@@ -628,6 +628,22 @@ public class ASTHelper {
     return srcExt != null
         && (srcExt.equals("o") || srcExt.equals("a") || srcExt.equals("so") || srcExt
             .equals("dll"));
+  }
+
+  /**
+   * Returns <code>true</code> if the given source node refers to an assembly
+   * source file (i.e. it refers to a file that ends with <code>.s</code>, or
+   * <code>.S</code>).
+   * 
+   * @param src a source node.
+   * @return <code>true</code> if the given source node refers to an assembly
+   *         source file.
+   */
+  public static boolean isAssembly(final Source src) {
+    final String srcPath = src.getPath();
+    if (srcPath == null) return false;
+    final String srcExt = PathHelper.getExtension(srcPath);
+    return srcExt != null && (srcExt.equals("s") || srcExt.equals("S"));
   }
 
   /**
@@ -648,6 +664,43 @@ public class ASTHelper {
    */
   public static Data newData(final NodeFactory nodeFactory) {
     return newNode(nodeFactory, "data", Data.class);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Attribute helper methods
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Returns the attribute node contained by the given container and having the
+   * given name.
+   * 
+   * @param attributeContainer a container.
+   * @param name the name of the attribute to return.
+   * @return the attribute node contained by the given container and having the
+   *         given name, or <code>null</code> if the given container is not an
+   *         {@link AttributeContainer} or does not contain an attribute with
+   *         the given name.
+   */
+  public static Attribute getAttribute(final Node attributeContainer,
+      final String name) {
+    if (!(attributeContainer instanceof AttributeContainer)) return null;
+    for (final Attribute attr : ((AttributeContainer) attributeContainer)
+        .getAttributes()) {
+      if (name.equals(attr.getName())) {
+        return attr;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Create a new {@link Attribute} node using the given {@link NodeFactory}
+   * 
+   * @param nodeFactory the {@link NodeFactory} to use to create the node.
+   * @return a new {@link Attribute} node.
+   */
+  public static Attribute newAttribute(final NodeFactory nodeFactory) {
+    return newNode(nodeFactory, "attribute", Attribute.class);
   }
 
   // ---------------------------------------------------------------------------
