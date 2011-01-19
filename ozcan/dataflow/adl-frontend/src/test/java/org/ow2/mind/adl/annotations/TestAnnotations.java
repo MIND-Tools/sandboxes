@@ -4,11 +4,16 @@ package org.ow2.mind.adl.annotations;
 import static org.objectweb.fractal.adl.NodeUtil.castNodeError;
 import static org.ow2.mind.BCImplChecker.checkBCImplementation;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.assertTrue;
 
+import java.util.Collection;
 import java.util.HashMap;
 
+import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.Loader;
+import org.objectweb.fractal.adl.error.Error;
 import org.ow2.mind.BasicInputResourceLocator;
 import org.ow2.mind.adl.ADLLocator;
 import org.ow2.mind.adl.ErrorLoader;
@@ -17,8 +22,10 @@ import org.ow2.mind.adl.annotation.AnnotationLoader;
 import org.ow2.mind.adl.ast.ImplementationContainer;
 import org.ow2.mind.adl.ast.Source;
 import org.ow2.mind.adl.implementation.ImplementationLocator;
+import org.ow2.mind.annotation.AnnotationErrors;
 import org.ow2.mind.annotation.AnnotationHelper;
 import org.ow2.mind.annotation.BasicPathLocator;
+import org.ow2.mind.error.ErrorCollection;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoaderChainFactory;
@@ -116,6 +123,21 @@ public class TestAnnotations {
       assertEquals(
           path.url.getFile().substring(path.url.getFile().lastIndexOf('/') + 1),
           "foo.c");
+    }
+  }
+
+  @Test(groups = {"functional"})
+  public void test5() throws Exception {
+    try {
+      loader.load("pkg1.annotations.PathAnnotation4",
+          new HashMap<Object, Object>());
+    } catch (final ADLException e) {
+      assertTrue(e.getError() instanceof ErrorCollection);
+      final Collection<Error> errors = ((ErrorCollection) e.getError())
+          .getErrors();
+      assertEquals(errors.size(), 1);
+      final Error err = errors.iterator().next();
+      assertSame(err.getTemplate(), AnnotationErrors.INVALID_ANNOTATION);
     }
   }
 

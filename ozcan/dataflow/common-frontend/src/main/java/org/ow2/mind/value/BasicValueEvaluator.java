@@ -214,8 +214,15 @@ public class BasicValueEvaluator implements ValueEvaluator, BindingController {
       } else {
         try {
           if (expectedType.isInstance(new URL("file:///"))) {
-            return expectedType.cast(pathLocatorItf.findResource(
+            final T url = expectedType.cast(pathLocatorItf.findResource(
                 ((PathLiteral) value).getValue(), annotationContext, context));
+            if (url == null) {
+              throw new ValueEvaluationException(
+                  "Unexisting path value '" + ((PathLiteral) value).getValue()
+                      + "' found in annotation.", value);
+            } else {
+              return url;
+            }
           } else {
             throw new ValueEvaluationException(
                 "Incompatible value type, found a Path where "
