@@ -141,4 +141,19 @@ public class TestAnnotations {
     }
   }
 
+  @Test(groups = {"functional"})
+  public void test6() throws Exception {
+    final Definition definition = loader.load(
+        "pkg1.annotations.PathAnnotation5", new HashMap<Object, Object>());
+    final Source[] sources = castNodeError(definition,
+        ImplementationContainer.class).getSources();
+    for (final Source source : sources) {
+      final PathAnnotation path = AnnotationHelper.getAnnotation(source,
+          PathAnnotation.class);
+      assertEquals(
+          path.url.getFile().substring(path.url.getFile().lastIndexOf('/') + 1),
+          "foo.c");
+    }
+  }
+
 }

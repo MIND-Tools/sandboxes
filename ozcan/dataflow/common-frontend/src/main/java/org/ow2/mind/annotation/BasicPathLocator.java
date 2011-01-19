@@ -41,18 +41,17 @@ public class BasicPathLocator implements PathLocator {
     if (!isValid(path)) {
       throw new IllegalArgumentException("\"" + path + "\" is not a valid path");
     }
+    String validPath = path;
     if (isRelative(path)) {
       try {
-        final String validPath = PathHelper.fullyQualifiedNameToAbsolute(
+        validPath = PathHelper.fullyQualifiedNameToAbsolute(
             pathContext.getName(), path);
-        return getClassLoader(this, context)
-            .getResource(validPath.substring(1));
       } catch (final InvalidRelativPathException e) {
         throw new IllegalArgumentException("\"" + path
             + "\" is not a valid path");
       }
     }
-    return null;
+    return getClassLoader(this, context).getResource(validPath.substring(1));
   }
 
   public InputResource toInputResource(final String path) {
