@@ -47,7 +47,6 @@ import org.ow2.mind.error.ErrorCollection;
 import org.ow2.mind.error.ErrorManager;
 import org.ow2.mind.error.ErrorManagerFactory;
 import org.ow2.mind.idl.IDLLoader;
-import org.ow2.mind.idl.IDLLocator;
 import org.ow2.mind.idl.IDLVisitor;
 import org.ow2.mind.idl.ast.IDL;
 import org.ow2.mind.io.BasicOutputFileLocator;
@@ -85,8 +84,6 @@ public class DefinitionDocumentGenerator {
     // input locators
     final BasicInputResourceLocator inputResourceLocator = new BasicInputResourceLocator();
     final BasicPathLocator pathLocator = new BasicPathLocator();
-    final IDLLocator idlLocator = IDLLoaderChainFactory.newIDLLocator(inputResourceLocator);
-    //final ADLLocator adlLocator = DocumentationFrontendFactory.newADLLocator(inputResourceLocator);
 
     // String Template Component Loaders
     final StringTemplateComponentLoader stcLoader = new StringTemplateComponentLoader();
@@ -110,17 +107,12 @@ public class DefinitionDocumentGenerator {
     //force the manager to load plugins
     pluginManager.getExtensionPointNames(context);
 
-    //final org.objectweb.fractal.adl.Factory pluginFactory = new SimpleClassPluginFactory();
-
     errorManager = ErrorManagerFactory.newStreamErrorManager(System.err, true);
 
     // loader chains
     final IDLFrontend idlFrontend = IDLLoaderChainFactory.newLoader(errorManager);
     idlLoader = idlFrontend.loader;
-    //idlLoader = IDLLoaderChainFactory.newLoader(errorManager, idlLocator);
 
-    //adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator,
-    //    adlLocator, idlLocator, idlLoader, pluginFactory);
     adlLoader = DocumentationFrontendFactory.newLoader(errorManager, inputResourceLocator, pathLocator, idlFrontend);
 
     // instantiator chain
