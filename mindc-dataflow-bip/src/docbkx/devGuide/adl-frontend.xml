@@ -44,7 +44,7 @@
     </para>
 
     <figure id="adlfe-ovarch-fig">
-      <title>ADL frontent global architecture (TODO simplify it)</title>
+      <title>ADL frontend global architecture (TODO simplify it)</title>
       <mediaobject>
         <imageobject>
           <imagedata fileref="images/architecture.png" width="100%"
