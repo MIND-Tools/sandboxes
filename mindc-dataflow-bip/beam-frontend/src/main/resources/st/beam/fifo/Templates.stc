@@ -30,7 +30,7 @@ void METH(buffer, put)(<type> x) {
 
 /* Server Method for control::init */
 void METH(control,init)(void) {
- FIFO_INIT_N(int, <id>)(&(PRIVATE.myFifo));
+ FIFO_INIT_N(<type>, <id>)(&(PRIVATE.myFifo));
 }
 /* Server Method for control::max_size */ 
 int METH(control, max_size)(void) {
@@ -38,7 +38,7 @@ int METH(control, max_size)(void) {
 }
 /* Server Method for control::current_size */
 int METH(control, current_size)(void) {
- FIFO_SIZE_N(int, <id>)(&(PRIVATE.myFifo));
+ FIFO_SIZE_N(<type>, <id>)(&(PRIVATE.myFifo));
 }
 
 >>
