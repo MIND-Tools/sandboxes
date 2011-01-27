@@ -329,9 +329,12 @@ public class BeamFifoAnnotationProcessor
       assert(from_comp != null);
       Definition from_def = ASTHelper.getResolvedComponentDefinition(from_comp, loaderItf, context);
       Interface iface =ASTHelper.getInterface(from_def, b.getFromInterface());
+      if (iface == null) {
+    	  logger.log(Level.SEVERE, "Interface '" + b.getFromInterface() + "' not found (check 'binds' in adl)");
+      }
       assert(iface instanceof MindInterface);
       String signature = ((MindInterface)iface).getSignature();
-      
+
       Component buffer_comp = createFifoBufferComponent(newbuffer_name, "buffer", 
           signature, bt.fifosize, context, definition);
       
@@ -362,7 +365,7 @@ public class BeamFifoAnnotationProcessor
         if (i.getName().equals(b.getToInterface())){
           assert(i instanceof MindInterface);
           MindInterface mi = (MindInterface)i;
-          assert(mi.getRole().equals(TypeInterface.SERVER_ROLE));
+          assert(mi.getRole().equals(TypeInterface.SERVER_ROLE)) : "Check for wrongly multiple binds to an input interface";
           mi.setRole(TypeInterface.CLIENT_ROLE);
           addInterfaceToWSI(mi, to_def);
           logger.log(Level.INFO, "Changed role for " + b.getToComponent() + "." + b.getToInterface() +
