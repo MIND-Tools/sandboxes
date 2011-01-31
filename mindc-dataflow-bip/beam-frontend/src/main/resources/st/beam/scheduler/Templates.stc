@@ -37,7 +37,7 @@ DebugPrint(debug, message) ::= <<
 <endif>
 >>
 
-PeekAwareRoundRobin(filters, no_input_filters, fifos, includes, fifos_for_comps, server_ifaces, debug) ::= <<
+PeekAwareRoundRobin(filters, no_input_filters, fifos, includes, fifos_for_comps, server_ifaces, debug, debugfifosize) ::= <<
 
 int METH(main, main) (int argc, char *argv[]){
 
@@ -64,6 +64,16 @@ CALL(<it.name>, act)(1);
 CALL(<filter1>, act)(1);
 <DebugPrint(debug=debug, message=EndExecComp(filter1))>\}
   }>
+
+  <if(debugfifosize)>
+  printf("FIFOTRACEBEGIN\n");
+  <server_ifaces.keys:{filter1|
+       <server_ifaces.(filter1).keys:{iface| 
+        printf("FIFOSIZETRACE <fifos_for_comps.(filter1).(iface).name> %d\n", CALL(<fifos_for_comps.(filter1).(iface).name>, current_size)());
+       }>
+  }>
+  printf("FIFOTRACEEND\n");
+  <endif>
 }
   return 0;
 }

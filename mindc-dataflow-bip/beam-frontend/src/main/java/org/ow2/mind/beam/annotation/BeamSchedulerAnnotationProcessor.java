@@ -74,7 +74,8 @@ public class BeamSchedulerAnnotationProcessor
       Constants {
 
   public final String SCHEDULER_DEBUG_EXEC_TRACE = "scheduler-trace";
-  
+  public final String SCHEDULER_DEBUG_FIFO_SIZE = "fifo-size-trace";
+
   public URL findResource(final String name, final Map<Object, Object> context) {
     return ClassLoaderHelper.getClassLoader(this, context).getResource(name);
   }
@@ -201,7 +202,12 @@ public class BeamSchedulerAnnotationProcessor
     } else {
       sched_st.setAttribute("debug", true);
     }
-      
+    
+    if (debug_set == null || !debug_set.contains(SCHEDULER_DEBUG_FIFO_SIZE)){
+    	sched_st.setAttribute("debugfifosize", false);
+    } else {
+    	sched_st.setAttribute("debugfifosize", true);
+    }
 
     final Source src = CommonASTHelper.newNode(nodeFactoryItf, "source", Source.class);
     src.setCCode(sched_st.toString());
