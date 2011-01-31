@@ -36,8 +36,11 @@ import org.ow2.mind.annotation.AnnotationTarget;
     ADLLoaderPhase.AFTER_PARSING, ADLLoaderPhase.AFTER_EXTENDS})
 public class BeamFifo implements Annotation {
 
-  @AnnotationElement
-  public Integer                           fifosize;
+  @AnnotationElement(hasDefaultValue = true)
+  public Integer                           fifosize = 10;
+  
+  @AnnotationElement(hasDefaultValue = true)
+  public boolean                           dynamic=false;
   
   private static final AnnotationTarget[] TARGETS = {
     ADLAnnotationTarget.BINDING};

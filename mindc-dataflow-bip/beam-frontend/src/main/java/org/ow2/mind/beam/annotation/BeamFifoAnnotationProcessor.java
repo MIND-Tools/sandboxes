@@ -132,7 +132,7 @@ public class BeamFifoAnnotationProcessor
   }
   
   protected void createFifoBufferImplementation(String name, String ifacename, 
-      String signature, Integer size, Definition comp_def,
+      String signature, Integer size, boolean isDynamic, Definition comp_def,
       MindInterface iface, final Map<Object, Object> context) throws ADLException{
     
     InterfaceDefinition ifacedef = itfSignatureResolverItf.resolve(iface,
@@ -176,6 +176,8 @@ public class BeamFifoAnnotationProcessor
           assert(returnType.equals(getTypeName(m)));
         }
         
+      } else if (m.getName().equals("size")){
+          assert(m.getParameters().length == 0);
       } else {
         assert(false);
       }
@@ -187,7 +189,12 @@ public class BeamFifoAnnotationProcessor
      * correct. We can generate code for both method
      */
 
-    StringTemplate fifo_st =  getTemplate("st.beam.fifo.Templates", "SimpleFifo");
+    StringTemplate fifo_st;
+    if (isDynamic){
+    	fifo_st =  getTemplate("st.beam.fifo.Templates", "DynamicFifo");
+    } else {
+    	fifo_st =  getTemplate("st.beam.fifo.Templates", "SimpleFifo");
+    }
     
     fifo_st.setAttribute("type", returnType);
     fifo_st.setAttribute("size", size);
@@ -199,7 +206,13 @@ public class BeamFifoAnnotationProcessor
   
     final Data data = CommonASTHelper.newNode(nodeFactoryItf, "data", Data.class);
 
-    StringTemplate fifo_data_st =  getTemplate("st.beam.fifo.Templates", "SimpleFifoData");
+    StringTemplate fifo_data_st;
+    
+    if (isDynamic){
+    	fifo_data_st =  getTemplate("st.beam.fifo.Templates", "DynamicFifoData");
+    } else {
+    	fifo_data_st =  getTemplate("st.beam.fifo.Templates", "SimpleFifoData");
+    }
     
     fifo_data_st.setAttribute("type", returnType);
     fifo_data_st.setAttribute("size", size);
@@ -209,7 +222,7 @@ public class BeamFifoAnnotationProcessor
     ((ImplementationContainer)comp_def).setData(data);
   }
   protected Component createFifoBufferComponent(String name, String ifacename, 
-      String signature, Integer size, final Map<Object, Object> context, Definition container_def) 
+      String signature, Integer size, boolean isDynamic, final Map<Object, Object> context, Definition container_def) 
       throws ADLException{
 
     buffer_uniq_id++;
@@ -233,7 +246,7 @@ public class BeamFifoAnnotationProcessor
     ((InterfaceContainer)new_bufdef).addInterface(iface);
     ((InterfaceContainer)new_bufdef).addInterface(iface_ctrl);
 
-    createFifoBufferImplementation(name, ifacename, signature, size,
+    createFifoBufferImplementation(name, ifacename, signature, size, isDynamic,
         new_bufdef, iface, context);
     
     DefinitionReference dr = ASTHelper.newDefinitionReference(nodeFactoryItf, 
@@ -336,7 +349,7 @@ public class BeamFifoAnnotationProcessor
       String signature = ((MindInterface)iface).getSignature();
 
       Component buffer_comp = createFifoBufferComponent(newbuffer_name, "buffer", 
-          signature, bt.fifosize, context, definition);
+          signature, bt.fifosize, bt.dynamic, context, definition);
       
       assert(buffer_comp != null);
       Definition buffer_def = defRefResolverItf.resolve(buffer_comp.getDefinitionReference(), 
