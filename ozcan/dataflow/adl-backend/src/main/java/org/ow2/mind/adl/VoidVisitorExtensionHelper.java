@@ -32,22 +32,24 @@ import java.util.Map;
 import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.CompilerError;
 import org.objectweb.fractal.adl.error.GenericErrors;
-import org.ow2.mind.Visitor;
+import org.ow2.mind.VoidVisitor;
 import org.ow2.mind.plugin.PluginManager;
 import org.ow2.mind.plugin.ast.Extension;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class VisitorExtensionHelper {
+public class VoidVisitorExtensionHelper {
 
-  public static final String                                 DEFINITION_COMPILER = "org.ow2.mind.adl.definition-compiler";
+  public static final String                                     DEFINITION_SOURCE_GENERATOR_EXTENSION = "org.ow2.mind.adl.definition-source-generators";
+  public static final String                                     INSTANCE_SOURCE_GENERATOR             = "org.ow2.mind.adl.instance-source-generators";
 
-  public static final String[]                               extensionPoints     = {DEFINITION_COMPILER};
+  public static final String[]                                   extensionPoints                       = {
+      DEFINITION_SOURCE_GENERATOR_EXTENSION, INSTANCE_SOURCE_GENERATOR                                 };
 
-  protected static Map<String, Collection<VisitorExtension>> visitorExtensions   = null;
+  protected static Map<String, Collection<VoidVisitorExtension>> visitorExtensions                     = null;
 
-  public static Collection<VisitorExtension> getVisitorExtensions(
+  public static Collection<VoidVisitorExtension> getVisitorExtensions(
       final String extensionPoint, final PluginManager pluginManagerItf,
       final Map<Object, Object> context) throws ADLException {
     if (visitorExtensions == null) {
@@ -59,14 +61,14 @@ public class VisitorExtensionHelper {
   protected static void initVisitorExtensions(
       final PluginManager pluginManagerItf, final Map<Object, Object> context)
       throws ADLException {
-    visitorExtensions = new HashMap<String, Collection<VisitorExtension>>();
+    visitorExtensions = new HashMap<String, Collection<VoidVisitorExtension>>();
     for (final String extensionPoint : extensionPoints) {
-      final Collection<VisitorExtension> extPointExtensions = new ArrayList<VisitorExtension>();
+      final Collection<VoidVisitorExtension> extPointExtensions = new ArrayList<VoidVisitorExtension>();
       visitorExtensions.put(extensionPoint, extPointExtensions);
       final Collection<Extension> extensions = pluginManagerItf.getExtensions(
           extensionPoint, context);
       for (final Extension extension : extensions) {
-        final VisitorExtension visitorExtension = new VisitorExtension();
+        final VoidVisitorExtension visitorExtension = new VoidVisitorExtension();
         extPointExtensions.add(visitorExtension);
         final NodeList nodes = getExtensionConfig(extension).getChildNodes();
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -83,18 +85,19 @@ public class VisitorExtensionHelper {
     }
   }
 
-  protected static final class VisitorExtension {
-    private Visitor<?, ?> visitor     = null;
-    private String        visitorName = null;
+  protected static final class VoidVisitorExtension {
+    private VoidVisitor<?> visitor     = null;
+    private String         visitorName = null;
 
-    public Visitor<?, ?> getVisitor() {
+    public VoidVisitor<?> getVisitor() {
       return visitor;
     }
 
     public void setVisitor(final String visitorClass) throws ADLException {
       try {
-        visitor = VisitorExtension.class.getClassLoader()
-            .loadClass(visitorClass).asSubclass(Visitor.class).newInstance();
+        visitor = VoidVisitorExtension.class.getClassLoader()
+            .loadClass(visitorClass).asSubclass(VoidVisitor.class)
+            .newInstance();
       } catch (final InstantiationException e) {
         throw new CompilerError(GenericErrors.GENERIC_ERROR, e,
             "Extension class '" + visitorClass + "' cannot be instantiated.");

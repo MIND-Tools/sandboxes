@@ -38,7 +38,7 @@ import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.VoidVisitor;
-import org.ow2.mind.adl.VisitorExtensionHelper.VisitorExtension;
+import org.ow2.mind.adl.VoidVisitorExtensionHelper.VoidVisitorExtension;
 import org.ow2.mind.adl.factory.FactoryGraphCompiler;
 import org.ow2.mind.adl.generic.GenericDefinitionNameSourceGenerator;
 import org.ow2.mind.adl.idl.IDLDefinitionSourceGenerator;
@@ -119,11 +119,11 @@ public final class ADLBackendFactory {
     }
 
     // Instantiate and bind the visitor extensions
-    final Collection<VisitorExtension> visitorExtensions = VisitorExtensionHelper
+    final Collection<VoidVisitorExtension> visitorExtensions = VoidVisitorExtensionHelper
         .getVisitorExtensions(
-            VisitorExtensionHelper.DEFINITION_SOURCE_GENERATOR_EXTENSION,
+            VoidVisitorExtensionHelper.DEFINITION_SOURCE_GENERATOR_EXTENSION,
             pluginManagerItf, context);
-    for (final VisitorExtension visitorExtension : visitorExtensions) {
+    for (final VoidVisitorExtension visitorExtension : visitorExtensions) {
       final VoidVisitor<Definition> visitor = (VoidVisitor<Definition>) visitorExtension
           .getVisitor();
       dsgd.visitorsItf.put(visitorExtension.getVisitorName(), visitor);
@@ -140,17 +140,41 @@ public final class ADLBackendFactory {
       final DefinitionSourceGenerator definitionSourceGenerator,
       final ImplementationLocator implementationLocator,
       final OutputFileLocator outputFileLocator,
-      final CompilerWrapper compilerWrapper, final MPPWrapper mppWrapper) {
+      final CompilerWrapper compilerWrapper, final MPPWrapper mppWrapper,
+      final PluginManager pluginManagerItf, final Map<Object, Object> context)
+      throws ADLException {
 
-    DefinitionCompiler definitionCompiler;
-    final BasicDefinitionCompiler bdc = new BasicDefinitionCompiler();
+    DefinitionCompiler definitionCompiler = null;
 
-    definitionCompiler = bdc;
-    bdc.definitionSourceGeneratorItf = definitionSourceGenerator;
-    bdc.implementationLocatorItf = implementationLocator;
-    bdc.outputFileLocatorItf = outputFileLocator;
-    bdc.compilerWrapperItf = compilerWrapper;
-    bdc.mppWrapperItf = mppWrapper;
+    // Instantiate and bind the visitor extensions
+    final Collection<VoidVisitorExtension> visitorExtensions = VoidVisitorExtensionHelper
+        .getVisitorExtensions(VisitorExtensionHelper.DEFINITION_COMPILER,
+            pluginManagerItf, context);
+
+    if (visitorExtensions == null || visitorExtensions.size() == 0) {
+      final BasicDefinitionCompiler bdc = new BasicDefinitionCompiler();
+      definitionCompiler = bdc;
+      bdc.definitionSourceGeneratorItf = definitionSourceGenerator;
+      bdc.implementationLocatorItf = implementationLocator;
+      bdc.outputFileLocatorItf = outputFileLocator;
+      bdc.compilerWrapperItf = compilerWrapper;
+      bdc.mppWrapperItf = mppWrapper;
+    } else if (visitorExtensions.size() == 1) {
+      for (final VoidVisitorExtension visitorExtension : visitorExtensions) {
+        final BasicDefinitionCompiler bdc = (BasicDefinitionCompiler) visitorExtension
+            .getVisitor();
+        definitionCompiler = bdc;
+        bdc.definitionSourceGeneratorItf = definitionSourceGenerator;
+        bdc.implementationLocatorItf = implementationLocator;
+        bdc.outputFileLocatorItf = outputFileLocator;
+        bdc.compilerWrapperItf = compilerWrapper;
+        bdc.mppWrapperItf = mppWrapper;
+      }
+    } else {
+      throw new CompilerError(GenericErrors.INTERNAL_ERROR,
+          "The extension point '" + VisitorExtensionHelper.DEFINITION_COMPILER
+              + "' cannot accept more than one extensions.");
+    }
 
     return definitionCompiler;
   }
@@ -194,8 +218,9 @@ public final class ADLBackendFactory {
     bindVisitorToDispatcher(isgd, instanceSourceGenerator, "instance");
 
     // Instance source generators
-    for (final VisitorExtension visitorExtension : VisitorExtensionHelper
-        .getVisitorExtensions(VisitorExtensionHelper.INSTANCE_SOURCE_GENERATOR,
+    for (final VoidVisitorExtension visitorExtension : VoidVisitorExtensionHelper
+        .getVisitorExtensions(
+            VoidVisitorExtensionHelper.INSTANCE_SOURCE_GENERATOR,
             pluginManagerItf, context)) {
       final VoidVisitor<?> visitor = visitorExtension.getVisitor();
       bindVisitorToDispatcher(isgd, visitor, visitorExtension.getVisitorName());

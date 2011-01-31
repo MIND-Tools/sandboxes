@@ -171,7 +171,7 @@ public class CompilerRunner {
             idlLoader, idlCompiler, stcLoader, pluginManager, context);
     definitionCompiler = ADLBackendFactory.newDefinitionCompiler(
         definitionSourceGenerator, implementationLocator, outputFileLocator,
-        compilerWrapper, mppWrapper);
+        compilerWrapper, mppWrapper, pluginManager, context);
     graphCompiler = ADLBackendFactory.newGraphCompiler(inputResourceLocator,
         implementationLocator, outputFileLocator, compilerWrapper, mppWrapper,
         definitionCompiler, adlLoader, stcLoader, pluginManager, context);

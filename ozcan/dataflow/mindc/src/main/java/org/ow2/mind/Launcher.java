@@ -535,7 +535,7 @@ public class Launcher extends AbstractLauncher {
 
     definitionCompiler = ADLBackendFactory.newDefinitionCompiler(
         definitionSourceGenerator, implementationLocator, outputFileLocator,
-        compilerWrapper, mppWrapper);
+        compilerWrapper, mppWrapper, pluginManager, compilerContext);
     graphCompiler = ADLBackendFactory.newGraphCompiler(inputResourceLocator,
         implementationLocator, outputFileLocator, compilerWrapper, mppWrapper,
         definitionCompiler, adlLoader, stcLoader, pluginManager,
