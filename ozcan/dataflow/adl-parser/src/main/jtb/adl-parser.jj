@@ -532,7 +532,7 @@ void SubComponentDefinition() : {}
 
 void SimpleSubComponentReference() : {}
 {
-  [ CompositeDefinitionReference() ] <AS> <IDENTIFIER> 
+  [ CompositeDefinitionReference() ] <AS> <IDENTIFIER> (<COMMA> <IDENTIFIER>)*
   
   [ LOOKAHEAD( (Annotation())* ( <PRIMITIVE> | <COMPOSITE> ))
     ( LOOKAHEAD( (Annotation())* <PRIMITIVE> ) PrimitiveAnonymousDefinition() 

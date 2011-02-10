@@ -442,6 +442,9 @@ public class EndTokenVisitor extends GJNoArguDepthFirst<NodeToken> {
 
   @Override
   public NodeToken visit(final SimpleSubComponentReference n) {
+    final NodeToken t = n.f3.accept(this);
+    if (t != null) return t;
+
     return n.f2;
   }
 

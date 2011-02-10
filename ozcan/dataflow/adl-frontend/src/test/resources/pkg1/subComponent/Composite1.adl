@@ -1,0 +1,5 @@
+
+composite pkg1.subComponent.Composite1 {
+  
+  contains pkg1.pkg2.Primitive1 as subComp1, subComp2;
+}

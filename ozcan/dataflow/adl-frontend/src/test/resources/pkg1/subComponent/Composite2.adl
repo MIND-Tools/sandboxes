@@ -1,0 +1,8 @@
+
+composite pkg1.subComponent.Composite2 {
+  
+  contains as subComp1, subComp2
+    primitive {
+      provides I1 as sItf;
+    };
+}

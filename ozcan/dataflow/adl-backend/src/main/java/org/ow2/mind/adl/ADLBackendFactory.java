@@ -38,6 +38,7 @@ import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.ow2.mind.InputResourceLocator;
 import org.ow2.mind.VoidVisitor;
+import org.ow2.mind.adl.VisitorExtensionHelper.VisitorExtension;
 import org.ow2.mind.adl.VoidVisitorExtensionHelper.VoidVisitorExtension;
 import org.ow2.mind.adl.factory.FactoryGraphCompiler;
 import org.ow2.mind.adl.generic.GenericDefinitionNameSourceGenerator;
@@ -147,7 +148,7 @@ public final class ADLBackendFactory {
     DefinitionCompiler definitionCompiler = null;
 
     // Instantiate and bind the visitor extensions
-    final Collection<VoidVisitorExtension> visitorExtensions = VoidVisitorExtensionHelper
+    final Collection<VisitorExtension> visitorExtensions = VisitorExtensionHelper
         .getVisitorExtensions(VisitorExtensionHelper.DEFINITION_COMPILER,
             pluginManagerItf, context);
 
@@ -160,7 +161,7 @@ public final class ADLBackendFactory {
       bdc.compilerWrapperItf = compilerWrapper;
       bdc.mppWrapperItf = mppWrapper;
     } else if (visitorExtensions.size() == 1) {
-      for (final VoidVisitorExtension visitorExtension : visitorExtensions) {
+      for (final VisitorExtension visitorExtension : visitorExtensions) {
         final BasicDefinitionCompiler bdc = (BasicDefinitionCompiler) visitorExtension
             .getVisitor();
         definitionCompiler = bdc;

@@ -866,10 +866,16 @@ public class JTBProcessor extends GJDepthFirst<Node, Node>
     }
 
     // process name
-    comp.setName(n.f2.tokenImage);
+    String nameList = n.f2.tokenImage;
+    for (final org.ow2.mind.adl.jtb.syntaxtree.Node subN : n.f3.nodes) {
+      assert subN instanceof NodeSequence;
+      nameList += ","
+          + ((NodeToken) ((NodeSequence) subN).elementAt(1)).tokenImage;
+    }
+    comp.setName(nameList);
 
     // process anonymous definition
-    if (n.f3.present()) {
+    if (n.f4.present()) {
       if (comp instanceof FormalTypeParameterReference
           && ((FormalTypeParameterReference) comp).getTypeParameterReference() != null) {
         // both reference to template parameter and anonymous definition
@@ -881,7 +887,7 @@ public class JTBProcessor extends GJDepthFirst<Node, Node>
           // ignore.
         }
       }
-      n.f3.accept(this, comp);
+      n.f4.accept(this, comp);
     } else if (!hasDefRef) {
       // neither defRef nor anonymous definition
       try {
