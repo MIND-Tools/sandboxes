@@ -35,3 +35,9 @@ void METH(filterctrl, act) (int c){
     PRIVATE.ptr = (PRIVATE.ptr+1)%256;
   END_ACT_LOOP
 }
+
+
+
+int METH(filterctrl, activated)(){
+  return 1;
+}

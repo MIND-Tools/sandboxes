@@ -11,3 +11,7 @@ void METH(filterctrl, act) (int c){
   }
 
 }
+
+int METH(filterctrl, activated)(){
+  return 1;
+}

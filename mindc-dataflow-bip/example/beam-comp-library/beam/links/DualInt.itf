@@ -8,4 +8,5 @@ interface beam.links.DualInt {
   dualint_t get (void);
   void put (dualint_t x);
   dualint_t peek (int i);
+  int size();
 }

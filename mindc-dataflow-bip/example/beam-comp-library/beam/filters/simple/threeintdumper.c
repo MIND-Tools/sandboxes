@@ -15,3 +15,8 @@ void METH(filterctrl, act) (int c){
     printf("%d %d %d\n", z1, z2, z3);
   END_ACT_LOOP
 }
+
+
+int METH(filterctrl, activated)(){
+  return 1;
+}

@@ -11,3 +11,9 @@ START_ACT_LOOP
     printf("%d\n", z);
 END_ACT_LOOP
 }
+
+
+
+int METH(filterctrl, activated)(){
+  return 1;
+}

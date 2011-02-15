@@ -16,3 +16,9 @@ START_ACT_LOOP
     CALL(output, put)(PRIVATE.max);
 END_ACT_LOOP  
 }
+
+
+
+int METH(filterctrl, activated)(){
+  return 1;
+}

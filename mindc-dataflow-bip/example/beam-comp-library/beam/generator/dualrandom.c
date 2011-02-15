@@ -13,3 +13,8 @@ void METH(filterctrl, act) (int c){
     CALL(output, put)(r);
   }
 }
+
+
+int METH(filterctrl, activated)(){
+  return 1;
+}
