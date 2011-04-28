@@ -71,6 +71,7 @@ import org.ow2.mind.idl.ast.Parameter;
 import org.ow2.mind.idl.ast.PointerOf;
 import org.ow2.mind.idl.ast.PrimitiveType;
 import org.ow2.mind.idl.ast.Type;
+import org.ow2.mind.idl.ast.TypeDefReference;
 import org.ow2.mind.io.OutputFileLocator;
 import org.ow2.mind.st.StringTemplateComponentLoader;
 
@@ -246,6 +247,12 @@ public class BipDefinitionSourceGenerator implements BindingController,
       return mindName.replace(".","__");
   }
   
+  /**
+   * Converts a mind data type into a string
+   * @param t the mind data type
+   * @return a String representing the mind type
+   * @throws ADLException in case the type cannot be stringified
+   */
   private static String typeToString(Type t) throws ADLException{
       String pointer_suffix = "";
       String the_type = null;
@@ -256,6 +263,9 @@ public class BipDefinitionSourceGenerator implements BindingController,
       
       if (t instanceof PrimitiveType){
           PrimitiveType pt = (PrimitiveType)t;
+          the_type = pt.getName() + pointer_suffix;
+      } else if (t instanceof TypeDefReference){
+          TypeDefReference pt = (TypeDefReference)t;
           the_type = pt.getName() + pointer_suffix;
       } else {
           throw new ADLException(BeamErrors.BEAM_ERROR);
@@ -273,11 +283,13 @@ public class BipDefinitionSourceGenerator implements BindingController,
       State idle = BipCreator.createState(behav, "IDLE", true);
       State in_state = BipCreator.createState(behav, "IN", true);
       State out_state = BipCreator.createState(behav, "OUT", true);
+      State peek_state = BipCreator.createState(behav, "PEEK", true);
       
       DataType dt = BipCreator.createDataType(typename, this.model);
+      DataType dsizet = BipCreator.createDataType("int", this.model);
+
       DataType fifo_type = BipCreator.createDataType("fifo_" + typename + buffer_uniq_id +"_t", this.model);
 
-      
       DataParameter dpi = BipCreator.createDataParameter("ind", dt);
       DataParameter dpo = BipCreator.createDataParameter("outd", dt);
 
@@ -285,13 +297,20 @@ public class BipDefinitionSourceGenerator implements BindingController,
       
       Variable inv = BipCreator.createVariable(dt, "inv", buffer, false, false);
       Variable outv = BipCreator.createVariable(dt, "outv", buffer, false, false);
+      Variable sizev = BipCreator.createVariable(dsizet, "sizev", buffer, false, false);
+      Variable peekv = BipCreator.createVariable(dsizet, "peekv", buffer, false, false);
+
       Variable innerfifo = BipCreator.createVariable(fifo_type, "innerfifo", buffer, false, false);
       
       PortDefinition pin_s = BipCreator.createPortDefinitionAndExport(pt_buf, "in_S", new Variable[]{inv}, buffer);
       PortDefinition pin_e = BipCreator.createPortDefinitionAndExport(pt_buf, "in_E", new Variable[]{inv}, buffer);
       PortDefinition pout_s = BipCreator.createPortDefinitionAndExport(pt_buf, "out_S", new Variable[]{outv}, buffer);
       PortDefinition pout_e = BipCreator.createPortDefinitionAndExport(pt_buf, "out_E", new Variable[]{outv}, buffer);
-      
+      PortDefinition ppeek_s = BipCreator.createPortDefinitionAndExport(pt_buf, "peek_S", new Variable[]{peekv}, buffer);
+      PortDefinition ppeek_e = BipCreator.createPortDefinitionAndExport(pt_buf, "peek_E", new Variable[]{outv}, buffer);
+      PortDefinition psize = BipCreator.createPortDefinitionAndExport(pt_buf, "size_S", new Variable[]{sizev}, buffer);
+
+      // push transition
       Transition push_trans = BipCreator.createTransition(pin_s, null, idle, in_state, buffer);
       CompositeAction ca = BipCreator.createCompositeAction();
       push_trans.setAction(ca);
@@ -304,11 +323,24 @@ public class BipDefinitionSourceGenerator implements BindingController,
       
       BipCreator.createTransition(pin_e, null, in_state, idle, buffer);
       
+      // Peek transition
+      Transition peek_trans = BipCreator.createTransition(ppeek_s, null, idle, peek_state, buffer);
+      BipCreator.createTransition(ppeek_e, null, peek_state, idle, buffer);
+      ca = BipCreator.createCompositeAction();
+      peek_trans.setAction(ca);
+      VariableReference out_vr = BipCreator.createVariableReference(outv);
+      fce = BipCreator.createFunctionCallExpression("_peek_" + typename + buffer_uniq_id, new Expression[]{
+              BipCreator.createFunctionCallExpression("R", new Expression[]{BipCreator.createVariableReference(innerfifo)})
+      });
+      
+      ca.getContent().add(BipCreator.createAssignmentAction(out_vr, fce));
+      
+      // pop transition
       Transition pop_trans = BipCreator.createTransition(pout_s, null, idle, out_state, buffer);
       BipCreator.createTransition(pout_e, null, out_state, idle, buffer);
       ca = BipCreator.createCompositeAction();
       pop_trans.setAction(ca);
-      VariableReference out_vr = BipCreator.createVariableReference(outv);
+      out_vr = BipCreator.createVariableReference(outv);
       fce = BipCreator.createFunctionCallExpression("_pop_" + typename + buffer_uniq_id, new Expression[]{
               BipCreator.createFunctionCallExpression("R", new Expression[]{BipCreator.createVariableReference(innerfifo)})
       });
@@ -435,12 +467,19 @@ public class BipDefinitionSourceGenerator implements BindingController,
                 "#define BEAM_PARSE_SHIELD\n" +
                 "#define START_ACT_LOOP \n" +
                 "#define END_ACT_LOOP \n" +
+                "\n/* for interface methods */ \n" +
                 "#define METH(x,y) x##__##y\n" +
                 "#define CALL(x,y) x##__##y\n" +
+                "\n/* for private method */\n"+
+                "#define PMETH(x) __priv_##x\n"+
+                "#define PCALL(x) __priv_##x\n" +
+                
                 "#define ATTR(x) attr_##x\n";
             
+//            local_c_context += "typedef struct _frame_t {  int len;  unsigned char *buffer;} frame_t;\n";
+            
             Data data = ic.getData();
-            if (data != null){
+            if (data != null && data.getCCode() != null){
                 local_c_context += data.getCCode() + "\n";
             }
             
@@ -448,9 +487,9 @@ public class BipDefinitionSourceGenerator implements BindingController,
                 C2BIPVisitor c2bipVisitor= new C2BIPVisitor(ENTRY_METHOD_IN_FILTERS,
                         mindToBipMangleName(input.getName()), attributes,
                         this.model, true);
-                
-                Module res = C2BIPUtil.c2bipAsModel(f.getFile(), ENTRY_METHOD_IN_FILTERS,
-                        mindToBipMangleName(input.getName()), true, local_c_context, 
+                System.out.println("File: " + f.toString());
+                Module res = C2BIPUtil.c2bipAsModel(f.getFile(), 
+                		true, local_c_context, 
                         ips_array, this.model, c2bipVisitor);
             } catch (Exception e) {
                 throw new ADLException(BeamErrors.BEAM_ERROR, e);
