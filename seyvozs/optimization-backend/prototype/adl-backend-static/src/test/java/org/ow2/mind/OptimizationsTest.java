@@ -16,7 +16,7 @@
  *
  * Contact: mind@ow2.org, sseyvoz@assystem.com
  *
- * Authors: Stephane Seyvoz, Assystem (for Schneider-Electric)
+ * Authors: Stéphane Seyvoz, Assystem (for Schneider-Electric)
  * Contributors: 
  */
 
@@ -26,41 +26,33 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.objectweb.fractal.adl.ADLException;
 import org.objectweb.fractal.adl.Definition;
 import org.objectweb.fractal.adl.util.FractalADLLogManager;
-import org.ow2.mind.adl.annotation.predefined.Compile;
-import org.ow2.mind.adl.annotation.predefined.CompileDef;
-import org.ow2.mind.adl.annotation.predefined.GarbageUnusedInternals;
 import org.ow2.mind.adl.annotation.predefined.Run;
-import org.ow2.mind.annotation.Annotation;
 import org.ow2.mind.annotation.AnnotationHelper;
 import org.ow2.mind.unit.UnitTestDataProvider;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.ow2.mind.adl.annotation.predefined.StaticBindings;
 
 public class OptimizationsTest extends AbstractOptimizationTest {
 
 	protected static Logger logger = FractalADLLogManager.getLogger("optimizations-test");
-
-	private static Object[][] data;
-
+	
 	@Override
 	protected void initPath() {
 		initSourcePath(getDepsDir("fractal/api/Component.itf").getAbsolutePath(),
 				"common", SRC_ROOT);
 	}
 
-	/* 
+	/**
+	 * This method builds a set of tests based on all possible combinations of optimizations at the
+	 * root level of applications. All combinations are applied to every @Run-annotated components,
+	 * including legacy tests.
+	 * 
 	 * Data providing inspired from the following tutorial/blog (in french) :
 	 * http://blog.paumard.org/2011/09/11/testng-et-ses-dataprovider/
 	 */
@@ -93,6 +85,9 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 
 				final Definition d = runner.load(adlName);
 				final Run runAnno = AnnotationHelper.getAnnotation(d, Run.class);
+				
+				// Only add the test case to the list if it's @Run-annotated
+				// (useless test case otherwise : gain some execution time !)
 				if (runAnno != null)
 					tmpList.add(new Object[] { new TestCase(rootDir, adlName, annoCombo, flags) });
 			}
@@ -102,6 +97,12 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 	}
 
 
+	/**
+	 * @param testCase The current generated TestCase to run.
+	 * The TestCase is a row from the DataProvider, and consists of a path and an ADL name issued from a combination
+	 * of optimisations (with the help of templates/generics).
+	 * @throws Exception
+	 */
 	@Test(dataProvider = "complex-optimizations-test", groups = {"optimizations"})
 	public void optimizationsComplexDataTest(TestCase testCase)
 			throws Exception {
@@ -136,7 +137,7 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 			}
 
 			File exeFile = runner.compile(adl, runAnno.executableName);
-			final int r = runner.run(exeFile, null);
+			final int r = runner.run(exeFile, (String[]) null);
 
 			assertEquals(r, 0, "Unexpected return value");
 
@@ -146,63 +147,6 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 		}
 
 	}
-
-	//	@DataProvider(name = "simple-optimizations-test")
-	//	protected Object[][] simpleDataProvider() throws Exception {
-	//		return UnitTestDataProvider.listADLs(SRC_ROOT);
-	//	}
-
-	//	@Test(dataProvider = "simple-optimizations-test", groups = {"optimizations"})
-	//	public void optimizationsSimpleDataTest(final String rootDir, final String adlName)
-	//			throws Exception {
-	//		initSourcePath(getDepsDir("fractal/api/Component.itf").getAbsolutePath(),
-	//				"common", rootDir);
-	//
-	//		final Definition d = runner.load(adlName);
-	//		final Run runAnno = AnnotationHelper.getAnnotation(d, Run.class);
-	//		if (runAnno != null) {
-	//
-	//			Collection<Annotation> optimAnnotations = new HashSet<Annotation>();
-	//			List<String> flags = new ArrayList<String>();
-	//			flags.add("-D__MIND_NO_FACTORY");
-	//
-	//			StaticBindings simpleSBAnno = new StaticBindings();
-	//			StaticBindings recursiveSBAnno = new StaticBindings();
-	//			simpleSBAnno.recursive = false;
-	//			recursiveSBAnno.recursive = true;
-	//
-	//			GarbageUnusedInternals simpleGUIAnno = new GarbageUnusedInternals();
-	//			GarbageUnusedInternals recursiveGUIAnno = new GarbageUnusedInternals();
-	//			simpleGUIAnno.recursive = false;
-	//			recursiveGUIAnno.recursive = true;
-	//
-	//			StaticBindings sbCases[] = {null, simpleSBAnno, recursiveSBAnno};
-	//			GarbageUnusedInternals guiCases[] = {null, simpleGUIAnno, recursiveGUIAnno};
-	//
-	//			for (StaticBindings sbAnno : sbCases){
-	//				for (GarbageUnusedInternals guiAnno : guiCases) {
-	//					if (sbAnno != null)
-	//						optimAnnotations.add(sbAnno);
-	//					if (guiAnno != null)
-	//						optimAnnotations.add(guiAnno);
-	//
-	//					// Note : every call to processOptimizationsTest has its compilation context reinitialized
-	//					//processOptimizationsTest(adlName, runAnno, optimAnnotations, null);
-	//					processOptimizationsTest(adlName, runAnno, optimAnnotations, flags);
-	//
-	//					if (sbAnno != null)
-	//						optimAnnotations.remove(sbAnno);
-	//					if (guiAnno != null)
-	//						optimAnnotations.remove(guiAnno);
-	//				}
-	//			}
-	//
-	//		} else {
-	//			if (logger.isLoggable(Level.FINE))
-	//				logger.log(Level.FINE, "Skipped test on ADL " + adlName + " : no @Run annotation was found.");
-	//		}
-	//
-	//	}
 
 	protected class TestCase {
 
@@ -222,7 +166,6 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 		}
 
 		public String toString(){
-			String result;
 			String flagsStr;
 			String optimStr;
 
@@ -238,11 +181,10 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 		}
 
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	//-------------------------- OLD SIMPLE TEST ---------------------------//
-	//////////////////////////////////////////////////////////////////////////
-
+	
+	/**
+	 * The most basic test.
+	 */
 	@Test(groups = {"optimizations"})
 	public void basicHelloworldTest()
 			throws Exception {
@@ -266,7 +208,7 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 							: adlName;
 
 			File exeFile = runner.compile(adl, runAnno.executableName);
-			final int r = runner.run(exeFile, null);
+			final int r = runner.run(exeFile, (String[]) null);
 
 			assertEquals(r, 0, "Unexpected return value");
 
@@ -277,9 +219,9 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 
 	}
 
-	/*
+	/**
 	 * Alternate @StaticBindings optimization/no optimization/optimization.
-	 * No useless internal data garbaging (empty structs remain and no optimization propagation done).
+	 * No internal data garbaging (empty structs remain and no optimization propagation done).
 	 */
 	@Test(groups = {"optimizations"})
 	public void partialAlternateOptimizationsTest()
@@ -296,13 +238,13 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 		runner.addCFlags(flags);
 
 		File exeFile = runner.compile(adlName, null);
-		final int r = runner.run(exeFile, null);
+		final int r = runner.run(exeFile, (String[]) null);
 
 		assertEquals(r, 0, "Unexpected return value");
 	}
 	
-	/*
-	 * Same as previously but with useless internal data garbaging (recursively on the whole architecture).
+	/**
+	 * Same as partialAlternateOptimizationsTest() but with internal data garbaging (recursively on the whole architecture).
 	 */
 	@Test(groups = {"optimizations"})
 	public void partialAlternateOptimizationsTestWithGUIr()
@@ -319,7 +261,7 @@ public class OptimizationsTest extends AbstractOptimizationTest {
 		runner.addCFlags(flags);
 
 		File exeFile = runner.compile(adlName, null);
-		final int r = runner.run(exeFile, null);
+		final int r = runner.run(exeFile, (String[]) null);
 
 		assertEquals(r, 0, "Unexpected return value");
 	}
