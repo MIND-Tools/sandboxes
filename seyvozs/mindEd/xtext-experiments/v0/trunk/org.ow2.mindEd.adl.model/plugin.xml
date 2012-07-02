@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+<plugin>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://org.ow2.mindEd/adl.ecore/0.2.0"
+            class="org.ow2.mindEd.adl.AdlPackage"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.factory_override">
+      <factory
+            class="org.ow2.mindEd.adl.custom.impl.factory.AdlFactoryCustomImpl"
+            uri="http://org.ow2.mindEd/adl.ecore/0.2.0">
+      </factory>
+    </extension>
+</plugin>

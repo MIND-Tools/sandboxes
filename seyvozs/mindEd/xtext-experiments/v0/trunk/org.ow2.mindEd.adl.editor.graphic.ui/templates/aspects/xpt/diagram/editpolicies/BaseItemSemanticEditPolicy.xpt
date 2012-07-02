@@ -1,0 +1,12 @@
+«AROUND getCreateCommand FOR gmfgen::GenDiagram-»
+«EXPAND xpt::Common::generatedMemberComment»
+protected org.eclipse.gef.commands.Command getCreateCommand(org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest req) {
+	int creationMode = org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxyFactory.INSTANCE.getMindProxyFor(getHost()).getCreationMode();
+	if (creationMode == org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.IMindTypes.CREATION_MODE_PARENT)
+		return org.ow2.mindEd.adl.editor.graphic.ui.custom.helpers.ItemSemanticEditPolicyHelper.getParentsCreateCommand(req, getHost());
+	else if (creationMode == org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.IMindTypes.CREATION_MODE_CHILD)
+		return org.ow2.mindEd.adl.editor.graphic.ui.custom.helpers.ItemSemanticEditPolicyHelper.getChildrenCreateCommand(req, getHost());
+	else
+		return null;
+}
+«ENDAROUND»

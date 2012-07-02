@@ -1,0 +1,9 @@
+interface components.Service {
+
+	void setMeter(int meterIndex, int newValue);
+	
+	int getMeter(int meterIndex);
+	
+	int* getAllMeters();
+
+}

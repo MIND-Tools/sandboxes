@@ -1,0 +1,10 @@
+import org.ow2.mindEd.ide.model.*;
+
+
+public class CLASS
+ {
+   public String generate(MindAdl adl, String... contains)
+   {
+     return "";
+   }
+ }

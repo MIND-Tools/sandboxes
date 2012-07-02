@@ -1,0 +1,35 @@
+
+«IMPORT 'http://www.eclipse.org/gmf/2009/GenModel'»
+«IMPORT 'http://www.eclipse.org/emf/2002/Ecore'»
+«EXTENSION xpt::editor::palette::Utils»
+«EXTENSION xpt::editor::palette::PaletteFactory»
+
+
+«AROUND createGroup FOR gmfgen::ToolGroup-»
+«REM»Change to protected«ENDREM»
+	«EXPAND xpt::Common::generatedMemberComment('Creates \"' + title + '\" palette tool group')»
+	protected org.eclipse.gef.palette.PaletteContainer «createMethodName»() {
+		«EXPAND xpt::editor::palette::PaletteFactory::newContainer('paletteContainer')-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setIdentity('paletteContainer')-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setDescription('paletteContainer', self) FOR description-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setSmallImage('paletteContainer', palette)-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setLargeImage('paletteContainer', palette)-»
+		«EXPAND xpt::editor::palette::PaletteFactory::addEntry('paletteContainer') FOREACH entries-»
+		return paletteContainer;
+	}
+«ENDAROUND»
+
+
+«AROUND createEntry FOR gmfgen::AbstractToolEntry-»
+«REM»Change to protected«ENDREM»
+	«EXPAND xpt::Common::generatedMemberComment»
+	protected org.eclipse.gef.palette.ToolEntry «createMethodName»() {
+		«EXPAND xpt::editor::palette::PaletteFactory::newEntry('entry')-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setIdentity('entry')-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setSmallImage('entry', group.palette)-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setLargeImage('entry', group.palette)-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setToolClass('entry')-»
+		«EXPAND xpt::editor::palette::PaletteFactory::setToolProperty('entry') FOREACH properties-»
+		return entry;
+	}
+«ENDAROUND»

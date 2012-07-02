@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trace:TraceModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:trace="http://www.eclipse.org/gmf/2006/Trace">
+  <nodeTraces
+      visualID="2007"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeComponentDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AdlDefinition') and _containmentMF_.name = 'architecturedefinition')">
+    <nodeLabelTraces
+        visualID="5113"
+        queryText="true"/>
+  </nodeTraces>
+  <nodeTraces
+      visualID="2008"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'PrimitiveComponentDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AdlDefinition') and _containmentMF_.name = 'architecturedefinition')">
+    <nodeLabelTraces
+        visualID="5117"
+        queryText="true"/>
+  </nodeTraces>
+  <nodeTraces
+      visualID="2009"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ComponentTypeDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AdlDefinition') and _containmentMF_.name = 'architecturedefinition')">
+    <nodeLabelTraces
+        visualID="5119"
+        queryText="true"/>
+  </nodeTraces>
+  <childNodeTraces
+      visualID="3096"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TemplateSpecifiersList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeComponentDefinition') and _containmentMF_.name = 'templateSpecifiersList')">
+    <compartmentTraces
+        visualID="7065"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3097"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TemplateSpecifier') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TemplateSpecifiersList') and _containmentMF_.name = 'templateSpecifiers')">
+    <nodeLabelTraces
+        visualID="5090"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3098"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TypeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TemplateSpecifier') and _containmentMF_.name = 'reference')">
+    <nodeLabelTraces
+        visualID="5089"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3099"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'FormalArgumentsList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeComponentDefinition') and _containmentMF_.name = 'compositeFormalArgumentsList')">
+    <compartmentTraces
+        visualID="7066"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3100"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'FormalArgument') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'FormalArgumentsList') and _containmentMF_.name = 'formalArguments')">
+    <nodeLabelTraces
+        visualID="5091"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3101"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeReferencesList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'referencesList')">
+    <compartmentTraces
+        visualID="7067"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3102"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ReferencesList') and _containmentMF_.name = 'references')">
+    <nodeLabelTraces
+        visualID="5095"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7068"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3103"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArgumentDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ComponentReference') and _containmentMF_.name = 'argumentsList')">
+    <nodeLabelTraces
+        visualID="5092"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3104"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TemplateDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ComponentReference') and _containmentMF_.name = 'templatesList')">
+    <nodeLabelTraces
+        visualID="5094"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7069"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3105"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TemplateSpecifier') and _containmentMF_.name = 'reference')">
+    <nodeLabelTraces
+        visualID="5093"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7070"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3115"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'FileC') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ImplementationDefinition') and _containmentMF_.name = 'fileC')">
+    <nodeLabelTraces
+        visualID="5100"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3116"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'InlineCodeC') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ImplementationDefinition') and _containmentMF_.name = 'inlineCcode')">
+    <nodeLabelTraces
+        visualID="5101"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3118"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'FileC') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'DataDefinition') and _containmentMF_.name = 'fileC')">
+    <nodeLabelTraces
+        visualID="5103"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3119"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'InlineCodeC') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'DataDefinition') and _containmentMF_.name = 'inlineCcode')">
+    <nodeLabelTraces
+        visualID="5104"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3123"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'FormalArgumentsList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'PrimitiveComponentDefinition') and _containmentMF_.name = 'primitiveFormalArgumentsList')">
+    <compartmentTraces
+        visualID="7081"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3124"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'PrimitiveReferencesList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'referencesList')">
+    <nodeLabelTraces
+        visualID="5116"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7082"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3125"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'PrimitiveReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ReferencesList') and _containmentMF_.name = 'references')">
+    <nodeLabelTraces
+        visualID="5115"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7083"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3127"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TypeReferencesList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'referencesList')">
+    <compartmentTraces
+        visualID="7085"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3128"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TypeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ReferencesList') and _containmentMF_.name = 'references')">
+    <nodeLabelTraces
+        visualID="5118"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3129"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeBody') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')">
+    <compartmentTraces
+        visualID="7097"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3130"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'InterfaceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5120"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3131"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5123"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3132"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentDefinition') and _containmentMF_.name = 'referenceDefinition')">
+    <nodeLabelTraces
+        visualID="5122"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3135"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5128"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3137"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'PrimitiveBody') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')">
+    <compartmentTraces
+        visualID="7098"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3138"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AttributeDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5125"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3139"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'DataDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5126"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7104"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3140"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ImplementationDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5127"
+        queryText="true"/>
+    <compartmentTraces
+        visualID="7103"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3142"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TypeBody') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')">
+    <compartmentTraces
+        visualID="7095"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3143"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')"/>
+  <childNodeTraces
+      visualID="3145"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Annotation') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationsList') and _containmentMF_.name = 'annotations')">
+    <nodeLabelTraces
+        visualID="5130"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3146"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationElement') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Annotation') and _containmentMF_.name = 'annotationElements')">
+    <nodeLabelTraces
+        visualID="5129"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3147"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationsList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeComponentDefinition') and _containmentMF_.name = 'annotationsList')">
+    <compartmentTraces
+        visualID="7099"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3148"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ConstantValue') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationElement') and _containmentMF_.name = 'elementValue')">
+    <nodeLabelTraces
+        visualID="5131"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3149"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Annotation') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationElement') and _containmentMF_.name = 'elementValue')">
+    <nodeLabelTraces
+        visualID="5132"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3150"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationsList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Element') and _containmentMF_.name = 'annotationsList')">
+    <compartmentTraces
+        visualID="7100"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3151"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationsList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'PrimitiveComponentDefinition') and _containmentMF_.name = 'annotationsList')">
+    <compartmentTraces
+        visualID="7101"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3152"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'AnnotationsList') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ComponentTypeDefinition') and _containmentMF_.name = 'annotationsList')">
+    <compartmentTraces
+        visualID="7102"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3153"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'Body') and _containmentMF_.name = 'elements')">
+    <nodeLabelTraces
+        visualID="5134"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3157"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentDefinition') and _containmentMF_.name = 'referenceDefinition')">
+    <nodeLabelTraces
+        visualID="5136"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3159"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'TypeBody') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')">
+    <compartmentTraces
+        visualID="7105"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3160"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'CompositeReferenceDefinition') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentDefinition') and _containmentMF_.name = 'referenceDefinition')">
+    <nodeLabelTraces
+        visualID="5138"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3161"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentCompositeBody') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')">
+    <compartmentTraces
+        visualID="7106"
+        queryText="true"/>
+  </childNodeTraces>
+  <childNodeTraces
+      visualID="3162"
+      queryText="(let _eClass_:ecore::EClass = modelFacet.metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'SubComponentPrimitiveBody') and (let _containmentMF_:ecore::EStructuralFeature = modelFacet.containmentMetaFeature.ecoreFeature in (let _eClass_:ecore::EClass = _containmentMF_.eContainingClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'ArchitectureDefinition') and _containmentMF_.name = 'body')">
+    <compartmentTraces
+        visualID="7107"
+        queryText="true"/>
+  </childNodeTraces>
+  <linkTraces
+      visualID="4003"
+      queryText="modelFacet.oclIsKindOf(gmfgen::TypeLinkModelFacet) and (let _eClass_:ecore::EClass = modelFacet.oclAsType(gmfgen::TypeLinkModelFacet).metaClass.ecoreClass in _eClass_.ePackage.nsURI = 'http://org.ow2.mindEd/adl.ecore/0.2.0' and _eClass_.name = 'BindingDefinition')"/>
+</trace:TraceModel>

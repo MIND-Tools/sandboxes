@@ -1,0 +1,9 @@
+# define COLLECTION_SIZE 2
+
+interface components.Control {
+
+	void set(int newValue);
+	
+	int get();
+
+}

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.ow2.mindEd.feature.sdk"
+      label="%featureName"
+      version="0.3.0.qualifier"
+      provider-name="%providerName">
+
+   <description>
+      Le projet MIND veut proposer à la communauté industrielle et
+académique du logiciel embarqué une technologie d’assemblage
+de composants logiciels fondamentale, robuste, stable et pérenne,
+adaptable aux problématiques métiers de chacun. Il s’agit de
+permettre la composition et la distribution efficace – taille,
+performances à l’exécution - d’applications profondément embarquées
+à destination des plateformes métiers développées par les partenaires
+industriels du projet. Cette proposition est unique en son genre.
+Pour atteindre cet objectif, le projet MIND se propose sur une
+durée de 2 ans de capitaliser sur les démarches industrielles
+internes entamées par certains partenaires du pôle (STMicroelectronics,
+Schneider Electric) ainsi que sur un écosystème R&amp;D local riche
+(Fractal – ObjectWeb II, INRIA-Sardes, INRIA-Lille, Verimag,
+LIG (Adele)) auquel ces mêmes industriels participent. La solution
+technique de composition sera donc développée suivant une démarche
+d’industrialisation et à partir de briques techniques et prototypes
+existants, et dont la maturité permet aujourd’hui d’envisager
+cette industrialisation avec un risque réduit.
+Ces développements seront organisés sur une base de logiciel
+libre, et sous la houlette d’une gouvernance pluri-partenaires
+et pluridisciplinaire (industrie, académie, PME) que le projet
+établira et dotera de moyens afin d’assurer cohérence des développements,
+promotion de l’approche et pérennité du projet. Ces développements
+proposeront des langages de programmation à base de composants
+adaptés à l’embarqué (dialecte C, ADL, IDL), une chaine de compilation
+d’architecture, un IDE graphique intégré à Eclipse et des facilités
+cruciales. Ces développements auront la particularité et l’originalité
+d’être extensibles et adaptables en fonction des contraintes
+métiers (langages, déploiement, génération de code, vues graphiques,
+…). La fourniture de briques techniques fondamentales jettera
+les bases d’un usage et d’une diffusion simplifiés et rapides
+de la technologie sous la forme d’exemples et de tutoriaux didactiques.
+En parallèle à l’industrialisation d’une technologie de composition
+commune et adaptable aux problématiques métiers de chacun des
+partenaires, le projet établit quelques pistes d’explorations.
+Ces pistes permettront de mettre en lumière et en action (prototypes)
+la problématique clé de la sureté de fonctionnement sur une base
+de technologie de composition, aidé en cela par les fortes compétences
+locales – VERIMAG, Schneider Electric, INRIA-POPART - et nationales
+- CEA. Elles permettront par ailleurs à certains partenaires
+(Schneider Electric, SOGETI, LOGICA, Itris, IST, ISTIA, INERIS)
+une montée en compétence sur les technologies développées sur
+la base de l’application de la technologie à leurs problématiques
+métiers propres. Ces activités exploratoires conduiront à des
+propositions d’améliorations de la technologie qui définiront
+la suite à donner au projet MIND à son issue.
+Ce faisant, et avec l’appui des financements publics pour supporter
+le surcoût initial, le projet MIND veut créer un écosystème industriel
+et académique élargi autour d’une technologie d’assemblage de
+composants logiciels embarqués commune. Les gains ainsi mis en
+perspectives sont :
+• Une rationalisation et factorisation des efforts de développements
+conduisant à terme pour les partenaires à une réduction des coûts
+globaux et une assurance de stabilité des technologies de part
+sa répartition accrue
+• Une rationalisation des méthodologies de développement du logiciel
+embarqué permettant une meilleure productivité et l’acquisition
+d’un savoir faire transposable à diverses problématique métiers
+car établi sur des bases conceptuelles communes, facteur d’une
+dynamique de l’emploi accrue, et de création d’emplois
+• La création d’un marché du composant embarqué, avec l’ouverture
+pour des acteurs petits ou gros vers le développement de briques
+techniques et de propriétés intellectuelles facilement portables
+vers diverses plateformes et donc susceptibles de constituer
+une offre commerciale viable
+• L’établissement d’une technologie attractive car robuste et
+dotée d’un marché (usage industriel et terreau R&amp;D renforcé),
+susceptible d’intéresser des éditeurs de logiciels petits ou
+grands
+• L’assise de programmes de recherche sur une base technologique
+partagée, robuste et pérenne facilitant la mise en place de chemins
+de valorisation recherche – industrie
+• L’établissement de programmes de formation sur des bases technologiques
+déployées chez les industriels et permettant une opérationnalisation
+accrue de la formation
+   </description>
+
+   <copyright>
+      Copyright 2009 ObjectWeb/Fractal
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <includes
+         id="org.ow2.mindEd.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.ow2.mindEd.feature.source"
+         version="0.0.0"/>
+
+</feature>

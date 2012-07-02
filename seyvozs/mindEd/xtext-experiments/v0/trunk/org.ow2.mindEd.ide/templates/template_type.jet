@@ -1,0 +1,12 @@
+<%@ jet package="org.ow2.mindEd.ide.core.template" class="TemplateTypeADL" skeleton="mindadl2.skeleton" %>
+<%
+ String qualifiedName = adl.getQualifiedName();
+ 
+
+%>
+type <%=qualifiedName%> {
+  
+<%for(String l : contains) {%>
+	<%=l%>
+<%}%>
+}

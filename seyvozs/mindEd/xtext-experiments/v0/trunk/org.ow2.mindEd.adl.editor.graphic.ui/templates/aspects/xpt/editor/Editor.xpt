@@ -1,0 +1,12 @@
+«IMPORT 'http://www.eclipse.org/gmf/2009/GenModel'»
+
+
+«AROUND createPaletteRoot FOR gmfgen::Palette-»
+
+	«EXPAND xpt::Common::generatedMemberComment»
+protected org.eclipse.gef.palette.PaletteRoot createPaletteRoot(org.eclipse.gef.palette.PaletteRoot existingPaletteRoot) {
+	org.eclipse.gef.palette.PaletteRoot root = super.createPaletteRoot(existingPaletteRoot);
+	new org.ow2.mindEd.adl.editor.graphic.ui.custom.tools.MindCustomPaletteFactory().fillPalette(root);
+	return root;
+}
+«ENDAROUND»

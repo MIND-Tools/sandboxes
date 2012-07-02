@@ -1,0 +1,11 @@
+primitive boot.Bootstrap {
+  // This component is started on boot
+  
+  // This means that the Bootstrap component requires functions from Main.itf
+  // These can be called using the name entryPoint
+  requires Main as entryPoint;
+  
+  // This .c file is the hard code of the component
+  // Functions from entryPoint can be called via Mind-specific macros
+  source bootstrap.c
+}

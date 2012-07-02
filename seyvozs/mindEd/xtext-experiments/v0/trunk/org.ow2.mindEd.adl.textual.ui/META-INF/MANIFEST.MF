@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.ow2.mindEd.adl.textual.ui
+Bundle-Vendor: Partenaire Minalogic
+Bundle-Version: 0.2.1.qualifier
+Bundle-SymbolicName: org.ow2.mindEd.adl.textual.ui; singleton:=true
+Eclipse-RegisterBuddy: org.eclipse.xtext.log4j
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.ow2.mindEd.adl.textual.model;bundle-version="0.2.1";visibility:=reexport,
+ org.eclipse.xtend,
+ org.ow2.mindEd.adl.model;bundle-version="0.2.1",
+ org.eclipse.ui.editors,
+ org.eclipse.ui,
+ org.antlr.runtime,
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.xtext.builder,
+ org.ow2.mindEd.ide.ui;bundle-version="0.2.1",
+ org.eclipse.ui.ide;bundle-version="3.6.2"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.ow2.mindEd.adl.textual.ui,
+ org.ow2.mindEd.adl.textual.ui.contentassist.antlr,
+ org.ow2.mindEd.adl.textual.ui.internal,
+ org.ow2.mindEd.adl.textual.ui.contentassist
+Bundle-Activator: org.ow2.mindEd.adl.textual.ui.internal.FractalActivator
+Import-Package: org.apache.log4j,
+ org.eclipse.gmf.runtime.common.ui.util,
+ org.eclipse.jdt.core,
+ org.eclipse.xtext.common.types.xtext.ui,
+ org.ow2.mindEd.ide.core;version="0.2.0",
+ org.ow2.mindEd.ide.model;version="0.2.0"

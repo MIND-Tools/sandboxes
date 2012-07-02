@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<templates>
+
+<!-- Template proposal for structural typedef -->
+<template autoinsert="true" context="org.ow2.mindEd.itf.editor.textual.FractalItf.TypedefSpecification" deleted="false" description="struct type definition" enabled="true" name="typedef struct" id="struct_typedef">
+typedef struct ${struct_name} {
+	
+} ${type_name};
+</template>
+
+<!-- Template proposal for enum typedef -->
+<template autoinsert="true" context="org.ow2.mindEd.itf.editor.textual.FractalItf.TypedefSpecification" deleted="false" description="enum type definition" enabled="true" name="typedef enum" id="enum_typedef">
+typedef enum {
+	
+} ${type_name};
+</template>
+
+
+</templates>

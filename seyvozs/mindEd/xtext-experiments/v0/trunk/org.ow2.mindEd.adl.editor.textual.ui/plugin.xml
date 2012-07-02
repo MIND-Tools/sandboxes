@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+            point="org.eclipse.ui.editors">
+        <editor
+              class="org.ow2.fractal.mind.xtext.ui.editor.MindMultipageEditor"
+              contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+              default="false"
+              extensions="adl"
+              icon="icons/obj16/component.png"
+              id="org.ow2.fractal.mind.xtext.FractalMulti"
+              name="Fractal Multi Page Editor">
+        </editor>
+    </extension>
+
+</plugin>

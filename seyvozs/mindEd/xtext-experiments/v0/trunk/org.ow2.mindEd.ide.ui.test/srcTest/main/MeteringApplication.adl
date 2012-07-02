@@ -1,0 +1,10 @@
+import boot.Bootstrap;
+
+composite main.MeteringApplication {
+  
+  contains Bootstrap as boot
+  contains Metering as app
+  
+  binds boot.entryPoint to app.main
+  
+}

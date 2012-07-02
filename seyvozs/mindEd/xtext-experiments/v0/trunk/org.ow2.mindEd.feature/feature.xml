@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.ow2.mindEd.feature"
+      label="%featureName"
+      version="0.3.0.qualifier"
+      provider-name="%providerName">
+
+   <description>
+      Le projet MIND veut proposer à la communauté industrielle et académique du logiciel embarqué une technologie d’assemblage de composants logiciels fondamentale, robuste, stable et pérenne, adaptable aux problématiques métiers de chacun. Il s’agit de permettre la composition et la distribution efficace – taille, performances à l’exécution - d’applications profondément embarquées à destination des plateformes métiers développées par les partenaires industriels du projet. Cette proposition est unique en son genre.
+
+Pour atteindre cet objectif, le projet MIND se propose sur une durée de 2 ans de capitaliser sur les démarches industrielles internes entamées par certains partenaires du pôle (STMicroelectronics, Schneider Electric) ainsi que sur un écosystème R&amp;D local riche (Fractal – ObjectWeb II, INRIA-Sardes, INRIA-Lille, Verimag, LIG (Adele)) auquel ces mêmes industriels participent. La solution technique de composition sera donc développée suivant une démarche d’industrialisation et à partir de briques techniques et prototypes existants, et dont la maturité permet aujourd’hui d’envisager cette industrialisation avec un risque réduit.
+Ces développements seront organisés sur une base de logiciel libre, et sous la houlette d’une gouvernance pluri-partenaires et pluridisciplinaire (industrie, académie, PME) que le projet établira et dotera de moyens afin d’assurer cohérence des développements, promotion de l’approche et pérennité du projet. Ces développements proposeront des langages de programmation à base de composants adaptés à l’embarqué (dialecte C, ADL, IDL), une chaine de compilation d’architecture, un IDE graphique intégré à Eclipse et des facilités cruciales. Ces développements auront la particularité et l’originalité d’être extensibles et adaptables en fonction des contraintes métiers (langages, déploiement, génération de code, vues graphiques, …). La fourniture de briques techniques fondamentales jettera les bases d’un usage et d’une diffusion simplifiés et rapides de la technologie sous la forme d’exemples et de tutoriaux didactiques.
+
+En parallèle à l’industrialisation d’une technologie de composition commune et adaptable aux problématiques métiers de chacun des partenaires, le projet établit quelques pistes d’explorations. Ces pistes permettront de mettre en lumière et en action (prototypes) la problématique clé de la sureté de fonctionnement sur une base de technologie de composition, aidé en cela par les fortes compétences locales – VERIMAG, Schneider Electric, INRIA-POPART - et nationales - CEA. Elles permettront par ailleurs à certains partenaires (Schneider Electric, SOGETI, LOGICA, Itris, IST, ISTIA, INERIS) une montée en compétence sur les technologies développées sur la base de l’application de la technologie à leurs problématiques métiers propres. Ces activités exploratoires conduiront à des propositions d’améliorations de la technologie qui définiront la suite à donner au projet MIND à son issue.
+
+Ce faisant, et avec l’appui des financements publics pour supporter le surcoût initial, le projet MIND veut créer un écosystème industriel et académique élargi autour d’une technologie d’assemblage de composants logiciels embarqués commune. Les gains ainsi mis en perspectives sont :
+• Une rationalisation et factorisation des efforts de développements conduisant à terme pour les partenaires à une réduction des coûts globaux et une assurance de stabilité des technologies de part sa répartition accrue
+• Une rationalisation des méthodologies de développement du logiciel embarqué permettant une meilleure productivité et l’acquisition d’un savoir faire transposable à diverses problématique métiers car établi sur des bases conceptuelles communes, facteur d’une dynamique de l’emploi accrue, et de création d’emplois
+• La création d’un marché du composant embarqué, avec l’ouverture pour des acteurs petits ou gros vers le développement de briques techniques et de propriétés intellectuelles facilement portables vers diverses plateformes et donc susceptibles de constituer une offre commerciale viable
+• L’établissement d’une technologie attractive car robuste et dotée d’un marché (usage industriel et terreau R&amp;D renforcé), susceptible d’intéresser des éditeurs de logiciels petits ou grands
+• L’assise de programmes de recherche sur une base technologique partagée, robuste et pérenne facilitant la mise en place de chemins de valorisation recherche – industrie
+• L’établissement de programmes de formation sur des bases technologiques déployées chez les industriels et permettant une opérationnalisation accrue de la formation
+   </description>
+
+   <copyright>
+      Copyright 2009 ObjectWeb/Fractal
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <requires>
+      <import feature="org.eclipse.cdt" version="7.0.0.201002011403" match="greaterOrEqual"/>
+      <import feature="org.eclipse.cdt.gnu.build" version="6.0.0.201002011403" match="greaterOrEqual"/>
+      <import feature="org.eclipse.cdt.platform" version="7.0.0.201002011403" match="greaterOrEqual"/>
+      <import feature="org.eclipse.cdt.util" version="5.1.0.201002011403" match="greaterOrEqual"/>
+      <import feature="org.eclipse.draw2d" version="3.6.0.v20100201-1030-45-7w3121142602636" match="greaterOrEqual"/>
+      <import feature="org.eclipse.draw2d" version="3.6.0.v20100201-1030-45-7w3121142602636" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf" version="2.6.0.v201002011637" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.ecore" version="2.6.0.v201002011637" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.edit" version="2.6.0.v201002011637" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.edit.ui" version="2.6.0.v201002011637" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.mwe.core" version="1.0.0.v201003150825" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.validation" version="1.3.0.v200902052232-479-9oB55W69AO6KBA9" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.validation.ocl" version="1.3.0.v20091215-1218-3--7w311A232602329" match="greaterOrEqual"/>
+      <import feature="org.eclipse.gef" version="3.6.0.v20100201-1030-777B-81A2Bz-6766395E33747" match="greaterOrEqual"/>
+      <import feature="org.eclipse.gmf" version="1.4.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.help" version="1.2.0.v20090729-7e7jCWFEx2Xd7ZRvSUw9w9" match="greaterOrEqual"/>
+      <import feature="org.eclipse.jdt" version="3.6.0.v20100124-2000-7z8WFRAFMTdeCo0y7FJt1Zi45027" match="greaterOrEqual"/>
+      <import feature="org.eclipse.ocl" version="3.0.0.v200912282100-79-7G9oB56N7ABK9KDA" match="greaterOrEqual"/>
+      <import feature="org.eclipse.platform" version="3.6.0.v20100121-9hF71GITFufnsj44XsigdRiv20ClbUb3ou" match="greaterOrEqual"/>
+      <import feature="org.eclipse.rcp" version="3.6.0.v20091106-9KAiFD4Fs-UyZKdfDWGdrej" match="greaterOrEqual"/>
+      <import feature="org.eclipse.xtend" version="1.0.0.v201003150948" match="greaterOrEqual"/>
+      <import feature="org.eclipse.xtend.typesystem.emf" version="1.0.0.v201003150948" match="greaterOrEqual"/>
+      <import feature="org.eclipse.xtext.runtime" version="1.0.0.v201003151027" match="greaterOrEqual"/>
+      <import feature="org.eclipse.xtext.ui" version="1.0.0.v201003151027" match="greaterOrEqual"/>
+      <import feature="org.eclipse.pde" version="3.6.0.v20090930-7b7kFD4FEx2XgdbEz-p9LZCG" match="greaterOrEqual"/>
+   </requires>
+
+   <plugin
+         id="org.ow2.mindEd.doc.user"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.editor.graphic.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.ide"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.ide.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.ide.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.textual.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mind.fractal-adl-bundle"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.ide.edit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.editor.textual.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.textual.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.idt.editor.textual.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.idt.editor.textual.model.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.itf.editor.textual.model"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.itf.editor.textual.model.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.ow2.mindEd.adl.validation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

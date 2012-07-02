@@ -1,0 +1,1213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension-point id="mindAnnotation" name="mindAnnotation" schema="schema/mindAnnotation.exsd"/>
+
+   
+
+   <extension point="org.eclipse.team.core.fileTypes" id="repo-ftype">
+      <?gmfgen generated="true"?>
+      <fileTypes type="text" extension="adl_diagram"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser" id="resource-factory">
+      <?gmfgen generated="true"?>
+      <parser
+         type="adl_diagram"
+         class="org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory">
+      </parser>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors" id="gmf-editor">
+      <?gmfgen generated="false"?>
+      <editor
+            class="org.ow2.mindEd.adl.editor.graphic.ui.custom.part.CustomMindDiagramEditor"
+            contributorClass="org.ow2.mindEd.adl.editor.graphic.ui.part.MindDiagramActionBarContributor"
+            default="true"
+            extensions="adl_diagram"
+            icon="icons/obj16/AdlDiagramFile.gif"
+            id="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID"
+            matchingStrategy="org.ow2.mindEd.adl.editor.graphic.ui.part.MindMatchingStrategy"
+            name="%editorName">
+      </editor>
+   </extension>
+   
+   <extension point="org.eclipse.ui.contexts" id="ui-context">
+      <?gmfgen generated="true"?>
+      <context
+         description="%context.description"
+         id="org.ow2.mindEd.adl.editor.graphic.ui.ui.diagramContext"
+         name="%context.name"
+         parentId="org.eclipse.gmf.runtime.diagram.ui.diagramContext">
+      </context>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards" id="creation-wizard">
+      <?gmfgen generated="true"?>
+  	  <wizard
+  	     name="%newWizardName"
+  	     icon="icons/obj16/AdlDiagramFile.gif"
+  	     category="org.eclipse.ui.Examples"
+  	     class="org.ow2.mindEd.adl.editor.graphic.ui.part.MindCreationWizard"
+  	     id="org.ow2.mindEd.adl.editor.graphic.ui.part.MindCreationWizardID">
+  	  	 <description>%newWizardDesc</description>  
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.popupMenus" id="init-diagram-action">
+      <?gmfgen generated="true"?>
+      <objectContribution
+            id="org.ow2.mindEd.adl.editor.graphic.ui.InitDiagram"
+            nameFilter="*.adl"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               label="%initDiagramActionLabel"
+               class="org.ow2.mindEd.adl.editor.graphic.ui.part.MindInitDiagramFileAction"
+               menubarPath="additions"
+               enablesFor="1"
+               id="org.ow2.mindEd.adl.editor.graphic.ui.InitDiagramAction">
+         </action>
+      </objectContribution>
+   </extension>
+	
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders" id="global-actions">
+      <?gmfgen generated="true"?>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramGlobalActionHandlerProvider"
+         id="MindPresentation">
+         <Priority name="Lowest"/>
+         <ViewId id="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="delete"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
+               <GlobalActionId actionId="save"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.ide.providers.DiagramIDEGlobalActionHandlerProvider"
+         id="MindPresentationIDE">
+         <Priority name="Lowest"/>
+         <ViewId id="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="bookmark"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+            class="org.eclipse.gmf.runtime.diagram.ui.render.providers.DiagramUIRenderGlobalActionHandlerProvider"
+            id="MindRender">
+         <Priority name="Lowest"/>
+         <ViewId id="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="cut"/>
+               <GlobalActionId actionId="copy"/>
+               <GlobalActionId actionId="paste"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+   </extension>
+
+
+   <extension point="org.eclipse.core.runtime.preferences" id="prefs">
+      <?gmfgen generated="false"?>
+      <initializer class="org.ow2.mindEd.adl.editor.graphic.ui.custom.preferences.CustomDiagramPreferenceInitializer"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages" id="prefpages">
+      <?gmfgen generated="false"?>
+      <page
+            id="org.ow2.mindEd.adl.editor.graphic.ui.general"
+            name="%prefpage.org.ow2.mindEd.adl.editor.graphic.ui.general"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.custom.preferences.CustomGeneralPreferencePage">
+      </page>
+      <page
+            id="org.ow2.mindEd.adl.editor.graphic.ui.appearance"
+            name="%prefpage.org.ow2.mindEd.adl.editor.graphic.ui.appearance"
+            category="org.ow2.mindEd.adl.editor.graphic.ui.general"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.preferences.DiagramAppearancePreferencePage">
+      </page>
+      <page
+            id="org.ow2.mindEd.adl.editor.graphic.ui.connections"
+            name="%prefpage.org.ow2.mindEd.adl.editor.graphic.ui.connections"
+            category="org.ow2.mindEd.adl.editor.graphic.ui.general"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.preferences.DiagramConnectionsPreferencePage">
+      </page>
+      <page
+            id="org.ow2.mindEd.adl.editor.graphic.ui.printing"
+            name="%prefpage.org.ow2.mindEd.adl.editor.graphic.ui.printing"
+            category="org.ow2.mindEd.adl.editor.graphic.ui.general"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.preferences.DiagramPrintingPreferencePage">
+      </page>
+      <page
+            id="org.ow2.mindEd.adl.editor.graphic.ui.rulersAndGrid"
+            name="%prefpage.org.ow2.mindEd.adl.editor.graphic.ui.rulersAndGrid"
+            category="org.ow2.mindEd.adl.editor.graphic.ui.general"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.preferences.DiagramRulersAndGridPreferencePage">
+      </page>
+   </extension>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor" id="prop-contrib">
+      <?gmfgen generated="true"?>
+      <propertyContributor
+            contributorId="org.ow2.mindEd.adl.editor.graphic.ui"
+            labelProvider="org.ow2.mindEd.adl.editor.graphic.ui.sheet.MindSheetLabelProvider">
+         <propertyCategory category="domain"/>
+         <propertyCategory category="visual"/>
+         <propertyCategory category="extra"/>
+      </propertyContributor>
+   </extension>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs" id="proptabs">
+      <?gmfgen generated="true"?>   
+      <propertyTabs contributorId="org.ow2.mindEd.adl.editor.graphic.ui">
+         <propertyTab
+             category="visual"
+             id="property.tab.AppearancePropertySection"
+             label="%tab.appearance"/>
+          <propertyTab
+             category="visual"
+             id="property.tab.DiagramPropertySection"
+             label="%tab.diagram"/>
+          <propertyTab
+             category="domain"
+             id="property.tab.domain"
+             label="%tab.domain"/>
+      </propertyTabs>
+   </extension>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections" id="propsections">
+      <?gmfgen generated="true"?>   
+      <propertySections contributorId="org.ow2.mindEd.adl.editor.graphic.ui">
+         <propertySection id="property.section.ConnectorAppearancePropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ConnectionEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ConnectionAppearancePropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>
+         <propertySection id="property.section.ShapeColorAndFontPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.ShapeEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.ShapeColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection> 
+         <propertySection id="property.section.DiagramColorsAndFontsPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.appearance.DiagramColorsAndFontsPropertySection" 
+            tab="property.tab.AppearancePropertySection">
+         </propertySection>     
+         <propertySection id="property.section.RulerGridPropertySection" 
+            filter="org.eclipse.gmf.runtime.diagram.ui.properties.filters.DiagramEditPartPropertySectionFilter" 
+            class="org.eclipse.gmf.runtime.diagram.ui.properties.sections.grid.RulerGridPropertySection" 
+            tab="property.tab.DiagramPropertySection">
+         </propertySection>     
+         <propertySection
+            id="property.section.domain" 
+            tab="property.tab.domain"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.sheet.MindPropertySection">
+            <input type="org.eclipse.gmf.runtime.notation.View"/>
+            <input type="org.eclipse.gef.EditPart"/>
+            <input type="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindAbstractNavigatorItem"/>
+         </propertySection>
+      </propertySections>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders" id="view-provider">
+      <?gmfgen generated="true"?>
+      <viewProvider class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindViewProvider">
+         <Priority name="Lowest"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Mind"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="2007,2008,2009,3096,3097,3098,3099,3100,3101,3102,3103,3104,3105,3129,3130,3131,3132,3161,3135,3157,3162,3140,3115,3116,3139,3118,3119,3138,3143,3150,3145,3146,3148,3149,3153,3160,3142,3147,3123,3124,3125,3137,3151,3127,3128,3159,3152"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="4003"/>
+      </viewProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders" id="ep-provider">
+      <?gmfgen generated="false"?>
+      <editpartProvider class="org.ow2.mindEd.adl.editor.graphic.ui.custom.providers.MindCustomEditPartProvider">
+         <Priority name="Lowest"/>
+         <object class="org.eclipse.gmf.runtime.notation.Diagram" id="generated-diagram">
+            <method name="getType()" value="Mind"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-nodes">
+            <method name="getType()" value="2001,2002,2004,2003,3076,3084,3077,3085,3078,3086,3080,3079,3087,3088,3083,3082,3081,3089,3090,3091,3092,3096,3094,3095,3093,3097,3098,3099,3073,3100,3101,3102,3103,3104,3105"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Edge" id="generated-links">
+            <method name="getType()" value="4001"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-labels">
+            <method name="getType()" value="5009,5065,5067,5066,5054,5055,5056,5057,5053,5052,5051,5058,5059,5060,5061,5050,5064,5062,5063"/>
+         </object>
+         <object class="org.eclipse.gmf.runtime.notation.Node" id="generated-compartments">
+            <method name="getType()" value="7001,7002,7003,7004,7005,7006,7007,7008,7009,7010,7011,7013,7012,7014,7015,7016,7017,7018"/>
+         </object>
+         <context views="generated-diagram,generated-nodes,generated-links,generated-labels,generated-compartments"/>
+      </editpartProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders" id="modelassist-provider">
+      <?gmfgen generated="true"?>
+      <modelingAssistantProvider class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindModelingAssistantProvider">
+         <Priority name="Lowest"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.AdlDefinitionEditPart" id="AdlDefinition_1000"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeComponentDefinitionEditPart" id="CompositeComponentDefinition_2007"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveComponentDefinitionEditPart" id="PrimitiveComponentDefinition_2008"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.ComponentTypeDefinitionEditPart" id="ComponentTypeDefinition_2009"/>
+         <context elements="AdlDefinition_1000,CompositeComponentDefinition_2007,PrimitiveComponentDefinition_2008,ComponentTypeDefinition_2009"/>
+      </modelingAssistantProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders" id="icon-provider">
+      <?gmfgen generated="true"?>
+      <IconProvider class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindIconProvider">
+         <Priority name="Low"/>
+      </IconProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.parserProviders" id="parser-provider">
+      <?gmfgen generated="true"?>
+      <ParserProvider class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindParserProvider">
+         <Priority name="Lowest"/>
+      </ParserProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes" id="element-types">
+      <?gmfgen generated="true"?>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AdlDefinition_1000"
+               name="%metatype.name.AdlDefinition_1000"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AdlDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.AdlDefinitionEditHelper">
+            <param name="semanticHint" value="1000"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeComponentDefinition_2007"
+               name="%metatype.name.CompositeComponentDefinition_2007"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="CompositeComponentDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.CompositeComponentDefinitionEditHelper">
+            <param name="semanticHint" value="2007"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveComponentDefinition_2008"
+               name="%metatype.name.PrimitiveComponentDefinition_2008"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="PrimitiveComponentDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.PrimitiveComponentDefinitionEditHelper">
+            <param name="semanticHint" value="2008"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.ComponentTypeDefinition_2009"
+               name="%metatype.name.ComponentTypeDefinition_2009"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ComponentTypeDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.ComponentTypeDefinitionEditHelper">
+            <param name="semanticHint" value="2009"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TemplateSpecifiersList_3096"
+               name="%metatype.name.TemplateSpecifiersList_3096"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TemplateSpecifiersList"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TemplateSpecifiersListEditHelper">
+            <param name="semanticHint" value="3096"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TemplateSpecifier_3097"
+               name="%metatype.name.TemplateSpecifier_3097"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TemplateSpecifier"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TemplateSpecifierEditHelper">
+            <param name="semanticHint" value="3097"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferenceDefinition_3098"
+               name="%metatype.name.TypeReferenceDefinition_3098"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TypeReferenceDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TemplateSpecifierReferenceEditHelper">
+            <param name="semanticHint" value="3098"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgumentsList_3099"
+               name="%metatype.name.FormalArgumentsList_3099"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="FormalArgumentsList"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.CompositeFormalArgumentsListEditHelper">
+            <param name="semanticHint" value="3099"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgument_3100"
+               name="%metatype.name.FormalArgument_3100"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="FormalArgument"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.FormalArgumentEditHelper">
+            <param name="semanticHint" value="3100"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferencesList_3101"
+               name="%metatype.name.CompositeReferencesList_3101"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="CompositeReferencesList"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.CompositeReferencesListEditHelper">
+            <param name="semanticHint" value="3101"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3102"
+               name="%metatype.name.CompositeReferenceDefinition_3102"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="CompositeReferenceDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.CompositeReferenceEditHelper">
+            <param name="semanticHint" value="3102"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.ArgumentDefinition_3103"
+               name="%metatype.name.ArgumentDefinition_3103"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ArgumentDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.ArgumentDefinitionEditHelper">
+            <param name="semanticHint" value="3103"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TemplateDefinition_3104"
+               name="%metatype.name.TemplateDefinition_3104"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TemplateDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TemplateDefinitionEditHelper">
+            <param name="semanticHint" value="3104"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3105"
+               name="%metatype.name.CompositeReferenceDefinition_3105"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3102"/>
+            <param name="semanticHint" value="3105"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeBody_3129"
+               name="%metatype.name.CompositeBody_3129"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="CompositeBody"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.CompositeBodyEditHelper">
+            <param name="semanticHint" value="3129"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.InterfaceDefinition_3130"
+               name="%metatype.name.InterfaceDefinition_3130"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="InterfaceDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.InterfaceDefinitionEditHelper">
+            <param name="semanticHint" value="3130"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3131"
+               name="%metatype.name.SubComponentDefinition_3131"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="SubComponentDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.CompositeSubComponentEditHelper">
+            <param name="semanticHint" value="3131"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3132"
+               name="%metatype.name.CompositeReferenceDefinition_3132"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3102"/>
+            <param name="semanticHint" value="3132"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentCompositeBody_3161"
+               name="%metatype.name.SubComponentCompositeBody_3161"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="SubComponentCompositeBody"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.SubComponentCompositeBodyEditHelper">
+            <param name="semanticHint" value="3161"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3135"
+               name="%metatype.name.SubComponentDefinition_3135"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3131"/>
+            <param name="semanticHint" value="3135"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3157"
+               name="%metatype.name.CompositeReferenceDefinition_3157"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.PrimitiveSubReferenceEditHelper">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3102"/>
+            <param name="semanticHint" value="3157"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentPrimitiveBody_3162"
+               name="%metatype.name.SubComponentPrimitiveBody_3162"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="SubComponentPrimitiveBody"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.SubComponentPrimitiveBodyEditHelper">
+            <param name="semanticHint" value="3162"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.ImplementationDefinition_3140"
+               name="%metatype.name.ImplementationDefinition_3140"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ImplementationDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.ImplementationDefinitionEditHelper">
+            <param name="semanticHint" value="3140"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.FileC_3115"
+               name="%metatype.name.FileC_3115"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="FileC"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.FileCEditHelper">
+            <param name="semanticHint" value="3115"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.InlineCodeC_3116"
+               name="%metatype.name.InlineCodeC_3116"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="InlineCodeC"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.InlineCodeCEditHelper">
+            <param name="semanticHint" value="3116"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.DataDefinition_3139"
+               name="%metatype.name.DataDefinition_3139"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="DataDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.DataDefinitionEditHelper">
+            <param name="semanticHint" value="3139"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.FileC_3118"
+               name="%metatype.name.FileC_3118"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.FileC_3115"/>
+            <param name="semanticHint" value="3118"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.InlineCodeC_3119"
+               name="%metatype.name.InlineCodeC_3119"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.InlineCodeC_3116"/>
+            <param name="semanticHint" value="3119"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AttributeDefinition_3138"
+               name="%metatype.name.AttributeDefinition_3138"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AttributeDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.AttributeDefinitionEditHelper">
+            <param name="semanticHint" value="3138"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.Body_3143"
+               name="%metatype.name.Body_3143"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Body"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.BodyEditHelper">
+            <param name="semanticHint" value="3143"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3150"
+               name="%metatype.name.AnnotationsList_3150"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AnnotationsList"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.AnnotationsListEditHelper">
+            <param name="semanticHint" value="3150"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.Annotation_3145"
+               name="%metatype.name.Annotation_3145"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Annotation"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.AnnotationEditHelper">
+            <param name="semanticHint" value="3145"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationElement_3146"
+               name="%metatype.name.AnnotationElement_3146"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AnnotationElement"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.AnnotationElementEditHelper">
+            <param name="semanticHint" value="3146"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.ConstantValue_3148"
+               name="%metatype.name.ConstantValue_3148"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ConstantValue"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.ConstantValueEditHelper">
+            <param name="semanticHint" value="3148"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.Annotation_3149"
+               name="%metatype.name.Annotation_3149"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.Annotation_3145"/>
+            <param name="semanticHint" value="3149"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3153"
+               name="%metatype.name.SubComponentDefinition_3153"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3131"/>
+            <param name="semanticHint" value="3153"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3160"
+               name="%metatype.name.CompositeReferenceDefinition_3160"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3102"/>
+            <param name="semanticHint" value="3160"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TypeBody_3142"
+               name="%metatype.name.TypeBody_3142"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TypeBody"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TypeBodyEditHelper">
+            <param name="semanticHint" value="3142"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3147"
+               name="%metatype.name.AnnotationsList_3147"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3150"/>
+            <param name="semanticHint" value="3147"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgumentsList_3123"
+               name="%metatype.name.FormalArgumentsList_3123"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgumentsList_3099"/>
+            <param name="semanticHint" value="3123"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveReferencesList_3124"
+               name="%metatype.name.PrimitiveReferencesList_3124"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="PrimitiveReferencesList"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.PrimitiveReferencesListEditHelper">
+            <param name="semanticHint" value="3124"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveReferenceDefinition_3125"
+               name="%metatype.name.PrimitiveReferenceDefinition_3125"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="PrimitiveReferenceDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.PrimitiveReferenceDefinitionEditHelper">
+            <param name="semanticHint" value="3125"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveBody_3137"
+               name="%metatype.name.PrimitiveBody_3137"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="PrimitiveBody"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.PrimitiveBodyEditHelper">
+            <param name="semanticHint" value="3137"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3151"
+               name="%metatype.name.AnnotationsList_3151"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3150"/>
+            <param name="semanticHint" value="3151"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferencesList_3127"
+               name="%metatype.name.TypeReferencesList_3127"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="TypeReferencesList"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TypeReferencesListEditHelper">
+            <param name="semanticHint" value="3127"/>
+         </metamodelType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferenceDefinition_3128"
+               name="%metatype.name.TypeReferenceDefinition_3128"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.TypeReferenceEditHelper">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferenceDefinition_3098"/>
+            <param name="semanticHint" value="3128"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.TypeBody_3159"
+               name="%metatype.name.TypeBody_3159"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.TypeBody_3142"/>
+            <param name="semanticHint" value="3159"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <specializationType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3152"
+               name="%metatype.name.AnnotationsList_3152"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType">
+            <specializes id="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3150"/>
+            <param name="semanticHint" value="3152"/>
+         </specializationType>
+      </metamodel>
+      <metamodel nsURI="http://org.ow2.mindEd/adl.ecore/0.2.0">
+         <metamodelType
+               id="org.ow2.mindEd.adl.editor.graphic.ui.BindingDefinition_4003"
+               name="%metatype.name.BindingDefinition_4003"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="BindingDefinition"
+               edithelper="org.ow2.mindEd.adl.editor.graphic.ui.edit.helpers.BindingDefinitionEditHelper">
+            <param name="semanticHint" value="4003"/>
+         </metamodelType>
+      </metamodel>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings" id="element-types-bindings">
+      <?gmfgen generated="true"?>
+      <clientContext id="org.ow2.mindEd.adl.editor.graphic.ui.TypeContext">
+         <enablement>
+            <test
+               property="org.eclipse.gmf.runtime.emf.core.editingDomain"
+               value="org.ow2.mindEd.adl.editor.graphic.ui.EditingDomain"/>
+         </enablement>
+      </clientContext> 
+      <binding context="org.ow2.mindEd.adl.editor.graphic.ui.TypeContext">
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AdlDefinition_1000"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeComponentDefinition_2007"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveComponentDefinition_2008"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.ComponentTypeDefinition_2009"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TemplateSpecifiersList_3096"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TemplateSpecifier_3097"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferenceDefinition_3098"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgumentsList_3099"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgument_3100"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferencesList_3101"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3102"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.ArgumentDefinition_3103"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TemplateDefinition_3104"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3105"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeBody_3129"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.InterfaceDefinition_3130"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3131"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3132"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentCompositeBody_3161"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3135"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3157"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentPrimitiveBody_3162"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.ImplementationDefinition_3140"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.FileC_3115"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.InlineCodeC_3116"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.DataDefinition_3139"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.FileC_3118"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.InlineCodeC_3119"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AttributeDefinition_3138"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.Body_3143"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3150"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.Annotation_3145"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationElement_3146"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.ConstantValue_3148"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.Annotation_3149"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.SubComponentDefinition_3153"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.CompositeReferenceDefinition_3160"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TypeBody_3142"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3147"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.FormalArgumentsList_3123"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveReferencesList_3124"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveReferenceDefinition_3125"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.PrimitiveBody_3137"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3151"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferencesList_3127"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TypeReferenceDefinition_3128"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.TypeBody_3159"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.AnnotationsList_3152"/>
+         <elementType ref="org.ow2.mindEd.adl.editor.graphic.ui.BindingDefinition_4003"/>
+         <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
+      </binding>
+   </extension>
+	   <extension point="org.eclipse.core.expressions.propertyTesters" id="navigator-proptest.isURIEditorInput">
+      <?gmfgen generated="true"?>
+       <propertyTester
+           id="org.ow2.mindEd.adl.editor.graphic.ui.URIEditorInputPropertyTester"
+           type="org.eclipse.emf.common.ui.URIEditorInput"
+           namespace="org.ow2.mindEd.adl.editor.graphic.ui"
+           properties="isURIEditorInput"
+           class="org.ow2.mindEd.adl.editor.graphic.ui.part.MindUriEditorInputTester">
+       </propertyTester>
+   </extension>
+
+	   <extension point="org.eclipse.ui.navigator.viewer" id="navigator-viewbinding">
+      <?gmfgen generated="true"?>
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension pattern="org.ow2.mindEd.adl.editor.graphic.ui.resourceContent"/>
+			<contentExtension pattern="org.ow2.mindEd.adl.editor.graphic.ui.domainResourceContent"/>
+            <contentExtension pattern="org.ow2.mindEd.adl.editor.graphic.ui.navigatorLinkHelper"/>
+         </includes>
+      </viewerContentBinding>
+      <viewerActionBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <actionExtension pattern="org.ow2.mindEd.adl.editor.graphic.ui.navigatorActionProvider"/>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+
+   <extension point="org.eclipse.ui.navigator.navigatorContent" id="navigator-content">
+      <?gmfgen generated="true"?>
+      <navigatorContent
+            id="org.ow2.mindEd.adl.editor.graphic.ui.resourceContent" 
+            name="%navigatorContentName" 
+            priority="normal" 
+            contentProvider="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindNavigatorContentProvider" 
+            labelProvider="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindNavigatorLabelProvider"
+            icon="icons/obj16/AdlDiagramFile.gif"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="adl_diagram"/>
+               </and>
+               <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindAbstractNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+         	   <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindAbstractNavigatorItem"/>
+            </or>
+         </possibleChildren>
+         <commonSorter 
+               id="org.ow2.mindEd.adl.editor.graphic.ui.navigatorSorter" 
+               class="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindNavigatorSorter">
+            <parentExpression>
+               <or>
+	              <and>
+    	             <instanceof value="org.eclipse.core.resources.IFile"/>
+        	         <test property="org.eclipse.core.resources.extension" value="adl_diagram"/>
+                  </and>
+                  <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindAbstractNavigatorItem"/>
+               </or>
+            </parentExpression>
+         </commonSorter>
+      </navigatorContent>
+      <navigatorContent
+            id="org.ow2.mindEd.adl.editor.graphic.ui.domainResourceContent" 
+            name="%domainNavigatorContentName" 
+            priority="normal" 
+            contentProvider="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindDomainNavigatorContentProvider" 
+            labelProvider="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindDomainNavigatorLabelProvider"
+            icon="icons/obj16/AdlDiagramFile.gif"
+            activeByDefault="true">
+         <triggerPoints>
+            <or>
+	           <and>
+    	          <instanceof value="org.eclipse.core.resources.IFile"/>
+        	      <test property="org.eclipse.core.resources.extension" value="adl"/>
+               </and>
+               <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindDomainNavigatorItem"/>
+            </or>
+         </triggerPoints>
+         <possibleChildren>
+            <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindDomainNavigatorItem"/>
+         </possibleChildren>
+      </navigatorContent>
+      <actionProvider
+            id="org.ow2.mindEd.adl.editor.graphic.ui.navigatorActionProvider"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindNavigatorActionProvider">
+         <enablement>
+            <or>
+               <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindAbstractNavigatorItem"/>
+            </or>
+         </enablement>
+      </actionProvider>
+   </extension>
+   
+	   <extension point="org.eclipse.ui.navigator.linkHelper" id="navigator-linkhelper">
+      <?gmfgen generated="true"?>
+      <linkHelper
+            id="org.ow2.mindEd.adl.editor.graphic.ui.navigatorLinkHelper"
+            class="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindNavigatorLinkHelper">
+         <editorInputEnablement>
+            <and>
+               <instanceof value="org.eclipse.emf.common.ui.URIEditorInput"/>
+               <test property="org.ow2.mindEd.adl.editor.graphic.ui.isURIEditorInput"/>
+            </and>
+         </editorInputEnablement>
+         <selectionEnablement>
+            <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.navigator.MindAbstractNavigatorItem"/>
+         </selectionEnablement>
+      </linkHelper>
+   </extension>
+   <extension point="org.eclipse.ui.commands" id="update-cmd">
+      <?gmfgen generated="false"?>
+      <command
+         categoryId="org.eclipse.ui.category.edit"
+         defaultHandler="org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.commands.MindDiagramUpdateAllCommand"
+         description="%update.diagram.description"
+         id="org.ow2.mindEd.adl.editor.graphic.ui.updateDiagram"
+         name="%update.diagram.name"/>
+   </extension>
+   
+   <extension point="org.eclipse.ui.bindings" id="update-cmd-binding">
+      <?gmfgen generated="true"?>
+      <key 
+         commandId="org.ow2.mindEd.adl.editor.graphic.ui.updateDiagram"
+         contextId="org.ow2.mindEd.adl.editor.graphic.ui.ui.diagramContext"
+         schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+         sequence="F5"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.menus" id="context-menus">
+      <?gmfgen generated="true"?>
+      <!-- menuContribution locationURI="menu:org.eclipse.ui.main.menu?after=">
+      </menuContribution>
+      <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=">
+      </menuContribution -->
+      <menuContribution locationURI="popup:org.eclipse.gmf.runtime.diagram.ui.DiagramEditorContextMenu">
+         <command commandId="org.ow2.mindEd.adl.editor.graphic.ui.LoadResourceAction">
+            <visibleWhen>
+               <and>
+                  <with variable="activePartId"><equals value="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID"/></with>
+                  <with variable="selection"><iterate ifEmpty="false"> 
+                     <instanceof value="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.AdlDefinitionEditPart"/>
+                  </iterate></with>
+               </and>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands" id="menu-commands">
+      <?gmfgen generated="true"?>
+      <category id="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID" name="%cmdcategory.name" description="%cmdcategory.desc"/>
+      <command id="org.ow2.mindEd.adl.editor.graphic.ui.LoadResourceAction"
+         name="Load Resource"
+         categoryId="org.ow2.mindEd.adl.editor.graphic.ui.MindDiagramEditorID"
+         defaultHandler="org.ow2.mindEd.adl.editor.graphic.ui.part.LoadResourceAction"/>
+   </extension>
+   
+   
+
+   <extension point="org.eclipse.ui.handlers" id="menu-handlers">
+      <?gmfgen generated="true"?>
+   </extension>
+<extension point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders" id="markers-navigation">
+      <?gmfgen generated="true"?>
+      <MarkerNavigationProvider class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindMarkerNavigationProvider">
+         <MarkerType name="org.ow2.mindEd.adl.editor.graphic.ui.diagnostic"/>
+         <Priority name="Lowest"/>
+      </MarkerNavigationProvider>
+   </extension>
+
+<extension id="diagnostic" name="Mind Plugin problems" point="org.eclipse.core.resources.markers">
+      <?gmfgen generated="true"?>
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <super type="org.eclipse.gmf.runtime.common.ui.services.marker"/>
+      <persistent value="true"/>
+   </extension><extension point="org.eclipse.emf.validation.constraintProviders">
+      <?gmfgen generated="true"?>
+            <category id="mindaudits" mandatory="false" name="MindAudits">
+         <![CDATA[OCL constraints validation]]>
+      </category>
+      <category id="mindaudits/References" mandatory="false" name="References">
+         <![CDATA[References]]>
+      </category>
+      <category id="mindaudits/Names" mandatory="false" name="Names">
+         <![CDATA[Names]]>
+      </category>
+      <category id="mindaudits/Code" mandatory="false" name="Code">
+         <![CDATA[Code]]>
+      </category>
+      <category id="mindaudits/Miscellaneous" mandatory="false" name="Miscellaneous">
+         <![CDATA[Miscellaneous]]>
+      </category>
+      <category id="mindaudits/body" mandatory="false" name="Body">
+         <![CDATA[Constraints for Body]]>
+      </category>
+      <constraintProvider cache="true">
+         <package namespaceUri="http://org.ow2.mindEd/adl.ecore/0.2.0"/>
+               <constraints categories="mindaudits">
+                  </constraints>
+         <constraints categories="mindaudits/References">
+                  <constraint id="reference_namecheck"
+            lang="OCL"
+            name="Primitive reference name check"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[self.referenceName.size()>0]]>
+            <description><![CDATA[This will check if a reference's name is correct]]></description>
+            <message><![CDATA[Reference name not valid]]></message>
+            <target class="adl.ComponentReference"/>
+         </constraint>
+                  </constraints>
+         <constraints categories="mindaudits/Names">
+                  <constraint id="component_namecheck"
+            lang="OCL"
+            name="Component name check"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[self.name.size()>0]]>
+            <description><![CDATA[This will check if a component's name is correct]]></description>
+            <message><![CDATA[Component name not valid]]></message>
+            <target class="adl.ArchitectureDefinition"/>
+         </constraint>
+                  <constraint id="interface_name_check"
+            lang="OCL"
+            name="interface_name_check"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[self.name.size() > 0]]>
+            <description><![CDATA[This will check that all interfaces have a name]]></description>
+            <message><![CDATA[Interface must have a name]]></message>
+            <target class="adl.InterfaceDefinition"/>
+         </constraint>
+                  <constraint id="subcomp_same_name"
+            lang="Java" class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindValidationProvider$Adapter4"
+            name="Duplicate name for subcomponents"
+            mode="Live"
+            severity="ERROR" statusCode="200">
+            
+            <description><![CDATA[Duplicate name for subcomponents]]></description>
+            <message><![CDATA[Duplicate name]]></message>
+            <target class="adl.SubComponentDefinition"/>
+         </constraint>
+                  </constraints>
+         <constraints categories="mindaudits/Code">
+                  <constraint id="inline_pattern"
+            lang="OCL"
+            name="inline_pattern"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[let s : String = self.codeC in
+( s.size() > 3 )
+and
+( s.substring(1,2) = '{{' )
+and
+( s.substring(s.size()-1,s.size()) = '}}' )]]>
+            <description><![CDATA[This will check that an inline c code begins and ends with double curly brackets]]></description>
+            <message><![CDATA[Inline code must begin and end with double curly brackets]]></message>
+            <target class="adl.InlineCodeC"/>
+         </constraint>
+                  <constraint id="data_content"
+            lang="OCL"
+            name="data_content"
+            mode="Live"
+            severity="ERROR" statusCode="200">
+            <![CDATA[(self.fileC=null or self.inlineCcode=null)]]>
+            <description><![CDATA[This will check that datas only has one content]]></description>
+            <message><![CDATA[Data must be File or Inline]]></message>
+            <target class="adl.DataDefinition"/>
+         </constraint>
+                  <constraint id="source_not_empty"
+            lang="OCL"
+            name="source_not_empty"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[not(self.fileC=null and self.inlineCcode=null)]]>
+            <description><![CDATA[This will check that an implementation is not empty]]></description>
+            <message><![CDATA[Source must not be empty]]></message>
+            <target class="adl.ImplementationDefinition"/>
+         </constraint>
+                  <constraint id="source_content"
+            lang="OCL"
+            name="source_content"
+            mode="Live"
+            severity="ERROR" statusCode="200">
+            <![CDATA[(self.fileC=null or self.inlineCcode=null)]]>
+            <description><![CDATA[This will check that sources only has one content]]></description>
+            <message><![CDATA[Source must be File or Inline]]></message>
+            <target class="adl.ImplementationDefinition"/>
+         </constraint>
+                  </constraints>
+         <constraints categories="mindaudits/Miscellaneous">
+                  <constraint id="adl_not_empty"
+            lang="OCL"
+            name="adl_not_empty"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[( ArchitectureDefinition.allInstances()->size() > 0)]]>
+            <description><![CDATA[This will check that the adl is not empty]]></description>
+            <message><![CDATA[There must be at least one element]]></message>
+            <target class="adl.AdlDefinition"/>
+         </constraint>
+                  </constraints>
+         <constraints categories="mindaudits/body">
+                  <constraint id="body_not_empty"
+            lang="OCL"
+            name="body_not_empty"
+            mode="Batch"
+            severity="ERROR" statusCode="200">
+            <![CDATA[self.elements->size() > 0]]>
+            <description><![CDATA[This will check that a body is not empty]]></description>
+            <message><![CDATA[There must be at least one element in a body]]></message>
+            <target class="adl.Body"/>
+         </constraint>
+                  </constraints>
+      </constraintProvider>
+   </extension>
+
+<extension point="org.eclipse.emf.validation.constraintBindings">
+      <?gmfgen generated="true"?>
+      <clientContext default="false" id="org.ow2.mindEd.adl.editor.graphic.uiDefaultCtx">
+         <selector class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindValidationProvider$DefaultCtx"/>
+      </clientContext>
+      <binding context="org.ow2.mindEd.adl.editor.graphic.uiDefaultCtx">
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.reference_namecheck"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.component_namecheck"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.interface_name_check"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.subcomp_same_name"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.inline_pattern"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.data_content"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.source_not_empty"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.source_content"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.adl_not_empty"/>
+                  <constraint ref="org.ow2.mindEd.adl.editor.graphic.ui.body_not_empty"/>
+               </binding>
+
+   </extension>
+<extension id="validationDecoratorProvider" name="ValidationDecorations" point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+      <?gmfgen generated="true"?>
+      <decoratorProvider class="org.ow2.mindEd.adl.editor.graphic.ui.providers.MindValidationDecoratorProvider">
+         <Priority name="High"/>
+         <object class="org.eclipse.gmf.runtime.diagram.ui.editparts.IPrimaryEditPart(org.eclipse.gmf.runtime.diagram.ui)" id="PRIMARY_VIEW"/>
+         <context decoratorTargets="PRIMARY_VIEW"/>
+      </decoratorProvider>
+   </extension>
+
+<extension point="org.eclipse.emf.validation.ui.UIRegisteredClientContext">
+      <?gmfgen generated="true"?>
+      <clientContext id="org.ow2.mindEd.adl.editor.graphic.uiDefaultCtx"/>
+   </extension>
+<extension
+      point="org.eclipse.gmf.runtime.diagram.ui.resources.editor.documentProviders">
+   <provider
+         class="org.ow2.mindEd.adl.editor.graphic.ui.custom.providers.MindCustomDocumentProvider"
+         documentType="org.eclipse.gmf.runtime.diagram.ui.editor.IDocument"
+         id="org.ow2.mindEd.adl.editor.graphic.ui.MindDocumentProvider">
+   </provider>
+</extension>
+<extension
+      point="org.eclipse.gmf.runtime.diagram.ui.decoratorProviders">
+   <decoratorProvider
+         class="org.ow2.mindEd.adl.editor.graphic.ui.custom.providers.AnnotationIconsProvider">
+      <Priority
+            name="Highest">
+      </Priority>
+      <context
+            decoratorTargets="PRIMARY_VIEW">
+      </context>
+      <object
+            class="org.eclipse.gmf.runtime.diagram.ui.editparts.IPrimaryEditPart(org.eclipse.gmf.runtime.diagram.ui)"
+            id="PRIMARY_VIEW">
+      </object>
+   </decoratorProvider>
+</extension>
+<extension
+      point="org.eclipse.gmf.runtime.diagram.core.viewProviders">
+   <viewProvider
+         class="org.ow2.mindEd.adl.editor.graphic.ui.custom.providers.MindCustomViewProvider">
+      <Priority
+            name="Low">
+      </Priority>
+      <context
+            semanticHints="4003"
+            viewClass="org.eclipse.gmf.runtime.notation.Edge">
+      </context>
+   </viewProvider>
+</extension>
+
+
+
+
+
+
+   <!-- optionally, specify keybindings -->
+</plugin>

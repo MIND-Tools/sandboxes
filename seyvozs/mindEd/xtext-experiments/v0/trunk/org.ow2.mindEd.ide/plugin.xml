@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="org.ow2.mindEd.ide.core.builder"
+         name="Mind cadse Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.ow2.mindEd.ide.core.MindIdeBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.ow2.mindEd.ide.core.nature"
+         name="Mind Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.ow2.mindEd.ide.core.MindNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.ow2.mindEd.ide.core.builder">
+      </builder>
+      <requires-nature
+            id="org.eclipse.cdt.core.cnature">
+      </requires-nature>
+      <requires-nature
+            id="org.eclipse.xtext.ui.shared.xtextNature">
+      </requires-nature>
+   </extension>
+      <extension
+         id="org.ow2.mindEd.ide.core.ide.mindcProblem"
+         name="Mindc Problem"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+	  <super type="org.eclipse.core.resources.textmarker"/>
+      <persistent
+            value="true">
+      </persistent>      
+       <attribute name="description"/>
+       <attribute name="parameters"/>
+       <super
+             type="org.eclipse.xtext.ui.check">
+       </super>
+   </extension>
+      <extension
+            point="org.eclipse.emf.ecore.factory_override">
+         <factory
+               class="org.ow2.mindEd.ide.core.impl.MindideFactoryImplCustom"
+               uri="http://org.ow2.mindEd/ide.ecore/0.2.0">
+         </factory>
+      </extension>
+      <extension
+            point="org.eclipse.core.expressions.propertyTesters">
+         <propertyTester
+               class="org.ow2.mindEd.ide.core.property.MindPropertyTester"
+               id="org.ow2.mindEd.ide.core.ide.mindproject-open"
+               namespace="org.eclipse.core.resources"
+               properties="open"
+               type="org.ow2.mindEd.ide.core.impl.MindProjectImpl">
+         </propertyTester>
+         <propertyTester
+               class="org.ow2.mindEd.ide.core.property.MindPropertyTester"
+               id="org.ow2.mindEd.ide.core.ide.propertyTester1"
+               namespace="org.eclipse.core.resources"
+               properties="open"
+               type="org.ow2.mindEd.ide.model.MindRepo">
+         </propertyTester>
+      </extension>
+      <extension
+            point="org.eclipse.cdt.managedbuilder.core.buildDefinitions">
+      </extension>
+	  <extension
+		id="mind.cpl.settings"
+		name="Mind CPL project settings"
+		point="org.eclipse.cdt.core.externalSettingsProvider">
+		<provider
+				class="org.ow2.mindEd.ide.core.impl.CPLMacroSettings">
+		</provider>
+	  </extension>
+
+</plugin>

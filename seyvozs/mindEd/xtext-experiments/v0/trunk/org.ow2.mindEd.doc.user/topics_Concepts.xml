@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+<!-- Defines topics that will be inserted under the C/C++ Development User Guide menu-->
+
+<toc label="Concepts">
+	<topic label="Mind Projects" href="concepts/mind_projects.htm"/> 
+	<topic label="Perspectives available to Mind developers" href="concepts/mind_c_perspectives.htm"/> 
+	<topic label="Views in the C/C++ perspective" href="concepts/mind_c_views.htm"/> 
+	<topic label="Editing ADL files" href="concepts/mind_o_edit.htm"> 
+		<topic label="Adl text editor" href="concepts/mind_adl_text_editor.htm"/>
+		<topic label="Mind diagram editor" href="concepts/mind_diagram_editor.htm"/>
+	</topic>
+ <topic label="Editing IDL">
+    <topic href="concepts/mind_idl_text_editor.htm" label="IDL text editor">
+    </topic>
+ </topic>
+	<topic label="Build" href="concepts/mind_buildproject.htm"> 
+	</topic>
+</toc>

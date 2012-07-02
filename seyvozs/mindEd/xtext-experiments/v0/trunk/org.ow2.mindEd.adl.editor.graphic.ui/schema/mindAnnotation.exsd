@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.ow2.mindEd.adl.editor.graphic.ui" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.ow2.mindEd.adl.editor.graphic.ui" id="mindAnnotation" name="mindAnnotation"/>
+      </appInfo>
+      <documentation>
+         This extension point will modify the visual representation of an element when annotated with the right annotation.
+User can change color or add an icon representing the annotation.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="Annotation"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Annotation">
+      <complexType>
+         <choice>
+            <element ref="Appearance" minOccurs="1" maxOccurs="unbounded"/>
+         </choice>
+         <attribute name="annotationName" type="string">
+            <annotation>
+               <documentation>
+                  The name of the annotation, without @, e.g. : singleton.
+Let this field empty to apply this rule for any annotation.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Element">
+      <annotation>
+         <documentation>
+            The element type this annotation will affect.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="elementType" use="required">
+            <annotation>
+               <documentation>
+                  The type of elements this extension will apply on.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Components">
+                  </enumeration>
+                  <enumeration value="Bindings">
+                  </enumeration>
+                  <enumeration value="Interfaces">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Appearance">
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="Element"/>
+         </sequence>
+         <attribute name="color">
+            <annotation>
+               <documentation>
+                  The element will take this color if it has the annotation.
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Blue">
+                  </enumeration>
+                  <enumeration value="Light Blue">
+                  </enumeration>
+                  <enumeration value="Brown">
+                  </enumeration>
+                  <enumeration value="Light Brown">
+                  </enumeration>
+                  <enumeration value="Green">
+                  </enumeration>
+                  <enumeration value="Light Green">
+                  </enumeration>
+                  <enumeration value="Grey">
+                  </enumeration>
+                  <enumeration value="Light Grey">
+                  </enumeration>
+                  <enumeration value="Orange">
+                  </enumeration>
+                  <enumeration value="Light Orange">
+                  </enumeration>
+                  <enumeration value="Purple">
+                  </enumeration>
+                  <enumeration value="Light Purple">
+                  </enumeration>
+                  <enumeration value="Red">
+                  </enumeration>
+                  <enumeration value="Light Red">
+                  </enumeration>
+                  <enumeration value="Yellow">
+                  </enumeration>
+                  <enumeration value="Light Yellow">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="icon" type="string">
+            <annotation>
+               <documentation>
+                  An icon that will be seen on the upper right of the element if it has the annotation.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;extension
+      point=&quot;org.ow2.mindEd.adl.editor.graphic.ui.mindAnnotation&quot;&gt;
+   &lt;Annotation
+         annotationName=&quot;singleton&quot;&gt;
+      &lt;Appearance
+            icon=&quot;icons/Annotation.gif&quot;&gt;
+         &lt;Element
+               elementType=&quot;Components&quot;&gt;
+         &lt;/Element&gt;
+      &lt;/Appearance&gt;
+   &lt;/Annotation&gt;
+   &lt;Annotation
+         annotationName=&quot;distributed&quot;&gt;
+      &lt;Appearance
+            color=&quot;Red&quot;&gt;
+         &lt;Element
+               elementType=&quot;Bindings&quot;&gt;
+         &lt;/Element&gt;
+      &lt;/Appearance&gt;
+   &lt;/Annotation&gt;
+&lt;/extension&gt;
+
+Components annotated with @singleton will display the Annotation.gif icon (found under the project defining this extension).
+Bindings annotated with @distributed will take the red colour
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiinfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

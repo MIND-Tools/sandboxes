@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="../help.css">
+<style>
+.failed {
+	color: red;
+	text-transform:capitalize;
+	font-weight:bold;
+}
+.def {
+	color: blue;
+}
+</style>
+<title>MindEd - Textual Editor</title>
+</head>
+<body>
+
+<h1 id="top">MindEd - ADL Textual Editor</h1>
+
+The ADL textual editor is in charge of assist user for editing MIND component definitions. 
+Build on top of the Textual Modeling Framework, it supplies usual facilities for textual edition.
+This documentation describes the different features of the MindEd Adl textual editor. <br /><br />
+
+<ul>
+	<li> <span class="def">Syntax Highlighting</span> <br />
+		In order to increase the readability of component definitions, keywords are recognized and colored, 
+		according to the Graphical representation colors. You are free to change it by choosing
+		<b>Window &gt; Preferences &gt; Fractal &gt; Syntax Coloring </b> from the menu bar.
+	</li>
+	<br />
+	<li> <span class="def"> Content-Assist </span> <br />
+		The content-assist feature is able to guide you during the edition. By pressing <b>Ctrl + Space</b> 
+		into the ADL editor, a list of available keywords or templates is displayed in the respect 
+		of the Mind ADL grammar. 
+	</li>
+	<br /> 
+	<li> <span class="def"> Templates </span> <br />
+		Some templates are available in order to facilitate declaration, for example the description of 
+		an interface can be helped by the selection of the template <b>provided interface</b>, which
+		automatically create the corresponding syntax.  
+	</li>
+	<br />
+	<li> <span class="def"> Validation </span> <br />
+		If you make a mistake when you are editing a component description, a warning (or an error) is 
+		displayed inside the Eclipse problem view and directly into the editor. When you put the cursor 
+		on it, a message describes the error more precisely.
+	</li>
+	<br /> 
+	<li> <span class="def"> QuickFix </span> <br />
+		Some of the detected errors can be automatically fixed with the help of the Eclipse quickfix.
+		These errors are identified with the Eclipse quickfix pictogram (an ampoule), and you can use 
+		<b>Ctrl + Shift + 1</b> for triggering the fix. 
+	</li>
+</ul>
+</body>
+</html>
+

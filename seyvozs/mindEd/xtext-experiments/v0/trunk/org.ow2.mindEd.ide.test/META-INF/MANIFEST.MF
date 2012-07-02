@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.ow2.mindEd.ide.test
+Bundle-Version: 0.2.1.qualifier
+Bundle-Activator: org.ow2.mindEd.ide.test.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.ow2.mindEd.ide;bundle-version="0.2.1",
+ org.ow2.mindEd.ide.model;bundle-version="0.2.1",
+ org.ow2.mindEd.ide.edit;bundle-version="0.2.1",
+ org.ow2.mindEd.ide.editor;bundle-version="0.2.1",
+ org.junit4,
+ org.eclipse.cdt.make.core,
+ org.eclipse.cdt.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.eclipse.cdt.core,
+ org.eclipse.cdt.core.model,
+ org.eclipse.cdt.core.settings.model,
+ org.eclipse.cdt.make.core.makefile.gnu,
+ org.eclipse.cdt.managedbuilder.core,
+ org.eclipse.cdt.newmake.core,
+ org.eclipse.jdt.internal.junit4.runner,
+ org.objectweb.fractal.adl,
+ org.objectweb.fractal.adl.error
+Export-Package: org.ow2.mindEd.ide.test
+Bundle-Vendor: Partenaire Minalogic

@@ -1,0 +1,10 @@
+«AROUND getDefaultFactoryHint FOR gmfgen::GenContainerBase-»
+	«EXPAND xpt::Common::generatedMemberComment»
+	@Override
+	protected String getFactoryHint(org.eclipse.core.runtime.IAdaptable elementAdapter) {
+		// Return a semantic hint as a workaround for bug https://bugs.eclipse.org/bugs/show_bug.cgi?id=281014
+		CanonicalElementAdapter element = (CanonicalElementAdapter) elementAdapter;
+		int VID = MindVisualIDRegistry.getNodeVisualID((org.eclipse.gmf.runtime.notation.View) getHost().getModel(), (org.eclipse.emf.ecore.EObject)element.getRealObject());
+		return MindVisualIDRegistry.getType(VID);
+	}
+«ENDAROUND»

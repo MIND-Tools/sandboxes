@@ -1,0 +1,104 @@
+«IMPORT 'http://www.eclipse.org/gmf/2009/GenModel'»
+«EXTENSION xpt::diagram::ViewmapAttributesUtils»
+«EXTENSION xpt::diagram::editparts::Utils»
+«EXTENSION xpt::diagram::Utils»
+
+
+
+«REM» Default size set to 10 instead of 40 «ENDREM» 
+«AROUND setupNodePlate FOR gmfgen::GenNode»
+		result.setDefaultSize(20, 10);
+«ENDAROUND»
+
+«AROUND createDefaultEditPoliciesBody FOR gmfgen::GenNode-»
+	«targetDef.proceed()»
+	getMindProxy().createDefaultEditPolicies();
+	removeEditPolicy(org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles.CONNECTION_HANDLES_ROLE);
+«ENDAROUND»
+
+
+«AROUND addFixedChild FOR gmfgen::GenNode-»
+	
+	«EXPAND xpt::Common::generatedMemberComment»
+	protected boolean addFixedChild(org.eclipse.gef.EditPart childEditPart) {
+		if (getMindProxy().addFixedChild(childEditPart)) return true;
+«FOREACH getInnerFixedLabels(self) AS label»«LET label.viewmap.oclAsType(gmfgen::ParentAssignedViewmap) AS childViewmap-»
+		if (childEditPart instanceof «label.getEditPartQualifiedClassName()») {
+			((«label.getEditPartQualifiedClassName()») childEditPart).«EXPAND impl::diagram::editparts::TextAware::labelSetterName FOR childViewmap»(getPrimaryShape().«childViewmap.getterName»());
+			return true;
+		}
+«ENDLET»«ENDFOREACH-»
+«FOREACH getPinnedCompartments(self) AS compartment»«LET compartment.viewmap.oclAsType(gmfgen::ParentAssignedViewmap) AS childViewmap-»
+		if (childEditPart instanceof «compartment.getEditPartQualifiedClassName()») {
+			org.eclipse.draw2d.IFigure pane = getPrimaryShape().«childViewmap.getterName»();
+			setupContentPane(pane); // FIXME each comparment should handle his content pane in his own way 
+			pane.add(((«compartment.getEditPartQualifiedClassName()») childEditPart).getFigure());
+			return true;
+		}	
+«ENDLET»«ENDFOREACH-»
+«FOREACH getSideAffixedChildren(self) AS child-»
+		if (childEditPart instanceof «child.getEditPartQualifiedClassName()») {
+			org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemLocator locator = new org.eclipse.gmf.runtime.diagram.ui.figures.BorderItemLocator(getMainFigure(), org.eclipse.draw2d.PositionConstants.«child.preferredSideName»);
+			getBorderedFigure().getBorderItemContainer().add(((«child.getEditPartQualifiedClassName()») childEditPart).getFigure(), locator);
+			return true;
+		}
+«ENDFOREACH-»
+		return false;
+	}
+«ENDAROUND»
+
+
+«AROUND innerClassDeclaration FOR gmfgen::InnerClassViewmap»
+		
+	«EXPAND xpt::Common::generatedMemberComment»
+	protected org.eclipse.swt.graphics.Color getMindBorderColor() {
+		return getMindProxy().getMindBorderColor();
+	}
+	
+	«EXPAND xpt::Common::generatedMemberComment»
+	protected org.eclipse.swt.graphics.Color getMindBackgroundColor() {
+		return getMindProxy().getMindBackgroundColor();
+	}
+	
+	«EXPAND xpt::Common::generatedMemberComment»
+	protected org.eclipse.draw2d.geometry.Dimension getMindPreferredSize() {
+		return getMindProxy().getMindPreferredSize();
+	}
+	
+	«classBody»
+«ENDAROUND»
+
+«AROUND setupContentPane FOR gmfgen::GenNode-»
+	«EXPAND xpt::Common::generatedMemberComment(
+		'Default implementation treats passed figure as content pane.\n' + 
+		'Respects layout one may have set for generated figure.\n' + 
+		'@param nodeShape instance of generated figure class'
+	)»
+	protected org.eclipse.draw2d.IFigure setupContentPane(org.eclipse.draw2d.IFigure nodeShape) {
+		org.eclipse.draw2d.IFigure shape = getMindProxy().setupContentPane(nodeShape);
+		if (shape != null) return shape;
+		
+		«IF not childNodes->isEmpty() or (not compartments->isEmpty() or labels[not oclIsKindOf(gmfgen::GenExternalNodeLabel)]->notEmpty())-»
+			if (nodeShape.getLayoutManager() == null) {
+				«IF getLayoutType() = gmfgen::ViewmapLayoutType::XY_LAYOUT-»
+					nodeShape.setLayoutManager(new org.eclipse.draw2d.FreeformLayout() {
+
+						public Object getConstraint(org.eclipse.draw2d.IFigure figure) {
+							Object result = constraints.get(figure);
+							if (result == null) {
+								result = new org.eclipse.draw2d.geometry.Rectangle(0, 0, -1, -1);
+							}
+							return result;
+						}
+					});
+				«ELSE-»
+					org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout layout =new org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout();
+					layout.setSpacing(«IF getDiagram().isPixelMapMode()»5«ELSE»getMapMode().DPtoLP(5)«ENDIF»);
+					nodeShape.setLayoutManager(layout);
+				«ENDIF-»
+			}
+		«ENDIF-»
+		return nodeShape; // use nodeShape itself as contentPane
+	}
+«ENDAROUND»
+

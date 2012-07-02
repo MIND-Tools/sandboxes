@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry excluding="org/ow2/fractal/mind/idl/contentassist/|org/ow2/fractal/mind/idl/labeling/|org/ow2/fractal/mind/idl/outline/|org/ow2/fractal/mind/idl/AntlrTokenToAttributeIdMapper.java|org/ow2/fractal/mind/idl/FractalItfUiModule.java|org/ow2/fractal/mind/idl/LexicalHighlightingConfiguration.java|org/ow2/fractal/mind/idl/SemanticHighlightingCalculator.java|org/ow2/fractal/mind/idl/SemanticHighlightingConfiguration.java" kind="src" path="src"/>
+	<classpathentry kind="src" path="src-gen"/>
+	<classpathentry kind="src" path="templates"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,11 @@
+primitive components.Meter  {
+	data {{
+		struct {
+			int value;
+		} PRIVATE;
+	}};
+  
+  	source meter.c ;
+  	
+    provides Control as control;
+}

@@ -1,0 +1,12 @@
+«IMPORT 'http://www.eclipse.org/gmf/2009/GenModel'»
+«EXTENSION xpt::diagram::editparts::Utils»
+
+«AROUND additions FOR gmfgen::GenNodeLabel-»
+	«EXPAND xpt::Common::generatedMemberComment»
+	protected org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxy mindProxy = org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxyFactory.INSTANCE.createMindProxy (this, VISUAL_ID);
+	
+	«EXPAND xpt::Common::generatedMemberComment»
+	public org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxy getMindProxy() {
+		return mindProxy;
+	}
+«ENDAROUND»

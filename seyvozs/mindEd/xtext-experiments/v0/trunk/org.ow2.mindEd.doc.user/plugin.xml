@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts_MIND_UI.xml"
+            plugin="org.ow2.mindEd.ide.ui">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="org.ow2.fractal.mind.doc.user.category.tutorials"
+            name="%CheatSheet.name">
+      </category>
+      <cheatsheet
+    		category="org.ow2.fractal.mind.doc.user.category.tutorials"
+    		composite="false"
+    		contentFile="$nl$/cheatsheets/cs_mind_basic.xml"
+    		id="org.eclipse.cdt-doc.cheatsheet.cdt_basic"
+    		name="%CreateProjectTutorial.name">
+       		<description>
+          		%CreateProjectTutorial.description
+       		</description>
+    	</cheatsheet>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="topics_Concepts.xml"
+            primary="false">
+      </toc>
+      <toc
+            file="contexts_MIND_UI.xml"
+            primary="false">
+      </toc>
+      <!--toc
+            file="tocgettingstarted.xml">
+      </toc>
+      <toc
+            file="tocreference.xml">
+      </toc>
+      <toc
+            file="tocsamples.xml">
+      </toc>
+      <toc
+            file="toctasks.xml">
+      </toc-->
+   </extension>
+
+</plugin>

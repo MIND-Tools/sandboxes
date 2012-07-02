@@ -1,0 +1,8 @@
+primitive components.IHM {
+	nodata;
+  
+  	source iHM.c;
+  	
+  	requires Service as admin
+  	provides Prompt as main
+}

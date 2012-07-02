@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="../help.css">
+<style>
+.failed {
+	color: red;
+	text-transform:capitalize;
+	font-weight:bold;
+}
+.def {
+	color: blue;
+}
+</style>
+<title>MindEd - Graphical Editor</title>
+</head>
+<body>
+
+<h1 id="top">MindEd - Graphical Editor</h1>
+
+The MindEd Graphical Editor (or Diagram Editor) provides a graphical representation of adl files.<br/>
+It also supplies various features for edition.<br /><br />
+
+<strong>Features</strong>
+<ul>
+	<li> <span class="def"> Palette </span> <br />
+	The palette provides creation tools for all items, in the form of a paint-like application.
+	By default, it stands by the right of the diagram but it is movable like any other eclipse view.<br/>
+	The palette can be shown/hidden using the arrow at the upper right.
+	</li>
+	<br />
+	<li> <span class="def"> Properties view </span> <br />
+	The properties view display the attributes' values of the selected item (e.g. name). These can be modified
+	if not greyed out. To show this view, clic on an element and select "Show properties view".
+	</li>
+	<br />
+	<li> <span class="def"> Labels </span> <br />
+	Names or values are displayed in the editor, and can be directly edited.
+	</li>
+	<br />
+	<li> <span class="def"> Serialization </span> <br />
+	Created or modified items are serialized, meaning that the appropriate code will be generated in the adl file.
+	</li>
+	<br /> 
+	<li> <span class="def"> Zoom </span> <br />
+	Zoom or dezoom with ctrl + mousewheel.
+	</li>
+	<br />
+	<li> <span class="def"> Validation </span> <br />
+	If you make a mistake when you are editing an adl file, a warning (or an error) is 
+	displayed inside the Eclipse problem view and directly into the editor. When you put the cursor 
+	on it, a message describes the error more precisely.<br/>
+	Some problems will keep you from saving in order not to generate incoherent code.
+	</li>
+	<br /> 
+	<li> <span class="def"> Links to other definitions </span> <br />
+	When other files are referenced by a label, double clic on it to open the file in a new tab.<br/>
+	This feature includes :
+	- adl files (e.g. extends or conformsto)<br/>
+	- cpl files (e.g. source or data)<br/>
+	- itf files (e.g. provides or requires)
+	</li>
+	<br /> 
+	<li> <span class="def"> Sub Components </span> <br />
+	Sub components switch from composite/primitive and anonymous/inherited depending on their contents.<br/>
+	To change the kind, either change the reference or delete the body to create a new one.
+	</li>
+	<br /> 
+	<li> <span class="def"> Opening </span> <br />
+	To open a definition in the graphical editor :<br/>
+	- In Mind View, right clic > Open With > MindEd Graphical Editor
+	- In Package Explorer, open the xx.adl_diagram file
+	</li>
+	<br /> 
+	<li> <span class="def"> org.ow2.mindEd.adl.editor.graphic.ui.mindAnnotation extension </span> <br />
+	To define your own annotation, this extension point can be used.
+	<br/>If you are familiar with Eclipse's extension points,
+	define a new extension org.ow2.mindEd.adl.editor.graphic.ui.mindAnnotation and see
+	the extension point description for help.
+	<br/>If you are not, these steps will help you declare the extension :
+	<br/><br/><u>Creating the plug-in project</u> 
+	<ol> 
+	  <li>Open the <b>New Project...</b> wizard (<b>File &gt; New &gt; Project...</b></a>)
+	    and choose <b>Plug-in Project </b>from the <b>Plug-in Development</b> category
+	    and click <strong>Next</strong>.</li> 
+	  <li>On the <strong>Plug-in Project </strong> page, set the project name and check the box for <strong>Create a Java project</strong> 
+	    (this should be the default).  Leave the other settings on the page with their default
+	    settings and then click <strong>Next</strong> to accept the default plug-in project structure.</li> 
+	  <li>On the <strong>Plug-in Content</strong> page, look at the default settings.  The wizard sets the project name 
+	    as the id of the plug-in.&nbsp; The wizard will also generate a plug-in class for your plug-in and allow you to supply additional information about
+	    contributing to the UI.  These defaults are acceptable, so click <strong>Next</strong>.  </li> 
+	  <li>Next page is the <strong>Templates</strong> page. We don't need any of the features proposed by
+	  the templates so uncheck the box for <strong>Create a plug-in using one of the templates</strong>.
+	     Click <strong>Finish</strong>.  </li> 
+	</ol>
+	     
+	<u>Creating the extension</u> 
+	<ol> 
+	  <li>Open the <strong>MANIFEST.MF</strong> and go to the <strong>Extensions</strong> tab.</li>
+	  <li>Click on <strong>Add...</strong> then search for <strong>mindAnnotation</strong> using the <strong>Extension Point Filter</strong></li>
+	  <li>You'll notice that the extension point is not visible ; it's because we did not add mindEd plugin in our dependencies list.
+	  Uncheck the box <strong>Show only extension points from the required plug-ins</strong> and the extension point appears. Select it and <strong>Finish</strong>.
+	  Eclipse asks if you want to add declaring plug-in in the dependencies list, answer <strong>Yes</strong>.</li>
+	</ol>
+	
+	<u>Setting up the annotation</u>
+	<br/><p>The extension is declared, we now have to set our annotation.</p>
+	<ol>
+		<li>You've got a first element created : <strong>(Annotation)</strong>.
+		Click on it and notice a field <strong>annotationName</strong>. Fill it with the annotation which you want to
+		alter the behavior. e.g. : singleton.</li>
+		<li>Right click on <strong>(Annotation)</strong> and select <strong>New > Appearance</strong>. Now you can select
+		how the annotation will alter the appearance of affected elements.<br/>
+		<strong>Color :</strong> select a color or let the field blank. The element will take this color if it has the annotation.<br/>
+		<strong>Icon :</strong> select an icon in your project path. The element will display this icon at its upper right.</li>
+		<li>By default, the <strong>Appearance</strong> will have an <strong>Components (Element)</strong>.
+		This is the type of elements affected by the appearance. It is possible to modify the element type, or add a new one
+		to let the appearance affect multiple types.<br/>
+		A single annotation can also have multiple appearances for different element types. If it is redundant, only the first one will be applied.</li>
+	</ol>
+	
+	<u>Deploying the plug-in</u>
+	<br/><p>The plug-in must now be deployed in your Eclipse installation.</p>
+	<ol>
+		<li>Click on your project and select <strong>Export</strong>. In the wizard, open the category
+		<strong>Plug-in Development</strong> and select <strong>Deployable plug-ins and fragments</strong>.
+		Click <strong>Next</strong>.</li>
+		<li>Set the destination directory to your Eclipse folder. e.g. D:\MindEd\eclipse. Click <strong>Finish</strong></li>
+		<li>The jar plug-in is installed in the eclipse/plugins directory. Eclipse needs to be restarted to take it in account.</li>
+	</ol>
+	</ul>
+	
+<strong>Troubleshooting</strong>
+<ul>
+	<li> <span class="def"> I can't open the diagram file anymore </span> <br />
+	Try to delete the adl_diagram file, and recreate it with a right clic on the .adl > Initialize adl_diagram file 
+	(in package explorer)
+	</li>
+	<br />
+</ul>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="MindEd update site">
+      Le projet MIND veut proposer à la communauté industrielle et
+académique du logiciel embarqué une technologie d’assemblage
+de composants logiciels fondamentale, robuste, stable et pérenne,
+adaptable aux problématiques métiers de chacun.
+   </description>
+   <feature url="features/org.ow2.mindEd.feature_0.3.0.qualifier.jar" id="org.ow2.mindEd.feature" version="0.3.0.qualifier">
+      <category name="MindEd"/>
+   </feature>
+   <feature url="features/org.ow2.mindEd.feature.sdk_0.3.0.qualifier.jar" id="org.ow2.mindEd.feature.sdk" version="0.3.0.qualifier">
+      <category name="MindEd"/>
+   </feature>
+   <category-def name="MindEd" label="MindEd Minalogic"/>
+</site>

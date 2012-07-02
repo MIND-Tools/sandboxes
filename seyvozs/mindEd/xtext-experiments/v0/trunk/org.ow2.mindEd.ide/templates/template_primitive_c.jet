@@ -1,0 +1,6 @@
+<%@ jet package="org.ow2.mindEd.ide.core.template" class="TemplatePrimitiveC" skeleton="mindadl3.skeleton" %>
+
+// -----------------------------------------------------------------------------
+// Implementation of the primitive <%=qn%>.
+// -----------------------------------------------------------------------------
+

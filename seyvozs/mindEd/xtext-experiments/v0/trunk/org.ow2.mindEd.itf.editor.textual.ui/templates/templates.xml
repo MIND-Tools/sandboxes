@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<templates>
+
+<!-- Template proposal for structural typedef -->
+<template autoinsert="true" context="org.ow2.mindEd.itf.editor.textual.FractalItf.TypedefSpecification" deleted="false" description="struct type definition" enabled="true" name="structure typedef" id="struct_typedef">
+typedef struct ${struct_name} {
+} ${type_name};
+</template>
+
+
+<!-- Template proposal for enum -->
+<template autoinsert="true" context="org.ow2.mindEd.itf.editor.textual.FractalItf.TypedefSpecification" deleted="false" description="enum definition" enabled="true" name="enum typedef" id="enum">
+typedef enum { 
+} type_name;
+</template>
+
+<!-- Template proposal for interface definition-->
+<template autoinsert="true" context="org.ow2.mindEd.itf.editor.textual.FractalItf.InterfaceDefinition" deleted="false" description="interface definition" enabled="true" name="interface definition" id="idf_interface">
+interface ${interface_name} {
+}
+</template>
+
+<!-- Template proposal for method definition -->
+<template autoinsert="true" context="org.ow2.mindEd.itf.editor.textual.FractalItf.MethodDefinition" deleted="false" description="method signature" enabled="true" name="method" id="method">
+${return_type} ${method_name} ( ${argument_list} );  
+</template>
+
+</templates>

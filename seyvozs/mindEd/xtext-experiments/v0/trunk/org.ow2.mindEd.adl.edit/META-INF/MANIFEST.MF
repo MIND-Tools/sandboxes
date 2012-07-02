@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.ow2.mindEd.adl.edit;singleton:=true
+Bundle-Version: 0.2.1.qualifier
+Bundle-ClassPath: .
+Bundle-Activator: org.ow2.mindEd.adl.provider.MindEditPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.ow2.mindEd.adl.provider
+Require-Bundle: org.eclipse.core.runtime,
+ org.ow2.mindEd.adl.model;bundle-version="0.2.1";visibility:=reexport,
+ org.eclipse.emf.edit;visibility:=reexport,
+ org.ow2.mindEd.ide;bundle-version="0.2.1"
+Bundle-ActivationPolicy: lazy
+Import-Package: org.ow2.mindEd.ide.core

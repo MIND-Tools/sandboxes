@@ -1,0 +1,11 @@
+primitive components.Server (meters) {
+	nodata;
+  
+  	source server.c;
+  	
+  	provides Service as service
+  	
+  	requires Control as control [10]
+  	
+  	attribute int nbMeters = meters
+}

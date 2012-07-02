@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.ow2.mindEd.ide.model;singleton:=true
+Bundle-Version: 0.2.1.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.ow2.mindEd.ide.model;version="0.2.1",
+ org.ow2.mindEd.ide.model.impl;version="0.2.1",
+ org.ow2.mindEd.ide.model.validation;version="0.2.1",
+ org.ow2.mindEd.ide.util;version="0.2.1"
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.core.resources

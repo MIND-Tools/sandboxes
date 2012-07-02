@@ -1,0 +1,36 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.ow2.mindEd.itf.editor.textual.model
+Bundle-Vendor: Partenaire Minalogic
+Bundle-Version: 0.2.1.qualifier
+Bundle-SymbolicName: org.ow2.mindEd.itf.editor.textual.model; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.generator;resolution:=optional,
+ de.itemis.xtext.antlr;resolution:=optional,
+ org.apache.commons.logging;resolution:=optional,
+ org.eclipse.emf.codegen.ecore;resolution:=optional,
+ org.eclipse.emf.mwe.utils;resolution:=optional,
+ org.eclipse.emf.mwe.core;resolution:=optional,
+ com.ibm.icu;resolution:=optional,
+ org.eclipse.xtext.xtend;resolution:=optional,
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.antlr.runtime,
+ org.ow2.mindEd.ide;bundle-version="0.2.1",
+ org.ow2.mindEd.adl.textual.ui;bundle-version="0.2.1"
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.ow2.mindEd.itf.editor.textual.fractalIDL,
+ org.ow2.mindEd.itf.editor.textual.fractalIDL.impl,
+ org.ow2.mindEd.itf.editor.textual.fractalIDL.util,
+ org.ow2.mindEd.itf.editor.textual.parseTreeConstruction,
+ org.ow2.mindEd.itf.editor.textual.parser.antlr,
+ org.ow2.mindEd.itf.editor.textual.parser.antlr.internal,
+ org.ow2.mindEd.itf.editor.textual.services,
+ org.ow2.mindEd.itf.editor.textual,
+ org.ow2.mindEd.itf.editor.textual.formatting,
+ org.ow2.mindEd.itf.editor.textual.validation,
+ org.ow2.mindEd.itf.editor.textual.scoping
+

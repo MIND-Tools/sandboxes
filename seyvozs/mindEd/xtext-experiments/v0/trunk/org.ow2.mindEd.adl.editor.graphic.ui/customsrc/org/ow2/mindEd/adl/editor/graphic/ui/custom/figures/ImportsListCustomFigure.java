@@ -1,0 +1,24 @@
+package org.ow2.mindEd.adl.editor.graphic.ui.custom.figures;
+
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.graphics.Color;
+import org.ow2.mindEd.adl.editor.graphic.ui.custom.figures.AbstractComponentShape;
+
+/**
+ * Custom figure to define static attributes used in the generated figure
+ * by specifying custom attributes in the .gmfgraph model
+ * @author Olivier Marot
+ *
+ */
+public class ImportsListCustomFigure extends AbstractComponentShape {
+
+	protected static Dimension MAXIMUM_SIZE = new Dimension(500000,75);
+	
+	public ImportsListCustomFigure() {
+		setBackgroundColor(LIGHT_GREY);
+		setMaximumSize(MAXIMUM_SIZE);
+		setPreferredSize(MAXIMUM_SIZE);
+	}
+	
+	protected static Color BACKGROUND_COLOR = LIGHT_GREY;
+}

@@ -1,0 +1,13 @@
+grammar org.ow2.mindEd.idt.editor.textual.FractalIdt with org.ow2.mindEd.itf.editor.textual.FractalItf
+
+generate fractalIdt "http://www.ow2.org/fractal/mind/idl/FractalIdt"
+
+IdtFile:
+  begindef=ConstantDefinitionBegin def=ConstantDefinition (includes+=
+  IncludeDirective)* (constant+=ConstantDefinition|type+=TypeDefinition)* '#endif';
+
+ConstantDefinitionBegin:
+  '#ifndef' id=ID;
+
+
+	

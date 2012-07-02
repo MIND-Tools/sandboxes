@@ -1,0 +1,13 @@
+Add this java doc in MindObject
+
+<!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Mind Object</b></em>'.
+ * @extends org.eclipse.core.runtime.IAdaptable
+ * <!-- end-user-doc -->
+
+Add thid method in MindObjectImpl
+
+	@Override
+	public Object getAdapter(Class adapter) {
+		return AdapterManager.getDefault().getAdapter(this, adapter);
+	}

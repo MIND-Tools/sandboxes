@@ -1,0 +1,31 @@
+﻿«IMPORT 'http://www.eclipse.org/gmf/2009/GenModel'»
+«EXTENSION xpt::diagram::editparts::Utils»
+
+«AROUND additions FOR gmfgen::GenCompartment»
+
+	protected org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxy mindProxy = org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxyFactory.INSTANCE.createMindProxy (this, VISUAL_ID);	
+	
+	public org.ow2.mindEd.adl.editor.graphic.ui.custom.edit.parts.proxy.MindProxy getMindProxy() {
+		return mindProxy;
+	}
+	
+	«IF listLayout»
+	«ELSE»
+		@Override
+		protected org.eclipse.draw2d.LayoutManager getLayoutManager() {
+			org.eclipse.draw2d.LayoutManager lm = getMindProxy().getLayoutManager();
+			if (lm == null)
+				lm = super.getLayoutManager();
+			return lm;
+		}
+	«ENDIF»
+	
+	@Override
+	public org.eclipse.gef.DragTracker getDragTracker(org.eclipse.gef.Request request) {
+		org.eclipse.gef.DragTracker tracker = getMindProxy().getDragTracker(request);
+		if (tracker == null)
+			tracker = super.getDragTracker(request);
+		return tracker;
+	}
+
+«ENDAROUND»

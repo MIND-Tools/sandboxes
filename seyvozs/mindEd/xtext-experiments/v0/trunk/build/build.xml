@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     26 févr. 2010 10:03:39                                                        
+
+     mind-IDE    
+     build generated files emf, gmf, xtext ...
+                   
+     Stephane Chomat, ADELE                                                                
+     ====================================================================== -->
+<project name="mind-IDE" default="generate" xmlns:gmf="http://ecliptical.ca/gmf/ant">
+	<description>
+            build generated files emf, gmf, xtext ...
+    </description>
+
+	<target name="init">
+		<property name="adl.shema.id" value="org.ow2.mindEd.adl.schema/model"/>
+		<property name="adl.model.id" value="org.ow2.mindEd.adl.model" />
+		<property name="adl.edit.id" value="org.ow2.mindEd.adl.edit" />
+		<property name="adl.editor.tree.id" value="org.ow2.mindEd.adl.editor.tree" />
+		<property name="adl.editor.graphic.model.id" value ="org.ow2.mindEd.adl.editor.graphic.model"/>
+		<property name="adl.editor.graphic.ui.id" value ="org.ow2.mindEd.adl.editor.graphic.ui"/>
+				
+		
+		<property name="adl.shema" value="${basedir}/../org.ow2.mindEd.adl.schema/model"/>
+		<property name="adl.model" value="${basedir}/../org.ow2.mindEd.adl.model" />
+		<property name="adl.edit" value="${basedir}/../org.ow2.mindEd.adl.edit" />
+		<property name="adl.editor.tree" value="${basedir}/../org.ow2.mindEd.adl.editor.tree" />
+		<property name="adl.editor.graphic.model" value ="${basedir}/../org.ow2.mindEd.adl.editor.graphic.model"/>
+		<property name="adl.editor.graphic.ui" value ="${basedir}/../org.ow2.mindEd.adl.editor.graphic.ui"/>
+				
+	</target>
+	<!-- ================================= 
+          target: generate              
+	  install this support  http://www.eclipticalsoftware.com/updates/site.xml
+	  run this ant script in running eclipse
+         ================================= -->
+	<target name="generate" depends="init" description="build generated files emf, gmf, xtext ...">
+				
+		<eclipse.refreshLocal resource="${adl.model.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.edit.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.editor.tree.id}" depth="infinite"/>
+		
+		<emf.Ecore2Java genModel="${adl.shema}/mind.genmodel" model="${adl.shema}/mind.ecore" 
+			generatejavacode="true" 
+			generateeditorproject="false" 
+			generateeditproject="false"
+			generatemodelproject="true"
+			reconcilegenmodel="reload"
+			>
+		</emf.Ecore2Java>
+		<eclipse.refreshLocal resource="${adl.model.id}" depth="infinite"/>
+		<emf.Ecore2Java genModel="${adl.shema}/mind.genmodel" model="${adl.shema}/mind.ecore" 
+					generatejavacode="true" 
+					generateeditorproject="true" 
+					generateeditproject="true"
+					generatemodelproject="false"
+					reconcilegenmodel="keep"
+					>
+				</emf.Ecore2Java>
+		<eclipse.refreshLocal resource="${adl.edit.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.editor.tree.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.editor.graphic.ui}" depth="infinite"/>
+		<eclipse.incrementalBuild project="${adl.model.id}" kind="incremental"/>
+		<eclipse.incrementalBuild project="${adl.edit.id}" kind="incremental"/>
+		<eclipse.incrementalBuild project="${adl.editor.tree.id}" kind="incremental"/>
+
+					
+		<gmf:GenerateDiagramCode gmfgenPath="${adl.editor.graphic.model.id}/model/mind.gmfgen" />
+		
+		<eclipse.refreshLocal resource="${adl.editor.graphic.ui.id}" depth="infinite"/>
+				
+		
+		<!-- 
+		<echo message="Generating source code from xText grammar (using oAW)"/>
+		
+		<taskdef name="workflow" classname="org.eclipse.emf.mwe.core.ant.WorkflowAntTask">
+			<classpath>
+				<fileset dir="${eclipse.home}/plugins"></fileset>
+			</classpath>
+		</taskdef>
+		<workflow file='path/workflow.mwe'>
+			<param name='baseDir' value='/base/'/>
+			<classpath refid="@dot.classpath"/>
+		</workflow> 
+		
+		-->
+		
+	</target>
+
+	<target name="clean" depends="init">		
+		<delete dir="${adl.model}/src"/>
+		<mkdir dir="${adl.model}/src" />
+		<delete dir="${adl.edit}/src"/>
+		<mkdir dir="${adl.edit}/src" />
+		<delete dir="${adl.editor.tree}/src"/>
+		<mkdir dir="${adl.editor.tree}/src" />
+		<delete dir="${adl.editor.graphic.ui}/src/org"/>
+		
+		<eclipse.refreshLocal resource="${adl.model.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.edit.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.editor.tree.id}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${adl.editor.graphic.ui.id}" depth="infinite"/>
+	</target>
+
+</project>

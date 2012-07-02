@@ -1,0 +1,362 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="en">
+<head>
+<meta name="copyright"
+	content="Copyright (c) IBM Corporation and others 2007,2009 This page is made available under license. For full details, see the LEGAL section in the documentation that contains this page.">
+
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="STYLESHEET" href="../book.css" type="text/css">
+<style>
+.failed {
+	color: red;
+	text-transform: capitalize;
+	font-weight: bold;
+}
+
+.def {
+	color: blue;
+}
+</style>
+<title>Mind New and Noteworthy</title>
+</head>
+<body>
+
+<h1 id="top">Mind 0.3 - New and Noteworthy</h1>
+<ul>
+	<li>Graphical Editor
+	<ul>
+		<li><span class="def">org.ow2.mindEd.adl.editor.graphic.ui.mindAnnotation extension point</span>
+		<p>This extension point allows to define your own annotations for the diagram editor,
+		and specify associated color and/or icons.</p>
+		</li>
+	</ul>
+	</li>
+</ul>
+
+<h1 id="top">Mind 0.2 - New and Noteworthy</h1>
+<ul>
+	<li>Graphical Editor
+	<ul>
+		<li>Tools
+		<ul>
+			<li><span class="def">Interface generation for bindings :</span>
+			<p>- the selection a component with the Binding tool generates a
+			temporary interface<br />
+			- Generated interface will be the source or target of the binding if
+			the component is selected<br />
+			- Generated interface will switch role provides / requires depending
+			on constraints<br />
+			- If binding creation fails, generated interfaces are not deleted</p>
+			</li>
+			<li><span class="def">ITF and CPL files can now be opened with a double clic on the label</span></li>
+			<li><span class="def">SubComponents now switch from Composite to Primitive depending on their contents</span></li>
+		</ul>
+		</li>
+		<li>UI
+		<ul>
+			<li><span class="def">Better behavior for lists</span></li>
+			<li><span class="def">Merged item's position is no longer reset on refresh or save</span></li>
+			<li><span class="def">Various bugs fixed</span></li>
+			<li><span class="def">Annotations are now displayed in components</span></li>
+		</ul>
+		</li>
+	</ul>
+	</li>
+	<br />
+	<li>Textual editor
+		<ul>
+			<li>IDL editors :</li>
+			
+				<ul>
+					<li><span class="def">ITF textual editor </span></li> - Enable edition of interface definition.
+					<li><span class="def">IDT textual editor </span></li> - Enable edition of type definition. 
+				</ul>
+				<br />
+			<li>ADL Validation & Content-assist :</li>
+			<p>
+				The ADL validation and content-assist have been increased by architecture analyze of Mind projects.
+			</p>
+			<li>Quick-fix :</li>
+			<p>
+				Some quick-fix are now available for automatically fix errors.
+			</p>
+			<li>TMF 1.0 :</li>
+			<p>
+				Integration with the first release of the xText project, including the new MWE2 generator.
+			</p>
+		</ul>
+	</li>
+	<li>IDE
+	<ul>
+			<li><span class="def">Integrated mindc and compiler mindc errors.</span></li>
+	</ul>
+	</li>
+</ul>
+
+
+<h1 id="top">Mind 0.1 - New and Noteworthy</h1>
+	<ul>
+		<li>Model
+		<ul>
+			<li>Grammaire
+			<ul>
+				<li><span class="def">Grammaire conforme SP1</span> : Respect
+				de la spécification du language Mind</li>
+			</ul>
+			</li>
+			<li>Model
+			<ul>
+				<li><span class="def">Gestion du FQN au niveau des
+				définitions et références</span> : Pour chaque référence / définition, le
+				nom pleinement qualifiés est disponible</li>
+				<li><span class="def">Gestion des attributs transient</span> :
+				Définition des attributs ne devant pas être sérialisés</li>
+				<li><span class="def">Gestion des attributs/références
+				auto générées</span> : Certains attributs/références sont automatiquement
+				renseignés</li>
+				<li><span class="def">Propriétés invisibles</span> : Les
+				attributs propres aux objets servant principalement pour
+				l'algorithmie ne sont pas visibles pour le développeur Fractal</li>
+				<li><span class="def">Type d'object Mind  générique pour
+				les objets du modèle</span> : Création d'un super objet Mind décrivant les
+				propriétés communes des objets du modèle</li>
+				<li><span class="def">Modèle dynamique</span> : Création d'un
+				adapter factory et d'adapter associés aux objets dynamiques du
+				modèle</li>
+				<li><span class="def">Definition loader</span></li>
+			</ul>
+
+			</li>
+			<li>Heritage
+			<ul>
+				<li><span class="def">Gestion de l'héritage simple</span> :
+				L'héritage d'une définition par un autre est fonctionnel</li>
+				<li><span class="def">Gestion héritage multiple</span> :
+				L'héritage de plusieurs définition s'effectue de gauche à droite</li>
+				<li><span class="def">Gestion de l'override</span> : Les
+				éléments de la définition appelée portant le meme nom que les
+				éléments de la définition appelante ne sont pas hérités (surcharge)</li>
+				<li><span class="def">Refresh du merge via buffer</span> :
+				L'héritage est calculé sur un buffer. Seuls les objets ayant changé
+				sont mis à jour sur la définition originelle.</li>
+				<li><span class="def">Definition loader</span> : Une classe
+				statique est définie pour charger les définitions à partir du nom de
+				cette dernière et une liste d'imports</li>
+				<li><span class="def">Références cycliques</span> : Les
+				références cycliques sont générées. Merge non effectué.</li>
+				<li><span class="def">Gestion des templates</span></li>
+				<li><span class="def">Gestion des sous composants
+				génériques</span> : Gestion des sous composants non déclarés 'contains
+				[reference] as X'</li>
+				<li><span class="def">Chargement de l'héritage au
+				démarrage d'Eclipse</span>: Le workbench n'étant pas chargé… <span
+					class="failed">(FAILED)</span></li>
+				<li><span class="def">Chargement de l'héritage à
+				l'ouverture d'un fichier</span></li>
+				<li><span class="def">Héritage dynamique</span> : Héritage
+				recalculé lors de la modification d'un référence ou objet associé.</li>
+				<li><span class="def">Gestion de la modification d'une
+				resource</span> : Si une définition héritée est modifiées durant l'édition
+				d'une définition héritante, la définition héritante n'est pas remise
+				à jour (appuyer sur F5 dans l'éditeur graphique) <span
+					class="failed">(FAILED)</span></li>
+			</ul>
+			</li>
+			<li>Extendsibilité
+			<ul>
+				<li><span class="def">Variables non sérialisées pour
+				utilisation spécifique du modèle</span> : Variables non définies dans la
+				spécification Mind présente dans le modèle et non impactantes.</li>
+				<li><span class="def">Classes étendues</span> : Utilisation de
+				classes d'implémentation custom des objets du modèle</li>
+				<li><span class="def">Création de factories</span> : Création
+				d'un factory override pour mapper des implémentations customs mais
+				aussi des helpers et adapter spécifiques.</li>
+			</ul>
+			</li>
+		</ul>
+		</li>
+		<li>IDE
+		<ul>
+			<li>Core
+			<ul>
+				<li><span class="def">Modèle d’intégration de l’IDE mind
+				permettant une vue logique</span>
+				<ul>
+					<li>Les dépendances entre les différents composants ADL ne
+					sont pas gérées.</li>
+					<li>Seul les éléments présents dans l’espace de travail de
+					l’utilisateur sont réifiés.</li>
+					<li>Les répositories de composants ne sont pas gérés.</li>
+				</ul>
+				</li>
+				<li><span class="def">Gestion du mind path</span>
+				<ul>
+					<li>Définition de répertoire de source</li>
+					<li>Dépendance vers d’autres projets mind</li>
+					<li>Import de packages</li>
+					<li>Définition d’applications</li>
+					<li>Gestion des cycles entre projets</li>
+					<li>Les dépendances sont transitives</li>
+					<li>Il n’est pas possible de mettre une dépendance vers des
+					librairies mind ou des répositories</li>
+					<li>Les librairies natives ne sont pas gérées</li>
+				</ul>
+				</li>
+				<li><span class="def">Création et modification
+				dynamiquement du makefile</span>
+				<ul>
+					<li>Pour chaque projet mind un fichier makefile est généré</li>
+					<li>L’environnement modifie deux variables make</li>
+					<li>Il n'est possible de définir une architecture cible</li>
+					<li>L'include path n'est pas géré</li>
+					<li>Impossible de changer l’output path</li>
+				</ul>
+				</li>
+			</ul>
+
+			</li>
+			<li>UI
+			<ul>
+				<li><span class="def">Wizard de création de projet</span> :
+				Création d’un projet simple avec un nom</li>
+				<li><span class="def">Wizard de création de package</span> :
+				Création d’un package à partir d’un répertoire source</li>
+				<li><span class="def">Wizard de création de composant
+				ADL : primitif, composite et type</span> : Création d’un composant simple</li>
+				<li><span class="def">La vue d’exploration Mind</span>
+				<ul>
+					<li>Vision logique de l’espace de travail de l’utilisateur</li>
+					<li>Gestion du ‘mind path’ (ajout et suppression)</li>
+					<li>Il est possible de créer un projet, un package ou un
+					composant</li>
+					<li>Il n’est pas possible de voir le fichier makefile</li>
+					<li>Un double-click sur un élément de l’ide permet d’ouvrir le
+					fichier associé s’il existe. L’éditeur graphique est ouvert s’il
+					existe un fichier ‘diagram’.</li>
+				</ul>
+				</li>
+				<li><span class="def">La vue ‘Project Exploreur’</span>
+				<ul>
+					<li>Gestion du ‘mind path’ (ajout et suppression)</li>
+					<li>Il est possible de créer un projet, un package ou un
+					composant</li>
+					<li>Le fichier makefile est accessible dans cette vue ou toute
+					vue similaire montrant les fichiers de l’espace de travail.</li>
+					<li>Une page de propriétés est disponible au niveau d’un
+					projet mind pour gérer le mind path</li>
+					<li>Une page de préférences permet de définir la variable
+					‘MIND_ROOT’</li>
+				</ul>
+				</li>
+
+			</ul>
+			</li>
+			<li>CDT
+			<ul>
+				<li><span class="def">Exécution d’un build manuel  ou
+				automatique via CDT et le makefile</span></li>
+				<li><span class="def">Exécution d’un programme binaire</span></li>
+			</ul>
+			</li>
+		</ul>
+
+		</li>
+		<li>TMF
+		<ul>
+			<li>Complétion
+			<ul>
+				<li><span class="def">Complétion basique</span></li>
+				<li><span class="def">Complétion avancée</span></li>
+			</ul>
+			</li>
+			<li>Coloration
+			<ul>
+				<li><span class="def">Coloration syntaxique</span></li>
+			</ul>
+			</li>
+			<li>Outline
+			<ul>
+				<li><span class="def">Outline automatiquement géré</span></li>
+			</ul>
+			</li>
+			<li>Formattage
+			<ul>
+				<li><span class="def">Formattage global (ctrl+shift f)</span></li>
+				<li><span class="def">Retours à la ligne</span></li>
+				<li><span class="def">Blocs entre accolades</span></li>
+				<li><span class="def">Indentation</span></li>
+				<li><span class="def">Suppression des espaces superflus</span></li>
+				<li><span class="def">Espaces perdus à la sérialisation</span>
+				<span class="failed">(FAILED)</span></li>
+				<li><span class="def">Les annotations complexes exigent
+				l'écriture sur plusieurs lignes.</span> <span class="failed">(FAILED)</span></li>
+			</ul>
+			</li>
+		</ul>
+
+		</li>
+		<li>GMF
+		<ul>
+			<li>IDE
+			<ul>
+				<li><span class="def">Ouvre avec le dernier éditeur
+				utilisé en cas de double clic ou clic droit &gt; open</span></li>
+			</ul>
+			</li>
+			<li>Diagram
+			<ul>
+				<li><span class="def">Validation des contraintes à la
+				sauvegarde, empêche la sauvegarde si erreur</span>
+				<p>Contraintes :<br />
+				- Nom d'un composant : non nul<br />
+				- Nom d'une référence : non nul<br />
+				- Implémentation : contient un file c ou du code inline<br />
+				- Implémentation : contient un file c ou du code inline ou rien<br />
+				- Nom d'une interface : non nul<br />
+				- Diagram : non vide<br />
+				- Code inline : commence et finit par des doubles accolades</p>
+				</li>
+				<li><span class="def">La création / réorientation des
+				bindings respecte les contraintes</span> : Cf. Specs SP1</li>
+				<li><span class="def">F5 refresh la sémantique (modèle),
+				le visuel et le merge</span></li>
+				<li><span class="def">Création avec un clic (taille par
+				défaut)</span></li>
+				<li><span class="def">Création en dessinant un rectangle</span></li>
+				<li><span class="def">Ouverture d'un file c ou d'une
+				référence en double clic</span></li>
+				<li><span class="def">Création en cliquant sur un fils
+				non-composant</span> : e.g. créer une référence dans une liste en cliquant
+				sur le titre de la liste</li>
+				<li><span class="def">Validation de la cible en cas de
+				drag &amp; drop</span></li>
+				<li><span class="def">Composants mergés non éditables et
+				gris</span></li>
+
+				<li><span class="def">Editable sur plusieurs lignes mais
+				s'affiche sur une seule</span></li>
+				<li><span class="def">Chaque type de composant a sa
+				couleur associée</span></li>
+				<li><span class="def">Les interfaces changent de couleur
+				et de position suivant le role</span></li>
+				<li><span class="def">gauche : provides, droite :
+				requires</span></li>
+				<li><span class="def">Drag &amp; drop une interface sur
+				l'autre côté d'un composant change son rôle</span></li>
+				<li><span class="def">Les composants ne peuvent pas se
+				superposer</span></li>
+				<li><span class="def">L'utilisateur peut choisir le
+				niveau de profondeur à afficher</span> : Par défaut 5, à modifier dans les
+				préférences</li>
+			</ul>
+			</li>
+
+		</ul>
+
+		</li>
+	</ul>
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+import components.*;
+
+composite main.Metering <T conformsto ComponentType> {
+
+  provides boot.Main as main;
+  
+  contains IHM as ihm
+  contains Server(2) as serv
+  contains T as meter1
+  contains Meter as meter2
+  
+  binds ihm.admin to serv.service
+  binds serv.control[0] to meter1.control
+  binds serv.control[1] to meter2.control
+  
+  binds this.main to ihm.main
+}

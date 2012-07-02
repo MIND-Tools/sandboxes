@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmftool:ToolRegistry xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <palette
+      title="mindPalette">
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Components"
+        description="Tool group for base components"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Composite Component"
+          description="create composite"/>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Primitive Component"
+          description="create primitive">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="icons/full/obj16/PrimitiveComponentDefinition.gif"
+            bundle="org.ow2.mindEd.adl.edit"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="icons/full/obj16/PrimitiveComponentDefinition.gif"
+            bundle="org.ow2.mindEd.adl.edit"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Type Component"
+          description="create type"/>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Argument"
+          description="Add Argument">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Body"
+          description="Create new Body">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="icons/full/obj16/Body.gif"
+            bundle="org.ow2.mindEd.adl.edit"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Composite"
+        description="Tool group for Composite Component"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Templates"
+          description="Create new template specifier"/>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Primitive"
+        description="Tool Group for Primitive Component"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Attribute"
+          description="Add Attribute">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Data Definition"
+          description="Create new Data Definition">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Implementation"
+          description="Create new Implementation">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="File C"
+          description="Create new File C">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Inline C Code"
+          description="Create new Inline C Code">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Generic"
+        description="Generic Tool Group"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Interface"
+          description="Create new Interface">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Binding"
+          description="Create new BindingSpecifier">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Extends"
+          description="Create new extension">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+    </tools>
+  </palette>
+</gmftool:ToolRegistry>

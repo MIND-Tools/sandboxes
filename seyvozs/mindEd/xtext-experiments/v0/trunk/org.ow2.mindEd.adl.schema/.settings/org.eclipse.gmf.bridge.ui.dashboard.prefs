@@ -1,0 +1,7 @@
+#Fri Jun 26 14:20:39 CEST 2009
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/org.ow2.fractal.mind.emf/model/My.genmodel
+gmf_dashboard/domainModel=platform\:/resource/org.ow2.fractal.mind.emf/model/My.ecore
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/org.ow2.fractal.mind.emf/model/My.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/org.ow2.fractal.mind.emf/model/My.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/org.ow2.fractal.mind.emf/model/My.gmftool

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="feature_export" name="build">
+	<target name="feature_export">
+		<pde.exportFeatures destination="/home/chomats/Downloads" exportSource="false" exportType="zip" features="org.ow2.fractal.mind.feature" filename="mind_docsite.zip" useJARFormat="true"/>
+	</target>
+</project>

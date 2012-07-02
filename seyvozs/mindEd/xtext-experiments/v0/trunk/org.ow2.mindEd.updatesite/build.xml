@@ -1,0 +1,52 @@
+<project default="create-zip" basedir=".">
+
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+	<target name="clean" depends="" description="description">
+		<delete>
+			<fileset dir="${basedir}">
+				<include name="features/" />
+				<include name="plugins/" />
+				<include name="artifacts.jar" />
+				<include name="content.jar" />
+				<include name="logs.zip" />
+			</fileset>
+		</delete>
+		<antcall target="refresh-project"/>
+	</target>
+	
+	<target name="refresh-project" if="eclipse.running">
+		<eclipse.convertPath fileSystemPath="${basedir}" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="generate">
+		<mkdir dir="target"/>
+	 <eclipse.buildScript elements="feature@org.ow2.mindEd.feature"
+	 	builddirectory="target" pluginpath="${basedir}/.."
+	 	baselocation="${eclipse.home}" children="false"
+	 	flattendependencies="false" generatefeatureversionsuffix="true"
+	 	></eclipse.buildScript>
+	</target>
+	<!-- ================================= 
+          target: create              
+         ================================= -->
+	<target name="create-zip" depends="" description="create update site">
+		<property name="version" value="0.3.0" />
+		<zip destfile="mindEd-${version}.zip">
+			<fileset  dir="${basedir}">
+				<include name="features/" />
+				<include name="plugins/" />
+				<include name="artifacts.jar" />
+				<include name="content.jar" />
+				<include name="logs.zip" />
+				<include name="site.xml" />
+				<include name="COPYING" />
+				<include name="COPYING.LESSER" />
+			</fileset>
+		</zip>
+		<antcall target="refresh-project"/>
+	</target>
+
+</project>

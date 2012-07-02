@@ -1,0 +1,7 @@
+# Tracing options for the org.ow2.mindEd.adl.editor.graphic.ui plug-in
+
+# Common issues
+org.ow2.mindEd.adl.editor.graphic.ui/debug=false
+
+# Visual IDs
+org.ow2.mindEd.adl.editor.graphic.ui/debug/visualID=false

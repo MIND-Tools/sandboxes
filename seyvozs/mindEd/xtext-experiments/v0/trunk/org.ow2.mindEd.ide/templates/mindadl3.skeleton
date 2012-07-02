@@ -1,0 +1,9 @@
+
+
+public class CLASS
+ {
+   public String generate(String qn)
+   {
+     return "";
+   }
+ }

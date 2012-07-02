@@ -1,0 +1,13 @@
+<%@ jet package="org.ow2.mindEd.ide.core.template" class="TemplatePrimitiveADL" skeleton="mindadl2.skeleton" %>
+<%
+ String qualifiedName = adl.getQualifiedName();
+ String cfile = adl.getName().substring(0,1).toLowerCase()+adl.getName().substring(1);
+
+%>
+primitive <%=qualifiedName%> {
+ 
+<%for(String l : contains) {%>
+	<%=l%>
+<%}%>
+  	source <%=cfile%>.c;
+}

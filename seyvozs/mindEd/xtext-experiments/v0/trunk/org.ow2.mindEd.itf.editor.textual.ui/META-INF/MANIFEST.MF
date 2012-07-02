@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.ow2.mindEd.itf.editor.textual.model.ui
+Bundle-Vendor: Partenaire Minalogic
+Bundle-Version: 0.2.1.qualifier
+Bundle-SymbolicName: org.ow2.mindEd.itf.editor.textual.model.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.ui,
+ org.antlr.runtime,
+ org.eclipse.xtext.builder,
+ org.ow2.mindEd.itf.editor.textual.model;bundle-version="0.2.1",
+ org.eclipse.xtext.ui,
+ org.eclipse.xtext.ui.shared
+Import-Package: org.apache.log4j,
+ org.eclipse.jdt.ui
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.ow2.mindEd.itf.editor.textual.ui,
+ org.ow2.mindEd.itf.editor.textual.ui.contentassist,
+ org.ow2.mindEd.itf.editor.textual.ui.contentassist.antlr,
+ org.ow2.mindEd.itf.editor.textual.ui.labeling,
+ org.ow2.mindEd.itf.editor.textual.ui.outline
+Bundle-Activator: org.ow2.mindEd.itf.editor.textual.ui.internal.FractalItfActivator

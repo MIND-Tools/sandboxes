@@ -1,0 +1,8 @@
+To use mind ide, you must add an directory entry with this value ${workspace_loc:build} in your target platform 
+(go to preference pages in 'Plug-ins Development/Target Platform', 
+	select the active platform and click on add button, 
+	select 'directory' and enter this value '${workspace_loc:build}')
+or put 
+	- org.ow2.mind.fractal-adl-bundle_0.2-alpha-2-SNAPSHOT.jar and 
+	- org.ow2.mind.fractal-adl-bundle.source_0.2-alpha-2-SNAPSHOT.jar
+in the eclipse/dropins folder 

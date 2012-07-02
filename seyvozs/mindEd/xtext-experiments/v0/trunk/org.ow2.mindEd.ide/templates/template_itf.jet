@@ -1,0 +1,4 @@
+<%@ jet package="org.ow2.mindEd.ide.core.template" class="TemplateITFADL" skeleton="mindadl3.skeleton" %>
+
+interface <%=qn%> {
+}

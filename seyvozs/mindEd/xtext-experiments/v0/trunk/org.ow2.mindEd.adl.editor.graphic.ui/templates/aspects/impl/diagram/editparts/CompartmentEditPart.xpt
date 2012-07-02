@@ -1,0 +1,7 @@
+«IMPORT 'http://www.eclipse.org/gmf/2009/GenModel'»
+«EXTENSION xpt::diagram::editparts::Utils»
+
+«AROUND createDefaultEditPoliciesBody FOR gmfgen::GenCompartment-»
+	«targetDef.proceed()»
+	getMindProxy().createDefaultEditPolicies();
+«ENDAROUND»

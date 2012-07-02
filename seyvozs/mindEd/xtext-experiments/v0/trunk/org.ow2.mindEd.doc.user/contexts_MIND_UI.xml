@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.contexts"?>
+<contexts>	<!-- Actions -->
+	<!-- Dialogs -->
+	<!-- View parts -->
+	<!-- Preference pages -->
+	<!-- Wizard pages -->
+	<!-- Refactoring Preview Pages -->
+	<!-- Refactoring Error Wizard Pages -->
+	<!-- ltk.ui.refactoring -->
+	<!-- Reused UI Blocks -->
+	<!-- Search -->
+	<!-- Custom Filters -->
+	<!-- NEW CONTEXT IDs -->
+	<context id="bp_choose_existing_folder_to_make_source_folder">
+		<description>Choose an existing folder to turn it into a source
+			folder. Source folders can contain mind source code.</description>
+	</context>
+	<context id="bp_select_default_output_folder_dialog">
+		<description>This dialog allows to select an existing folder as
+			default output folder or to create new folder when selecting 'Create
+			New Folder...'</description>
+	</context>
+</contexts>
