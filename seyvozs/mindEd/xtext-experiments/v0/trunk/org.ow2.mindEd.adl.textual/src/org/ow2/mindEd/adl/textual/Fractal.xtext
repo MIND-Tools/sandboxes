@@ -1,0 +1,207 @@
+grammar org.ow2.mindEd.adl.textual.Fractal with org.eclipse.xtext.common.Terminals
+
+generate fractal "http://www.ow2.org/mindEd/adl/textual/Fractal"
+
+import 'http://www.ow2.org/mindEd/itf/' as fractalItf
+
+AdlDefinition :
+	elements += AbstractElement*
+;
+
+/*
+ * SSZ Note: If we remove the "PackageDeclaration" the auto-completion has trouble and forces
+ * fully QualifiedName-s as sub-components in composites, without suggesting the import
+ * A solution is scoping, but explicit packages are better imo.
+ */
+
+AbstractElement:
+	/* PackageDeclaration | */ ImportDefinition | ArchitectureDefinition
+;
+
+ArchitectureDefinition:
+	CompositeDefinition | PrimitiveDefinition | TypeDefinition
+;
+
+ImportDefinition:
+	//(annotationsList=AnnotationsList)?
+	'import' importedNamespace = QualifiedNameWithWildcard ';'
+;
+
+/*
+PackageDeclaration:
+	'package' name = QualifiedName ';'
+;
+*/
+
+QualifiedNameWithWildcard:
+	QualifiedName '.*'?
+;
+
+CompositeDefinition:
+	//(annotationsList=AnnotationsList)?
+	'composite' name = QualifiedName
+	(templateSpecifiersList = TemplateSpecifiersList)? // <ID conformsto TypeDefinition, ID2 conformsto TypeDef2, ...>
+	(compositeFormalArgumentsList = FormalArgumentsList)? // (arg1, arg2, ...)
+	('extends' superType = [ArchitectureDefinition | QualifiedName])? '{'
+		elements += (SubComponentDefinition | ProvidedInterfaceDefinition | RequiredInterfaceDefinition | BindingDefinition)*
+	'}'
+;
+
+PrimitiveDefinition:
+	//(annotationsList=AnnotationsList)?
+	(abstract ?= 'abstract')?
+	'primitive' name = QualifiedName
+	(compositeFormalArgumentsList = FormalArgumentsList)?
+	('extends' superType = [ArchitectureDefinition | QualifiedName])? '{'
+		elements += (ProvidedInterfaceDefinition | RequiredInterfaceDefinition | ImplementationDefinition | AttributeDefinition | DataDefinition)*
+	'}'
+;
+
+TypeDefinition:
+	//(annotationsList=AnnotationsList)?
+	'type' name = QualifiedName ('extends' superType = [ArchitectureDefinition | QualifiedName])? '{'
+		elements += (ProvidedInterfaceDefinition | RequiredInterfaceDefinition)*
+	'}'
+;
+
+HostedInterfaceDefinition:
+	ProvidedInterfaceDefinition | RequiredInterfaceDefinition
+;
+
+// Renamed as HostedInterfaceDefinition to resolve name clash with fractalItf::InterfaceDefinition
+// Another way to solve the problem is to use prefixes ?
+ProvidedInterfaceDefinition :
+	//(annotationsList=AnnotationsList)?
+	role="provides" (optional?='optional')? signature = [fractalItf::InterfaceDefinition | QualifiedName] 'as' name=ID
+	(collection?='['(collectionsize=INT)?']')? ';'
+;
+
+RequiredInterfaceDefinition :
+	//(annotationsList=AnnotationsList)?
+	role="requires" (optional?='optional')? signature = [fractalItf::InterfaceDefinition | QualifiedName] 'as' name=ID
+	(collection?='['(collectionsize=INT)?']')? ';'
+;
+
+SubComponentDefinition:
+	//(annotationsList=AnnotationsList)?
+	'contains'
+	type = [ArchitectureDefinition | QualifiedName]
+	('<' templatesList+=TemplateDefinition (',' templatesList+=TemplateDefinition)* '>')?
+	('(' argumentsList+=ArgumentDefinition (',' argumentsList+=ArgumentDefinition)* ')')?
+	'as'
+	name = ID
+	';'
+;
+
+
+BindingDefinition :
+	//(annotationsList=AnnotationsList)?
+	'binds'
+	('this' | interfaceSourceParentLabel = [SubComponentDefinition | ID])
+	'.'
+	interfaceSourceLabel=[HostedInterfaceDefinition | ID]('['interfaceSourceIndex=INT']')?
+	'to'
+	('this' | interfaceTargetParentLabel = [SubComponentDefinition | ID])
+	'.'
+	interfaceTargetLabel=[HostedInterfaceDefinition | ID]('['interfaceTargetIndex=INT']')?
+	';'
+;
+
+FormalArgument :
+	name=ID;
+
+FormalArgumentsList :
+	'(' formalArguments+=FormalArgument (',' formalArguments+=FormalArgument)* ')';
+
+TemplateSpecifier :
+	name=ID 'conformsto' reference = [TypeDefinition | QualifiedName]
+;
+
+TemplateSpecifiersList :
+	'<' (templateSpecifiers+=TemplateSpecifier (',' templateSpecifiers+=TemplateSpecifier)*) '>';
+
+AttributeType :
+	'STRUCT'|'UNION'|'ENUM'|ID;
+
+signedINT :
+	('+'|'-')?INT;
+
+HexadecimalType :
+	'0x'INT;
+
+Value :
+	ID | signedINT | HexadecimalType | STRING | 'null';
+
+TemplateDefinition :
+	(name=ID '=')? reference = [CompositeDefinition | QualifiedName]
+;
+
+ArgumentDefinition :
+	(argumentName = ID '=')? argumentValue = Value
+;
+
+AttributeDefinition :
+	//(annotationsList=AnnotationsList)?
+	'attribute' (type = AttributeType)? attributeName = ID ('=' value = Value)?;
+
+ImplementationDefinition :
+	//(annotationsList=AnnotationsList)?
+	'source' ((fileC = FileC) |(inlineCcode = InlineCodeC)) ';'
+;
+
+DataDefinition :
+	//(annotationsList=AnnotationsList)?
+	'data' ((fileC = FileC) | (inlineCcode = InlineCodeC)) ';';
+
+QualifiedName:
+	ID ('.' ID)*
+;
+
+FileC :
+	(directory = Path)? name = FileName;
+	
+InlineCodeC :
+	codeC = CODE_C;
+
+Path :
+	(ID | ('.') | ('..'))? (SL ((ID ('-')?)* | '..'))* SL;
+
+FileName :
+	ID('.'ID)?;
+
+AnnotationsList :
+	annotations+=Annotation (annotations+=Annotation)*;
+
+Annotation :
+	'@' name=AnnotationType
+	('(' annotationElements+=AnnotationElement (',' annotationElements+=AnnotationElement)* ')')?;
+
+// Pre-defined annotations + allow other names
+AnnotationType:
+	'Override' | 'Singleton' | 'LDFlags' | 'CFlags' | QualifiedName;
+
+AnnotationElement :
+	(elementName=ID '=')? elementValue=ElementValue
+;
+
+ElementValue :
+	ConstantValue | Annotation | ElementValueArrayInitializer;
+
+ElementValueArrayInitializer :
+	'{' values+=ElementValue (',' values+=ElementValue)* '}'; 
+
+ConstantValue :
+	value = ConstantFormat;
+
+ConstantFormat:
+INT|STRING;
+
+terminal CODE_C :
+	'{{' -> '}}';
+
+terminal SL :
+	(('\\')|('\\\\')|('/'));
+
+//enum Role :
+//	provides="provides" | requires="requires";
+

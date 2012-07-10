@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ow2.mindEd.adl.textual/src-gen"
+    editDirectory="/org.ow2.mindEd.adl.textual.edit/src" editorDirectory="/org.ow2.mindEd.adl.textual.editor/src"
+    modelPluginID="org.ow2.mindEd.adl.textual" forceOverwrite="true" modelName="Fractal"
+    updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="org.ow2.mindEd.adl.textual.edit"
+    editorPluginID="org.ow2.mindEd.adl.textual.editor" runtimeVersion="2.7" usedGenPackages="../../../../../../../org.ow2.mindEd.itf.editor.textual.model/src-gen/org/ow2/mindEd/itf/editor/textual/FractalItf.genmodel#//fractalIDL">
+  <genPackages prefix="Fractal" basePackage="org.ow2.mindEd.adl.textual" disposableProviderFactory="true"
+      ecorePackage="Fractal.ecore#/">
+    <genClasses ecoreClass="Fractal.ecore#//AdlDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//AdlDefinition/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//AbstractElement"/>
+    <genClasses ecoreClass="Fractal.ecore#//ArchitectureDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ArchitectureDefinition/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//ArchitectureDefinition/superType"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//ImportDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ImportDefinition/importedNamespace"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//CompositeDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//CompositeDefinition/templateSpecifiersList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//CompositeDefinition/compositeFormalArgumentsList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//CompositeDefinition/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//PrimitiveDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//PrimitiveDefinition/abstract"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//PrimitiveDefinition/compositeFormalArgumentsList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//PrimitiveDefinition/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//TypeDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//TypeDefinition/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//HostedInterfaceDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//HostedInterfaceDefinition/role"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//HostedInterfaceDefinition/optional"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//HostedInterfaceDefinition/signature"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//HostedInterfaceDefinition/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//HostedInterfaceDefinition/collection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//HostedInterfaceDefinition/collectionsize"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//ProvidedInterfaceDefinition"/>
+    <genClasses ecoreClass="Fractal.ecore#//RequiredInterfaceDefinition"/>
+    <genClasses ecoreClass="Fractal.ecore#//SubComponentDefinition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//SubComponentDefinition/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//SubComponentDefinition/templatesList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//SubComponentDefinition/argumentsList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//SubComponentDefinition/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//BindingDefinition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//BindingDefinition/interfaceSourceParentLabel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//BindingDefinition/interfaceSourceLabel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//BindingDefinition/interfaceSourceIndex"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//BindingDefinition/interfaceTargetParentLabel"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//BindingDefinition/interfaceTargetLabel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//BindingDefinition/interfaceTargetIndex"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//FormalArgument">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//FormalArgument/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//FormalArgumentsList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//FormalArgumentsList/formalArguments"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//TemplateSpecifier">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//TemplateSpecifier/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//TemplateSpecifier/reference"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//TemplateSpecifiersList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//TemplateSpecifiersList/templateSpecifiers"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//TemplateDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//TemplateDefinition/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//TemplateDefinition/reference"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//ArgumentDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ArgumentDefinition/argumentName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ArgumentDefinition/argumentValue"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//AttributeDefinition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//AttributeDefinition/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//AttributeDefinition/attributeName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//AttributeDefinition/value"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//ImplementationDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//ImplementationDefinition/fileC"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//ImplementationDefinition/inlineCcode"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//DataDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//DataDefinition/fileC"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//DataDefinition/inlineCcode"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//FileC">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//FileC/directory"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//FileC/name"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//InlineCodeC">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//InlineCodeC/codeC"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//AnnotationsList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//AnnotationsList/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//Annotation/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//Annotation/annotationElements"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//AnnotationElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//AnnotationElement/elementName"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//AnnotationElement/elementValue"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//ElementValue"/>
+    <genClasses ecoreClass="Fractal.ecore#//ElementValueArrayInitializer">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//ElementValueArrayInitializer/values"/>
+    </genClasses>
+    <genClasses ecoreClass="Fractal.ecore#//ConstantValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ConstantValue/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
