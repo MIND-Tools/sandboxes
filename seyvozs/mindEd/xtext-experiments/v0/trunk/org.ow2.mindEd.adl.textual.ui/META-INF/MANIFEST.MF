@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.ow2.mindEd.adl.textual.ui
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.ow2.mindEd.adl.textual.ui; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.ow2.mindEd.adl.textual;visibility:=reexport,
+ org.eclipse.xtext.ui,
+ org.eclipse.ui.editors;bundle-version="3.5.0",
+ org.eclipse.ui.ide;bundle-version="3.5.0",
+ org.eclipse.xtext.ui.shared,
+ org.eclipse.ui,
+ org.eclipse.xtext.builder,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types.ui,
+ org.eclipse.xtext.ui.codetemplates.ui,
+ org.eclipse.compare
+Import-Package: org.apache.log4j,
+ org.ow2.mindEd.ide.core;version="0.2.1",
+ org.ow2.mindEd.ide.model;version="0.2.1"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.ow2.mindEd.adl.textual.ui,
+ org.ow2.mindEd.adl.textual.ui.contentassist,
+ org.ow2.mindEd.adl.textual.ui.contentassist.antlr,
+ org.ow2.mindEd.adl.textual.ui.internal
+Bundle-Activator: org.ow2.mindEd.adl.textual.ui.internal.FractalActivator
