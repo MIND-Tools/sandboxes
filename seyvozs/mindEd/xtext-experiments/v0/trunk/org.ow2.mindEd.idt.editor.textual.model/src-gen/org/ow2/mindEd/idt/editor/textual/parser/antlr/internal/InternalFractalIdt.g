@@ -512,10 +512,10 @@ ruleTypedefName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleTok
     @after { leaveRule(); }:
 
     { 
-        newCompositeNode(grammarAccess.getTypedefNameAccess().getFullyQualifiedNameParserRuleCall()); 
+        newCompositeNode(grammarAccess.getTypedefNameAccess().getQualifiedNameParserRuleCall()); 
     }
-    this_FullyQualifiedName_0=ruleFullyQualifiedName    {
-		$current.merge(this_FullyQualifiedName_0);
+    this_QualifiedName_0=ruleQualifiedName    {
+		$current.merge(this_QualifiedName_0);
     }
 
     { 
@@ -1631,17 +1631,17 @@ ruleArraySpecification returns [EObject current=null]
 
 
 
-// Entry rule entryRuleFullyQualifiedName
-entryRuleFullyQualifiedName returns [String current=null] 
+// Entry rule entryRuleQualifiedName
+entryRuleQualifiedName returns [String current=null] 
 	:
-	{ newCompositeNode(grammarAccess.getFullyQualifiedNameRule()); } 
-	 iv_ruleFullyQualifiedName=ruleFullyQualifiedName 
-	 { $current=$iv_ruleFullyQualifiedName.current.getText(); }  
+	{ newCompositeNode(grammarAccess.getQualifiedNameRule()); } 
+	 iv_ruleQualifiedName=ruleQualifiedName 
+	 { $current=$iv_ruleQualifiedName.current.getText(); }  
 	 EOF 
 ;
 
-// Rule FullyQualifiedName
-ruleFullyQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
+// Rule QualifiedName
+ruleQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
     @init { enterRule(); 
     }
     @after { leaveRule(); }:
@@ -1650,20 +1650,20 @@ ruleFullyQualifiedName returns [AntlrDatatypeRuleToken current=new AntlrDatatype
     }
 
     { 
-    newLeafNode(this_ID_0, grammarAccess.getFullyQualifiedNameAccess().getIDTerminalRuleCall_0()); 
+    newLeafNode(this_ID_0, grammarAccess.getQualifiedNameAccess().getIDTerminalRuleCall_0()); 
     }
 (
 	kw='.' 
     {
         $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getFullyQualifiedNameAccess().getFullStopKeyword_1_0()); 
+        newLeafNode(kw, grammarAccess.getQualifiedNameAccess().getFullStopKeyword_1_0()); 
     }
     this_ID_2=RULE_ID    {
 		$current.merge(this_ID_2);
     }
 
     { 
-    newLeafNode(this_ID_2, grammarAccess.getFullyQualifiedNameAccess().getIDTerminalRuleCall_1_1()); 
+    newLeafNode(this_ID_2, grammarAccess.getQualifiedNameAccess().getIDTerminalRuleCall_1_1()); 
     }
 )*)
     ;
@@ -1776,17 +1776,17 @@ ruleInterfaceDefinition returns [EObject current=null]
 )?(
 (
 		{ 
-	        newCompositeNode(grammarAccess.getInterfaceDefinitionAccess().getFqnFullyQualifiedNameParserRuleCall_3_0()); 
+	        newCompositeNode(grammarAccess.getInterfaceDefinitionAccess().getNameQualifiedNameParserRuleCall_3_0()); 
 	    }
-		lv_fqn_3_0=ruleFullyQualifiedName		{
+		lv_name_3_0=ruleQualifiedName		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getInterfaceDefinitionRule());
 	        }
        		set(
        			$current, 
-       			"fqn",
-        		lv_fqn_3_0, 
-        		"FullyQualifiedName");
+       			"name",
+        		lv_name_3_0, 
+        		"QualifiedName");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -1798,9 +1798,9 @@ ruleInterfaceDefinition returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getInterfaceDefinitionAccess().getFqn2FullyQualifiedNameParserRuleCall_4_1_0()); 
+	        newCompositeNode(grammarAccess.getInterfaceDefinitionAccess().getFqn2QualifiedNameParserRuleCall_4_1_0()); 
 	    }
-		lv_fqn2_5_0=ruleFullyQualifiedName		{
+		lv_fqn2_5_0=ruleQualifiedName		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getInterfaceDefinitionRule());
 	        }
@@ -1808,7 +1808,7 @@ ruleInterfaceDefinition returns [EObject current=null]
        			$current, 
        			"fqn2",
         		lv_fqn2_5_0, 
-        		"FullyQualifiedName");
+        		"QualifiedName");
 	        afterParserOrEnumRuleCall();
 	    }
 
@@ -2294,9 +2294,9 @@ ruleAnnotation returns [EObject current=null]
 (
 (
 		{ 
-	        newCompositeNode(grammarAccess.getAnnotationAccess().getFqnFullyQualifiedNameParserRuleCall_1_0()); 
+	        newCompositeNode(grammarAccess.getAnnotationAccess().getFqnQualifiedNameParserRuleCall_1_0()); 
 	    }
-		lv_fqn_1_0=ruleFullyQualifiedName		{
+		lv_fqn_1_0=ruleQualifiedName		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getAnnotationRule());
 	        }
@@ -2304,7 +2304,7 @@ ruleAnnotation returns [EObject current=null]
        			$current, 
        			"fqn",
         		lv_fqn_1_0, 
-        		"FullyQualifiedName");
+        		"QualifiedName");
 	        afterParserOrEnumRuleCall();
 	    }
 

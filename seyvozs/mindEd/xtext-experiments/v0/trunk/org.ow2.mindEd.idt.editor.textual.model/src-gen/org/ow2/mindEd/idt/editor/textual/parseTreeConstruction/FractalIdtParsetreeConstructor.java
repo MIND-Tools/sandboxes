@@ -90,12 +90,15 @@ protected class ThisRootNode extends RootToken {
 /************ begin Rule IdtFile ****************
  *
  * IdtFile:
+ * 
  * 	begindef=ConstantDefinitionBegin def=ConstantDefinition includes+=IncludeDirective* (constant+=ConstantDefinition |
+ * 
  * 	type+=TypeDefinition)* "#endif";
  *
  **/
 
 // begindef=ConstantDefinitionBegin def=ConstantDefinition includes+=IncludeDirective* (constant+=ConstantDefinition |
+// 
 // type+=TypeDefinition)* "#endif"
 protected class IdtFile_Group extends GroupToken {
 	
@@ -414,6 +417,7 @@ protected class IdtFile_EndifKeyword_4 extends KeywordToken  {
 /************ begin Rule ConstantDefinitionBegin ****************
  *
  * ConstantDefinitionBegin:
+ * 
  * 	"#ifndef" id=ID;
  *
  **/
@@ -509,8 +513,11 @@ protected class ConstantDefinitionBegin_IdAssignment_1 extends AssignmentToken  
 /************ begin Rule ItfFile ****************
  *
  * // Type definition part
- * ItfFile:
- * 	includes+=IncludeDirective* (constant+=ConstantDefinition | type+=TypeDefinition)* interface=InterfaceDefinition ";"?;
+ *  ItfFile:
+ * 
+ * 	includes+=IncludeDirective* (constant+=ConstantDefinition | type+=TypeDefinition)* interface=InterfaceDefinition
+ * 
+ * 	";"?;
  *
  **/
 
@@ -761,6 +768,7 @@ protected class ItfFile_InterfaceAssignment_2 extends AssignmentToken  {
 /************ begin Rule TypeDefinition ****************
  *
  * TypeDefinition:
+ * 
  * 	(TypedefSpecification | StructOrUnionSpecification | EnumSpecification) ";";
  *
  **/
@@ -962,6 +970,7 @@ protected class TypeDefinition_SemicolonKeyword_1 extends KeywordToken  {
 /************ begin Rule TypedefSpecification ****************
  *
  * TypedefSpecification:
+ * 
  * 	"typedef" qualifedType=QualifiedTypeSpecification dec=Declarators;
  *
  **/
@@ -1115,6 +1124,7 @@ protected class TypedefSpecification_DecAssignment_2 extends AssignmentToken  {
 /************ begin Rule QualifiedTypeSpecification ****************
  *
  * QualifiedTypeSpecification:
+ * 
  * 	typeQualifier+=TypeQualifier* typeSpec=TypeSpecification;
  *
  **/
@@ -1235,6 +1245,7 @@ protected class QualifiedTypeSpecification_TypeSpecAssignment_1 extends Assignme
 /************ begin Rule TypeSpecification ****************
  *
  * TypeSpecification:
+ * 
  * 	typeDefName=TypedefName | StructOrUnionSpecification | EnumSpecification | typeSpecifier+=TypeSpecifier+;
  *
  **/
@@ -1428,6 +1439,7 @@ protected class TypeSpecification_TypeSpecifierAssignment_3 extends AssignmentTo
 /************ begin Rule StructOrUnionSpecification ****************
  *
  * StructOrUnionSpecification:
+ * 
  * 	StructOrUnionDefinition | StructorUnionReference;
  *
  **/
@@ -1542,6 +1554,7 @@ protected class StructOrUnionSpecification_StructorUnionReferenceParserRuleCall_
 /************ begin Rule StructOrUnionDefinition ****************
  *
  * StructOrUnionDefinition:
+ * 
  * 	struct=StructOrUnion id=ID? "{" structMember+=StructMember* "}";
  *
  **/
@@ -1742,6 +1755,7 @@ protected class StructOrUnionDefinition_RightCurlyBracketKeyword_4 extends Keywo
 /************ begin Rule StructorUnionReference ****************
  *
  * StructorUnionReference:
+ * 
  * 	struct=StructOrUnion id=ID;
  *
  **/
@@ -1850,6 +1864,7 @@ protected class StructorUnionReference_IdAssignment_1 extends AssignmentToken  {
 /************ begin Rule StructMember ****************
  *
  * StructMember:
+ * 
  * 	annotations=Annotations qualType=QualifiedTypeSpecification dec=Declarators (":" constExpr=ConstantExpression)? ";";
  *
  **/
@@ -2141,6 +2156,7 @@ protected class StructMember_SemicolonKeyword_4 extends KeywordToken  {
 /************ begin Rule EnumSpecification ****************
  *
  * EnumSpecification:
+ * 
  * 	EnumDefinition | EnumReference;
  *
  **/
@@ -2255,6 +2271,7 @@ protected class EnumSpecification_EnumReferenceParserRuleCall_1 extends RuleCall
 /************ begin Rule EnumDefinition ****************
  *
  * EnumDefinition:
+ * 
  * 	"enum" id=ID? "{" enumMemberList=EnumMemberList "}";
  *
  **/
@@ -2441,6 +2458,7 @@ protected class EnumDefinition_RightCurlyBracketKeyword_4 extends KeywordToken  
 /************ begin Rule EnumReference ****************
  *
  * EnumReference:
+ * 
  * 	"enum" id=ID;
  *
  **/
@@ -2536,6 +2554,7 @@ protected class EnumReference_IdAssignment_1 extends AssignmentToken  {
 /************ begin Rule EnumMemberList ****************
  *
  * EnumMemberList:
+ * 
  * 	EnumMember ("," enumMember+=EnumMember)*;
  *
  **/
@@ -2703,6 +2722,7 @@ protected class EnumMemberList_EnumMemberAssignment_1_1 extends AssignmentToken 
 /************ begin Rule EnumMember ****************
  *
  * EnumMember:
+ * 
  * 	annotations=Annotations id=ID ("=" constExpr=ConstantExpression)?;
  *
  **/
@@ -2914,6 +2934,7 @@ protected class EnumMember_ConstExprAssignment_2_1 extends AssignmentToken  {
 /************ begin Rule Declarators ****************
  *
  * Declarators:
+ * 
  * 	dec=Declarator ("," declaratorList+=Declarator)*;
  *
  **/
@@ -3092,6 +3113,7 @@ protected class Declarators_DeclaratorListAssignment_1_1 extends AssignmentToken
 /************ begin Rule Declarator ****************
  *
  * Declarator:
+ * 
  * 	pointer=PointerSpecification dc=DirectDeclarator;
  *
  **/
@@ -3223,6 +3245,7 @@ protected class Declarator_DcAssignment_1 extends AssignmentToken  {
 /************ begin Rule AbstractDeclarator ****************
  *
  * AbstractDeclarator:
+ * 
  * 	pointer=PointerSpecification dc=AbstractDirectDeclarator?;
  *
  **/
@@ -3355,6 +3378,7 @@ protected class AbstractDeclarator_DcAssignment_1 extends AssignmentToken  {
 /************ begin Rule PointerSpecification ****************
  *
  * PointerSpecification:
+ * 
  * 	{PointerSpecification} qualifiedPointer+=Qualified_PointerSpecification*;
  *
  **/
@@ -3469,6 +3493,7 @@ protected class PointerSpecification_QualifiedPointerAssignment_1 extends Assign
 /************ begin Rule Qualified_PointerSpecification ****************
  *
  * Qualified_PointerSpecification:
+ * 
  * 	{Qualified_PointerSpecification} "*" typeQualifier+=TypeQualifier*;
  *
  **/
@@ -3593,6 +3618,7 @@ protected class Qualified_PointerSpecification_TypeQualifierAssignment_2 extends
 /************ begin Rule DirectDeclarator ****************
  *
  * DirectDeclarator:
+ * 
  * 	(id=ID | "(" dec=Declarator ")") array+=ArraySpecification*;
  *
  **/
@@ -3850,6 +3876,7 @@ protected class DirectDeclarator_ArrayAssignment_1 extends AssignmentToken  {
 /************ begin Rule AbstractDirectDeclarator ****************
  *
  * AbstractDirectDeclarator:
+ * 
  * 	"(" dec=AbstractDeclarator ")" arrays+=ArraySpecification* | array+=ArraySpecification+;
  *
  **/
@@ -4097,6 +4124,7 @@ protected class AbstractDirectDeclarator_ArrayAssignment_1 extends AssignmentTok
 /************ begin Rule ArraySpecification ****************
  *
  * ArraySpecification:
+ * 
  * 	"[" constExpr=ConstantExpression? "]";
  *
  **/
@@ -4228,6 +4256,7 @@ protected class ArraySpecification_RightSquareBracketKeyword_2 extends KeywordTo
 /************ begin Rule ConstantDefinition ****************
  *
  * ConstantDefinition:
+ * 
  * 	"#define" id=ID expr=ConstantExpression?;
  *
  **/
@@ -4370,12 +4399,15 @@ protected class ConstantDefinition_ExprAssignment_2 extends AssignmentToken  {
 /************ begin Rule InterfaceDefinition ****************
  *
  * InterfaceDefinition:
- * 	annotations=Annotations "interface" "unmanaged"? fqn=FullyQualifiedName (":" fqn2=FullyQualifiedName)? "{"
+ * 
+ * 	annotations=Annotations "interface" "unmanaged"? name=QualifiedName (":" fqn2=QualifiedName)? "{"
+ * 
  * 	methodDef+=MethodDefinition* "}";
  *
  **/
 
-// annotations=Annotations "interface" "unmanaged"? fqn=FullyQualifiedName (":" fqn2=FullyQualifiedName)? "{"
+// annotations=Annotations "interface" "unmanaged"? name=QualifiedName (":" fqn2=QualifiedName)? "{"
+// 
 // methodDef+=MethodDefinition* "}"
 protected class InterfaceDefinition_Group extends GroupToken {
 	
@@ -4472,16 +4504,16 @@ protected class InterfaceDefinition_InterfaceKeyword_1 extends KeywordToken  {
 
 }
 
-// fqn=FullyQualifiedName
-protected class InterfaceDefinition_FqnAssignment_3 extends AssignmentToken  {
+// name=QualifiedName
+protected class InterfaceDefinition_NameAssignment_3 extends AssignmentToken  {
 	
-	public InterfaceDefinition_FqnAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
+	public InterfaceDefinition_NameAssignment_3(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
 		super(lastRuleCallOrigin, next, transitionIndex, eObjectConsumer);
 	}
 	
 	@Override
 	public Assignment getGrammarElement() {
-		return grammarAccess.getInterfaceDefinitionAccess().getFqnAssignment_3();
+		return grammarAccess.getInterfaceDefinitionAccess().getNameAssignment_3();
 	}
 
     @Override
@@ -4494,11 +4526,11 @@ protected class InterfaceDefinition_FqnAssignment_3 extends AssignmentToken  {
 
     @Override	
 	public IEObjectConsumer tryConsume() {
-		if((value = eObjectConsumer.getConsumable("fqn",true)) == null) return null;
-		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("fqn");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getInterfaceDefinitionAccess().getFqnFullyQualifiedNameParserRuleCall_3_0(), value, null)) {
+		if((value = eObjectConsumer.getConsumable("name",true)) == null) return null;
+		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("name");
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getInterfaceDefinitionAccess().getNameQualifiedNameParserRuleCall_3_0(), value, null)) {
 			type = AssignmentType.DATATYPE_RULE_CALL;
-			element = grammarAccess.getInterfaceDefinitionAccess().getFqnFullyQualifiedNameParserRuleCall_3_0();
+			element = grammarAccess.getInterfaceDefinitionAccess().getNameQualifiedNameParserRuleCall_3_0();
 			return obj;
 		}
 		return null;
@@ -4506,7 +4538,7 @@ protected class InterfaceDefinition_FqnAssignment_3 extends AssignmentToken  {
 
 }
 
-// (":" fqn2=FullyQualifiedName)?
+// (":" fqn2=QualifiedName)?
 protected class InterfaceDefinition_Group_4 extends GroupToken {
 	
 	public InterfaceDefinition_Group_4(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4543,14 +4575,14 @@ protected class InterfaceDefinition_ColonKeyword_4_0 extends KeywordToken  {
     @Override
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
-			case 0: return new InterfaceDefinition_FqnAssignment_3(lastRuleCallOrigin, this, 0, inst);
+			case 0: return new InterfaceDefinition_NameAssignment_3(lastRuleCallOrigin, this, 0, inst);
 			default: return null;
 		}	
 	}
 
 }
 
-// fqn2=FullyQualifiedName
+// fqn2=QualifiedName
 protected class InterfaceDefinition_Fqn2Assignment_4_1 extends AssignmentToken  {
 	
 	public InterfaceDefinition_Fqn2Assignment_4_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -4574,9 +4606,9 @@ protected class InterfaceDefinition_Fqn2Assignment_4_1 extends AssignmentToken  
 	public IEObjectConsumer tryConsume() {
 		if((value = eObjectConsumer.getConsumable("fqn2",false)) == null) return null;
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("fqn2");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getInterfaceDefinitionAccess().getFqn2FullyQualifiedNameParserRuleCall_4_1_0(), value, null)) {
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getInterfaceDefinitionAccess().getFqn2QualifiedNameParserRuleCall_4_1_0(), value, null)) {
 			type = AssignmentType.DATATYPE_RULE_CALL;
-			element = grammarAccess.getInterfaceDefinitionAccess().getFqn2FullyQualifiedNameParserRuleCall_4_1_0();
+			element = grammarAccess.getInterfaceDefinitionAccess().getFqn2QualifiedNameParserRuleCall_4_1_0();
 			return obj;
 		}
 		return null;
@@ -4601,7 +4633,7 @@ protected class InterfaceDefinition_LeftCurlyBracketKeyword_5 extends KeywordTok
 	public AbstractToken createFollower(int index, IEObjectConsumer inst) {
 		switch(index) {
 			case 0: return new InterfaceDefinition_Group_4(lastRuleCallOrigin, this, 0, inst);
-			case 1: return new InterfaceDefinition_FqnAssignment_3(lastRuleCallOrigin, this, 1, inst);
+			case 1: return new InterfaceDefinition_NameAssignment_3(lastRuleCallOrigin, this, 1, inst);
 			default: return null;
 		}	
 	}
@@ -4685,12 +4717,15 @@ protected class InterfaceDefinition_RightCurlyBracketKeyword_7 extends KeywordTo
 /************ begin Rule MethodDefinition ****************
  *
  * MethodDefinition:
+ * 
  * 	annotations=Annotations qualifiedTypeSpec=QualifiedTypeSpecification pointerSpecification=PointerSpecification id=ID
+ * 
  * 	("(" "void"? ")" | "(" ParameterList=ParameterList ")") ";";
  *
  **/
 
 // annotations=Annotations qualifiedTypeSpec=QualifiedTypeSpecification pointerSpecification=PointerSpecification id=ID
+// 
 // ("(" "void"? ")" | "(" ParameterList=ParameterList ")") ";"
 protected class MethodDefinition_Group extends GroupToken {
 	
@@ -5124,6 +5159,7 @@ protected class MethodDefinition_SemicolonKeyword_5 extends KeywordToken  {
 /************ begin Rule ParameterList ****************
  *
  * ParameterList:
+ * 
  * 	param=Parameter ("," params+=Parameter)* ("," "...")?;
  *
  **/
@@ -5302,12 +5338,15 @@ protected class ParameterList_ParamsAssignment_1_1 extends AssignmentToken  {
 /************ begin Rule Parameter ****************
  *
  * Parameter:
+ * 
  * 	annotations=Annotations ParameterQualifier+=ParameterQualifier* qualifiedTypeSpec=QualifiedTypeSpecification
+ * 
  * 	(dec=Declarator | absDec=AbstractDeclarator);
  *
  **/
 
 // annotations=Annotations ParameterQualifier+=ParameterQualifier* qualifiedTypeSpec=QualifiedTypeSpecification
+// 
 // (dec=Declarator | absDec=AbstractDeclarator)
 protected class Parameter_Group extends GroupToken {
 	
@@ -5587,6 +5626,7 @@ protected class Parameter_AbsDecAssignment_3_1 extends AssignmentToken  {
 /************ begin Rule IncludeDirective ****************
  *
  * IncludeDirective:
+ * 
  * 	"#include" (importedURI=STRING | includeID=IncludeLib);
  *
  **/
@@ -5740,6 +5780,7 @@ protected class IncludeDirective_IncludeIDAssignment_1_1 extends AssignmentToken
 /************ begin Rule Annotations ****************
  *
  * Annotations:
+ * 
  * 	{Annotations} annotations+=Annotation*;
  *
  **/
@@ -5854,11 +5895,12 @@ protected class Annotations_AnnotationsAssignment_1 extends AssignmentToken  {
 /************ begin Rule Annotation ****************
  *
  * Annotation:
- * 	"@" fqn=FullyQualifiedName annotationParamaters=AnnotationParameters?;
+ * 
+ * 	"@" fqn=QualifiedName annotationParamaters=AnnotationParameters?;
  *
  **/
 
-// "@" fqn=FullyQualifiedName annotationParamaters=AnnotationParameters?
+// "@" fqn=QualifiedName annotationParamaters=AnnotationParameters?
 protected class Annotation_Group extends GroupToken {
 	
 	public Annotation_Group(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -5909,7 +5951,7 @@ protected class Annotation_CommercialAtKeyword_0 extends KeywordToken  {
 
 }
 
-// fqn=FullyQualifiedName
+// fqn=QualifiedName
 protected class Annotation_FqnAssignment_1 extends AssignmentToken  {
 	
 	public Annotation_FqnAssignment_1(AbstractToken lastRuleCallOrigin, AbstractToken next, int transitionIndex, IEObjectConsumer eObjectConsumer) {
@@ -5933,9 +5975,9 @@ protected class Annotation_FqnAssignment_1 extends AssignmentToken  {
 	public IEObjectConsumer tryConsume() {
 		if((value = eObjectConsumer.getConsumable("fqn",true)) == null) return null;
 		IEObjectConsumer obj = eObjectConsumer.cloneAndConsume("fqn");
-		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getAnnotationAccess().getFqnFullyQualifiedNameParserRuleCall_1_0(), value, null)) {
+		if(valueSerializer.isValid(obj.getEObject(), grammarAccess.getAnnotationAccess().getFqnQualifiedNameParserRuleCall_1_0(), value, null)) {
 			type = AssignmentType.DATATYPE_RULE_CALL;
-			element = grammarAccess.getAnnotationAccess().getFqnFullyQualifiedNameParserRuleCall_1_0();
+			element = grammarAccess.getAnnotationAccess().getFqnQualifiedNameParserRuleCall_1_0();
 			return obj;
 		}
 		return null;
@@ -5996,6 +6038,7 @@ protected class Annotation_AnnotationParamatersAssignment_2 extends AssignmentTo
 /************ begin Rule AnnotationParameters ****************
  *
  * AnnotationParameters:
+ * 
  * 	{AnnotationParameters} "(" (valuePair=AnnotationValuePairs | value=AnnotationValue)? ")";
  *
  **/
@@ -6223,6 +6266,7 @@ protected class AnnotationParameters_RightParenthesisKeyword_3 extends KeywordTo
 /************ begin Rule AnnotationValuePairs ****************
  *
  * AnnotationValuePairs:
+ * 
  * 	first=AnnotationValuePair ("," listValue+=AnnotationValuePair)*;
  *
  **/
@@ -6401,6 +6445,7 @@ protected class AnnotationValuePairs_ListValueAssignment_1_1 extends AssignmentT
 /************ begin Rule AnnotationValuePair ****************
  *
  * AnnotationValuePair:
+ * 
  * 	id=ID "=" value=AnnotationValue;
  *
  **/
@@ -6542,6 +6587,7 @@ protected class AnnotationValuePair_ValueAssignment_2 extends AssignmentToken  {
 /************ begin Rule AnnotationValue ****************
  *
  * AnnotationValue:
+ * 
  * 	signedINT | "null" | Boolean | ID | Annotation | ArrayAnnotationValue | STRING;
  *
  **/
@@ -6678,6 +6724,7 @@ protected class AnnotationValue_ArrayAnnotationValueParserRuleCall_5 extends Rul
 /************ begin Rule ArrayAnnotationValue ****************
  *
  * ArrayAnnotationValue:
+ * 
  * 	"{" (firstValue=AnnotationValue ("," values+=AnnotationValue)*)? "}";
  *
  **/
@@ -6925,6 +6972,7 @@ protected class ArrayAnnotationValue_RightCurlyBracketKeyword_2 extends KeywordT
 /************ begin Rule ConstantExpression ****************
  *
  * ConstantExpression:
+ * 
  * 	LogicalOrExpression;
  *
  **/
@@ -6971,6 +7019,7 @@ protected class ConstantExpression_LogicalOrExpressionParserRuleCall extends Rul
 /************ begin Rule LogicalOrExpression ****************
  *
  * LogicalOrExpression:
+ * 
  * 	leftExpr=LogicalAndExpression ("||" rightExpr=LogicalOrExpression)?;
  *
  **/
@@ -7148,6 +7197,7 @@ protected class LogicalOrExpression_RightExprAssignment_1_1 extends AssignmentTo
 /************ begin Rule LogicalAndExpression ****************
  *
  * LogicalAndExpression:
+ * 
  * 	leftExpr=OrExpression ("&&" rightExpr=LogicalAndExpression)?;
  *
  **/
@@ -7325,6 +7375,7 @@ protected class LogicalAndExpression_RightExprAssignment_1_1 extends AssignmentT
 /************ begin Rule OrExpression ****************
  *
  * OrExpression:
+ * 
  * 	leftExpr=XorExpression ("|" rightExpr=OrExpression)?;
  *
  **/
@@ -7502,6 +7553,7 @@ protected class OrExpression_RightExprAssignment_1_1 extends AssignmentToken  {
 /************ begin Rule XorExpression ****************
  *
  * XorExpression:
+ * 
  * 	leftExpr=AndExpression ("^" rightExpr=XorExpression)?;
  *
  **/
@@ -7679,6 +7731,7 @@ protected class XorExpression_RightExprAssignment_1_1 extends AssignmentToken  {
 /************ begin Rule AndExpression ****************
  *
  * AndExpression:
+ * 
  * 	leftExpr=ShiftExpression ("&" rightExpr=AndExpression)?;
  *
  **/
@@ -7856,6 +7909,7 @@ protected class AndExpression_RightExprAssignment_1_1 extends AssignmentToken  {
 /************ begin Rule ShiftExpression ****************
  *
  * ShiftExpression:
+ * 
  * 	leftExpr=AdditiveExpression (op=ShiftOperation rightExpr=ShiftExpression)?;
  *
  **/
@@ -8045,6 +8099,7 @@ protected class ShiftExpression_RightExprAssignment_1_1 extends AssignmentToken 
 /************ begin Rule AdditiveExpression ****************
  *
  * AdditiveExpression:
+ * 
  * 	leftExpr=MulExpression (op=AdditiveOperation rightExpr=AdditiveExpression)?;
  *
  **/
@@ -8234,6 +8289,7 @@ protected class AdditiveExpression_RightExprAssignment_1_1 extends AssignmentTok
 /************ begin Rule MulExpression ****************
  *
  * MulExpression:
+ * 
  * 	leftExpr=CastExpression (op=MulOperation rightExpr=MulExpression)?;
  *
  **/
@@ -8423,6 +8479,7 @@ protected class MulExpression_RightExprAssignment_1_1 extends AssignmentToken  {
 /************ begin Rule CastExpression ****************
  *
  * CastExpression:
+ * 
  * 	"(" type=QualifiedTypeSpecification ")" expr=CastExpression | unaryExpr=UnaryExpression;
  *
  **/
@@ -8667,6 +8724,7 @@ protected class CastExpression_UnaryExprAssignment_1 extends AssignmentToken  {
 /************ begin Rule UnaryExpression ****************
  *
  * UnaryExpression:
+ * 
  * 	unaryExpr=UnaryOperation? primaryExpr=PrimaryExpression;
  *
  **/
@@ -8786,6 +8844,7 @@ protected class UnaryExpression_PrimaryExprAssignment_1 extends AssignmentToken 
 /************ begin Rule PrimaryExpression ****************
  *
  * PrimaryExpression:
+ * 
  * 	literal=Literal | "(" ConstantExpression ")";
  *
  **/
@@ -8983,6 +9042,7 @@ protected class PrimaryExpression_RightParenthesisKeyword_1_2 extends KeywordTok
 /************ begin Rule Literal ****************
  *
  * Literal:
+ * 
  * 	ID | STRING | FloatingPointLiteral | ref=[ConstantDefinition];
  *
  **/
