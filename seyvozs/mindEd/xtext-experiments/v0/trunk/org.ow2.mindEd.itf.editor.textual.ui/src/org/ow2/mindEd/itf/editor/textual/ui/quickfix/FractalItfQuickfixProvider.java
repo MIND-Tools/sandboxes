@@ -29,7 +29,7 @@ public class FractalItfQuickfixProvider extends DefaultQuickfixProvider {
 							
 							InterfaceDefinitionImpl interfaceDefinitionImpl = (InterfaceDefinitionImpl) element;							
 							String expectedName = FractalItfJavaValidator.getExpectedInterfaceName(interfaceDefinitionImpl);							
-							interfaceDefinitionImpl.setFqn(expectedName);
+							interfaceDefinitionImpl.setName(expectedName);
 						}
 						
 					}

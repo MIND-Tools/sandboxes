@@ -8,6 +8,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
+import org.ow2.mindEd.itf.editor.textual.ui.internal.FractalItfActivator;
+
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
@@ -16,12 +18,12 @@ public class FractalItfExecutableExtensionFactory extends AbstractGuiceAwareExec
 
 	@Override
 	protected Bundle getBundle() {
-		return org.ow2.mindEd.itf.editor.textual.ui.internal.FractalItfActivator.getInstance().getBundle();
+		return FractalItfActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return org.ow2.mindEd.itf.editor.textual.ui.internal.FractalItfActivator.getInstance().getInjector("org.ow2.mindEd.itf.editor.textual.FractalItf");
+		return FractalItfActivator.getInstance().getInjector(FractalItfActivator.ORG_OW2_MINDED_ITF_EDITOR_TEXTUAL_FRACTALITF);
 	}
 	
 }
