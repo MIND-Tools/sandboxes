@@ -280,7 +280,7 @@ public class TestMindProject {
 				FamilyJobCST.FAMILY_SAVE_MPE);
 
 		assertTrue(MindProjectImpl.areMindpathsEqual(mp2.getRawMinpath(),
-				MindProjectImpl.readFileEntriesWithException(mp2.getProject())));
+				MindProjectImpl.readFileEntriesWithException(mp2.getProject(), mp2)));
 
 		MindPathEntry p2_use_p1 = MindIdeCore.newMPEProject(mp.getProject());
 		mp2.getMindpathentries().add(p2_use_p1);
@@ -290,7 +290,7 @@ public class TestMindProject {
 		assertNotNull(p2_use_p1.getOwnerProject());
 		assertEquals(mp2, p2_use_p1.getOwnerProject());
 		assertTrue(MindProjectImpl.areMindpathsEqual(mp2.getRawMinpath(),
-				MindProjectImpl.readFileEntriesWithException(mp2.getProject())));
+				MindProjectImpl.readFileEntriesWithException(mp2.getProject(), mp2)));
 
 		IFolder src2 = mp2.getProject().getFolder("src2");
 		src2.create(false, true, new NullProgressMonitor());
@@ -303,7 +303,7 @@ public class TestMindProject {
 		assertNotNull(p2_src2.getOwnerProject());
 		assertEquals(mp2, p2_src2.getOwnerProject());
 		assertTrue(MindProjectImpl.areMindpathsEqual(mp2.getRawMinpath(),
-				MindProjectImpl.readFileEntriesWithException(mp2.getProject())));
+				MindProjectImpl.readFileEntriesWithException(mp2.getProject(), mp2)));
 
 		assertEquals(4, mp2.getMindpathentries().size());
 		assertEqualsMPE(p2_import_p1, mp2.getMindpathentries().get(1));
@@ -311,7 +311,7 @@ public class TestMindProject {
 		assertEqualsMPE(p2_src2, mp2.getMindpathentries().get(3));
 
 		EList<MindPathEntry> mindpath = MindProjectImpl
-				.readFileEntriesWithException(mp2.getProject());
+				.readFileEntriesWithException(mp2.getProject(), mp2);
 		assertEquals(4, mindpath.size());
 		assertEqualsMPE(p2_import_p1, mindpath.get(1));
 		assertEqualsMPE(p2_use_p1, mindpath.get(2));
@@ -342,7 +342,7 @@ public class TestMindProject {
 		assertEquals(mp2, p2_import_p1.getOwnerProject());
 
 		assertTrue(MindProjectImpl.areMindpathsEqual(mp2.getRawMinpath(),
-				MindProjectImpl.readFileEntriesWithException(mp2.getProject())));
+				MindProjectImpl.readFileEntriesWithException(mp2.getProject(), mp2)));
 
 		assertEquals(2, mp2.getMindpathentries().size());
 		assertEquals(p2_import_p1, mp2.getMindpathentries().get(1));
