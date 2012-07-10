@@ -27,55 +27,55 @@ import org.eclipse.emf.ecore.EObject;
 public interface IncludeDirective extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Imported URI</b></em>' attribute.
-   * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Imported URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Imported URI</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Imported URI</em>' attribute.
-   * @see #setImportedURI(String)
-   * @see org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage#getIncludeDirective_ImportedURI()
-   * @model
-   * @generated
-   */
+	 * @return the value of the '<em>Imported URI</em>' attribute.
+	 * @see #setImportedURI(String)
+	 * @see org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage#getIncludeDirective_ImportedURI()
+	 * @model
+	 * @generated
+	 */
   String getImportedURI();
 
   /**
-   * Sets the value of the '{@link org.ow2.mindEd.itf.editor.textual.fractalIDL.IncludeDirective#getImportedURI <em>Imported URI</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.ow2.mindEd.itf.editor.textual.fractalIDL.IncludeDirective#getImportedURI <em>Imported URI</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Imported URI</em>' attribute.
-   * @see #getImportedURI()
-   * @generated
-   */
+	 * @param value the new value of the '<em>Imported URI</em>' attribute.
+	 * @see #getImportedURI()
+	 * @generated
+	 */
   void setImportedURI(String value);
 
   /**
-   * Returns the value of the '<em><b>Include ID</b></em>' attribute.
-   * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Include ID</b></em>' attribute.
+	 * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Include ID</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Include ID</em>' attribute.
-   * @see #setIncludeID(String)
-   * @see org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage#getIncludeDirective_IncludeID()
-   * @model
-   * @generated
-   */
+	 * @return the value of the '<em>Include ID</em>' attribute.
+	 * @see #setIncludeID(String)
+	 * @see org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage#getIncludeDirective_IncludeID()
+	 * @model
+	 * @generated
+	 */
   String getIncludeID();
 
   /**
-   * Sets the value of the '{@link org.ow2.mindEd.itf.editor.textual.fractalIDL.IncludeDirective#getIncludeID <em>Include ID</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.ow2.mindEd.itf.editor.textual.fractalIDL.IncludeDirective#getIncludeID <em>Include ID</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Include ID</em>' attribute.
-   * @see #getIncludeID()
-   * @generated
-   */
+	 * @param value the new value of the '<em>Include ID</em>' attribute.
+	 * @see #getIncludeID()
+	 * @generated
+	 */
   void setIncludeID(String value);
 
 } // IncludeDirective

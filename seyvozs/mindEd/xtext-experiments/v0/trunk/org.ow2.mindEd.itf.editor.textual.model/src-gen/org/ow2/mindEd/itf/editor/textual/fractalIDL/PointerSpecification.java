@@ -28,19 +28,19 @@ import org.eclipse.emf.ecore.EObject;
 public interface PointerSpecification extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Qualified Pointer</b></em>' containment reference list.
-   * The list contents are of type {@link org.ow2.mindEd.itf.editor.textual.fractalIDL.Qualified_PointerSpecification}.
-   * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Qualified Pointer</b></em>' containment reference list.
+	 * The list contents are of type {@link org.ow2.mindEd.itf.editor.textual.fractalIDL.Qualified_PointerSpecification}.
+	 * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Qualified Pointer</em>' containment reference list isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Qualified Pointer</em>' containment reference list.
-   * @see org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage#getPointerSpecification_QualifiedPointer()
-   * @model containment="true"
-   * @generated
-   */
+	 * @return the value of the '<em>Qualified Pointer</em>' containment reference list.
+	 * @see org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage#getPointerSpecification_QualifiedPointer()
+	 * @model containment="true"
+	 * @generated
+	 */
   EList<Qualified_PointerSpecification> getQualifiedPointer();
 
 } // PointerSpecification

@@ -35,133 +35,128 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.TypeQualifier;
 public class Qualified_PointerSpecificationImpl extends MinimalEObjectImpl.Container implements Qualified_PointerSpecification
 {
   /**
-   * The cached value of the '{@link #getTypeQualifier() <em>Type Qualifier</em>}' attribute list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getTypeQualifier() <em>Type Qualifier</em>}' attribute list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeQualifier()
-   * @generated
-   * @ordered
-   */
+	 * @see #getTypeQualifier()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<TypeQualifier> typeQualifier;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected Qualified_PointerSpecificationImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.QUALIFIED_POINTER_SPECIFICATION;
-  }
+		return FractalIDLPackage.Literals.QUALIFIED_POINTER_SPECIFICATION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<TypeQualifier> getTypeQualifier()
   {
-    if (typeQualifier == null)
-    {
-      typeQualifier = new EDataTypeEList<TypeQualifier>(TypeQualifier.class, this, FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER);
-    }
-    return typeQualifier;
-  }
+		if (typeQualifier == null) {
+			typeQualifier = new EDataTypeEList<TypeQualifier>(TypeQualifier.class, this, FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER);
+		}
+		return typeQualifier;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
-        return getTypeQualifier();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
+				return getTypeQualifier();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
-        getTypeQualifier().clear();
-        getTypeQualifier().addAll((Collection<? extends TypeQualifier>)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
+				getTypeQualifier().clear();
+				getTypeQualifier().addAll((Collection<? extends TypeQualifier>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
-        getTypeQualifier().clear();
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
+				getTypeQualifier().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
-        return typeQualifier != null && !typeQualifier.isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_POINTER_SPECIFICATION__TYPE_QUALIFIER:
+				return typeQualifier != null && !typeQualifier.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (typeQualifier: ");
-    result.append(typeQualifier);
-    result.append(')');
-    return result.toString();
-  }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (typeQualifier: ");
+		result.append(typeQualifier);
+		result.append(')');
+		return result.toString();
+	}
 
 } //Qualified_PointerSpecificationImpl

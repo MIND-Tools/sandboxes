@@ -457,7 +457,7 @@
         <elements xsi:type="xtext:Keyword" value="]"/>
       </alternatives>
     </rules>
-    <rules xsi:type="xtext:ParserRule" name="FullyQualifiedName">
+    <rules xsi:type="xtext:ParserRule" name="QualifiedName">
       <type metamodel="/1/@metamodelDeclarations.0">
         <classifier xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       </type>
@@ -493,7 +493,7 @@
         </elements>
         <elements xsi:type="xtext:Keyword" value="interface"/>
         <elements xsi:type="xtext:Keyword" cardinality="?" value="unmanaged"/>
-        <elements xsi:type="xtext:Assignment" feature="fqn" operator="=">
+        <elements xsi:type="xtext:Assignment" feature="name" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.26"/>
         </elements>
         <elements xsi:type="xtext:Group" cardinality="?">

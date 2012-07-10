@@ -4,8 +4,9 @@ generate fractalIDL 'http://www.ow2.org/mindEd/itf/' // itf definition
 
 
 ItfFile:
-  (includes+=IncludeDirective)* (constant+=ConstantDefinition|type+=TypeDefinition)
-  * interface=InterfaceDefinition (";")?; // Type definition part
+  (includes+=IncludeDirective)*
+  (constant+=ConstantDefinition|type+=TypeDefinition)*
+  interface=InterfaceDefinition (";")?; // Type definition part
 
 
 TypeDefinition:
@@ -25,7 +26,7 @@ TypeSpecification:
   typeSpecifier+=TypeSpecifier)+;
 
 TypedefName:
-  FullyQualifiedName;
+  QualifiedName;
 
 enum TypeSpecifier:
   void | char | short | int | long | float | double | signed | unsigned | string | int8_t | uint8_t |
@@ -87,16 +88,17 @@ DirectDeclarator:
 ArraySpecification:
   '[' (constExpr=ConstantExpression)? ']';
 
-FullyQualifiedName:
-  ID ('.' ID)*; // Interface definition part
+QualifiedName:
+  ID ('.' ID)*
+; // Interface definition part
 
 
 ConstantDefinition:
   "#define" id=ID expr=ConstantExpression?;
 
 InterfaceDefinition:
-  annotations=Annotations 'interface' ("unmanaged")? fqn=FullyQualifiedName (":" fqn2=
-  FullyQualifiedName)? '{' (methodDef+=MethodDefinition)* '}';
+  annotations=Annotations 'interface' ("unmanaged")? name=QualifiedName (":" fqn2=
+  QualifiedName)? '{' (methodDef+=MethodDefinition)* '}';
 
 MethodDefinition:
   annotations=Annotations qualifiedTypeSpec=QualifiedTypeSpecification pointerSpecification=PointerSpecification id=ID ('(' (
@@ -123,7 +125,7 @@ Annotations:
   {Annotations} annotations+=Annotation*;
 
 Annotation:
-  '@' fqn=FullyQualifiedName annotationParamaters=AnnotationParameters?;
+  '@' fqn=QualifiedName annotationParamaters=AnnotationParameters?;
 
 AnnotationParameters:
   {AnnotationParameters} '(' (valuePair=AnnotationValuePairs|value=AnnotationValue)?

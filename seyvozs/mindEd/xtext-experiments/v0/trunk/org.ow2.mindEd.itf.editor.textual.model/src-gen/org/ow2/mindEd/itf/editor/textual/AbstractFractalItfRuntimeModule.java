@@ -35,6 +35,11 @@ public abstract class AbstractFractalItfRuntimeModule extends DefaultRuntimeModu
 	}
 	
 	// contributed by org.eclipse.xtext.generator.grammarAccess.GrammarAccessFragment
+	public java.lang.ClassLoader bindClassLoaderToInstance() {
+		return getClass().getClassLoader();
+	}
+
+	// contributed by org.eclipse.xtext.generator.grammarAccess.GrammarAccessFragment
 	public Class<? extends org.eclipse.xtext.IGrammarAccess> bindIGrammarAccess() {
 		return org.ow2.mindEd.itf.editor.textual.services.FractalItfGrammarAccess.class;
 	}

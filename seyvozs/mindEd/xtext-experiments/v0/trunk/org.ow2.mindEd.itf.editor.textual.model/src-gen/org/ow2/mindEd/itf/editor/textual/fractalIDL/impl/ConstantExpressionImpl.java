@@ -22,24 +22,24 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage;
 public class ConstantExpressionImpl extends PrimaryExpressionImpl implements ConstantExpression
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected ConstantExpressionImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.CONSTANT_EXPRESSION;
-  }
+		return FractalIDLPackage.Literals.CONSTANT_EXPRESSION;
+	}
 
 } //ConstantExpressionImpl

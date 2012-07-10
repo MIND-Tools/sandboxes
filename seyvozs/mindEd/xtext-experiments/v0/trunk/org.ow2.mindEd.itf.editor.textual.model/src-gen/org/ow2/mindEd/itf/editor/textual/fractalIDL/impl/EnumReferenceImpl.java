@@ -22,24 +22,24 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage;
 public class EnumReferenceImpl extends EnumSpecificationImpl implements EnumReference
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EnumReferenceImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.ENUM_REFERENCE;
-  }
+		return FractalIDLPackage.Literals.ENUM_REFERENCE;
+	}
 
 } //EnumReferenceImpl

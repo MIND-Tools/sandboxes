@@ -35,234 +35,225 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.XorExpression;
 public class OrExpressionImpl extends MinimalEObjectImpl.Container implements OrExpression
 {
   /**
-   * The cached value of the '{@link #getLeftExpr() <em>Left Expr</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getLeftExpr() <em>Left Expr</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getLeftExpr()
-   * @generated
-   * @ordered
-   */
+	 * @see #getLeftExpr()
+	 * @generated
+	 * @ordered
+	 */
   protected XorExpression leftExpr;
 
   /**
-   * The cached value of the '{@link #getRightExpr() <em>Right Expr</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getRightExpr() <em>Right Expr</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRightExpr()
-   * @generated
-   * @ordered
-   */
+	 * @see #getRightExpr()
+	 * @generated
+	 * @ordered
+	 */
   protected OrExpression rightExpr;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected OrExpressionImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.OR_EXPRESSION;
-  }
+		return FractalIDLPackage.Literals.OR_EXPRESSION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public XorExpression getLeftExpr()
   {
-    return leftExpr;
-  }
+		return leftExpr;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetLeftExpr(XorExpression newLeftExpr, NotificationChain msgs)
   {
-    XorExpression oldLeftExpr = leftExpr;
-    leftExpr = newLeftExpr;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, oldLeftExpr, newLeftExpr);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		XorExpression oldLeftExpr = leftExpr;
+		leftExpr = newLeftExpr;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, oldLeftExpr, newLeftExpr);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setLeftExpr(XorExpression newLeftExpr)
   {
-    if (newLeftExpr != leftExpr)
-    {
-      NotificationChain msgs = null;
-      if (leftExpr != null)
-        msgs = ((InternalEObject)leftExpr).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, null, msgs);
-      if (newLeftExpr != null)
-        msgs = ((InternalEObject)newLeftExpr).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, null, msgs);
-      msgs = basicSetLeftExpr(newLeftExpr, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, newLeftExpr, newLeftExpr));
-  }
+		if (newLeftExpr != leftExpr) {
+			NotificationChain msgs = null;
+			if (leftExpr != null)
+				msgs = ((InternalEObject)leftExpr).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, null, msgs);
+			if (newLeftExpr != null)
+				msgs = ((InternalEObject)newLeftExpr).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, null, msgs);
+			msgs = basicSetLeftExpr(newLeftExpr, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR, newLeftExpr, newLeftExpr));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public OrExpression getRightExpr()
   {
-    return rightExpr;
-  }
+		return rightExpr;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetRightExpr(OrExpression newRightExpr, NotificationChain msgs)
   {
-    OrExpression oldRightExpr = rightExpr;
-    rightExpr = newRightExpr;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, oldRightExpr, newRightExpr);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		OrExpression oldRightExpr = rightExpr;
+		rightExpr = newRightExpr;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, oldRightExpr, newRightExpr);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setRightExpr(OrExpression newRightExpr)
   {
-    if (newRightExpr != rightExpr)
-    {
-      NotificationChain msgs = null;
-      if (rightExpr != null)
-        msgs = ((InternalEObject)rightExpr).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, null, msgs);
-      if (newRightExpr != null)
-        msgs = ((InternalEObject)newRightExpr).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, null, msgs);
-      msgs = basicSetRightExpr(newRightExpr, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, newRightExpr, newRightExpr));
-  }
+		if (newRightExpr != rightExpr) {
+			NotificationChain msgs = null;
+			if (rightExpr != null)
+				msgs = ((InternalEObject)rightExpr).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, null, msgs);
+			if (newRightExpr != null)
+				msgs = ((InternalEObject)newRightExpr).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, null, msgs);
+			msgs = basicSetRightExpr(newRightExpr, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR, newRightExpr, newRightExpr));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
-        return basicSetLeftExpr(null, msgs);
-      case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
-        return basicSetRightExpr(null, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
+				return basicSetLeftExpr(null, msgs);
+			case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
+				return basicSetRightExpr(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
-        return getLeftExpr();
-      case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
-        return getRightExpr();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
+				return getLeftExpr();
+			case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
+				return getRightExpr();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
-        setLeftExpr((XorExpression)newValue);
-        return;
-      case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
-        setRightExpr((OrExpression)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
+				setLeftExpr((XorExpression)newValue);
+				return;
+			case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
+				setRightExpr((OrExpression)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
-        setLeftExpr((XorExpression)null);
-        return;
-      case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
-        setRightExpr((OrExpression)null);
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
+				setLeftExpr((XorExpression)null);
+				return;
+			case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
+				setRightExpr((OrExpression)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
-        return leftExpr != null;
-      case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
-        return rightExpr != null;
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.OR_EXPRESSION__LEFT_EXPR:
+				return leftExpr != null;
+			case FractalIDLPackage.OR_EXPRESSION__RIGHT_EXPR:
+				return rightExpr != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //OrExpressionImpl

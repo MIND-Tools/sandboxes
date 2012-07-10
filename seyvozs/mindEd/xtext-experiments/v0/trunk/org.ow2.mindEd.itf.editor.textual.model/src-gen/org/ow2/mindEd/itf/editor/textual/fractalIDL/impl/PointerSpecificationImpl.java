@@ -39,132 +39,126 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.Qualified_PointerSpecificati
 public class PointerSpecificationImpl extends MinimalEObjectImpl.Container implements PointerSpecification
 {
   /**
-   * The cached value of the '{@link #getQualifiedPointer() <em>Qualified Pointer</em>}' containment reference list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getQualifiedPointer() <em>Qualified Pointer</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getQualifiedPointer()
-   * @generated
-   * @ordered
-   */
+	 * @see #getQualifiedPointer()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<Qualified_PointerSpecification> qualifiedPointer;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected PointerSpecificationImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.POINTER_SPECIFICATION;
-  }
+		return FractalIDLPackage.Literals.POINTER_SPECIFICATION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<Qualified_PointerSpecification> getQualifiedPointer()
   {
-    if (qualifiedPointer == null)
-    {
-      qualifiedPointer = new EObjectContainmentEList<Qualified_PointerSpecification>(Qualified_PointerSpecification.class, this, FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER);
-    }
-    return qualifiedPointer;
-  }
+		if (qualifiedPointer == null) {
+			qualifiedPointer = new EObjectContainmentEList<Qualified_PointerSpecification>(Qualified_PointerSpecification.class, this, FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER);
+		}
+		return qualifiedPointer;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
-        return ((InternalEList<?>)getQualifiedPointer()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
+				return ((InternalEList<?>)getQualifiedPointer()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
-        return getQualifiedPointer();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
+				return getQualifiedPointer();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
-        getQualifiedPointer().clear();
-        getQualifiedPointer().addAll((Collection<? extends Qualified_PointerSpecification>)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
+				getQualifiedPointer().clear();
+				getQualifiedPointer().addAll((Collection<? extends Qualified_PointerSpecification>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
-        getQualifiedPointer().clear();
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
+				getQualifiedPointer().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
-        return qualifiedPointer != null && !qualifiedPointer.isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.POINTER_SPECIFICATION__QUALIFIED_POINTER:
+				return qualifiedPointer != null && !qualifiedPointer.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //PointerSpecificationImpl

@@ -42,202 +42,194 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.ParameterList;
 public class ParameterListImpl extends MinimalEObjectImpl.Container implements ParameterList
 {
   /**
-   * The cached value of the '{@link #getParam() <em>Param</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getParam() <em>Param</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getParam()
-   * @generated
-   * @ordered
-   */
+	 * @see #getParam()
+	 * @generated
+	 * @ordered
+	 */
   protected Parameter param;
 
   /**
-   * The cached value of the '{@link #getParams() <em>Params</em>}' containment reference list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getParams() <em>Params</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getParams()
-   * @generated
-   * @ordered
-   */
+	 * @see #getParams()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<Parameter> params;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected ParameterListImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.PARAMETER_LIST;
-  }
+		return FractalIDLPackage.Literals.PARAMETER_LIST;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Parameter getParam()
   {
-    return param;
-  }
+		return param;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetParam(Parameter newParam, NotificationChain msgs)
   {
-    Parameter oldParam = param;
-    param = newParam;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.PARAMETER_LIST__PARAM, oldParam, newParam);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		Parameter oldParam = param;
+		param = newParam;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.PARAMETER_LIST__PARAM, oldParam, newParam);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setParam(Parameter newParam)
   {
-    if (newParam != param)
-    {
-      NotificationChain msgs = null;
-      if (param != null)
-        msgs = ((InternalEObject)param).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.PARAMETER_LIST__PARAM, null, msgs);
-      if (newParam != null)
-        msgs = ((InternalEObject)newParam).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.PARAMETER_LIST__PARAM, null, msgs);
-      msgs = basicSetParam(newParam, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.PARAMETER_LIST__PARAM, newParam, newParam));
-  }
+		if (newParam != param) {
+			NotificationChain msgs = null;
+			if (param != null)
+				msgs = ((InternalEObject)param).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.PARAMETER_LIST__PARAM, null, msgs);
+			if (newParam != null)
+				msgs = ((InternalEObject)newParam).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.PARAMETER_LIST__PARAM, null, msgs);
+			msgs = basicSetParam(newParam, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.PARAMETER_LIST__PARAM, newParam, newParam));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<Parameter> getParams()
   {
-    if (params == null)
-    {
-      params = new EObjectContainmentEList<Parameter>(Parameter.class, this, FractalIDLPackage.PARAMETER_LIST__PARAMS);
-    }
-    return params;
-  }
+		if (params == null) {
+			params = new EObjectContainmentEList<Parameter>(Parameter.class, this, FractalIDLPackage.PARAMETER_LIST__PARAMS);
+		}
+		return params;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.PARAMETER_LIST__PARAM:
-        return basicSetParam(null, msgs);
-      case FractalIDLPackage.PARAMETER_LIST__PARAMS:
-        return ((InternalEList<?>)getParams()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.PARAMETER_LIST__PARAM:
+				return basicSetParam(null, msgs);
+			case FractalIDLPackage.PARAMETER_LIST__PARAMS:
+				return ((InternalEList<?>)getParams()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.PARAMETER_LIST__PARAM:
-        return getParam();
-      case FractalIDLPackage.PARAMETER_LIST__PARAMS:
-        return getParams();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.PARAMETER_LIST__PARAM:
+				return getParam();
+			case FractalIDLPackage.PARAMETER_LIST__PARAMS:
+				return getParams();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.PARAMETER_LIST__PARAM:
-        setParam((Parameter)newValue);
-        return;
-      case FractalIDLPackage.PARAMETER_LIST__PARAMS:
-        getParams().clear();
-        getParams().addAll((Collection<? extends Parameter>)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.PARAMETER_LIST__PARAM:
+				setParam((Parameter)newValue);
+				return;
+			case FractalIDLPackage.PARAMETER_LIST__PARAMS:
+				getParams().clear();
+				getParams().addAll((Collection<? extends Parameter>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.PARAMETER_LIST__PARAM:
-        setParam((Parameter)null);
-        return;
-      case FractalIDLPackage.PARAMETER_LIST__PARAMS:
-        getParams().clear();
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.PARAMETER_LIST__PARAM:
+				setParam((Parameter)null);
+				return;
+			case FractalIDLPackage.PARAMETER_LIST__PARAMS:
+				getParams().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.PARAMETER_LIST__PARAM:
-        return param != null;
-      case FractalIDLPackage.PARAMETER_LIST__PARAMS:
-        return params != null && !params.isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.PARAMETER_LIST__PARAM:
+				return param != null;
+			case FractalIDLPackage.PARAMETER_LIST__PARAMS:
+				return params != null && !params.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //ParameterListImpl

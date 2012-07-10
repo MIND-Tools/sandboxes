@@ -24,24 +24,24 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.TypeDefinition;
 public class TypeDefinitionImpl extends MinimalEObjectImpl.Container implements TypeDefinition
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected TypeDefinitionImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.TYPE_DEFINITION;
-  }
+		return FractalIDLPackage.Literals.TYPE_DEFINITION;
+	}
 
 } //TypeDefinitionImpl

@@ -41,202 +41,194 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage;
 public class ArrayAnnotationValueImpl extends AnnotationValueImpl implements ArrayAnnotationValue
 {
   /**
-   * The cached value of the '{@link #getFirstValue() <em>First Value</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getFirstValue() <em>First Value</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getFirstValue()
-   * @generated
-   * @ordered
-   */
+	 * @see #getFirstValue()
+	 * @generated
+	 * @ordered
+	 */
   protected AnnotationValue firstValue;
 
   /**
-   * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getValues() <em>Values</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValues()
-   * @generated
-   * @ordered
-   */
+	 * @see #getValues()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<AnnotationValue> values;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected ArrayAnnotationValueImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.ARRAY_ANNOTATION_VALUE;
-  }
+		return FractalIDLPackage.Literals.ARRAY_ANNOTATION_VALUE;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public AnnotationValue getFirstValue()
   {
-    return firstValue;
-  }
+		return firstValue;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetFirstValue(AnnotationValue newFirstValue, NotificationChain msgs)
   {
-    AnnotationValue oldFirstValue = firstValue;
-    firstValue = newFirstValue;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, oldFirstValue, newFirstValue);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		AnnotationValue oldFirstValue = firstValue;
+		firstValue = newFirstValue;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, oldFirstValue, newFirstValue);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setFirstValue(AnnotationValue newFirstValue)
   {
-    if (newFirstValue != firstValue)
-    {
-      NotificationChain msgs = null;
-      if (firstValue != null)
-        msgs = ((InternalEObject)firstValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, null, msgs);
-      if (newFirstValue != null)
-        msgs = ((InternalEObject)newFirstValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, null, msgs);
-      msgs = basicSetFirstValue(newFirstValue, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, newFirstValue, newFirstValue));
-  }
+		if (newFirstValue != firstValue) {
+			NotificationChain msgs = null;
+			if (firstValue != null)
+				msgs = ((InternalEObject)firstValue).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, null, msgs);
+			if (newFirstValue != null)
+				msgs = ((InternalEObject)newFirstValue).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, null, msgs);
+			msgs = basicSetFirstValue(newFirstValue, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE, newFirstValue, newFirstValue));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<AnnotationValue> getValues()
   {
-    if (values == null)
-    {
-      values = new EObjectContainmentEList<AnnotationValue>(AnnotationValue.class, this, FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES);
-    }
-    return values;
-  }
+		if (values == null) {
+			values = new EObjectContainmentEList<AnnotationValue>(AnnotationValue.class, this, FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES);
+		}
+		return values;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
-        return basicSetFirstValue(null, msgs);
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
-        return ((InternalEList<?>)getValues()).basicRemove(otherEnd, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
+				return basicSetFirstValue(null, msgs);
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
+				return ((InternalEList<?>)getValues()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
-        return getFirstValue();
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
-        return getValues();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
+				return getFirstValue();
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
+				return getValues();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
-        setFirstValue((AnnotationValue)newValue);
-        return;
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
-        getValues().clear();
-        getValues().addAll((Collection<? extends AnnotationValue>)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
+				setFirstValue((AnnotationValue)newValue);
+				return;
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
+				getValues().clear();
+				getValues().addAll((Collection<? extends AnnotationValue>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
-        setFirstValue((AnnotationValue)null);
-        return;
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
-        getValues().clear();
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
+				setFirstValue((AnnotationValue)null);
+				return;
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
+				getValues().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
-        return firstValue != null;
-      case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
-        return values != null && !values.isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__FIRST_VALUE:
+				return firstValue != null;
+			case FractalIDLPackage.ARRAY_ANNOTATION_VALUE__VALUES:
+				return values != null && !values.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //ArrayAnnotationValueImpl

@@ -39,188 +39,183 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.TypeSpecifier;
 public class TypeSpecificationImpl extends MinimalEObjectImpl.Container implements TypeSpecification
 {
   /**
-   * The default value of the '{@link #getTypeDefName() <em>Type Def Name</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getTypeDefName() <em>Type Def Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeDefName()
-   * @generated
-   * @ordered
-   */
+	 * @see #getTypeDefName()
+	 * @generated
+	 * @ordered
+	 */
   protected static final String TYPE_DEF_NAME_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getTypeDefName() <em>Type Def Name</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getTypeDefName() <em>Type Def Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeDefName()
-   * @generated
-   * @ordered
-   */
+	 * @see #getTypeDefName()
+	 * @generated
+	 * @ordered
+	 */
   protected String typeDefName = TYPE_DEF_NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getTypeSpecifier() <em>Type Specifier</em>}' attribute list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getTypeSpecifier() <em>Type Specifier</em>}' attribute list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeSpecifier()
-   * @generated
-   * @ordered
-   */
+	 * @see #getTypeSpecifier()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<TypeSpecifier> typeSpecifier;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected TypeSpecificationImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.TYPE_SPECIFICATION;
-  }
+		return FractalIDLPackage.Literals.TYPE_SPECIFICATION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public String getTypeDefName()
   {
-    return typeDefName;
-  }
+		return typeDefName;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setTypeDefName(String newTypeDefName)
   {
-    String oldTypeDefName = typeDefName;
-    typeDefName = newTypeDefName;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME, oldTypeDefName, typeDefName));
-  }
+		String oldTypeDefName = typeDefName;
+		typeDefName = newTypeDefName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME, oldTypeDefName, typeDefName));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<TypeSpecifier> getTypeSpecifier()
   {
-    if (typeSpecifier == null)
-    {
-      typeSpecifier = new EDataTypeEList<TypeSpecifier>(TypeSpecifier.class, this, FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER);
-    }
-    return typeSpecifier;
-  }
+		if (typeSpecifier == null) {
+			typeSpecifier = new EDataTypeEList<TypeSpecifier>(TypeSpecifier.class, this, FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER);
+		}
+		return typeSpecifier;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
-        return getTypeDefName();
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
-        return getTypeSpecifier();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
+				return getTypeDefName();
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
+				return getTypeSpecifier();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
-        setTypeDefName((String)newValue);
-        return;
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
-        getTypeSpecifier().clear();
-        getTypeSpecifier().addAll((Collection<? extends TypeSpecifier>)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
+				setTypeDefName((String)newValue);
+				return;
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
+				getTypeSpecifier().clear();
+				getTypeSpecifier().addAll((Collection<? extends TypeSpecifier>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
-        setTypeDefName(TYPE_DEF_NAME_EDEFAULT);
-        return;
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
-        getTypeSpecifier().clear();
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
+				setTypeDefName(TYPE_DEF_NAME_EDEFAULT);
+				return;
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
+				getTypeSpecifier().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
-        return TYPE_DEF_NAME_EDEFAULT == null ? typeDefName != null : !TYPE_DEF_NAME_EDEFAULT.equals(typeDefName);
-      case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
-        return typeSpecifier != null && !typeSpecifier.isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_DEF_NAME:
+				return TYPE_DEF_NAME_EDEFAULT == null ? typeDefName != null : !TYPE_DEF_NAME_EDEFAULT.equals(typeDefName);
+			case FractalIDLPackage.TYPE_SPECIFICATION__TYPE_SPECIFIER:
+				return typeSpecifier != null && !typeSpecifier.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (typeDefName: ");
-    result.append(typeDefName);
-    result.append(", typeSpecifier: ");
-    result.append(typeSpecifier);
-    result.append(')');
-    return result.toString();
-  }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (typeDefName: ");
+		result.append(typeDefName);
+		result.append(", typeSpecifier: ");
+		result.append(typeSpecifier);
+		result.append(')');
+		return result.toString();
+	}
 
 } //TypeSpecificationImpl

@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.emf.common,
  org.antlr.runtime,
  org.ow2.mindEd.ide;bundle-version="0.2.1",
- org.ow2.mindEd.adl.textual.ui;bundle-version="0.2.1"
+ org.ow2.mindEd.adl.util;bundle-version="1.0.0"
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.ow2.mindEd.itf.editor.textual.fractalIDL,

@@ -16,6 +16,8 @@ var runtimeProject = "../${packageName}"
 Workflow {
     bean = StandaloneSetup {
 		platformUri = ".."
+		registerGeneratedEPackage = "org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage"
+		registerGenModelFile = "platform:/resource/org.ow2.mindEd.itf.editor.textual.model/src-gen/org/ow2/mindEd/itf/editor/textual/FractalItf.genmodel"
 	}
 	
 	component = DirectoryCleaner {

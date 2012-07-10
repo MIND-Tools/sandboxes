@@ -24,24 +24,24 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage;
 public class AnnotationValueImpl extends MinimalEObjectImpl.Container implements AnnotationValue
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected AnnotationValueImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.ANNOTATION_VALUE;
-  }
+		return FractalIDLPackage.Literals.ANNOTATION_VALUE;
+	}
 
 } //AnnotationValueImpl

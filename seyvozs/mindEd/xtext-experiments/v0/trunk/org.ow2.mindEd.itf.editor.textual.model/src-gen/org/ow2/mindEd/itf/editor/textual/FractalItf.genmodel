@@ -5,8 +5,9 @@
     editDirectory="/org.ow2.mindEd.itf.editor.textual.model.edit/src" editorDirectory="/org.ow2.mindEd.itf.editor.textual.model.editor/src"
     modelPluginID="org.ow2.mindEd.itf.editor.textual.model" forceOverwrite="true"
     modelName="FractalItf" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    complianceLevel="5.0" copyrightFields="false" editPluginID="org.ow2.mindEd.itf.editor.textual.model.edit"
-    editorPluginID="org.ow2.mindEd.itf.editor.textual.model.editor">
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    editPluginID="org.ow2.mindEd.itf.editor.textual.model.edit" editorPluginID="org.ow2.mindEd.itf.editor.textual.model.editor">
+  <foreignModel>FractalItf.ecore</foreignModel>
   <genPackages prefix="FractalIDL" basePackage="org.ow2.mindEd.itf.editor.textual"
       disposableProviderFactory="true" ecorePackage="FractalItf.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="FractalItf.ecore#//TypeQualifier">
@@ -123,7 +124,7 @@
     </genClasses>
     <genClasses ecoreClass="FractalItf.ecore#//InterfaceDefinition">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference FractalItf.ecore#//InterfaceDefinition/annotations"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute FractalItf.ecore#//InterfaceDefinition/fqn"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute FractalItf.ecore#//InterfaceDefinition/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute FractalItf.ecore#//InterfaceDefinition/fqn2"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference FractalItf.ecore#//InterfaceDefinition/methodDef"/>
     </genClasses>

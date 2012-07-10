@@ -42,217 +42,209 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.TypeSpecification;
 public class QualifiedTypeSpecificationImpl extends MinimalEObjectImpl.Container implements QualifiedTypeSpecification
 {
   /**
-   * The cached value of the '{@link #getTypeQualifier() <em>Type Qualifier</em>}' attribute list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getTypeQualifier() <em>Type Qualifier</em>}' attribute list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeQualifier()
-   * @generated
-   * @ordered
-   */
+	 * @see #getTypeQualifier()
+	 * @generated
+	 * @ordered
+	 */
   protected EList<TypeQualifier> typeQualifier;
 
   /**
-   * The cached value of the '{@link #getTypeSpec() <em>Type Spec</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getTypeSpec() <em>Type Spec</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getTypeSpec()
-   * @generated
-   * @ordered
-   */
+	 * @see #getTypeSpec()
+	 * @generated
+	 * @ordered
+	 */
   protected TypeSpecification typeSpec;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected QualifiedTypeSpecificationImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.QUALIFIED_TYPE_SPECIFICATION;
-  }
+		return FractalIDLPackage.Literals.QUALIFIED_TYPE_SPECIFICATION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EList<TypeQualifier> getTypeQualifier()
   {
-    if (typeQualifier == null)
-    {
-      typeQualifier = new EDataTypeEList<TypeQualifier>(TypeQualifier.class, this, FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER);
-    }
-    return typeQualifier;
-  }
+		if (typeQualifier == null) {
+			typeQualifier = new EDataTypeEList<TypeQualifier>(TypeQualifier.class, this, FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER);
+		}
+		return typeQualifier;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public TypeSpecification getTypeSpec()
   {
-    return typeSpec;
-  }
+		return typeSpec;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetTypeSpec(TypeSpecification newTypeSpec, NotificationChain msgs)
   {
-    TypeSpecification oldTypeSpec = typeSpec;
-    typeSpec = newTypeSpec;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, oldTypeSpec, newTypeSpec);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		TypeSpecification oldTypeSpec = typeSpec;
+		typeSpec = newTypeSpec;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, oldTypeSpec, newTypeSpec);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setTypeSpec(TypeSpecification newTypeSpec)
   {
-    if (newTypeSpec != typeSpec)
-    {
-      NotificationChain msgs = null;
-      if (typeSpec != null)
-        msgs = ((InternalEObject)typeSpec).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, null, msgs);
-      if (newTypeSpec != null)
-        msgs = ((InternalEObject)newTypeSpec).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, null, msgs);
-      msgs = basicSetTypeSpec(newTypeSpec, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, newTypeSpec, newTypeSpec));
-  }
+		if (newTypeSpec != typeSpec) {
+			NotificationChain msgs = null;
+			if (typeSpec != null)
+				msgs = ((InternalEObject)typeSpec).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, null, msgs);
+			if (newTypeSpec != null)
+				msgs = ((InternalEObject)newTypeSpec).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, null, msgs);
+			msgs = basicSetTypeSpec(newTypeSpec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC, newTypeSpec, newTypeSpec));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
-        return basicSetTypeSpec(null, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
+				return basicSetTypeSpec(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
-        return getTypeQualifier();
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
-        return getTypeSpec();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
+				return getTypeQualifier();
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
+				return getTypeSpec();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
-        getTypeQualifier().clear();
-        getTypeQualifier().addAll((Collection<? extends TypeQualifier>)newValue);
-        return;
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
-        setTypeSpec((TypeSpecification)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
+				getTypeQualifier().clear();
+				getTypeQualifier().addAll((Collection<? extends TypeQualifier>)newValue);
+				return;
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
+				setTypeSpec((TypeSpecification)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
-        getTypeQualifier().clear();
-        return;
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
-        setTypeSpec((TypeSpecification)null);
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
+				getTypeQualifier().clear();
+				return;
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
+				setTypeSpec((TypeSpecification)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
-        return typeQualifier != null && !typeQualifier.isEmpty();
-      case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
-        return typeSpec != null;
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_QUALIFIER:
+				return typeQualifier != null && !typeQualifier.isEmpty();
+			case FractalIDLPackage.QUALIFIED_TYPE_SPECIFICATION__TYPE_SPEC:
+				return typeSpec != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (typeQualifier: ");
-    result.append(typeQualifier);
-    result.append(')');
-    return result.toString();
-  }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (typeQualifier: ");
+		result.append(typeQualifier);
+		result.append(')');
+		return result.toString();
+	}
 
 } //QualifiedTypeSpecificationImpl

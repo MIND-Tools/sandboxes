@@ -35,234 +35,225 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.TypedefSpecification;
 public class TypedefSpecificationImpl extends TypeDefinitionImpl implements TypedefSpecification
 {
   /**
-   * The cached value of the '{@link #getQualifedType() <em>Qualifed Type</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getQualifedType() <em>Qualifed Type</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getQualifedType()
-   * @generated
-   * @ordered
-   */
+	 * @see #getQualifedType()
+	 * @generated
+	 * @ordered
+	 */
   protected QualifiedTypeSpecification qualifedType;
 
   /**
-   * The cached value of the '{@link #getDec() <em>Dec</em>}' containment reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getDec() <em>Dec</em>}' containment reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getDec()
-   * @generated
-   * @ordered
-   */
+	 * @see #getDec()
+	 * @generated
+	 * @ordered
+	 */
   protected Declarators dec;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected TypedefSpecificationImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.TYPEDEF_SPECIFICATION;
-  }
+		return FractalIDLPackage.Literals.TYPEDEF_SPECIFICATION;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public QualifiedTypeSpecification getQualifedType()
   {
-    return qualifedType;
-  }
+		return qualifedType;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetQualifedType(QualifiedTypeSpecification newQualifedType, NotificationChain msgs)
   {
-    QualifiedTypeSpecification oldQualifedType = qualifedType;
-    qualifedType = newQualifedType;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, oldQualifedType, newQualifedType);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		QualifiedTypeSpecification oldQualifedType = qualifedType;
+		qualifedType = newQualifedType;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, oldQualifedType, newQualifedType);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setQualifedType(QualifiedTypeSpecification newQualifedType)
   {
-    if (newQualifedType != qualifedType)
-    {
-      NotificationChain msgs = null;
-      if (qualifedType != null)
-        msgs = ((InternalEObject)qualifedType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, null, msgs);
-      if (newQualifedType != null)
-        msgs = ((InternalEObject)newQualifedType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, null, msgs);
-      msgs = basicSetQualifedType(newQualifedType, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, newQualifedType, newQualifedType));
-  }
+		if (newQualifedType != qualifedType) {
+			NotificationChain msgs = null;
+			if (qualifedType != null)
+				msgs = ((InternalEObject)qualifedType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, null, msgs);
+			if (newQualifedType != null)
+				msgs = ((InternalEObject)newQualifedType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, null, msgs);
+			msgs = basicSetQualifedType(newQualifedType, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE, newQualifedType, newQualifedType));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Declarators getDec()
   {
-    return dec;
-  }
+		return dec;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetDec(Declarators newDec, NotificationChain msgs)
   {
-    Declarators oldDec = dec;
-    dec = newDec;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, oldDec, newDec);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		Declarators oldDec = dec;
+		dec = newDec;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, oldDec, newDec);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setDec(Declarators newDec)
   {
-    if (newDec != dec)
-    {
-      NotificationChain msgs = null;
-      if (dec != null)
-        msgs = ((InternalEObject)dec).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, null, msgs);
-      if (newDec != null)
-        msgs = ((InternalEObject)newDec).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, null, msgs);
-      msgs = basicSetDec(newDec, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, newDec, newDec));
-  }
+		if (newDec != dec) {
+			NotificationChain msgs = null;
+			if (dec != null)
+				msgs = ((InternalEObject)dec).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, null, msgs);
+			if (newDec != null)
+				msgs = ((InternalEObject)newDec).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, null, msgs);
+			msgs = basicSetDec(newDec, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC, newDec, newDec));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
-        return basicSetQualifedType(null, msgs);
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
-        return basicSetDec(null, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
+				return basicSetQualifedType(null, msgs);
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
+				return basicSetDec(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
-        return getQualifedType();
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
-        return getDec();
-    }
-    return super.eGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
+				return getQualifedType();
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
+				return getDec();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
-        setQualifedType((QualifiedTypeSpecification)newValue);
-        return;
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
-        setDec((Declarators)newValue);
-        return;
-    }
-    super.eSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
+				setQualifedType((QualifiedTypeSpecification)newValue);
+				return;
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
+				setDec((Declarators)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
-        setQualifedType((QualifiedTypeSpecification)null);
-        return;
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
-        setDec((Declarators)null);
-        return;
-    }
-    super.eUnset(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
+				setQualifedType((QualifiedTypeSpecification)null);
+				return;
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
+				setDec((Declarators)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
-        return qualifedType != null;
-      case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
-        return dec != null;
-    }
-    return super.eIsSet(featureID);
-  }
+		switch (featureID) {
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__QUALIFED_TYPE:
+				return qualifedType != null;
+			case FractalIDLPackage.TYPEDEF_SPECIFICATION__DEC:
+				return dec != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
 } //TypedefSpecificationImpl

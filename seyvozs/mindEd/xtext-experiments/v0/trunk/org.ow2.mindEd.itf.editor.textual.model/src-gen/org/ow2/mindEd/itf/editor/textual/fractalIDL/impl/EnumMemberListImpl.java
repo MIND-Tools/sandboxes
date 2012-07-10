@@ -24,24 +24,24 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.FractalIDLPackage;
 public class EnumMemberListImpl extends MinimalEObjectImpl.Container implements EnumMemberList
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EnumMemberListImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   @Override
   protected EClass eStaticClass()
   {
-    return FractalIDLPackage.Literals.ENUM_MEMBER_LIST;
-  }
+		return FractalIDLPackage.Literals.ENUM_MEMBER_LIST;
+	}
 
 } //EnumMemberListImpl
