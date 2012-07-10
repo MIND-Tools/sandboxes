@@ -6,11 +6,9 @@ Bundle-Version: 0.2.1.qualifier
 Bundle-Activator: org.ow2.fractal.mind.xtext.ui.editor.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.ow2.mindEd.adl.textual.ui;bundle-version="0.2.1",
- org.ow2.mindEd.adl.model;bundle-version="0.2.1",
- org.ow2.mindEd.adl.edit;bundle-version="0.2.1",
  org.eclipse.ui.editors;bundle-version="3.4.0",
- org.ow2.mindEd.adl.schema.diagram;bundle-version="0.2.1";resolution:=optional
+ org.ow2.mindEd.adl.schema.diagram;bundle-version="0.2.1";resolution:=optional,
+ org.ow2.mindEd.adl.edit;bundle-version="0.2.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: com.google.inject,
@@ -27,4 +25,7 @@ Import-Package: com.google.inject,
  org.eclipse.ui.part,
  org.eclipse.ui.views.properties,
  org.eclipse.xtext.ui.editor,
+ org.ow2.mindEd.adl.textual,
+ org.ow2.mindEd.adl.textual.ui,
+ org.ow2.mindEd.adl.textual.ui.internal,
  org.ow2.mindEd.ide.core
