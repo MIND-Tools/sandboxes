@@ -8,6 +8,8 @@ import org.osgi.framework.Bundle;
 
 import com.google.inject.Injector;
 
+import org.ow2.mindEd.idt.editor.textual.ui.internal.FractalIdtActivator;
+
 /**
  * This class was generated. Customizations should only happen in a newly
  * introduced subclass. 
@@ -16,12 +18,12 @@ public class FractalIdtExecutableExtensionFactory extends AbstractGuiceAwareExec
 
 	@Override
 	protected Bundle getBundle() {
-		return org.ow2.mindEd.idt.editor.textual.ui.internal.FractalIdtActivator.getInstance().getBundle();
+		return FractalIdtActivator.getInstance().getBundle();
 	}
 	
 	@Override
 	protected Injector getInjector() {
-		return org.ow2.mindEd.idt.editor.textual.ui.internal.FractalIdtActivator.getInstance().getInjector("org.ow2.mindEd.idt.editor.textual.FractalIdt");
+		return FractalIdtActivator.getInstance().getInjector(FractalIdtActivator.ORG_OW2_MINDED_IDT_EDITOR_TEXTUAL_FRACTALIDT);
 	}
 	
 }

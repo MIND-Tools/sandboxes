@@ -85,8 +85,8 @@ public class FractalIdtParser extends AbstractContentAssistParser {
 					put(grammarAccess.getDirectDeclaratorAccess().getGroup_0_1(), "rule__DirectDeclarator__Group_0_1__0");
 					put(grammarAccess.getAbstractDirectDeclaratorAccess().getGroup_0(), "rule__AbstractDirectDeclarator__Group_0__0");
 					put(grammarAccess.getArraySpecificationAccess().getGroup(), "rule__ArraySpecification__Group__0");
-					put(grammarAccess.getFullyQualifiedNameAccess().getGroup(), "rule__FullyQualifiedName__Group__0");
-					put(grammarAccess.getFullyQualifiedNameAccess().getGroup_1(), "rule__FullyQualifiedName__Group_1__0");
+					put(grammarAccess.getQualifiedNameAccess().getGroup(), "rule__QualifiedName__Group__0");
+					put(grammarAccess.getQualifiedNameAccess().getGroup_1(), "rule__QualifiedName__Group_1__0");
 					put(grammarAccess.getConstantDefinitionAccess().getGroup(), "rule__ConstantDefinition__Group__0");
 					put(grammarAccess.getInterfaceDefinitionAccess().getGroup(), "rule__InterfaceDefinition__Group__0");
 					put(grammarAccess.getInterfaceDefinitionAccess().getGroup_4(), "rule__InterfaceDefinition__Group_4__0");
@@ -182,7 +182,7 @@ public class FractalIdtParser extends AbstractContentAssistParser {
 					put(grammarAccess.getConstantDefinitionAccess().getIdAssignment_1(), "rule__ConstantDefinition__IdAssignment_1");
 					put(grammarAccess.getConstantDefinitionAccess().getExprAssignment_2(), "rule__ConstantDefinition__ExprAssignment_2");
 					put(grammarAccess.getInterfaceDefinitionAccess().getAnnotationsAssignment_0(), "rule__InterfaceDefinition__AnnotationsAssignment_0");
-					put(grammarAccess.getInterfaceDefinitionAccess().getFqnAssignment_3(), "rule__InterfaceDefinition__FqnAssignment_3");
+					put(grammarAccess.getInterfaceDefinitionAccess().getNameAssignment_3(), "rule__InterfaceDefinition__NameAssignment_3");
 					put(grammarAccess.getInterfaceDefinitionAccess().getFqn2Assignment_4_1(), "rule__InterfaceDefinition__Fqn2Assignment_4_1");
 					put(grammarAccess.getInterfaceDefinitionAccess().getMethodDefAssignment_6(), "rule__InterfaceDefinition__MethodDefAssignment_6");
 					put(grammarAccess.getMethodDefinitionAccess().getAnnotationsAssignment_0(), "rule__MethodDefinition__AnnotationsAssignment_0");
