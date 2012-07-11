@@ -10,8 +10,11 @@ import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 import org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition;
+import org.ow2.mindEd.adl.textual.fractal.ProvidedInterfaceDefinition;
+import org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition;
 import org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition;
 import org.ow2.mindEd.adl.textual.ui.contentassist.AbstractFractalProposalProvider;
+import org.ow2.mindEd.itf.editor.textual.fractalIDL.InterfaceDefinition;
 /**
  * see http://www.eclipse.org/Xtext/documentation/latest/xtext.html#contentAssist on how to customize content assistant
  */
@@ -39,7 +42,7 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 		// Filter the complete QualifiedName to keep only the last substring
 		String simpleName = typeName.substring(typeName.lastIndexOf(".") + 1);
 
-		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1));
+		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1)) + "Comp";
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Instance name suggestion", null, context);
 		acceptor.accept(completionProposal);
@@ -49,9 +52,67 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 	public void complete_ID(EObject model, RuleCall ruleCall, final ContentAssistContext context,
 			ICompletionProposalAcceptor acceptor) {
 
-		if (model instanceof SubComponentDefinition)
+		if (model instanceof SubComponentDefinition
+				| model instanceof RequiredInterfaceDefinition
+				| model instanceof ProvidedInterfaceDefinition)
 			// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
 			return;
 		else super.complete_ID(model, ruleCall, context, acceptor);
-	}	
+	}
+	
+	/**
+	 * Content assist for required interfaces name.
+	 * Default name is the same as the previously declared type, with first letter in lower case.
+	 * 
+	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#completeSubComponentDefinition_Name(
+	 * 		org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition,
+	 *      org.eclipse.xtext.Assignment,
+	 *      org.eclipse.xtext.ui.core.editor.contentassist.ContentAssistContext,
+	 *      org.eclipse.xtext.ui.core.editor.contentassist.ICompletionProposalAcceptor)
+	 * 
+	 */
+	public void completeRequiredInterfaceDefinition_Name(RequiredInterfaceDefinition reqItfDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		// Proposal to add for content assist
+		String proposal = null;
+		ICompletionProposal completionProposal = null;
+
+		InterfaceDefinition itfDef = reqItfDef.getSignature();
+		String typeName = itfDef.getName();
+
+		// Filter the complete QualifiedName to keep only the last substring
+		String simpleName = typeName.substring(typeName.lastIndexOf(".") + 1);
+
+		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1)) + "Itf";
+
+		completionProposal = createCompletionProposal(proposal, proposal + " - Interface name suggestion", null, context);
+		acceptor.accept(completionProposal);
+	}
+	
+	/**
+	 * Content assist for sub-component (anonymous definition or instance) name.
+	 * Default name is the same as the previously declared type, with first letter in lower case.
+	 * 
+	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#completeSubComponentDefinition_Name(
+	 * 		org.ow2.mindEd.adl.textual.fractal.ProvidedInterfaceDefinition,
+	 *      org.eclipse.xtext.Assignment,
+	 *      org.eclipse.xtext.ui.core.editor.contentassist.ContentAssistContext,
+	 *      org.eclipse.xtext.ui.core.editor.contentassist.ICompletionProposalAcceptor)
+	 * 
+	 */
+	public void completeProvidedInterfaceDefinition_Name(ProvidedInterfaceDefinition prvdItfDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		// Proposal to add for content assist
+		String proposal = null;
+		ICompletionProposal completionProposal = null;
+
+		InterfaceDefinition itfDef = prvdItfDef.getSignature();
+		String typeName = itfDef.getName();
+
+		// Filter the complete QualifiedName to keep only the last substring
+		String simpleName = typeName.substring(typeName.lastIndexOf(".") + 1);
+
+		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1)) + "Itf";
+
+		completionProposal = createCompletionProposal(proposal, proposal + " - Interface name suggestion", null, context);
+		acceptor.accept(completionProposal);
+	}
 }

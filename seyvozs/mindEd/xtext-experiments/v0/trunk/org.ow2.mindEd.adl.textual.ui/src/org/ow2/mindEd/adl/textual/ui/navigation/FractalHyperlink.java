@@ -42,105 +42,108 @@ public class FractalHyperlink extends HyperlinkHelper {
 
 	@Override
 	public void createHyperlinksByOffset(XtextResource resource, int offset,
-            IHyperlinkAcceptor acceptor) {
+			IHyperlinkAcceptor acceptor) {
 
 		super.createHyperlinksByOffset(resource, offset, acceptor);
 
 		EObject eObject = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
 		ITextRegion loc = ILocationInFileProvider.getSignificantTextRegion(eObject);
 
-
 		URI uri = null;
-		
+
 		if (eObject instanceof FileCImpl) {
-        	// SSZ
-        	// Inspired from the OpenDefinitionEditPolicy class, getOpenCommand method in the
-        	// org.ow2.mindEd.adl.editor.graphic.ui subproject, custom sources
-        	
-        	FileCImpl fileC = (FileCImpl) eObject;
-        	String fileName = fileC.getName();
-        	String directory = fileC.getDirectory();
-        	IFile file = null;
-			
-        	if (directory == null || directory.equals("")){
-        		// Find the file according to the host component package        		
-        		MindPackage pack = ModelToProjectUtil.INSTANCE.getCurrentPackage();
+			// SSZ
+			// Inspired from the OpenDefinitionEditPolicy class, getOpenCommand method in the
+			// org.ow2.mindEd.adl.editor.graphic.ui subproject, custom sources
+
+			FileCImpl fileC = (FileCImpl) eObject;
+			String fileName = fileC.getName();
+			String directory = fileC.getDirectory();
+			IFile file = null;
+
+			// No directory
+			if (directory == null || directory.equals("")){
+				// Find the file according to the host component package
+				// Here the resource is the ADL from where the link was called
+				MindPackage pack = ModelToProjectUtil.INSTANCE.getCurrentPackage(resource.getURI());
 				if (pack != null) {
 					IFolder f = MindIdeCore.getResource(pack);
 					file = f.getFile(fileName);
 				}
-        	} else {
-        		// handle host definition path for resource resolution
-        		
-        		File f = new File(directory, fileName);
-        		// removed the "f.isAbsolute() test as it wouldn't work on Windows
-        		
+			} else {
+				// handle host definition path for resource resolution
+				File f = new File(directory, fileName);
+
+				// Absolute
 				if (directory.startsWith("/")) {
+					// removed the "f.isAbsolute() test as it wouldn't work on Windows
+
 					uri = URI.createPlatformResourceURI(f.getPath(), true);
 					MindPackage pack = ModelToProjectUtil.INSTANCE.getCurrentPackage(uri);
 					IFolder f2 = MindIdeCore.getResource(pack);
 					file = f2.getFile(fileName);
 				} else {
-					// Find the file according to the host component package        		
-	        		MindPackage hostComponentPackage = ModelToProjectUtil.INSTANCE.getCurrentPackage();
-	        		if (hostComponentPackage != null) {
+					// Relative
+
+					// SSZ
+					// Find the file according to the host component package  
+					// Here the resource is the ADL from where the link was called
+					MindPackage hostComponentPackage = ModelToProjectUtil.INSTANCE.getCurrentPackage(resource.getURI());
+					if (hostComponentPackage != null) {
 						IFolder compFolder = MindIdeCore.getResource(hostComponentPackage);
-						
+
 						// Don't forget we want to locate the complete folder "container" : add the "/"
 						URI compFolderURI = URI.createPlatformResourceURI(compFolder.getFullPath().toString() + "/", true);
-						
+
 						URI currentRelativeURI = URI.createFileURI(f.getPath());
 						URI resolvedFinalURI = currentRelativeURI.resolve(compFolderURI);
-						
+
 						file = ModelToProjectUtil.INSTANCE.getIFile(resolvedFinalURI);
-	        		}
+					}
 				}
-        	}
-        	
-        	try {
+			}
+
+			try {
 				// Get the file URI
 				// Create the editor input
 				
-        		if (file == null || !(file.exists())) {
-// SSZ: TODO: handle errors
-        			return; // warn/error ?
-//					MindDiagramEditorPlugin.getInstance().logError("File not found : "+directory+"/"+fileName);
-//					return null;
+				if (file == null || !(file.exists())) {
+					// SSZ: TODO: handle errors
+					return; // warn/error ?
 				}
-				
+
 				IEditorInput cdtEditorInput = new FileEditorInput(file);
-				
-								
+
 				// Now try to open the editors
 				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 				IWorkbenchPage page = window.getActivePage();
 				page.openEditor(cdtEditorInput, "org.eclipse.cdt.ui.editor.CEditor");
-				
+
 			} catch (PartInitException e) {
 				// SSZ: TODO: handle errors
-    			return;
+				return;
 				//MindDiagramEditorPlugin.getInstance().logError("Failed to open the editor", e);
 			} catch (NullPointerException e) {
 				// SSZ: TODO: handle errors
-    			return;
+				return;
 				//MindDiagramEditorPlugin.getInstance().logError("Failed to open the editor", e);
 			} catch (Exception e) {
 				// SSZ: TODO: handle errors
-    			return;
+				return;
 				//MindDiagramEditorPlugin.getInstance().logError("Failed to open the editor", e);
 			}
-        	
-        }            
-        
-        if (uri != null ){
-        	// here we create the link
-        	
-        	XtextHyperlink hyperlink = getHyperlinkProvider().get();
-        	hyperlink.setURI(uri);
-        	hyperlink.setHyperlinkRegion(new Region(loc.getOffset(), loc.getLength()));
-        	
-        	acceptor.accept(hyperlink);
-        }        
+
+		}            
+
+		if (uri != null ){
+			// here we create the link
+
+			XtextHyperlink hyperlink = getHyperlinkProvider().get();
+			hyperlink.setURI(uri);
+			hyperlink.setHyperlinkRegion(new Region(loc.getOffset(), loc.getLength()));
+
+			acceptor.accept(hyperlink);
+		}        
 
 	}
 
