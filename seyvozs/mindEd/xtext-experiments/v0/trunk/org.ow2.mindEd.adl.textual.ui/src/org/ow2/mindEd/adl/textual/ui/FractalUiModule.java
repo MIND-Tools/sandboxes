@@ -4,6 +4,8 @@
 package org.ow2.mindEd.adl.textual.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.xtext.ui.editor.autoedit.AbstractEditStrategyProvider;
+import org.eclipse.xtext.ui.editor.autoedit.DefaultAutoEditStrategyProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
@@ -40,5 +42,6 @@ public class FractalUiModule extends org.ow2.mindEd.adl.textual.ui.AbstractFract
 	 */
 	public Class<? extends IHighlightingConfiguration> bindILexicalHighlightingConfiguration() {
 		return LexicalHighlightingConfiguration.class;
-	}	
+	}
+	
 }

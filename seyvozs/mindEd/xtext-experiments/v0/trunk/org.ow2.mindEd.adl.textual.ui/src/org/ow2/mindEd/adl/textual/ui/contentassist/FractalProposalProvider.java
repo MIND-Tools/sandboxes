@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.RuleCall;
+import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 import org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition;
@@ -45,21 +46,44 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1)) + "Comp";
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Instance name suggestion", null, context);
+
+//		// It is everytime, but you never know... let's protect things
+//		if (completionProposal instanceof ConfigurableCompletionProposal)
+//			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
+
 		acceptor.accept(completionProposal);
 	}
 
-	@Override
-	public void complete_ID(EObject model, RuleCall ruleCall, final ContentAssistContext context,
+	public void complete_ID(SubComponentDefinition subCompDef, RuleCall ruleCall, final ContentAssistContext context,
 			ICompletionProposalAcceptor acceptor) {
-
-		if (model instanceof SubComponentDefinition
-				| model instanceof RequiredInterfaceDefinition
-				| model instanceof ProvidedInterfaceDefinition)
-			// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
-			return;
-		else super.complete_ID(model, ruleCall, context, acceptor);
+		// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
+		return;
 	}
 	
+	public void complete_ID(RequiredInterfaceDefinition reqItfDef, RuleCall ruleCall, final ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+		// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
+		return;
+	}
+	
+	public void complete_ID(ProvidedInterfaceDefinition prvdItfDef, RuleCall ruleCall, final ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+		// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
+		return;
+	}
+	
+//	@Override
+//	public void complete_ID(EObject model, RuleCall ruleCall, final ContentAssistContext context,
+//			ICompletionProposalAcceptor acceptor) {
+//
+//		if (model instanceof SubComponentDefinition
+//				| model instanceof RequiredInterfaceDefinition
+//				| model instanceof ProvidedInterfaceDefinition)
+//			// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
+//			return;
+//		else super.complete_ID(model, ruleCall, context, acceptor);
+//	}
+
 	/**
 	 * Content assist for required interfaces name.
 	 * Default name is the same as the previously declared type, with first letter in lower case.
@@ -85,9 +109,14 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1)) + "Itf";
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Interface name suggestion", null, context);
+
+//		// It is everytime, but you never know... let's protect things
+//		if (completionProposal instanceof ConfigurableCompletionProposal)
+//			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
+
 		acceptor.accept(completionProposal);
 	}
-	
+
 	/**
 	 * Content assist for sub-component (anonymous definition or instance) name.
 	 * Default name is the same as the previously declared type, with first letter in lower case.
@@ -113,6 +142,11 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 		proposal = simpleName.substring(0,1).toLowerCase().concat(simpleName.substring(1)) + "Itf";
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Interface name suggestion", null, context);
+
+//		// It is everytime, but you never know... let's protect things
+//		if (completionProposal instanceof ConfigurableCompletionProposal)
+//			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
+
 		acceptor.accept(completionProposal);
 	}
 }

@@ -132,15 +132,15 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 	//		
 	//	}
 
-	@Override
-	public IScope getScope(EObject context, EReference reference){
-		System.out.println(
-				"scope_" + reference.getEContainingClass().getName()
-				+ "_" + reference.getName()
-				+ "(" + context.eClass().getName() + ", ..)"
-				);
-		return super.getScope(context, reference);
-	}
+//	@Override
+//	public IScope getScope(EObject context, EReference reference){
+//		System.out.println(
+//				"scope_" + reference.getEContainingClass().getName()
+//				+ "_" + reference.getName()
+//				+ "(" + context.eClass().getName() + ", ..)"
+//				);
+//		return super.getScope(context, reference);
+//	}
 
 	/* A tentative to filter binding source components (parent) for auto-completion to suggest only components bearing client interfaces.
 	 * The result of the method is good but the scoping doesnt seem to b used by the ProposalProvider, it only says there's an error when you chose a
