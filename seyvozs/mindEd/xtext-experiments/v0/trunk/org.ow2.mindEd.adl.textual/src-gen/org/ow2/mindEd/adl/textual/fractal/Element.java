@@ -10,14 +10,14 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Abstract Element</b></em>'.
+ * A representation of the model object '<em><b>Element</b></em>'.
  * <!-- end-user-doc -->
  *
  *
- * @see org.ow2.mindEd.adl.textual.fractal.FractalPackage#getAbstractElement()
+ * @see org.ow2.mindEd.adl.textual.fractal.FractalPackage#getElement()
  * @model
  * @generated
  */
-public interface AbstractElement extends EObject
+public interface Element extends EObject
 {
-} // AbstractElement
+} // Element

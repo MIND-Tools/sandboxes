@@ -11,51 +11,52 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
-import org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition;
+import org.ow2.mindEd.adl.textual.fractal.SubComponentBody;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Required Interface Definition</b></em>'.
+ * An implementation of the model object '<em><b>Sub Component Body</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.RequiredInterfaceDefinitionImpl#isOptional <em>Optional</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.SubComponentBodyImpl#isAnonymous <em>Anonymous</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionImpl implements RequiredInterfaceDefinition
+public class SubComponentBodyImpl extends MinimalEObjectImpl.Container implements SubComponentBody
 {
   /**
-   * The default value of the '{@link #isOptional() <em>Optional</em>}' attribute.
+   * The default value of the '{@link #isAnonymous() <em>Anonymous</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isOptional()
+   * @see #isAnonymous()
    * @generated
    * @ordered
    */
-  protected static final boolean OPTIONAL_EDEFAULT = false;
+  protected static final boolean ANONYMOUS_EDEFAULT = false;
 
   /**
-   * The cached value of the '{@link #isOptional() <em>Optional</em>}' attribute.
+   * The cached value of the '{@link #isAnonymous() <em>Anonymous</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isOptional()
+   * @see #isAnonymous()
    * @generated
    * @ordered
    */
-  protected boolean optional = OPTIONAL_EDEFAULT;
+  protected boolean anonymous = ANONYMOUS_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected RequiredInterfaceDefinitionImpl()
+  protected SubComponentBodyImpl()
   {
     super();
   }
@@ -68,7 +69,7 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
   @Override
   protected EClass eStaticClass()
   {
-    return FractalPackage.Literals.REQUIRED_INTERFACE_DEFINITION;
+    return FractalPackage.Literals.SUB_COMPONENT_BODY;
   }
 
   /**
@@ -76,9 +77,9 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean isOptional()
+  public boolean isAnonymous()
   {
-    return optional;
+    return anonymous;
   }
 
   /**
@@ -86,12 +87,12 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setOptional(boolean newOptional)
+  public void setAnonymous(boolean newAnonymous)
   {
-    boolean oldOptional = optional;
-    optional = newOptional;
+    boolean oldAnonymous = anonymous;
+    anonymous = newAnonymous;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.REQUIRED_INTERFACE_DEFINITION__OPTIONAL, oldOptional, optional));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.SUB_COMPONENT_BODY__ANONYMOUS, oldAnonymous, anonymous));
   }
 
   /**
@@ -104,8 +105,8 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
   {
     switch (featureID)
     {
-      case FractalPackage.REQUIRED_INTERFACE_DEFINITION__OPTIONAL:
-        return isOptional();
+      case FractalPackage.SUB_COMPONENT_BODY__ANONYMOUS:
+        return isAnonymous();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -120,8 +121,8 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
   {
     switch (featureID)
     {
-      case FractalPackage.REQUIRED_INTERFACE_DEFINITION__OPTIONAL:
-        setOptional((Boolean)newValue);
+      case FractalPackage.SUB_COMPONENT_BODY__ANONYMOUS:
+        setAnonymous((Boolean)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -137,8 +138,8 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
   {
     switch (featureID)
     {
-      case FractalPackage.REQUIRED_INTERFACE_DEFINITION__OPTIONAL:
-        setOptional(OPTIONAL_EDEFAULT);
+      case FractalPackage.SUB_COMPONENT_BODY__ANONYMOUS:
+        setAnonymous(ANONYMOUS_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -154,8 +155,8 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
   {
     switch (featureID)
     {
-      case FractalPackage.REQUIRED_INTERFACE_DEFINITION__OPTIONAL:
-        return optional != OPTIONAL_EDEFAULT;
+      case FractalPackage.SUB_COMPONENT_BODY__ANONYMOUS:
+        return anonymous != ANONYMOUS_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -171,10 +172,10 @@ public class RequiredInterfaceDefinitionImpl extends HostedInterfaceDefinitionIm
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (optional: ");
-    result.append(optional);
+    result.append(" (anonymous: ");
+    result.append(anonymous);
     result.append(')');
     return result.toString();
   }
 
-} //RequiredInterfaceDefinitionImpl
+} //SubComponentBodyImpl

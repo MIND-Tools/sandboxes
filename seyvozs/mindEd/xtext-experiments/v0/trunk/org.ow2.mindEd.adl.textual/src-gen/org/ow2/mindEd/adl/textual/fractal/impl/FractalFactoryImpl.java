@@ -69,7 +69,6 @@ public class FractalFactoryImpl extends EFactoryImpl implements FractalFactory
     switch (eClass.getClassifierID())
     {
       case FractalPackage.ADL_DEFINITION: return createAdlDefinition();
-      case FractalPackage.ABSTRACT_ELEMENT: return createAbstractElement();
       case FractalPackage.ARCHITECTURE_DEFINITION: return createArchitectureDefinition();
       case FractalPackage.IMPORT_DEFINITION: return createImportDefinition();
       case FractalPackage.COMPOSITE_DEFINITION: return createCompositeDefinition();
@@ -79,6 +78,12 @@ public class FractalFactoryImpl extends EFactoryImpl implements FractalFactory
       case FractalPackage.PROVIDED_INTERFACE_DEFINITION: return createProvidedInterfaceDefinition();
       case FractalPackage.REQUIRED_INTERFACE_DEFINITION: return createRequiredInterfaceDefinition();
       case FractalPackage.SUB_COMPONENT_DEFINITION: return createSubComponentDefinition();
+      case FractalPackage.SUB_COMPONENT_BODY: return createSubComponentBody();
+      case FractalPackage.SUB_COMPONENT_COMPOSITE_BODY: return createSubComponentCompositeBody();
+      case FractalPackage.SUB_COMPONENT_PRIMITIVE_BODY: return createSubComponentPrimitiveBody();
+      case FractalPackage.ELEMENT: return createElement();
+      case FractalPackage.COMPOSITE_ELEMENT: return createCompositeElement();
+      case FractalPackage.PRIMITIVE_ELEMENT: return createPrimitiveElement();
       case FractalPackage.BINDING_DEFINITION: return createBindingDefinition();
       case FractalPackage.FORMAL_ARGUMENT: return createFormalArgument();
       case FractalPackage.FORMAL_ARGUMENTS_LIST: return createFormalArgumentsList();
@@ -111,17 +116,6 @@ public class FractalFactoryImpl extends EFactoryImpl implements FractalFactory
   {
     AdlDefinitionImpl adlDefinition = new AdlDefinitionImpl();
     return adlDefinition;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public AbstractElement createAbstractElement()
-  {
-    AbstractElementImpl abstractElement = new AbstractElementImpl();
-    return abstractElement;
   }
 
   /**
@@ -221,6 +215,72 @@ public class FractalFactoryImpl extends EFactoryImpl implements FractalFactory
   {
     SubComponentDefinitionImpl subComponentDefinition = new SubComponentDefinitionImpl();
     return subComponentDefinition;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SubComponentBody createSubComponentBody()
+  {
+    SubComponentBodyImpl subComponentBody = new SubComponentBodyImpl();
+    return subComponentBody;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SubComponentCompositeBody createSubComponentCompositeBody()
+  {
+    SubComponentCompositeBodyImpl subComponentCompositeBody = new SubComponentCompositeBodyImpl();
+    return subComponentCompositeBody;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public SubComponentPrimitiveBody createSubComponentPrimitiveBody()
+  {
+    SubComponentPrimitiveBodyImpl subComponentPrimitiveBody = new SubComponentPrimitiveBodyImpl();
+    return subComponentPrimitiveBody;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Element createElement()
+  {
+    ElementImpl element = new ElementImpl();
+    return element;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public CompositeElement createCompositeElement()
+  {
+    CompositeElementImpl compositeElement = new CompositeElementImpl();
+    return compositeElement;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public PrimitiveElement createPrimitiveElement()
+  {
+    PrimitiveElementImpl primitiveElement = new PrimitiveElementImpl();
+    return primitiveElement;
   }
 
   /**

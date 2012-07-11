@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.FileC;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
@@ -34,7 +33,7 @@ import org.ow2.mindEd.adl.textual.fractal.InlineCodeC;
  *
  * @generated
  */
-public class ImplementationDefinitionImpl extends MinimalEObjectImpl.Container implements ImplementationDefinition
+public class ImplementationDefinitionImpl extends PrimitiveElementImpl implements ImplementationDefinition
 {
   /**
    * The cached value of the '{@link #getFileC() <em>File C</em>}' containment reference.

@@ -83,18 +83,10 @@ public class FractalSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case FractalPackage.ABSTRACT_ELEMENT:
-      {
-        AbstractElement abstractElement = (AbstractElement)theEObject;
-        T result = caseAbstractElement(abstractElement);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
       case FractalPackage.ARCHITECTURE_DEFINITION:
       {
         ArchitectureDefinition architectureDefinition = (ArchitectureDefinition)theEObject;
         T result = caseArchitectureDefinition(architectureDefinition);
-        if (result == null) result = caseAbstractElement(architectureDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -102,7 +94,6 @@ public class FractalSwitch<T> extends Switch<T>
       {
         ImportDefinition importDefinition = (ImportDefinition)theEObject;
         T result = caseImportDefinition(importDefinition);
-        if (result == null) result = caseAbstractElement(importDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -111,7 +102,6 @@ public class FractalSwitch<T> extends Switch<T>
         CompositeDefinition compositeDefinition = (CompositeDefinition)theEObject;
         T result = caseCompositeDefinition(compositeDefinition);
         if (result == null) result = caseArchitectureDefinition(compositeDefinition);
-        if (result == null) result = caseAbstractElement(compositeDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -120,7 +110,6 @@ public class FractalSwitch<T> extends Switch<T>
         PrimitiveDefinition primitiveDefinition = (PrimitiveDefinition)theEObject;
         T result = casePrimitiveDefinition(primitiveDefinition);
         if (result == null) result = caseArchitectureDefinition(primitiveDefinition);
-        if (result == null) result = caseAbstractElement(primitiveDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -129,7 +118,6 @@ public class FractalSwitch<T> extends Switch<T>
         TypeDefinition typeDefinition = (TypeDefinition)theEObject;
         T result = caseTypeDefinition(typeDefinition);
         if (result == null) result = caseArchitectureDefinition(typeDefinition);
-        if (result == null) result = caseAbstractElement(typeDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -137,6 +125,9 @@ public class FractalSwitch<T> extends Switch<T>
       {
         HostedInterfaceDefinition hostedInterfaceDefinition = (HostedInterfaceDefinition)theEObject;
         T result = caseHostedInterfaceDefinition(hostedInterfaceDefinition);
+        if (result == null) result = caseCompositeElement(hostedInterfaceDefinition);
+        if (result == null) result = casePrimitiveElement(hostedInterfaceDefinition);
+        if (result == null) result = caseElement(hostedInterfaceDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -145,6 +136,9 @@ public class FractalSwitch<T> extends Switch<T>
         ProvidedInterfaceDefinition providedInterfaceDefinition = (ProvidedInterfaceDefinition)theEObject;
         T result = caseProvidedInterfaceDefinition(providedInterfaceDefinition);
         if (result == null) result = caseHostedInterfaceDefinition(providedInterfaceDefinition);
+        if (result == null) result = caseCompositeElement(providedInterfaceDefinition);
+        if (result == null) result = casePrimitiveElement(providedInterfaceDefinition);
+        if (result == null) result = caseElement(providedInterfaceDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -153,6 +147,9 @@ public class FractalSwitch<T> extends Switch<T>
         RequiredInterfaceDefinition requiredInterfaceDefinition = (RequiredInterfaceDefinition)theEObject;
         T result = caseRequiredInterfaceDefinition(requiredInterfaceDefinition);
         if (result == null) result = caseHostedInterfaceDefinition(requiredInterfaceDefinition);
+        if (result == null) result = caseCompositeElement(requiredInterfaceDefinition);
+        if (result == null) result = casePrimitiveElement(requiredInterfaceDefinition);
+        if (result == null) result = caseElement(requiredInterfaceDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -160,6 +157,54 @@ public class FractalSwitch<T> extends Switch<T>
       {
         SubComponentDefinition subComponentDefinition = (SubComponentDefinition)theEObject;
         T result = caseSubComponentDefinition(subComponentDefinition);
+        if (result == null) result = caseCompositeElement(subComponentDefinition);
+        if (result == null) result = caseElement(subComponentDefinition);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case FractalPackage.SUB_COMPONENT_BODY:
+      {
+        SubComponentBody subComponentBody = (SubComponentBody)theEObject;
+        T result = caseSubComponentBody(subComponentBody);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case FractalPackage.SUB_COMPONENT_COMPOSITE_BODY:
+      {
+        SubComponentCompositeBody subComponentCompositeBody = (SubComponentCompositeBody)theEObject;
+        T result = caseSubComponentCompositeBody(subComponentCompositeBody);
+        if (result == null) result = caseSubComponentBody(subComponentCompositeBody);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case FractalPackage.SUB_COMPONENT_PRIMITIVE_BODY:
+      {
+        SubComponentPrimitiveBody subComponentPrimitiveBody = (SubComponentPrimitiveBody)theEObject;
+        T result = caseSubComponentPrimitiveBody(subComponentPrimitiveBody);
+        if (result == null) result = caseSubComponentBody(subComponentPrimitiveBody);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case FractalPackage.ELEMENT:
+      {
+        Element element = (Element)theEObject;
+        T result = caseElement(element);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case FractalPackage.COMPOSITE_ELEMENT:
+      {
+        CompositeElement compositeElement = (CompositeElement)theEObject;
+        T result = caseCompositeElement(compositeElement);
+        if (result == null) result = caseElement(compositeElement);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case FractalPackage.PRIMITIVE_ELEMENT:
+      {
+        PrimitiveElement primitiveElement = (PrimitiveElement)theEObject;
+        T result = casePrimitiveElement(primitiveElement);
+        if (result == null) result = caseElement(primitiveElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -167,6 +212,8 @@ public class FractalSwitch<T> extends Switch<T>
       {
         BindingDefinition bindingDefinition = (BindingDefinition)theEObject;
         T result = caseBindingDefinition(bindingDefinition);
+        if (result == null) result = caseCompositeElement(bindingDefinition);
+        if (result == null) result = caseElement(bindingDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -216,6 +263,8 @@ public class FractalSwitch<T> extends Switch<T>
       {
         AttributeDefinition attributeDefinition = (AttributeDefinition)theEObject;
         T result = caseAttributeDefinition(attributeDefinition);
+        if (result == null) result = casePrimitiveElement(attributeDefinition);
+        if (result == null) result = caseElement(attributeDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -223,6 +272,8 @@ public class FractalSwitch<T> extends Switch<T>
       {
         ImplementationDefinition implementationDefinition = (ImplementationDefinition)theEObject;
         T result = caseImplementationDefinition(implementationDefinition);
+        if (result == null) result = casePrimitiveElement(implementationDefinition);
+        if (result == null) result = caseElement(implementationDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -230,6 +281,8 @@ public class FractalSwitch<T> extends Switch<T>
       {
         DataDefinition dataDefinition = (DataDefinition)theEObject;
         T result = caseDataDefinition(dataDefinition);
+        if (result == null) result = casePrimitiveElement(dataDefinition);
+        if (result == null) result = caseElement(dataDefinition);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -308,22 +361,6 @@ public class FractalSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseAdlDefinition(AdlDefinition object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Abstract Element</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Abstract Element</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseAbstractElement(AbstractElement object)
   {
     return null;
   }
@@ -468,6 +505,102 @@ public class FractalSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseSubComponentDefinition(SubComponentDefinition object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sub Component Body</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sub Component Body</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSubComponentBody(SubComponentBody object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sub Component Composite Body</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sub Component Composite Body</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSubComponentCompositeBody(SubComponentCompositeBody object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Sub Component Primitive Body</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Sub Component Primitive Body</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseSubComponentPrimitiveBody(SubComponentPrimitiveBody object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Element</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Element</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseElement(Element object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Composite Element</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Composite Element</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseCompositeElement(CompositeElement object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Primitive Element</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Primitive Element</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T casePrimitiveElement(PrimitiveElement object)
   {
     return null;
   }

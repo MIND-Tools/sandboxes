@@ -5,18 +5,24 @@ generate fractal "http://www.ow2.org/mindEd/adl/textual/Fractal"
 import 'http://www.ow2.org/mindEd/itf/' as fractalItf
 
 AdlDefinition :
-	elements += AbstractElement*
+	imports += ImportDefinition*
+	architectureDefinition = ArchitectureDefinition
 ;
 
 /*
- * SSZ Note: If we remove the "PackageDeclaration" the auto-completion has trouble and forces
- * fully QualifiedName-s as sub-components in composites, without suggesting the import
- * A solution is scoping, but explicit packages are better imo.
+ * SSZ Note: Mind package scoping is handled thanks to the
+ * org.ow2.mindEd.adl.textual.scoping.FractalImportedNamespaceAwareLocalScopeProvider
+ * to be able to manage implicit declaration during the component declaration.
  */
 
-AbstractElement:
-	/* PackageDeclaration | */ ImportDefinition | ArchitectureDefinition
-;
+//// OLD
+//AdlDefinition :
+//	elements += AbstractElement*
+//;
+//
+//AbstractElement:
+//	/* PackageDeclaration | */ ImportDefinition | ArchitectureDefinition
+//;
 
 ArchitectureDefinition:
 	CompositeDefinition | PrimitiveDefinition | TypeDefinition
@@ -43,7 +49,7 @@ CompositeDefinition:
 	(templateSpecifiersList = TemplateSpecifiersList)? // <ID conformsto TypeDefinition, ID2 conformsto TypeDef2, ...>
 	(compositeFormalArgumentsList = FormalArgumentsList)? // (arg1, arg2, ...)
 	('extends' superType = [ArchitectureDefinition | QualifiedName])? '{'
-		elements += (SubComponentDefinition | ProvidedInterfaceDefinition | RequiredInterfaceDefinition | BindingDefinition)*
+		elements += (HostedInterfaceDefinition | SubComponentDefinition | BindingDefinition)*
 	'}'
 ;
 
@@ -72,7 +78,7 @@ HostedInterfaceDefinition:
 // Another way to solve the problem is to use prefixes ?
 ProvidedInterfaceDefinition :
 	//(annotationsList=AnnotationsList)?
-	role="provides" (optional?='optional')? signature = [fractalItf::InterfaceDefinition | QualifiedName] 'as' name=ID
+	role="provides" signature = [fractalItf::InterfaceDefinition | QualifiedName] 'as' name=ID
 	(collection?='['(collectionsize=INT)?']')? ';'
 ;
 
@@ -85,25 +91,60 @@ RequiredInterfaceDefinition :
 SubComponentDefinition:
 	//(annotationsList=AnnotationsList)?
 	'contains'
-	type = [ArchitectureDefinition | QualifiedName]
+	(type = [ArchitectureDefinition | QualifiedName])?
 	('<' templatesList+=TemplateDefinition (',' templatesList+=TemplateDefinition)* '>')?
 	('(' argumentsList+=ArgumentDefinition (',' argumentsList+=ArgumentDefinition)* ')')?
 	'as'
 	name = ID
+	(body = SubComponentBody)?
 	';'
 ;
 
+SubComponentBody: 
+	SubComponentCompositeBody | SubComponentPrimitiveBody
+;
 
+SubComponentCompositeBody:
+	anonymous ?= 'composite'	// true but the existence of this body in the SubComponentDefinition rule
+								// implies an anonymous component anyway
+	'{'
+		elements += (SubComponentDefinition | ProvidedInterfaceDefinition | RequiredInterfaceDefinition | BindingDefinition)*
+	'}'
+;
+
+SubComponentPrimitiveBody:
+	anonymous?='primitive'		// true but the existence of this body in the SubComponentDefinition rule
+								// implies an anonymous component anyway
+	'{'
+		elements += (ProvidedInterfaceDefinition | RequiredInterfaceDefinition | ImplementationDefinition | AttributeDefinition | DataDefinition)*
+	'}'
+;
+
+// Check if this rules is in accordance with the original grammar
+Element :
+	CompositeElement | PrimitiveElement | HostedInterfaceDefinition
+;
+
+CompositeElement :
+	HostedInterfaceDefinition | SubComponentDefinition | BindingDefinition
+;
+
+PrimitiveElement :
+	HostedInterfaceDefinition | ImplementationDefinition | AttributeDefinition | DataDefinition
+;
+
+// The correct auto-completion scoping for Bindings is implemented in org.ow2.mindEd.adl.textual.scoping.FractalScopeProvider
+// This could be assimilated to filtering elements from the references pool to provide only pertinent ones.
 BindingDefinition :
 	//(annotationsList=AnnotationsList)?
 	'binds'
-	('this' | interfaceSourceParentLabel = [SubComponentDefinition | ID])
+	('this' | sourceParent = [SubComponentDefinition | ID])
 	'.'
-	interfaceSourceLabel=[HostedInterfaceDefinition | ID]('['interfaceSourceIndex=INT']')?
+	sourceInterface = [RequiredInterfaceDefinition | ID] ('[' sourceIndex = INT ']')?
 	'to'
-	('this' | interfaceTargetParentLabel = [SubComponentDefinition | ID])
+	('this' | targetParent = [SubComponentDefinition | ID])
 	'.'
-	interfaceTargetLabel=[HostedInterfaceDefinition | ID]('['interfaceTargetIndex=INT']')?
+	targetInterface = [ProvidedInterfaceDefinition | ID] ('[' targetIndex = INT ']')?
 	';'
 ;
 

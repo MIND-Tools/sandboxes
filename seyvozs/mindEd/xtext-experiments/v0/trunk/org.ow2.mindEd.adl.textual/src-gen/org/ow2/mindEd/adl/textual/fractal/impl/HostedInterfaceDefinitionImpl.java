@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
 import org.ow2.mindEd.adl.textual.fractal.HostedInterfaceDefinition;
@@ -27,7 +26,6 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.InterfaceDefinition;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.HostedInterfaceDefinitionImpl#getRole <em>Role</em>}</li>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.HostedInterfaceDefinitionImpl#isOptional <em>Optional</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.HostedInterfaceDefinitionImpl#getSignature <em>Signature</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.HostedInterfaceDefinitionImpl#getName <em>Name</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.HostedInterfaceDefinitionImpl#isCollection <em>Collection</em>}</li>
@@ -37,7 +35,7 @@ import org.ow2.mindEd.itf.editor.textual.fractalIDL.InterfaceDefinition;
  *
  * @generated
  */
-public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container implements HostedInterfaceDefinition
+public class HostedInterfaceDefinitionImpl extends ElementImpl implements HostedInterfaceDefinition
 {
   /**
    * The default value of the '{@link #getRole() <em>Role</em>}' attribute.
@@ -58,26 +56,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
    * @ordered
    */
   protected String role = ROLE_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #isOptional() <em>Optional</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isOptional()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean OPTIONAL_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isOptional() <em>Optional</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isOptional()
-   * @generated
-   * @ordered
-   */
-  protected boolean optional = OPTIONAL_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getSignature() <em>Signature</em>}' reference.
@@ -191,29 +169,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
     role = newRole;
     if (eNotificationRequired())
       eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.HOSTED_INTERFACE_DEFINITION__ROLE, oldRole, role));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isOptional()
-  {
-    return optional;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setOptional(boolean newOptional)
-  {
-    boolean oldOptional = optional;
-    optional = newOptional;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.HOSTED_INTERFACE_DEFINITION__OPTIONAL, oldOptional, optional));
   }
 
   /**
@@ -340,8 +295,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
     {
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__ROLE:
         return getRole();
-      case FractalPackage.HOSTED_INTERFACE_DEFINITION__OPTIONAL:
-        return isOptional();
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__SIGNATURE:
         if (resolve) return getSignature();
         return basicGetSignature();
@@ -367,9 +320,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
     {
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__ROLE:
         setRole((String)newValue);
-        return;
-      case FractalPackage.HOSTED_INTERFACE_DEFINITION__OPTIONAL:
-        setOptional((Boolean)newValue);
         return;
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__SIGNATURE:
         setSignature((InterfaceDefinition)newValue);
@@ -400,9 +350,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__ROLE:
         setRole(ROLE_EDEFAULT);
         return;
-      case FractalPackage.HOSTED_INTERFACE_DEFINITION__OPTIONAL:
-        setOptional(OPTIONAL_EDEFAULT);
-        return;
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__SIGNATURE:
         setSignature((InterfaceDefinition)null);
         return;
@@ -431,8 +378,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
     {
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__ROLE:
         return ROLE_EDEFAULT == null ? role != null : !ROLE_EDEFAULT.equals(role);
-      case FractalPackage.HOSTED_INTERFACE_DEFINITION__OPTIONAL:
-        return optional != OPTIONAL_EDEFAULT;
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__SIGNATURE:
         return signature != null;
       case FractalPackage.HOSTED_INTERFACE_DEFINITION__NAME:
@@ -458,8 +403,6 @@ public class HostedInterfaceDefinitionImpl extends MinimalEObjectImpl.Container 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (role: ");
     result.append(role);
-    result.append(", optional: ");
-    result.append(optional);
     result.append(", name: ");
     result.append(name);
     result.append(", collection: ");

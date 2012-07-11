@@ -17,7 +17,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -25,6 +24,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition;
 import org.ow2.mindEd.adl.textual.fractal.ArgumentDefinition;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
+import org.ow2.mindEd.adl.textual.fractal.SubComponentBody;
 import org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition;
 import org.ow2.mindEd.adl.textual.fractal.TemplateDefinition;
 
@@ -39,12 +39,13 @@ import org.ow2.mindEd.adl.textual.fractal.TemplateDefinition;
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.SubComponentDefinitionImpl#getTemplatesList <em>Templates List</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.SubComponentDefinitionImpl#getArgumentsList <em>Arguments List</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.SubComponentDefinitionImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.SubComponentDefinitionImpl#getBody <em>Body</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container implements SubComponentDefinition
+public class SubComponentDefinitionImpl extends CompositeElementImpl implements SubComponentDefinition
 {
   /**
    * The cached value of the '{@link #getType() <em>Type</em>}' reference.
@@ -95,6 +96,16 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getBody()
+   * @generated
+   * @ordered
+   */
+  protected SubComponentBody body;
 
   /**
    * <!-- begin-user-doc -->
@@ -216,6 +227,54 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
    * <!-- end-user-doc -->
    * @generated
    */
+  public SubComponentBody getBody()
+  {
+    return body;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetBody(SubComponentBody newBody, NotificationChain msgs)
+  {
+    SubComponentBody oldBody = body;
+    body = newBody;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, FractalPackage.SUB_COMPONENT_DEFINITION__BODY, oldBody, newBody);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setBody(SubComponentBody newBody)
+  {
+    if (newBody != body)
+    {
+      NotificationChain msgs = null;
+      if (body != null)
+        msgs = ((InternalEObject)body).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - FractalPackage.SUB_COMPONENT_DEFINITION__BODY, null, msgs);
+      if (newBody != null)
+        msgs = ((InternalEObject)newBody).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - FractalPackage.SUB_COMPONENT_DEFINITION__BODY, null, msgs);
+      msgs = basicSetBody(newBody, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.SUB_COMPONENT_DEFINITION__BODY, newBody, newBody));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -225,6 +284,8 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
         return ((InternalEList<?>)getTemplatesList()).basicRemove(otherEnd, msgs);
       case FractalPackage.SUB_COMPONENT_DEFINITION__ARGUMENTS_LIST:
         return ((InternalEList<?>)getArgumentsList()).basicRemove(otherEnd, msgs);
+      case FractalPackage.SUB_COMPONENT_DEFINITION__BODY:
+        return basicSetBody(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -248,6 +309,8 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
         return getArgumentsList();
       case FractalPackage.SUB_COMPONENT_DEFINITION__NAME:
         return getName();
+      case FractalPackage.SUB_COMPONENT_DEFINITION__BODY:
+        return getBody();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -277,6 +340,9 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
       case FractalPackage.SUB_COMPONENT_DEFINITION__NAME:
         setName((String)newValue);
         return;
+      case FractalPackage.SUB_COMPONENT_DEFINITION__BODY:
+        setBody((SubComponentBody)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -303,6 +369,9 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
       case FractalPackage.SUB_COMPONENT_DEFINITION__NAME:
         setName(NAME_EDEFAULT);
         return;
+      case FractalPackage.SUB_COMPONENT_DEFINITION__BODY:
+        setBody((SubComponentBody)null);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -325,6 +394,8 @@ public class SubComponentDefinitionImpl extends MinimalEObjectImpl.Container imp
         return argumentsList != null && !argumentsList.isEmpty();
       case FractalPackage.SUB_COMPONENT_DEFINITION__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case FractalPackage.SUB_COMPONENT_DEFINITION__BODY:
+        return body != null;
     }
     return super.eIsSet(featureID);
   }

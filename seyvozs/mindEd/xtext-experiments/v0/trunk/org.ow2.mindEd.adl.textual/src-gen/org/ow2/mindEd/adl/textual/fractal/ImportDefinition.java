@@ -6,6 +6,7 @@
  */
 package org.ow2.mindEd.adl.textual.fractal;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -23,7 +24,7 @@ package org.ow2.mindEd.adl.textual.fractal;
  * @model
  * @generated
  */
-public interface ImportDefinition extends AbstractElement
+public interface ImportDefinition extends EObject
 {
   /**
    * Returns the value of the '<em><b>Imported Namespace</b></em>' attribute.

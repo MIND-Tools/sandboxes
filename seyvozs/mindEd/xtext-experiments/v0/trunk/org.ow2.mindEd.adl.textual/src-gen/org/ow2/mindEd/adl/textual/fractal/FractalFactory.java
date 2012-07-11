@@ -36,15 +36,6 @@ public interface FractalFactory extends EFactory
   AdlDefinition createAdlDefinition();
 
   /**
-   * Returns a new object of class '<em>Abstract Element</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Abstract Element</em>'.
-   * @generated
-   */
-  AbstractElement createAbstractElement();
-
-  /**
    * Returns a new object of class '<em>Architecture Definition</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -124,6 +115,60 @@ public interface FractalFactory extends EFactory
    * @generated
    */
   SubComponentDefinition createSubComponentDefinition();
+
+  /**
+   * Returns a new object of class '<em>Sub Component Body</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Sub Component Body</em>'.
+   * @generated
+   */
+  SubComponentBody createSubComponentBody();
+
+  /**
+   * Returns a new object of class '<em>Sub Component Composite Body</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Sub Component Composite Body</em>'.
+   * @generated
+   */
+  SubComponentCompositeBody createSubComponentCompositeBody();
+
+  /**
+   * Returns a new object of class '<em>Sub Component Primitive Body</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Sub Component Primitive Body</em>'.
+   * @generated
+   */
+  SubComponentPrimitiveBody createSubComponentPrimitiveBody();
+
+  /**
+   * Returns a new object of class '<em>Element</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Element</em>'.
+   * @generated
+   */
+  Element createElement();
+
+  /**
+   * Returns a new object of class '<em>Composite Element</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Composite Element</em>'.
+   * @generated
+   */
+  CompositeElement createCompositeElement();
+
+  /**
+   * Returns a new object of class '<em>Primitive Element</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Primitive Element</em>'.
+   * @generated
+   */
+  PrimitiveElement createPrimitiveElement();
 
   /**
    * Returns a new object of class '<em>Binding Definition</em>'.

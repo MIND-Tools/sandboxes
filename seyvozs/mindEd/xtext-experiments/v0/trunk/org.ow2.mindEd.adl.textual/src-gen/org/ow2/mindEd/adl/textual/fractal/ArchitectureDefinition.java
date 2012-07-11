@@ -6,6 +6,7 @@
  */
 package org.ow2.mindEd.adl.textual.fractal;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +25,7 @@ package org.ow2.mindEd.adl.textual.fractal;
  * @model
  * @generated
  */
-public interface ArchitectureDefinition extends AbstractElement
+public interface ArchitectureDefinition extends EObject
 {
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.

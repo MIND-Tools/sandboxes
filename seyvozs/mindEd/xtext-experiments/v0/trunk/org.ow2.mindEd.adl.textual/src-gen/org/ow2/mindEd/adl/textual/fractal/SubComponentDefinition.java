@@ -8,8 +8,6 @@ package org.ow2.mindEd.adl.textual.fractal;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Sub Component Definition</b></em>'.
@@ -22,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition#getTemplatesList <em>Templates List</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition#getArgumentsList <em>Arguments List</em>}</li>
  *   <li>{@link org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition#getName <em>Name</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition#getBody <em>Body</em>}</li>
  * </ul>
  * </p>
  *
@@ -29,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface SubComponentDefinition extends EObject
+public interface SubComponentDefinition extends CompositeElement
 {
   /**
    * Returns the value of the '<em><b>Type</b></em>' reference.
@@ -114,5 +113,31 @@ public interface SubComponentDefinition extends EObject
    * @generated
    */
   void setName(String value);
+
+  /**
+   * Returns the value of the '<em><b>Body</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Body</em>' containment reference isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Body</em>' containment reference.
+   * @see #setBody(SubComponentBody)
+   * @see org.ow2.mindEd.adl.textual.fractal.FractalPackage#getSubComponentDefinition_Body()
+   * @model containment="true"
+   * @generated
+   */
+  SubComponentBody getBody();
+
+  /**
+   * Sets the value of the '{@link org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition#getBody <em>Body</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Body</em>' containment reference.
+   * @see #getBody()
+   * @generated
+   */
+  void setBody(SubComponentBody value);
 
 } // SubComponentDefinition

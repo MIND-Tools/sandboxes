@@ -6,7 +6,6 @@
  */
 package org.ow2.mindEd.adl.textual.fractal;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface DataDefinition extends EObject
+public interface DataDefinition extends PrimitiveElement
 {
   /**
    * Returns the value of the '<em><b>File C</b></em>' containment reference.

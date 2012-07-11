@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
@@ -30,7 +31,7 @@ import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
  *
  * @generated
  */
-public class ArchitectureDefinitionImpl extends AbstractElementImpl implements ArchitectureDefinition
+public class ArchitectureDefinitionImpl extends MinimalEObjectImpl.Container implements ArchitectureDefinition
 {
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.

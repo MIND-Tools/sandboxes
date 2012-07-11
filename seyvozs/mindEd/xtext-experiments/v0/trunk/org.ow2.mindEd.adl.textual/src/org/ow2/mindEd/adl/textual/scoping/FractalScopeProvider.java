@@ -13,8 +13,10 @@ import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider;
 import org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition;
 import org.ow2.mindEd.adl.textual.fractal.BindingDefinition;
 import org.ow2.mindEd.adl.textual.fractal.CompositeDefinition;
+import org.ow2.mindEd.adl.textual.fractal.CompositeElement;
 import org.ow2.mindEd.adl.textual.fractal.HostedInterfaceDefinition;
 import org.ow2.mindEd.adl.textual.fractal.PrimitiveDefinition;
+import org.ow2.mindEd.adl.textual.fractal.PrimitiveElement;
 import org.ow2.mindEd.adl.textual.fractal.ProvidedInterfaceDefinition;
 import org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition;
 import org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition;
@@ -29,8 +31,8 @@ import org.ow2.mindEd.adl.textual.fractal.TypeDefinition;
  */
 public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 
-	public IScope scope_BindingDefinition_interfaceSourceLabel(BindingDefinition bindingDef, EReference ref) {
-		ArchitectureDefinition sourceComponentArchDef = bindingDef.getInterfaceSourceParentLabel().getType();
+	public IScope scope_BindingDefinition_sourceInterface(BindingDefinition bindingDef, EReference ref) {
+		ArchitectureDefinition sourceComponentArchDef = bindingDef.getSourceParent().getType();
 
 		if (sourceComponentArchDef instanceof TypeDefinition) {
 			// Get all the elements
@@ -47,7 +49,7 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 			return Scopes.scopeFor(reqItfList);
 		} else if (sourceComponentArchDef instanceof CompositeDefinition) {
 			// Get all the elements
-			EList<EObject> elements = ((CompositeDefinition) sourceComponentArchDef).getElements();
+			EList<CompositeElement> elements = ((CompositeDefinition) sourceComponentArchDef).getElements();
 			// Then filter for RequiredInterfaceDefinition(s)
 
 			EList<RequiredInterfaceDefinition> reqItfList = new BasicEList<RequiredInterfaceDefinition>();
@@ -60,7 +62,7 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 			return Scopes.scopeFor(reqItfList);
 		} else if (sourceComponentArchDef instanceof PrimitiveDefinition) {
 			// Get all the elements
-			EList<EObject> elements = ((PrimitiveDefinition) sourceComponentArchDef).getElements();
+			EList<PrimitiveElement> elements = ((PrimitiveDefinition) sourceComponentArchDef).getElements();
 			// Then filter for RequiredInterfaceDefinition(s)
 
 			EList<RequiredInterfaceDefinition> reqItfList = new BasicEList<RequiredInterfaceDefinition>();
@@ -73,12 +75,12 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 			return Scopes.scopeFor(reqItfList);
 		} else {
 			// error case
-			return null;
+			return IScope.NULLSCOPE;
 		}
 	}
 
-	public IScope scope_BindingDefinition_interfaceTargetLabel(BindingDefinition bindingDef, EReference ref) {
-		ArchitectureDefinition targetComponentArchDef = bindingDef.getInterfaceTargetParentLabel().getType();
+	public IScope scope_BindingDefinition_targetInterface(BindingDefinition bindingDef, EReference ref) {
+		ArchitectureDefinition targetComponentArchDef = bindingDef.getTargetParent().getType();
 
 		if (targetComponentArchDef instanceof TypeDefinition) {
 			// Get all the elements
@@ -95,7 +97,7 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 			return Scopes.scopeFor(reqItfList);
 		} else if (targetComponentArchDef instanceof CompositeDefinition) {
 			// Get all the elements
-			EList<EObject> elements = ((CompositeDefinition) targetComponentArchDef).getElements();
+			EList<CompositeElement> elements = ((CompositeDefinition) targetComponentArchDef).getElements();
 			// Then filter for RequiredInterfaceDefinition(s)
 
 			EList<ProvidedInterfaceDefinition> reqItfList = new BasicEList<ProvidedInterfaceDefinition>();
@@ -108,7 +110,7 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 			return Scopes.scopeFor(reqItfList);
 		} else if (targetComponentArchDef instanceof PrimitiveDefinition) {
 			// Get all the elements
-			EList<EObject> elements = ((PrimitiveDefinition) targetComponentArchDef).getElements();
+			EList<PrimitiveElement> elements = ((PrimitiveDefinition) targetComponentArchDef).getElements();
 			// Then filter for RequiredInterfaceDefinition(s)
 
 			EList<ProvidedInterfaceDefinition> reqItfList = new BasicEList<ProvidedInterfaceDefinition>();
@@ -121,35 +123,81 @@ public class FractalScopeProvider extends AbstractDeclarativeScopeProvider {
 			return Scopes.scopeFor(reqItfList);
 		} else {
 			// error case
-			return null;
+			return IScope.NULLSCOPE;
 		}
 	}
-	
-//	public IScope getScope(SubComponentDefinition subCompDef, EReference ref){
-//		return null;
-//		
-//	}
+
+	//	public IScope getScope(SubComponentDefinition subCompDef, EReference ref){
+	//		return null;
+	//		
+	//	}
 
 	@Override
 	public IScope getScope(EObject context, EReference reference){
 		System.out.println(
-			"scope_" + reference.getEContainingClass().getName()
-			+ "_" + reference.getName()
-			+ "(" + context.eClass().getName() + ", ..)"
-		);
+				"scope_" + reference.getEContainingClass().getName()
+				+ "_" + reference.getName()
+				+ "(" + context.eClass().getName() + ", ..)"
+				);
 		return super.getScope(context, reference);
 	}
 
-//	// SSZ: custom scope trial for direct package declaration
-//	public IScope scope_SubComponentDefinition_type(SubComponentDefinition subCompDef, EReference reference) {
-//		CompositeDefinition compositeDef = null;
-//		
-//		// Container should always be a CompositeDefinition
-//		EObject container = subCompDef.eContainer();
-//		if (container instanceof CompositeDefinition) {
-//			compositeDef = (CompositeDefinition) container;
-//			return super.getScope(compositeDef, reference);
-//		} else return IScope.NULLSCOPE;
-//	}
-	
+	/* A tentative to filter binding source components (parent) for auto-completion to suggest only components bearing client interfaces.
+	 * The result of the method is good but the scoping doesnt seem to b used by the ProposalProvider, it only says there's an error when you chose a
+	 * wrong component... I decided to deal with the problem at the ProposalProvider level instead. 
+		public IScope scope_BindingDefinition_sourceParent(BindingDefinition bindingDef, EReference ref) {
+			// Early check
+			assert (bindingDef.eContainer() instanceof CompositeDefinition); 
+			CompositeDefinition hostCompDef = (CompositeDefinition) bindingDef.eContainer();
+			EList<CompositeElement> elements = hostCompDef.getElements();
+
+			// Let's fill a list with all SubComponent instances that have at list 1 client interface
+			EList<SubComponentDefinition> subCompList = new BasicEList<SubComponentDefinition>();
+
+			// For all the possible SubComponents we need to check in their Type if they have RequiredInterfaces
+			for (CompositeElement element : elements) {
+				if (element instanceof SubComponentDefinition) {
+					SubComponentDefinition currentCompDef = (SubComponentDefinition) element;
+					ArchitectureDefinition currentArchDef = currentCompDef.getType();
+					if (currentArchDef instanceof TypeDefinition) {
+						TypeDefinition currentTypeDef = (TypeDefinition) currentArchDef; 
+						EList<HostedInterfaceDefinition> interfaces = currentTypeDef.getElements();
+
+						// Check if a client interface exists : then add the component to the list
+						for (HostedInterfaceDefinition currentInterface : interfaces) {
+							if (currentInterface instanceof RequiredInterfaceDefinition) {
+								subCompList.add(currentCompDef);
+								break;
+							}
+						}
+					} else if (currentArchDef instanceof CompositeDefinition) {
+						CompositeDefinition currentCompositeDef = (CompositeDefinition) currentArchDef; 
+						EList<CompositeElement> compositeElements = currentCompositeDef.getElements();
+
+						for (CompositeElement compositeElement : compositeElements){
+							// Check if a client interface exists : then add the component to the list
+							if (compositeElement instanceof RequiredInterfaceDefinition) {
+								subCompList.add(currentCompDef);
+								break;
+							}
+						}
+					} else if (currentArchDef instanceof PrimitiveDefinition) {
+						PrimitiveDefinition currentPrimitiveDef = (PrimitiveDefinition) currentArchDef; 
+						EList<PrimitiveElement> primitiveElements = currentPrimitiveDef.getElements();
+
+						for (PrimitiveElement primitiveElement : primitiveElements){
+							// Check if a client interface exists : then add the component to the list
+							if (primitiveElement instanceof RequiredInterfaceDefinition) {
+								subCompList.add(currentCompDef);
+								break;
+							}
+						}
+					} // else just do nothing
+				}
+			}
+
+			return Scopes.scopeFor(subCompList);
+		}
+	 */
+
 }

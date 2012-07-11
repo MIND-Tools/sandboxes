@@ -12,11 +12,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.BindingDefinition;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
-import org.ow2.mindEd.adl.textual.fractal.HostedInterfaceDefinition;
+import org.ow2.mindEd.adl.textual.fractal.ProvidedInterfaceDefinition;
+import org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition;
 import org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition;
 
 /**
@@ -26,98 +26,98 @@ import org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getInterfaceSourceParentLabel <em>Interface Source Parent Label</em>}</li>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getInterfaceSourceLabel <em>Interface Source Label</em>}</li>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getInterfaceSourceIndex <em>Interface Source Index</em>}</li>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getInterfaceTargetParentLabel <em>Interface Target Parent Label</em>}</li>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getInterfaceTargetLabel <em>Interface Target Label</em>}</li>
- *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getInterfaceTargetIndex <em>Interface Target Index</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getSourceParent <em>Source Parent</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getSourceInterface <em>Source Interface</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getSourceIndex <em>Source Index</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getTargetParent <em>Target Parent</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getTargetInterface <em>Target Interface</em>}</li>
+ *   <li>{@link org.ow2.mindEd.adl.textual.fractal.impl.BindingDefinitionImpl#getTargetIndex <em>Target Index</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implements BindingDefinition
+public class BindingDefinitionImpl extends CompositeElementImpl implements BindingDefinition
 {
   /**
-   * The cached value of the '{@link #getInterfaceSourceParentLabel() <em>Interface Source Parent Label</em>}' reference.
+   * The cached value of the '{@link #getSourceParent() <em>Source Parent</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceSourceParentLabel()
+   * @see #getSourceParent()
    * @generated
    * @ordered
    */
-  protected SubComponentDefinition interfaceSourceParentLabel;
+  protected SubComponentDefinition sourceParent;
 
   /**
-   * The cached value of the '{@link #getInterfaceSourceLabel() <em>Interface Source Label</em>}' reference.
+   * The cached value of the '{@link #getSourceInterface() <em>Source Interface</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceSourceLabel()
+   * @see #getSourceInterface()
    * @generated
    * @ordered
    */
-  protected HostedInterfaceDefinition interfaceSourceLabel;
+  protected RequiredInterfaceDefinition sourceInterface;
 
   /**
-   * The default value of the '{@link #getInterfaceSourceIndex() <em>Interface Source Index</em>}' attribute.
+   * The default value of the '{@link #getSourceIndex() <em>Source Index</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceSourceIndex()
+   * @see #getSourceIndex()
    * @generated
    * @ordered
    */
-  protected static final int INTERFACE_SOURCE_INDEX_EDEFAULT = 0;
+  protected static final int SOURCE_INDEX_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getInterfaceSourceIndex() <em>Interface Source Index</em>}' attribute.
+   * The cached value of the '{@link #getSourceIndex() <em>Source Index</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceSourceIndex()
+   * @see #getSourceIndex()
    * @generated
    * @ordered
    */
-  protected int interfaceSourceIndex = INTERFACE_SOURCE_INDEX_EDEFAULT;
+  protected int sourceIndex = SOURCE_INDEX_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getInterfaceTargetParentLabel() <em>Interface Target Parent Label</em>}' reference.
+   * The cached value of the '{@link #getTargetParent() <em>Target Parent</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceTargetParentLabel()
+   * @see #getTargetParent()
    * @generated
    * @ordered
    */
-  protected SubComponentDefinition interfaceTargetParentLabel;
+  protected SubComponentDefinition targetParent;
 
   /**
-   * The cached value of the '{@link #getInterfaceTargetLabel() <em>Interface Target Label</em>}' reference.
+   * The cached value of the '{@link #getTargetInterface() <em>Target Interface</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceTargetLabel()
+   * @see #getTargetInterface()
    * @generated
    * @ordered
    */
-  protected HostedInterfaceDefinition interfaceTargetLabel;
+  protected ProvidedInterfaceDefinition targetInterface;
 
   /**
-   * The default value of the '{@link #getInterfaceTargetIndex() <em>Interface Target Index</em>}' attribute.
+   * The default value of the '{@link #getTargetIndex() <em>Target Index</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceTargetIndex()
+   * @see #getTargetIndex()
    * @generated
    * @ordered
    */
-  protected static final int INTERFACE_TARGET_INDEX_EDEFAULT = 0;
+  protected static final int TARGET_INDEX_EDEFAULT = 0;
 
   /**
-   * The cached value of the '{@link #getInterfaceTargetIndex() <em>Interface Target Index</em>}' attribute.
+   * The cached value of the '{@link #getTargetIndex() <em>Target Index</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInterfaceTargetIndex()
+   * @see #getTargetIndex()
    * @generated
    * @ordered
    */
-  protected int interfaceTargetIndex = INTERFACE_TARGET_INDEX_EDEFAULT;
+  protected int targetIndex = TARGET_INDEX_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -145,19 +145,19 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public SubComponentDefinition getInterfaceSourceParentLabel()
+  public SubComponentDefinition getSourceParent()
   {
-    if (interfaceSourceParentLabel != null && interfaceSourceParentLabel.eIsProxy())
+    if (sourceParent != null && sourceParent.eIsProxy())
     {
-      InternalEObject oldInterfaceSourceParentLabel = (InternalEObject)interfaceSourceParentLabel;
-      interfaceSourceParentLabel = (SubComponentDefinition)eResolveProxy(oldInterfaceSourceParentLabel);
-      if (interfaceSourceParentLabel != oldInterfaceSourceParentLabel)
+      InternalEObject oldSourceParent = (InternalEObject)sourceParent;
+      sourceParent = (SubComponentDefinition)eResolveProxy(oldSourceParent);
+      if (sourceParent != oldSourceParent)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_PARENT_LABEL, oldInterfaceSourceParentLabel, interfaceSourceParentLabel));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__SOURCE_PARENT, oldSourceParent, sourceParent));
       }
     }
-    return interfaceSourceParentLabel;
+    return sourceParent;
   }
 
   /**
@@ -165,9 +165,9 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public SubComponentDefinition basicGetInterfaceSourceParentLabel()
+  public SubComponentDefinition basicGetSourceParent()
   {
-    return interfaceSourceParentLabel;
+    return sourceParent;
   }
 
   /**
@@ -175,12 +175,12 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInterfaceSourceParentLabel(SubComponentDefinition newInterfaceSourceParentLabel)
+  public void setSourceParent(SubComponentDefinition newSourceParent)
   {
-    SubComponentDefinition oldInterfaceSourceParentLabel = interfaceSourceParentLabel;
-    interfaceSourceParentLabel = newInterfaceSourceParentLabel;
+    SubComponentDefinition oldSourceParent = sourceParent;
+    sourceParent = newSourceParent;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_PARENT_LABEL, oldInterfaceSourceParentLabel, interfaceSourceParentLabel));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__SOURCE_PARENT, oldSourceParent, sourceParent));
   }
 
   /**
@@ -188,19 +188,19 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public HostedInterfaceDefinition getInterfaceSourceLabel()
+  public RequiredInterfaceDefinition getSourceInterface()
   {
-    if (interfaceSourceLabel != null && interfaceSourceLabel.eIsProxy())
+    if (sourceInterface != null && sourceInterface.eIsProxy())
     {
-      InternalEObject oldInterfaceSourceLabel = (InternalEObject)interfaceSourceLabel;
-      interfaceSourceLabel = (HostedInterfaceDefinition)eResolveProxy(oldInterfaceSourceLabel);
-      if (interfaceSourceLabel != oldInterfaceSourceLabel)
+      InternalEObject oldSourceInterface = (InternalEObject)sourceInterface;
+      sourceInterface = (RequiredInterfaceDefinition)eResolveProxy(oldSourceInterface);
+      if (sourceInterface != oldSourceInterface)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_LABEL, oldInterfaceSourceLabel, interfaceSourceLabel));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__SOURCE_INTERFACE, oldSourceInterface, sourceInterface));
       }
     }
-    return interfaceSourceLabel;
+    return sourceInterface;
   }
 
   /**
@@ -208,9 +208,9 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public HostedInterfaceDefinition basicGetInterfaceSourceLabel()
+  public RequiredInterfaceDefinition basicGetSourceInterface()
   {
-    return interfaceSourceLabel;
+    return sourceInterface;
   }
 
   /**
@@ -218,12 +218,12 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInterfaceSourceLabel(HostedInterfaceDefinition newInterfaceSourceLabel)
+  public void setSourceInterface(RequiredInterfaceDefinition newSourceInterface)
   {
-    HostedInterfaceDefinition oldInterfaceSourceLabel = interfaceSourceLabel;
-    interfaceSourceLabel = newInterfaceSourceLabel;
+    RequiredInterfaceDefinition oldSourceInterface = sourceInterface;
+    sourceInterface = newSourceInterface;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_LABEL, oldInterfaceSourceLabel, interfaceSourceLabel));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__SOURCE_INTERFACE, oldSourceInterface, sourceInterface));
   }
 
   /**
@@ -231,9 +231,9 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getInterfaceSourceIndex()
+  public int getSourceIndex()
   {
-    return interfaceSourceIndex;
+    return sourceIndex;
   }
 
   /**
@@ -241,12 +241,12 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInterfaceSourceIndex(int newInterfaceSourceIndex)
+  public void setSourceIndex(int newSourceIndex)
   {
-    int oldInterfaceSourceIndex = interfaceSourceIndex;
-    interfaceSourceIndex = newInterfaceSourceIndex;
+    int oldSourceIndex = sourceIndex;
+    sourceIndex = newSourceIndex;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_INDEX, oldInterfaceSourceIndex, interfaceSourceIndex));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__SOURCE_INDEX, oldSourceIndex, sourceIndex));
   }
 
   /**
@@ -254,19 +254,19 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public SubComponentDefinition getInterfaceTargetParentLabel()
+  public SubComponentDefinition getTargetParent()
   {
-    if (interfaceTargetParentLabel != null && interfaceTargetParentLabel.eIsProxy())
+    if (targetParent != null && targetParent.eIsProxy())
     {
-      InternalEObject oldInterfaceTargetParentLabel = (InternalEObject)interfaceTargetParentLabel;
-      interfaceTargetParentLabel = (SubComponentDefinition)eResolveProxy(oldInterfaceTargetParentLabel);
-      if (interfaceTargetParentLabel != oldInterfaceTargetParentLabel)
+      InternalEObject oldTargetParent = (InternalEObject)targetParent;
+      targetParent = (SubComponentDefinition)eResolveProxy(oldTargetParent);
+      if (targetParent != oldTargetParent)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_PARENT_LABEL, oldInterfaceTargetParentLabel, interfaceTargetParentLabel));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__TARGET_PARENT, oldTargetParent, targetParent));
       }
     }
-    return interfaceTargetParentLabel;
+    return targetParent;
   }
 
   /**
@@ -274,9 +274,9 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public SubComponentDefinition basicGetInterfaceTargetParentLabel()
+  public SubComponentDefinition basicGetTargetParent()
   {
-    return interfaceTargetParentLabel;
+    return targetParent;
   }
 
   /**
@@ -284,12 +284,12 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInterfaceTargetParentLabel(SubComponentDefinition newInterfaceTargetParentLabel)
+  public void setTargetParent(SubComponentDefinition newTargetParent)
   {
-    SubComponentDefinition oldInterfaceTargetParentLabel = interfaceTargetParentLabel;
-    interfaceTargetParentLabel = newInterfaceTargetParentLabel;
+    SubComponentDefinition oldTargetParent = targetParent;
+    targetParent = newTargetParent;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_PARENT_LABEL, oldInterfaceTargetParentLabel, interfaceTargetParentLabel));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__TARGET_PARENT, oldTargetParent, targetParent));
   }
 
   /**
@@ -297,19 +297,19 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public HostedInterfaceDefinition getInterfaceTargetLabel()
+  public ProvidedInterfaceDefinition getTargetInterface()
   {
-    if (interfaceTargetLabel != null && interfaceTargetLabel.eIsProxy())
+    if (targetInterface != null && targetInterface.eIsProxy())
     {
-      InternalEObject oldInterfaceTargetLabel = (InternalEObject)interfaceTargetLabel;
-      interfaceTargetLabel = (HostedInterfaceDefinition)eResolveProxy(oldInterfaceTargetLabel);
-      if (interfaceTargetLabel != oldInterfaceTargetLabel)
+      InternalEObject oldTargetInterface = (InternalEObject)targetInterface;
+      targetInterface = (ProvidedInterfaceDefinition)eResolveProxy(oldTargetInterface);
+      if (targetInterface != oldTargetInterface)
       {
         if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_LABEL, oldInterfaceTargetLabel, interfaceTargetLabel));
+          eNotify(new ENotificationImpl(this, Notification.RESOLVE, FractalPackage.BINDING_DEFINITION__TARGET_INTERFACE, oldTargetInterface, targetInterface));
       }
     }
-    return interfaceTargetLabel;
+    return targetInterface;
   }
 
   /**
@@ -317,9 +317,9 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public HostedInterfaceDefinition basicGetInterfaceTargetLabel()
+  public ProvidedInterfaceDefinition basicGetTargetInterface()
   {
-    return interfaceTargetLabel;
+    return targetInterface;
   }
 
   /**
@@ -327,12 +327,12 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInterfaceTargetLabel(HostedInterfaceDefinition newInterfaceTargetLabel)
+  public void setTargetInterface(ProvidedInterfaceDefinition newTargetInterface)
   {
-    HostedInterfaceDefinition oldInterfaceTargetLabel = interfaceTargetLabel;
-    interfaceTargetLabel = newInterfaceTargetLabel;
+    ProvidedInterfaceDefinition oldTargetInterface = targetInterface;
+    targetInterface = newTargetInterface;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_LABEL, oldInterfaceTargetLabel, interfaceTargetLabel));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__TARGET_INTERFACE, oldTargetInterface, targetInterface));
   }
 
   /**
@@ -340,9 +340,9 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public int getInterfaceTargetIndex()
+  public int getTargetIndex()
   {
-    return interfaceTargetIndex;
+    return targetIndex;
   }
 
   /**
@@ -350,12 +350,12 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setInterfaceTargetIndex(int newInterfaceTargetIndex)
+  public void setTargetIndex(int newTargetIndex)
   {
-    int oldInterfaceTargetIndex = interfaceTargetIndex;
-    interfaceTargetIndex = newInterfaceTargetIndex;
+    int oldTargetIndex = targetIndex;
+    targetIndex = newTargetIndex;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_INDEX, oldInterfaceTargetIndex, interfaceTargetIndex));
+      eNotify(new ENotificationImpl(this, Notification.SET, FractalPackage.BINDING_DEFINITION__TARGET_INDEX, oldTargetIndex, targetIndex));
   }
 
   /**
@@ -368,22 +368,22 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_PARENT_LABEL:
-        if (resolve) return getInterfaceSourceParentLabel();
-        return basicGetInterfaceSourceParentLabel();
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_LABEL:
-        if (resolve) return getInterfaceSourceLabel();
-        return basicGetInterfaceSourceLabel();
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_INDEX:
-        return getInterfaceSourceIndex();
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_PARENT_LABEL:
-        if (resolve) return getInterfaceTargetParentLabel();
-        return basicGetInterfaceTargetParentLabel();
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_LABEL:
-        if (resolve) return getInterfaceTargetLabel();
-        return basicGetInterfaceTargetLabel();
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_INDEX:
-        return getInterfaceTargetIndex();
+      case FractalPackage.BINDING_DEFINITION__SOURCE_PARENT:
+        if (resolve) return getSourceParent();
+        return basicGetSourceParent();
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INTERFACE:
+        if (resolve) return getSourceInterface();
+        return basicGetSourceInterface();
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INDEX:
+        return getSourceIndex();
+      case FractalPackage.BINDING_DEFINITION__TARGET_PARENT:
+        if (resolve) return getTargetParent();
+        return basicGetTargetParent();
+      case FractalPackage.BINDING_DEFINITION__TARGET_INTERFACE:
+        if (resolve) return getTargetInterface();
+        return basicGetTargetInterface();
+      case FractalPackage.BINDING_DEFINITION__TARGET_INDEX:
+        return getTargetIndex();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -398,23 +398,23 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_PARENT_LABEL:
-        setInterfaceSourceParentLabel((SubComponentDefinition)newValue);
+      case FractalPackage.BINDING_DEFINITION__SOURCE_PARENT:
+        setSourceParent((SubComponentDefinition)newValue);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_LABEL:
-        setInterfaceSourceLabel((HostedInterfaceDefinition)newValue);
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INTERFACE:
+        setSourceInterface((RequiredInterfaceDefinition)newValue);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_INDEX:
-        setInterfaceSourceIndex((Integer)newValue);
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INDEX:
+        setSourceIndex((Integer)newValue);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_PARENT_LABEL:
-        setInterfaceTargetParentLabel((SubComponentDefinition)newValue);
+      case FractalPackage.BINDING_DEFINITION__TARGET_PARENT:
+        setTargetParent((SubComponentDefinition)newValue);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_LABEL:
-        setInterfaceTargetLabel((HostedInterfaceDefinition)newValue);
+      case FractalPackage.BINDING_DEFINITION__TARGET_INTERFACE:
+        setTargetInterface((ProvidedInterfaceDefinition)newValue);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_INDEX:
-        setInterfaceTargetIndex((Integer)newValue);
+      case FractalPackage.BINDING_DEFINITION__TARGET_INDEX:
+        setTargetIndex((Integer)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -430,23 +430,23 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_PARENT_LABEL:
-        setInterfaceSourceParentLabel((SubComponentDefinition)null);
+      case FractalPackage.BINDING_DEFINITION__SOURCE_PARENT:
+        setSourceParent((SubComponentDefinition)null);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_LABEL:
-        setInterfaceSourceLabel((HostedInterfaceDefinition)null);
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INTERFACE:
+        setSourceInterface((RequiredInterfaceDefinition)null);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_INDEX:
-        setInterfaceSourceIndex(INTERFACE_SOURCE_INDEX_EDEFAULT);
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INDEX:
+        setSourceIndex(SOURCE_INDEX_EDEFAULT);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_PARENT_LABEL:
-        setInterfaceTargetParentLabel((SubComponentDefinition)null);
+      case FractalPackage.BINDING_DEFINITION__TARGET_PARENT:
+        setTargetParent((SubComponentDefinition)null);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_LABEL:
-        setInterfaceTargetLabel((HostedInterfaceDefinition)null);
+      case FractalPackage.BINDING_DEFINITION__TARGET_INTERFACE:
+        setTargetInterface((ProvidedInterfaceDefinition)null);
         return;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_INDEX:
-        setInterfaceTargetIndex(INTERFACE_TARGET_INDEX_EDEFAULT);
+      case FractalPackage.BINDING_DEFINITION__TARGET_INDEX:
+        setTargetIndex(TARGET_INDEX_EDEFAULT);
         return;
     }
     super.eUnset(featureID);
@@ -462,18 +462,18 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
   {
     switch (featureID)
     {
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_PARENT_LABEL:
-        return interfaceSourceParentLabel != null;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_LABEL:
-        return interfaceSourceLabel != null;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_SOURCE_INDEX:
-        return interfaceSourceIndex != INTERFACE_SOURCE_INDEX_EDEFAULT;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_PARENT_LABEL:
-        return interfaceTargetParentLabel != null;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_LABEL:
-        return interfaceTargetLabel != null;
-      case FractalPackage.BINDING_DEFINITION__INTERFACE_TARGET_INDEX:
-        return interfaceTargetIndex != INTERFACE_TARGET_INDEX_EDEFAULT;
+      case FractalPackage.BINDING_DEFINITION__SOURCE_PARENT:
+        return sourceParent != null;
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INTERFACE:
+        return sourceInterface != null;
+      case FractalPackage.BINDING_DEFINITION__SOURCE_INDEX:
+        return sourceIndex != SOURCE_INDEX_EDEFAULT;
+      case FractalPackage.BINDING_DEFINITION__TARGET_PARENT:
+        return targetParent != null;
+      case FractalPackage.BINDING_DEFINITION__TARGET_INTERFACE:
+        return targetInterface != null;
+      case FractalPackage.BINDING_DEFINITION__TARGET_INDEX:
+        return targetIndex != TARGET_INDEX_EDEFAULT;
     }
     return super.eIsSet(featureID);
   }
@@ -489,10 +489,10 @@ public class BindingDefinitionImpl extends MinimalEObjectImpl.Container implemen
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (interfaceSourceIndex: ");
-    result.append(interfaceSourceIndex);
-    result.append(", interfaceTargetIndex: ");
-    result.append(interfaceTargetIndex);
+    result.append(" (sourceIndex: ");
+    result.append(sourceIndex);
+    result.append(", targetIndex: ");
+    result.append(targetIndex);
     result.append(')');
     return result.toString();
   }

@@ -5,6 +5,8 @@ package org.ow2.mindEd.adl.textual.ui;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
+import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.ow2.mindEd.adl.textual.ui.navigation.FractalHyperlink;
 
 /**
@@ -14,12 +16,29 @@ public class FractalUiModule extends org.ow2.mindEd.adl.textual.ui.AbstractFract
 	public FractalUiModule(AbstractUIPlugin plugin) {
 		super(plugin);
 	}
-	
+
 	/**
 	 * Hyperlinks
 	 * @return
 	 */
 	public Class<? extends IHyperlinkHelper> bindIHyperlinkHelper() {
-        return FractalHyperlink.class;
-    }
+		return FractalHyperlink.class;
+	}
+
+	/**
+	 * register mapping tokens to IDs
+	 * @return MIND ADL tokens mapping
+	 */
+
+	public Class<? extends AbstractAntlrTokenToAttributeIdMapper> bindTokenToAttributeIdMapper() {
+		return AntlrTokenToAttributeIdMapper.class;
+	}
+
+	/**
+	 * register syntax coloring
+	 * @return class which define MIND ADL syntax coloring
+	 */
+	public Class<? extends IHighlightingConfiguration> bindILexicalHighlightingConfiguration() {
+		return LexicalHighlightingConfiguration.class;
+	}	
 }

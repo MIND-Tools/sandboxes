@@ -11,7 +11,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.AttributeDefinition;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
@@ -31,7 +30,7 @@ import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
  *
  * @generated
  */
-public class AttributeDefinitionImpl extends MinimalEObjectImpl.Container implements AttributeDefinition
+public class AttributeDefinitionImpl extends PrimitiveElementImpl implements AttributeDefinition
 {
   /**
    * The default value of the '{@link #getType() <em>Type</em>}' attribute.

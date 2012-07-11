@@ -11,6 +11,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
 import org.ow2.mindEd.adl.textual.fractal.ImportDefinition;
@@ -28,7 +29,7 @@ import org.ow2.mindEd.adl.textual.fractal.ImportDefinition;
  *
  * @generated
  */
-public class ImportDefinitionImpl extends AbstractElementImpl implements ImportDefinition
+public class ImportDefinitionImpl extends MinimalEObjectImpl.Container implements ImportDefinition
 {
   /**
    * The default value of the '{@link #getImportedNamespace() <em>Imported Namespace</em>}' attribute.

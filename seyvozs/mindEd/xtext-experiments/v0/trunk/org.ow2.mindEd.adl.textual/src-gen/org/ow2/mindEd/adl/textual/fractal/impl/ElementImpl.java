@@ -10,26 +10,26 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.ow2.mindEd.adl.textual.fractal.AbstractElement;
+import org.ow2.mindEd.adl.textual.fractal.Element;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Abstract Element</b></em>'.
+ * An implementation of the model object '<em><b>Element</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class AbstractElementImpl extends MinimalEObjectImpl.Container implements AbstractElement
+public class ElementImpl extends MinimalEObjectImpl.Container implements Element
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected AbstractElementImpl()
+  protected ElementImpl()
   {
     super();
   }
@@ -42,7 +42,7 @@ public class AbstractElementImpl extends MinimalEObjectImpl.Container implements
   @Override
   protected EClass eStaticClass()
   {
-    return FractalPackage.Literals.ABSTRACT_ELEMENT;
+    return FractalPackage.Literals.ELEMENT;
   }
 
-} //AbstractElementImpl
+} //ElementImpl

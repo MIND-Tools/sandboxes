@@ -6,7 +6,6 @@
  */
 package org.ow2.mindEd.adl.textual.fractal;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface AttributeDefinition extends EObject
+public interface AttributeDefinition extends PrimitiveElement
 {
   /**
    * Returns the value of the '<em><b>Type</b></em>' attribute.

@@ -8,8 +8,6 @@ package org.ow2.mindEd.adl.textual.fractal;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Composite Definition</b></em>'.
@@ -84,7 +82,7 @@ public interface CompositeDefinition extends ArchitectureDefinition
 
   /**
    * Returns the value of the '<em><b>Elements</b></em>' containment reference list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
+   * The list contents are of type {@link org.ow2.mindEd.adl.textual.fractal.CompositeElement}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Elements</em>' containment reference list isn't clear,
@@ -96,6 +94,6 @@ public interface CompositeDefinition extends ArchitectureDefinition
    * @model containment="true"
    * @generated
    */
-  EList<EObject> getElements();
+  EList<CompositeElement> getElements();
 
 } // CompositeDefinition

@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -23,6 +22,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.ow2.mindEd.adl.textual.fractal.CompositeDefinition;
+import org.ow2.mindEd.adl.textual.fractal.CompositeElement;
 import org.ow2.mindEd.adl.textual.fractal.FormalArgumentsList;
 import org.ow2.mindEd.adl.textual.fractal.FractalPackage;
 import org.ow2.mindEd.adl.textual.fractal.TemplateSpecifiersList;
@@ -72,7 +72,7 @@ public class CompositeDefinitionImpl extends ArchitectureDefinitionImpl implemen
    * @generated
    * @ordered
    */
-  protected EList<EObject> elements;
+  protected EList<CompositeElement> elements;
 
   /**
    * <!-- begin-user-doc -->
@@ -196,11 +196,11 @@ public class CompositeDefinitionImpl extends ArchitectureDefinitionImpl implemen
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<EObject> getElements()
+  public EList<CompositeElement> getElements()
   {
     if (elements == null)
     {
-      elements = new EObjectContainmentEList<EObject>(EObject.class, this, FractalPackage.COMPOSITE_DEFINITION__ELEMENTS);
+      elements = new EObjectContainmentEList<CompositeElement>(CompositeElement.class, this, FractalPackage.COMPOSITE_DEFINITION__ELEMENTS);
     }
     return elements;
   }
@@ -264,7 +264,7 @@ public class CompositeDefinitionImpl extends ArchitectureDefinitionImpl implemen
         return;
       case FractalPackage.COMPOSITE_DEFINITION__ELEMENTS:
         getElements().clear();
-        getElements().addAll((Collection<? extends EObject>)newValue);
+        getElements().addAll((Collection<? extends CompositeElement>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

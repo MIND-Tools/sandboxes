@@ -60,7 +60,7 @@ RULE_WS=11
 'null'=19
 '.*'=28
 'this'=13
-'requires'=56
+'requires'=55
 ';'=27
 '='=48
 '@'=52
@@ -84,7 +84,7 @@ RULE_WS=11
 'LDFlags'=24
 'provides'=54
 '{'=30
-'optional'=55
+'optional'=56
 'to'=44
 'as'=35
 'composite'=29

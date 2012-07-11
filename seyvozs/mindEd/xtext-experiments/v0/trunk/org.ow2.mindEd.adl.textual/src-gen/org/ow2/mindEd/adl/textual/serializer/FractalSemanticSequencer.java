@@ -34,7 +34,9 @@ import org.ow2.mindEd.adl.textual.fractal.InlineCodeC;
 import org.ow2.mindEd.adl.textual.fractal.PrimitiveDefinition;
 import org.ow2.mindEd.adl.textual.fractal.ProvidedInterfaceDefinition;
 import org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition;
+import org.ow2.mindEd.adl.textual.fractal.SubComponentCompositeBody;
 import org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition;
+import org.ow2.mindEd.adl.textual.fractal.SubComponentPrimitiveBody;
 import org.ow2.mindEd.adl.textual.fractal.TemplateDefinition;
 import org.ow2.mindEd.adl.textual.fractal.TemplateSpecifier;
 import org.ow2.mindEd.adl.textual.fractal.TemplateSpecifiersList;
@@ -81,20 +83,23 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 				}
 				else break;
 			case FractalPackage.ATTRIBUTE_DEFINITION:
-				if(context == grammarAccess.getAttributeDefinitionRule()) {
+				if(context == grammarAccess.getAttributeDefinitionRule() ||
+				   context == grammarAccess.getElementRule() ||
+				   context == grammarAccess.getPrimitiveElementRule()) {
 					sequence_AttributeDefinition(context, (AttributeDefinition) semanticObject); 
 					return; 
 				}
 				else break;
 			case FractalPackage.BINDING_DEFINITION:
-				if(context == grammarAccess.getBindingDefinitionRule()) {
+				if(context == grammarAccess.getBindingDefinitionRule() ||
+				   context == grammarAccess.getCompositeElementRule() ||
+				   context == grammarAccess.getElementRule()) {
 					sequence_BindingDefinition(context, (BindingDefinition) semanticObject); 
 					return; 
 				}
 				else break;
 			case FractalPackage.COMPOSITE_DEFINITION:
-				if(context == grammarAccess.getAbstractElementRule() ||
-				   context == grammarAccess.getArchitectureDefinitionRule() ||
+				if(context == grammarAccess.getArchitectureDefinitionRule() ||
 				   context == grammarAccess.getCompositeDefinitionRule()) {
 					sequence_CompositeDefinition(context, (CompositeDefinition) semanticObject); 
 					return; 
@@ -108,7 +113,9 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 				}
 				else break;
 			case FractalPackage.DATA_DEFINITION:
-				if(context == grammarAccess.getDataDefinitionRule()) {
+				if(context == grammarAccess.getDataDefinitionRule() ||
+				   context == grammarAccess.getElementRule() ||
+				   context == grammarAccess.getPrimitiveElementRule()) {
 					sequence_DataDefinition(context, (DataDefinition) semanticObject); 
 					return; 
 				}
@@ -139,14 +146,15 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 				}
 				else break;
 			case FractalPackage.IMPLEMENTATION_DEFINITION:
-				if(context == grammarAccess.getImplementationDefinitionRule()) {
+				if(context == grammarAccess.getElementRule() ||
+				   context == grammarAccess.getImplementationDefinitionRule() ||
+				   context == grammarAccess.getPrimitiveElementRule()) {
 					sequence_ImplementationDefinition(context, (ImplementationDefinition) semanticObject); 
 					return; 
 				}
 				else break;
 			case FractalPackage.IMPORT_DEFINITION:
-				if(context == grammarAccess.getAbstractElementRule() ||
-				   context == grammarAccess.getImportDefinitionRule()) {
+				if(context == grammarAccess.getImportDefinitionRule()) {
 					sequence_ImportDefinition(context, (ImportDefinition) semanticObject); 
 					return; 
 				}
@@ -158,30 +166,51 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 				}
 				else break;
 			case FractalPackage.PRIMITIVE_DEFINITION:
-				if(context == grammarAccess.getAbstractElementRule() ||
-				   context == grammarAccess.getArchitectureDefinitionRule() ||
+				if(context == grammarAccess.getArchitectureDefinitionRule() ||
 				   context == grammarAccess.getPrimitiveDefinitionRule()) {
 					sequence_PrimitiveDefinition(context, (PrimitiveDefinition) semanticObject); 
 					return; 
 				}
 				else break;
 			case FractalPackage.PROVIDED_INTERFACE_DEFINITION:
-				if(context == grammarAccess.getHostedInterfaceDefinitionRule() ||
+				if(context == grammarAccess.getCompositeElementRule() ||
+				   context == grammarAccess.getElementRule() ||
+				   context == grammarAccess.getHostedInterfaceDefinitionRule() ||
+				   context == grammarAccess.getPrimitiveElementRule() ||
 				   context == grammarAccess.getProvidedInterfaceDefinitionRule()) {
 					sequence_ProvidedInterfaceDefinition(context, (ProvidedInterfaceDefinition) semanticObject); 
 					return; 
 				}
 				else break;
 			case FractalPackage.REQUIRED_INTERFACE_DEFINITION:
-				if(context == grammarAccess.getHostedInterfaceDefinitionRule() ||
+				if(context == grammarAccess.getCompositeElementRule() ||
+				   context == grammarAccess.getElementRule() ||
+				   context == grammarAccess.getHostedInterfaceDefinitionRule() ||
+				   context == grammarAccess.getPrimitiveElementRule() ||
 				   context == grammarAccess.getRequiredInterfaceDefinitionRule()) {
 					sequence_RequiredInterfaceDefinition(context, (RequiredInterfaceDefinition) semanticObject); 
 					return; 
 				}
 				else break;
+			case FractalPackage.SUB_COMPONENT_COMPOSITE_BODY:
+				if(context == grammarAccess.getSubComponentBodyRule() ||
+				   context == grammarAccess.getSubComponentCompositeBodyRule()) {
+					sequence_SubComponentCompositeBody(context, (SubComponentCompositeBody) semanticObject); 
+					return; 
+				}
+				else break;
 			case FractalPackage.SUB_COMPONENT_DEFINITION:
-				if(context == grammarAccess.getSubComponentDefinitionRule()) {
+				if(context == grammarAccess.getCompositeElementRule() ||
+				   context == grammarAccess.getElementRule() ||
+				   context == grammarAccess.getSubComponentDefinitionRule()) {
 					sequence_SubComponentDefinition(context, (SubComponentDefinition) semanticObject); 
+					return; 
+				}
+				else break;
+			case FractalPackage.SUB_COMPONENT_PRIMITIVE_BODY:
+				if(context == grammarAccess.getSubComponentBodyRule() ||
+				   context == grammarAccess.getSubComponentPrimitiveBodyRule()) {
+					sequence_SubComponentPrimitiveBody(context, (SubComponentPrimitiveBody) semanticObject); 
 					return; 
 				}
 				else break;
@@ -204,8 +233,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 				}
 				else break;
 			case FractalPackage.TYPE_DEFINITION:
-				if(context == grammarAccess.getAbstractElementRule() ||
-				   context == grammarAccess.getArchitectureDefinitionRule() ||
+				if(context == grammarAccess.getArchitectureDefinitionRule() ||
 				   context == grammarAccess.getTypeDefinitionRule()) {
 					sequence_TypeDefinition(context, (TypeDefinition) semanticObject); 
 					return; 
@@ -217,7 +245,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     elements+=AbstractElement*
+	 *     (imports+=ImportDefinition* architectureDefinition=ArchitectureDefinition)
 	 */
 	protected void sequence_AdlDefinition(EObject context, AdlDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -272,12 +300,12 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
-	 *         interfaceSourceParentLabel=[SubComponentDefinition|ID]? 
-	 *         interfaceSourceLabel=[HostedInterfaceDefinition|ID] 
-	 *         interfaceSourceIndex=INT? 
-	 *         interfaceTargetParentLabel=[SubComponentDefinition|ID]? 
-	 *         interfaceTargetLabel=[HostedInterfaceDefinition|ID] 
-	 *         interfaceTargetIndex=INT?
+	 *         sourceParent=[SubComponentDefinition|ID]? 
+	 *         sourceInterface=[RequiredInterfaceDefinition|ID] 
+	 *         sourceIndex=INT? 
+	 *         targetParent=[SubComponentDefinition|ID]? 
+	 *         targetInterface=[ProvidedInterfaceDefinition|ID] 
+	 *         targetIndex=INT?
 	 *     )
 	 */
 	protected void sequence_BindingDefinition(EObject context, BindingDefinition semanticObject) {
@@ -292,7 +320,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *         templateSpecifiersList=TemplateSpecifiersList? 
 	 *         compositeFormalArgumentsList=FormalArgumentsList? 
 	 *         superType=[ArchitectureDefinition|QualifiedName]? 
-	 *         (elements+=SubComponentDefinition | elements+=ProvidedInterfaceDefinition | elements+=RequiredInterfaceDefinition | elements+=BindingDefinition)*
+	 *         (elements+=HostedInterfaceDefinition | elements+=SubComponentDefinition | elements+=BindingDefinition)*
 	 *     )
 	 */
 	protected void sequence_CompositeDefinition(EObject context, CompositeDefinition semanticObject) {
@@ -432,7 +460,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (role='provides' optional?='optional'? signature=[InterfaceDefinition|QualifiedName] name=ID (collection?='[' collectionsize=INT?)?)
+	 *     (role='provides' signature=[InterfaceDefinition|QualifiedName] name=ID (collection?='[' collectionsize=INT?)?)
 	 */
 	protected void sequence_ProvidedInterfaceDefinition(EObject context, ProvidedInterfaceDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -451,13 +479,44 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
-	 *         type=[ArchitectureDefinition|QualifiedName] 
+	 *         anonymous?='composite' 
+	 *         (elements+=SubComponentDefinition | elements+=ProvidedInterfaceDefinition | elements+=RequiredInterfaceDefinition | elements+=BindingDefinition)*
+	 *     )
+	 */
+	protected void sequence_SubComponentCompositeBody(EObject context, SubComponentCompositeBody semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         type=[ArchitectureDefinition|QualifiedName]? 
 	 *         (templatesList+=TemplateDefinition templatesList+=TemplateDefinition*)? 
 	 *         (argumentsList+=ArgumentDefinition argumentsList+=ArgumentDefinition*)? 
-	 *         name=ID
+	 *         name=ID 
+	 *         body=SubComponentBody?
 	 *     )
 	 */
 	protected void sequence_SubComponentDefinition(EObject context, SubComponentDefinition semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Constraint:
+	 *     (
+	 *         anonymous?='primitive' 
+	 *         (
+	 *             elements+=ProvidedInterfaceDefinition | 
+	 *             elements+=RequiredInterfaceDefinition | 
+	 *             elements+=ImplementationDefinition | 
+	 *             elements+=AttributeDefinition | 
+	 *             elements+=DataDefinition
+	 *         )*
+	 *     )
+	 */
+	protected void sequence_SubComponentPrimitiveBody(EObject context, SubComponentPrimitiveBody semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
