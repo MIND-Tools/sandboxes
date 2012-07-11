@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.ow2.mindEd.adl" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.ow2.mindEd.adl" id="AdlAnnotation" name="ADL Annotation Definition"/>
+      </appInfo>
+      <documentation>
+         ADL Annotation Definition extension allows to defines Annotations that can be found in ADL files.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="annotation"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="annotation">
+      <complexType>
+         <sequence>
+            <choice minOccurs="0" maxOccurs="unbounded">
+               <element ref="field"/>
+            </choice>
+            <choice>
+               <element ref="target" minOccurs="1" maxOccurs="unbounded"/>
+            </choice>
+            <choice minOccurs="0" maxOccurs="unbounded">
+               <element ref="addInterface"/>
+            </choice>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified tpye name of the annotation.
+For instance: &quot;controller.LifeCycleController&quot;
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="field">
+      <complexType>
+         <attribute name="name" type="string" use="default" value="value">
+            <annotation>
+               <documentation>
+                  The name of the annotation field
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type">
+            <annotation>
+               <documentation>
+                  The type of the field
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="INTEGER">
+                  </enumeration>
+                  <enumeration value="STRING">
+                  </enumeration>
+                  <enumeration value="BOOLEAN">
+                  </enumeration>
+                  <enumeration value="ANNOTATION">
+                  </enumeration>
+                  <enumeration value="ARRAY">
+                  </enumeration>
+                  <enumeration value="PATH">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="optional" use="required">
+            <annotation>
+               <documentation>
+                  Specify if the field is optional or required
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="true">
+                  </enumeration>
+                  <enumeration value="false">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="target">
+      <annotation>
+         <documentation>
+            Specify a target on which the annotation can be attached.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="type">
+            <annotation>
+               <documentation>
+                  The valid syntactical element on which the annotation can be attached
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="DEFINITION">
+                  </enumeration>
+                  <enumeration value="INTERFACE">
+                  </enumeration>
+                  <enumeration value="IMPORT">
+                  </enumeration>
+                  <enumeration value="SOURCE">
+                  </enumeration>
+                  <enumeration value="SUB_COMPONENT">
+                  </enumeration>
+                  <enumeration value="BINDING">
+                  </enumeration>
+                  <enumeration value="ATTRIBUTE">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="addInterface">
+      <annotation>
+         <documentation>
+            Specify that when the annotation is present, it adds an interface to the definition to which it belongs.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the added interface
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="role" use="required">
+            <annotation>
+               <documentation>
+                  The role of the added interface
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="client">
+                  </enumeration>
+                  <enumeration value="server">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="signature" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The signature of the added interface
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="cardinality" use="default" value="singleton">
+            <annotation>
+               <documentation>
+                  The cardinality of the added interface
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="singleton">
+                  </enumeration>
+                  <enumeration value="collection">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="collectionSize" type="string">
+            <annotation>
+               <documentation>
+                  The size of the collection. Valid only if the interface is a collection interface (i.e. cardinality=&quot;collection&quot;).
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiinfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

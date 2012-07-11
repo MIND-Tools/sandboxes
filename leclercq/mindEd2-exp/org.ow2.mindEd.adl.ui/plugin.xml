@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+    <extension
+            point="org.eclipse.ui.editors">
+        <editor
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.XtextEditor"
+            contributorClass="org.eclipse.ui.editors.text.TextEditorActionContributor"
+            default="true"
+            extensions="adl"
+            id="org.ow2.mind.Adl"
+            name="Adl Editor">
+        </editor>
+    </extension>
+    <extension
+        point="org.eclipse.ui.handlers">
+        <handler
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclarationHandler"
+            commandId="org.eclipse.xtext.ui.editor.hyperlinking.OpenDeclaration">
+            <activeWhen>
+                <reference
+                    definitionId="org.ow2.mind.Adl.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+        <handler
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.handler.ValidateActionHandler"
+            commandId="org.ow2.mind.Adl.validate">
+         <activeWhen>
+            <reference
+                    definitionId="org.ow2.mind.Adl.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+    </extension>
+    <extension point="org.eclipse.core.expressions.definitions">
+        <definition id="org.ow2.mind.Adl.Editor.opened">
+            <and>
+                <reference definitionId="isActiveEditorAnInstanceOfXtextEditor"/>
+                <with variable="activeEditor">
+                    <test property="org.eclipse.xtext.ui.editor.XtextEditor.languageName" 
+                        value="org.ow2.mind.Adl" 
+                        forcePluginActivation="true"/>
+                </with>        
+            </and>
+        </definition>
+    </extension>
+    <extension
+            point="org.eclipse.ui.preferencePages">
+        <page
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
+            id="org.ow2.mind.Adl"
+            name="Adl">
+            <keywordReference id="org.ow2.mind.ui.keyword_Adl"/>
+        </page>
+        <page
+            category="org.ow2.mind.Adl"
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.syntaxcoloring.SyntaxColoringPreferencePage"
+            id="org.ow2.mind.Adl.coloring"
+            name="Syntax Coloring">
+            <keywordReference id="org.ow2.mind.ui.keyword_Adl"/>
+        </page>
+        <page
+            category="org.ow2.mind.Adl"
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.templates.XtextTemplatePreferencePage"
+            id="org.ow2.mind.Adl.templates"
+            name="Templates">
+            <keywordReference id="org.ow2.mind.ui.keyword_Adl"/>
+        </page>
+    </extension>
+    <extension
+        point="org.eclipse.ui.keywords">
+        <keyword
+            id="org.ow2.mind.ui.keyword_Adl"
+            label="Adl"/>
+    </extension>
+    <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Trigger expensive validation"
+            id="org.ow2.mind.Adl.validate"
+            name="Validate">
+      </command>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+        <menuContribution
+            locationURI="popup:#TextEditorContext?after=group.edit">
+             <command
+                 commandId="org.ow2.mind.Adl.validate"
+                 style="push"
+                 tooltip="Trigger expensive validation">
+            <visibleWhen checkEnabled="false">
+                <reference
+                    definitionId="org.ow2.mind.Adl.Editor.opened">
+                </reference>
+            </visibleWhen>
+         </command>  
+         </menuContribution>
+    </extension>
+    <extension point="org.eclipse.ui.menus">
+		<menuContribution locationURI="popup:#TextEditorContext?endof=group.find">
+			<command commandId="org.eclipse.xtext.ui.editor.FindReferences">
+				<visibleWhen checkEnabled="false">
+                	<reference definitionId="org.ow2.mind.Adl.Editor.opened">
+                	</reference>
+            	</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+	    <handler
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.findrefs.FindReferencesHandler"
+            commandId="org.eclipse.xtext.ui.editor.FindReferences">
+            <activeWhen>
+                <reference
+                    definitionId="org.ow2.mind.Adl.Editor.opened">
+                </reference>
+            </activeWhen>
+        </handler>
+    </extension>   
+
+<!-- adding resource factories -->
+
+	<extension
+		point="org.eclipse.emf.ecore.extension_parser">
+		<parser
+			class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.resource.IResourceFactory"
+			type="adl">
+		</parser>
+	</extension>
+	<extension point="org.eclipse.xtext.extension_resourceServiceProvider">
+        <resourceServiceProvider
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.resource.IResourceUIServiceProvider"
+            uriExtension="adl">
+        </resourceServiceProvider>
+    </extension>
+
+
+
+
+	<!-- Quick Outline -->
+	<extension
+		point="org.eclipse.ui.handlers">
+		<handler 
+			class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.outline.quickoutline.ShowQuickOutlineActionHandler"
+			commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline">
+			<activeWhen>
+				<reference
+					definitionId="org.ow2.mind.Adl.Editor.opened">
+				</reference>
+			</activeWhen>
+		</handler>
+	</extension>
+	<extension
+		point="org.eclipse.ui.commands">
+		<command
+			description="Open the quick outline."
+			id="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+			name="Quick Outline">
+		</command>
+	</extension>
+	<extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          locationURI="popup:#TextEditorContext?after=group.open">
+       <command
+             commandId="org.eclipse.xtext.ui.editor.outline.QuickOutline"
+             style="push"
+             tooltip="Open Quick Outline">
+          <visibleWhen
+                checkEnabled="false">
+             <reference
+                   definitionId="org.ow2.mind.Adl.Editor.opened">
+             </reference>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+ </extension>
+   <!-- quickfix marker resolution generator -->
+   <extension
+         point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator">
+      </markerResolutionGenerator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:#TextEditorContext?endof=group.edit">
+         <menu
+               label="Refactor"
+               mnemonic="t">
+            <command
+                  commandId="org.ow2.mindEd.adl.ui.refactor.Rename"
+                  mnemonic="n"
+                  style="push"
+                  tooltip="Rename the selected element">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                        definitionId="org.ow2.mind.Adl.Editor.opened">
+                  </reference>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.ow2.mindEd.adl.ui.refactor.Move"
+                  mnemonic="m"
+                  style="push"
+                  tooltip="Rename the selected element">
+               <visibleWhen
+                     checkEnabled="false">
+                  <reference
+                        definitionId="org.ow2.mind.Adl.Editor.opened">
+                  </reference>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu?after=search">
+         <menu
+               label="Refactor"
+               mnemonic="t">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="org.ow2.mind.Adl.Editor.opened">
+               </reference>
+            </visibleWhen>
+            <command
+                  commandId="org.ow2.mindEd.adl.ui.refactor.Rename"
+                  mnemonic="n"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.ow2.mindEd.adl.ui.refactor.Move"
+                  mnemonic="m"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="Mind Refactoring Actions"
+            id="org.ow2.mindEd.adl.ui.MindRefactorCategory"
+            name="Refactor - Mind">
+      </category>
+      <command
+            categoryId="org.ow2.mindEd.adl.ui.MindRefactorCategory"
+            description="Rename element selection"
+            id="org.ow2.mindEd.adl.ui.refactor.Rename"
+            name="Rename">
+      </command>
+      <command
+            categoryId="org.ow2.mindEd.adl.ui.MindRefactorCategory"
+            description="Move element"
+            id="org.ow2.mindEd.adl.ui.refactor.Move"
+            name="Move">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.ow2.mind.ui.refactoring.RenameHandler"
+            commandId="org.ow2.mindEd.adl.ui.refactor.Rename">
+         <activeWhen>
+            <reference
+                  definitionId="org.ow2.mind.Adl.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+      <handler
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.ow2.mind.ui.refactoring.MoveHandler"
+            commandId="org.ow2.mindEd.adl.ui.refactor.Move">
+         <activeWhen>
+            <reference
+                  definitionId="org.ow2.mind.Adl.Editor.opened">
+            </reference>
+         </activeWhen>
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ltk.core.refactoring.renameParticipants">
+      <renameParticipant
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.ow2.mind.ui.refactoring.RenameInterfaceCParticipant"
+            id="org.ow2.mindEd.adl.ui.renameParticipant1"
+            name="name">
+         <enablement>
+            <with
+                  variable="processorIdentifier">
+               <equals
+                     value="org.ow2.mind.ui.action.refactoring.RenameInterface">
+               </equals>
+            </with>
+         </enablement>
+      </renameParticipant>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.ow2.mindEd.adl.ui.refactor.Rename"
+            contextId="org.eclipse.ui.textEditorScope"
+            schemeId="org.eclipse.ui.emacsAcceleratorConfiguration"
+            sequence="SHIFT+ALT+R"/>
+      <key
+            commandId="org.ow2.mindEd.adl.ui.refactor.Rename"
+            contextId="org.eclipse.ui.textEditorScope"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="SHIFT+ALT+R">
+      </key>
+      
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.ow2.mindEd.adl.ui"
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.ow2.mind.ui.wizard.NewCompositeWizard"
+            icon="icons/small16/CompositeComponent.png"
+            id="org.ow2.mindEd.adl.ui.wizard.NewCompositeADL"
+            name="New Composite ADL">
+      </wizard>
+      <wizard
+            category="org.ow2.mindEd.adl.ui"
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.ow2.mind.ui.wizard.NewTypeWizard"
+            icon="icons/small16/TypeComponent.png"
+            id="org.ow2.mindEd.adl.ui.wizard.NewTypeADL"
+            name="New Type ADL">
+      </wizard>
+      <wizard
+            category="org.ow2.mindEd.adl.ui"
+            class="org.ow2.mind.ui.AdlExecutableExtensionFactory:org.ow2.mind.ui.wizard.NewPrimitiveWizard"
+            icon="icons/small16/PrimitiveComponent.png"
+            id="org.ow2.mindEd.adl.ui.wizard.NewPrimitiveADL"
+            name="New Primitive ADL">
+      </wizard>
+   </extension>
+
+</plugin>

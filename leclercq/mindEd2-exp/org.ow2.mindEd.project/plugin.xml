@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="MindcBuilder"
+         name="mindc Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.ow2.minded.project.builder.MindcBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="MindNature"
+         name="Mind Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.ow2.minded.project.builder.MindNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.ow2.mindEd.project.MindcBuilder">
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            nameFilter="*"
+            id="org.ow2.mindEd.project.contribution1">
+         <action
+               label="Add/Remove Mindc Nature"
+               class="org.ow2.minded.project.builder.ToggleNatureAction"
+               menubarPath="additions"
+               enablesFor="+"
+               id="org.ow2.mindEd.project.addRemoveNatureAction">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.ow2.minded.project.properties.MindPathPropertyPage"
+            id="org.ow2.minded.project.properties.MindPathPropertyPage"
+            name="Mind Source Path">
+         <enabledWhen>
+            <adapt
+                  type="org.eclipse.core.resources.IProject">
+                <test
+                      forcePluginActivation="true"
+                      property="org.eclipse.core.resources.projectNature"
+                      value="org.ow2.mindEd.project.MindNature">
+                </test>
+            </adapt>
+         </enabledWhen>
+      </page>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.ow2.mindEd.adl.ui"
+            name="Mind">
+      </category>
+      <wizard
+            category="org.ow2.mindEd.adl.ui"
+            class="org.ow2.minded.project.wizards.NewMindProjectWizard"
+            id="org.ow2.minded.adl.ui.wizards.NewAdlWizard"
+            name="Mind project"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         id="org.ow2.mindEd.project.mindMacros"
+         name="mind macro definition"
+         point="org.eclipse.cdt.core.externalSettingsProvider">
+      <provider
+            class="org.ow2.minded.project.MindMacroExternalSettingProvider">
+      </provider>
+   </extension>
+
+
+
+</plugin>

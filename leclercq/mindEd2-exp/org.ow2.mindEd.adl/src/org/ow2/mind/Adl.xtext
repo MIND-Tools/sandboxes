@@ -1,0 +1,265 @@
+grammar org.ow2.mind.Adl with org.eclipse.xtext.common.Terminals
+
+generate adl "http://www.ow2.org/mind/Adl"
+
+// -----------------------------------------------------------------------------
+// Top-level rules
+// -----------------------------------------------------------------------------
+
+Definition:
+    TypeDefinition | ParametricDefinition;
+
+ParametricDefinition:
+    PrimitiveDefinition | CompositeDefinition;
+
+Import:
+    annotations+=Annotation*
+    'import' importedNamespace=QualifiedNameWithWildCard ';';
+
+// -----------------------------------------------------------------------------
+
+TypeDefinition:
+    (imports+=Import)*
+    annotations+=Annotation*
+    'type' name=QualifiedName
+    ('extends' extends+=DefinitionReference (',' extends+=DefinitionReference)*)?
+    ( ('{' (content+=Interface ';'? )* '}' )
+    | (content+=Interface ';'? )* );
+
+// -----------------------------------------------------------------------------
+
+PrimitiveDefinition:
+    (imports+=Import)*
+    annotations+=Annotation*
+    (abstract='abstract') ?
+    'primitive' name=QualifiedName
+    ('(' (parameters+=ParameterDecl (',' parameters+=ParameterDecl)*)? ')')?
+    ('extends' extends+=DefinitionReference (',' extends+=DefinitionReference)*)?
+    ( ('{' (content+=(Interface | Attribute | Data | Source) ';'? )* '}' )
+    | (content+=(Interface | Attribute | Data | Source) ';'? )* );
+
+ParameterDecl :
+    name=ID;
+
+// -----------------------------------------------------------------------------
+
+CompositeDefinition:
+    (imports+=Import)*
+    annotations+=Annotation*
+    'composite' name=QualifiedName
+    ('<' (templateParameters+=TemplateParameterDecl (',' templateParameters+=TemplateParameterDecl)*)? '>')?
+    ('(' (parameters+=ParameterDecl (',' parameters+=ParameterDecl)*)? ')')?
+    ('extends' extends+=DefinitionReference (',' extends+=DefinitionReference)*)?
+    ( ('{' (content+=(Interface | SubComponent | Binding) ';'? )* '}' )
+    | (content+=(Interface | SubComponent | Binding) ';'? )* );
+
+TemplateParameterDecl:
+    name=ID 'conformsto' type=DefinitionReference;
+
+// -----------------------------------------------------------------------------
+
+DefinitionReference:
+    definition=[DefinitionOrTemplate|QualifiedName]
+    ('<' templateParameters+=TemplateParameter (',' templateParameters+=TemplateParameter)* '>')?
+    ('(' parameters+=Parameter (',' parameters+=Parameter)* ')')?;
+
+DefinitionOrTemplate:
+    Definition | TemplateParameterDecl;
+
+TemplateParameter :
+    TemplateParameterAssignment | {TemplateValue} value=DefinitionReference;
+
+TemplateParameterAssignment :
+    name=ID '=' value=DefinitionReference;
+
+Parameter :
+    ParameterAssignment 
+    | {Parameter} value=ParameterValue;
+
+ParameterAssignment :
+    name=ID '=' value=ParameterValue;
+
+ParameterValue :
+    literal=Literal 
+    | ref=[ParameterDecl];
+
+// -----------------------------------------------------------------------------
+// Content
+// -----------------------------------------------------------------------------
+
+Content:
+    Interface | Attribute | Implementation | SubComponent | Binding;
+
+// -----------------------------------------------------------------------------
+
+Interface:
+    TypeInterface | FlowInterface;
+
+TypeInterface:
+    ServerInterface | ClientInterface;
+
+FlowInterface:
+    InputInterface | OutputInterface;
+
+ServerInterface:
+    annotations+=Annotation*
+    'provides' signature=QualifiedName 'as' name=ID
+    ( collection='[' (size=IntegerLiteral)? ']' )? ;
+
+ClientInterface:
+    annotations+=Annotation*
+    'requires' (optional='optional')? signature=QualifiedName 'as' name=ID
+    ( collection='[' (size=IntegerLiteral)? ']' )? ;
+
+InputInterface:
+    annotations+=Annotation*
+    'input' (optional='optional')? type=FlowType 'as' name=ID
+    ( collection='[' (size=IntegerLiteral)? ']' )? ;
+
+OutputInterface:
+    annotations+=Annotation*
+    'output' (optional='optional')? type=FlowType 'as' name=ID
+    ( collection='[' (size=IntegerLiteral)? ']' )? ;
+
+FlowType:
+    type=AttributeType 
+    | (path=Path ':' (kind=FlowTypeKind)? name=ID);
+
+enum FlowTypeKind:
+    STRUCT = 'struct' 
+    | UNION = 'union' 
+    | ENUM = 'enum';
+
+// -----------------------------------------------------------------------------
+
+Attribute:
+    annotations+=Annotation*
+    'attribute' type=FlowType name=ID ( '=' value=AttributeValue )?;
+
+enum AttributeType:
+    int | string | int8_t | uint8_t | int16_t | uint16_t | int32_t | uint32_t
+    | intptr_t | uintptr_t;
+
+AttributeValue :
+    literal=Literal 
+    | ref=[ParameterDecl];
+
+// -----------------------------------------------------------------------------
+
+Data:
+    annotations+=Annotation*
+    'data' (path=Path | inlinedCode=InlinedCode);
+
+Source:
+    annotations+=Annotation*
+    'source' (path=Path | inlinedCode=InlinedCode);
+
+Implementation:
+	Data | Source;
+
+Path:
+    '/'? './'? '../'* ID ('/' ID)* '.' ID;
+        
+terminal InlinedCode:
+    '{{' -> '}}';
+
+// -----------------------------------------------------------------------------
+
+SubComponent:
+    annotations+=Annotation*
+    'contains' type=DefinitionReference 'as' name=ID
+    (anonymousDef=AnonymousDefinition)?
+    ;
+
+AnonymousDefinition:
+    PrimitiveAnonymousDefinition | CompositeAnonymousDefinition;
+
+AbstractDefinition:
+    AnonymousDefinition | Definition;
+
+PrimitiveAnonymousDefinition: {PrimitiveAnonymousDefinition} 
+    annotations+=Annotation*
+    'primitive'
+    '{' (content+=(Interface | Attribute | Data | Source) ';')* '}';
+
+
+CompositeAnonymousDefinition: {CompositeAnonymousDefinition} 
+    annotations+=Annotation*
+    'composite'
+    '{' (content+=(Interface | SubComponent | Binding) ';')* '}';
+
+// -----------------------------------------------------------------------------
+
+Binding:
+    annotations+=Annotation*
+    'binds' (fromSubComp=[SubComponent] | 'this') '.' fromItf=[Interface] ('[' fromIndex=IntegerLiteral ']')?
+    'to' (toSubComp=[SubComponent] | 'this') '.' toItf=[Interface] ('[' tondex=IntegerLiteral ']')?;
+
+// -----------------------------------------------------------------------------
+// Annotations
+// -----------------------------------------------------------------------------
+
+Annotation:
+    '@' name=QualifiedName 
+    ( '(' ( parameters+=SimpleAnnotationField
+          | (parameters+=AnnotationField (',' parameters+=AnnotationField)*) ) ?
+       ')' )?;
+
+AnnotationField:
+    name=ID '=' value=AnnotationValue;
+    
+SimpleAnnotationField returns AnnotationField:
+    value=AnnotationValue;
+
+AnnotationValue:
+    Literal | AnnotationAnnotationValue | ArrayValue ;
+
+AnnotationAnnotationValue:
+    value=Annotation;
+
+ArrayValue:
+    {ArrayValue}'{' ( values+=AnnotationValue (',' values+=AnnotationValue)* )? '}';
+
+AnnotationContainer :
+    Import 
+    | Definition 
+    | AnonymousDefinition
+    | Content 
+    ;
+
+// -----------------------------------------------------------------------------
+// Litterals
+// -----------------------------------------------------------------------------
+
+Literal:
+    IntegerLiteral | StringLiteral | NullLiteral | BooleanLiteral | PathLiteral;
+
+IntegerLiteral:
+    value=INT;
+
+StringLiteral:
+    value=STRING;
+    
+NullLiteral:
+    value='NULL' | value='null';
+    
+BooleanLiteral:
+	value='true' | value='false';
+	
+PathLiteral:
+	value=Path;
+
+
+Enum:
+    'enum';
+
+// -----------------------------------------------------------------------------
+// FQN
+// -----------------------------------------------------------------------------
+
+QualifiedName:
+    ID ('.' ID)*;
+
+QualifiedNameWithWildCard:
+    ID '.' (ID '.')* ('*' | ID);
+

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+   <extension-point id="AdlAnnotation" name="ADL Annotation Definition" schema="schema/AdlAnnotation.exsd"/>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.ow2.org/mind/Adl" 
+       class = "org.ow2.mind.adl.AdlPackage"
+       genModel = "org/ow2/mind/Adl.genmodel" /> 
+	
+  </extension>
+  <extension
+        point="org.ow2.mindEd.adl.AdlAnnotation">
+     <annotation
+           description="Specify compilation flags"
+           name="CFlags">
+        <field
+              description="The compilation flags to be passed to C compiler"
+              name="value"
+              optional="false"
+              type="STRING">
+        </field>
+        <target
+              type="DEFINITION">
+        </target>
+        <target
+              type="SOURCE">
+        </target>
+     </annotation>
+     <annotation
+           description="Specify link flags"
+           name="LDFlags">
+        <field
+              description="The compilation flags to be passed to linker"
+              name="value"
+              optional="false"
+              type="STRING">
+        </field>
+        <target
+              type="DEFINITION">
+        </target>
+        <target
+              type="SOURCE">
+        </target>
+     </annotation>
+     <annotation
+           description="Specify that the definition can be instantiated at most one time in a given application"
+           name="Singleton">
+        <target
+              type="DEFINITION">
+        </target>
+     </annotation>
+     <annotation
+           description="Add a life cycle controller to the component"
+           name="controller.LifeCycleController">
+        <target
+              type="DEFINITION">
+        </target>
+        <addInterface
+              cardinality="singleton"
+              name="lifeCycleController"
+              role="server"
+              signature="fractal.api.LifeCycleController">
+        </addInterface>
+     </annotation>
+  </extension>
+
+
+
+
+
+</plugin>

@@ -1,0 +1,27 @@
+process(xtext::GeneratedMetamodel this) :
+  process(ePackage)
+;
+
+process(ecore::EPackage this) :
+  let annotationClass = ((ecore::EClass) getEClassifier("Annotation")) :
+    annotationClass.eStructuralFeatures.add(createReference()) ->
+    annotationClass.eStructuralFeatures.add(createAttribute())
+;
+
+create ecore::EReference createReference(ecore::EPackage pkg) :
+  this.setName("addedContent") ->
+  this.setLowerBound(0) ->
+  this.setUpperBound(-1) ->
+  this.setEType((ecore::EClass) pkg.getEClassifier("Content")) ->
+  this.setTransient(true) ->
+  this.setContainment(true)
+  ;
+
+ecore::EDataType getEBoolean() :
+  JAVA org.ow2.mind.AdlPostProcessorHelper.getEBoolean();
+
+create ecore::EAttribute createAttribute() :
+  this.setName("annotationProcessed") ->
+  this.setEType(getEBoolean()) ->
+  this.setTransient(true)
+  ;

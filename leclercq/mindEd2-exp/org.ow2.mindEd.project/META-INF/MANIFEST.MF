@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MIND Project Configuration
+Bundle-SymbolicName: org.ow2.mindEd.project; singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Activator: org.ow2.minded.project.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.eclipse.cdt.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.ow2.minded.project,
+ org.ow2.minded.project.builder,
+ org.ow2.minded.project.properties,
+ org.ow2.minded.project.wizards
+Import-Package: org.apache.log4j
+Bundle-Vendor: STMicroelectronics

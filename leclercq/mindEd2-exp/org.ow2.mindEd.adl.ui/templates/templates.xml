@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<templates>
+    <template autoinsert="true" context="org.ow2.mind.Adl.Binding"
+        description="Add a binding" enabled="true" name="binds" id="binds">binds ${fromSubComp:CrossReference('Binding.fromSubComp')}.${fromItf:CrossReference('Binding.fromItf')} to ${toSubComp:CrossReference('Binding.toSubComp')}.${toItf:CrossReference('Binding.toItf')}</template>
+    <template autoinsert="true" context="org.ow2.mind.Adl.SubComponent"
+        description="insert a new sub-component" enabled="true"
+        name="contains" id="contains">contains ${type:CrossReference('SubComponent.type') } as ${name};</template>
+    <template autoinsert="true" context="org.ow2.mind.Adl.ServerInterface"
+        description="Add a provided interface" enabled="true"
+        name="provides" id="provides">provides ${type} as ${name};</template>
+    <template autoinsert="true" context="org.ow2.mind.Adl.ClientInterface"
+        description="Add a required interface" enabled="true"
+        name="requires" id="requires">requires ${type} as ${name};</template>
+</templates>
