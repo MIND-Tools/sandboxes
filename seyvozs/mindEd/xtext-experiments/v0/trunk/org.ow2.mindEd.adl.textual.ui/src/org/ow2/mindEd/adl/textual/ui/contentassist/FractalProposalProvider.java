@@ -25,14 +25,20 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 	 * Content assist for sub-component (anonymous definition or instance) name.
 	 * Default name is the same as the previously declared type, with first letter in lower case.
 	 * 
-	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#completeSubComponentDefinition_Name(
+	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#complete_ID(
 	 * 		org.ow2.mindEd.adl.textual.fractal.SubComponentDefinition,
 	 *      org.eclipse.xtext.Assignment,
 	 *      org.eclipse.xtext.ui.core.editor.contentassist.ContentAssistContext,
 	 *      org.eclipse.xtext.ui.core.editor.contentassist.ICompletionProposalAcceptor)
 	 * 
+	 * The same suggestion can be implemented with 
+	 * public void completeSubComponentDefinition_Name(SubComponentDefinition subCompDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	 * but we wanted to try the auto-insertable feature (when there's only 1 choice).
+	 * The tentative doesn't seem to work, however.
 	 */
-	public void completeSubComponentDefinition_Name(SubComponentDefinition subCompDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+	public void complete_ID(SubComponentDefinition subCompDef, RuleCall ruleCall, final ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+
 		// Proposal to add for content assist
 		String proposal = null;
 		ICompletionProposal completionProposal = null;
@@ -47,55 +53,33 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Instance name suggestion", null, context);
 
-//		// It is everytime, but you never know... let's protect things
-//		if (completionProposal instanceof ConfigurableCompletionProposal)
-//			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
+		// It is everytime, but you never know... let's protect things
+		if (completionProposal instanceof ConfigurableCompletionProposal)
+			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
 
 		acceptor.accept(completionProposal);
-	}
 
-	public void complete_ID(SubComponentDefinition subCompDef, RuleCall ruleCall, final ContentAssistContext context,
-			ICompletionProposalAcceptor acceptor) {
-		// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
-		return;
 	}
-	
-	public void complete_ID(RequiredInterfaceDefinition reqItfDef, RuleCall ruleCall, final ContentAssistContext context,
-			ICompletionProposalAcceptor acceptor) {
-		// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
-		return;
-	}
-	
-	public void complete_ID(ProvidedInterfaceDefinition prvdItfDef, RuleCall ruleCall, final ContentAssistContext context,
-			ICompletionProposalAcceptor acceptor) {
-		// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
-		return;
-	}
-	
-//	@Override
-//	public void complete_ID(EObject model, RuleCall ruleCall, final ContentAssistContext context,
-//			ICompletionProposalAcceptor acceptor) {
-//
-//		if (model instanceof SubComponentDefinition
-//				| model instanceof RequiredInterfaceDefinition
-//				| model instanceof ProvidedInterfaceDefinition)
-//			// Does nothing to disable default content assist for ID Role that would display "ID - Name" AND our suggestion
-//			return;
-//		else super.complete_ID(model, ruleCall, context, acceptor);
-//	}
 
 	/**
-	 * Content assist for required interfaces name.
+	 * Content assist for required interface instance name.
 	 * Default name is the same as the previously declared type, with first letter in lower case.
 	 * 
-	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#completeSubComponentDefinition_Name(
+	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#complete_ID(
 	 * 		org.ow2.mindEd.adl.textual.fractal.RequiredInterfaceDefinition,
 	 *      org.eclipse.xtext.Assignment,
 	 *      org.eclipse.xtext.ui.core.editor.contentassist.ContentAssistContext,
 	 *      org.eclipse.xtext.ui.core.editor.contentassist.ICompletionProposalAcceptor)
 	 * 
+	 * The same suggestion can be implemented with 
+	 * public void completeRequiredInterfaceDefinition_Name(RequiredInterfaceDefinition reqItfDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	 * but we wanted to try the auto-insertable feature (when there's only 1 choice).
+	 * The tentative doesn't seem to work, however.
+	 * 
 	 */
-	public void completeRequiredInterfaceDefinition_Name(RequiredInterfaceDefinition reqItfDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+	public void complete_ID(RequiredInterfaceDefinition reqItfDef, RuleCall ruleCall, final ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+
 		// Proposal to add for content assist
 		String proposal = null;
 		ICompletionProposal completionProposal = null;
@@ -110,25 +94,32 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Interface name suggestion", null, context);
 
-//		// It is everytime, but you never know... let's protect things
-//		if (completionProposal instanceof ConfigurableCompletionProposal)
-//			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
+		// It is everytime, but you never know... let's protect things
+		if (completionProposal instanceof ConfigurableCompletionProposal)
+			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
 
 		acceptor.accept(completionProposal);
+
 	}
 
 	/**
-	 * Content assist for sub-component (anonymous definition or instance) name.
+	 * Content assist for provided interface instance name.
 	 * Default name is the same as the previously declared type, with first letter in lower case.
 	 * 
-	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#completeSubComponentDefinition_Name(
+	 * @see org.ow2.fractal.mind.xtext.contentassist.AbstractFractalProposalProvider#complete_ID(
 	 * 		org.ow2.mindEd.adl.textual.fractal.ProvidedInterfaceDefinition,
 	 *      org.eclipse.xtext.Assignment,
 	 *      org.eclipse.xtext.ui.core.editor.contentassist.ContentAssistContext,
 	 *      org.eclipse.xtext.ui.core.editor.contentassist.ICompletionProposalAcceptor)
-	 * 
+	 *      
+	 * The same suggestion can be implemented with 
+	 * public void completeProvidedInterfaceDefinition_Name(ProvidedInterfaceDefinition prvdItfDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor)
+	 * but we wanted to try the auto-insertable feature (when there's only 1 choice).
+	 * The tentative doesn't seem to work, however.
 	 */
-	public void completeProvidedInterfaceDefinition_Name(ProvidedInterfaceDefinition prvdItfDef, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+	public void complete_ID(ProvidedInterfaceDefinition prvdItfDef, RuleCall ruleCall, final ContentAssistContext context,
+			ICompletionProposalAcceptor acceptor) {
+
 		// Proposal to add for content assist
 		String proposal = null;
 		ICompletionProposal completionProposal = null;
@@ -143,10 +134,12 @@ public class FractalProposalProvider extends AbstractFractalProposalProvider {
 
 		completionProposal = createCompletionProposal(proposal, proposal + " - Interface name suggestion", null, context);
 
-//		// It is everytime, but you never know... let's protect things
-//		if (completionProposal instanceof ConfigurableCompletionProposal)
-//			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
+		// It is everytime, but you never know... let's protect things
+		if (completionProposal instanceof ConfigurableCompletionProposal)
+			((ConfigurableCompletionProposal) completionProposal).setAutoInsertable(true);
 
 		acceptor.accept(completionProposal);
+
 	}
+
 }
