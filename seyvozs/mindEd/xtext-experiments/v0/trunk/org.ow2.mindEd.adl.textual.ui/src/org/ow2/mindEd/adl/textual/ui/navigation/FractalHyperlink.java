@@ -32,7 +32,7 @@ import com.google.inject.Inject;
 public class FractalHyperlink extends HyperlinkHelper {
 
 	// Reference on the project model
-	private MindModelManager mindModel = MindModelManager.getMindModelManager();
+	//private MindModelManager mindModel = MindModelManager.getMindModelManager();
 
 	@Inject
 	private EObjectAtOffsetHelper eObjectAtOffsetHelper;
