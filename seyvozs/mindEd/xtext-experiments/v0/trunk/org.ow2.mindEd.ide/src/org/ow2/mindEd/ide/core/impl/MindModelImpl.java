@@ -900,28 +900,39 @@ public class MindModelImpl implements MindModel {
 		List<MindPackage> list = _packages.get(mindPackage.getName());
 		if (list != null)
 			list.remove(mindPackage);
-		if (isDefaultPackage(rs, mindPackage)) {
-			for (MindFile f : mindPackage.getFiles()) {
-				deleteAdlObject(f);
-			}
-		} 
+		
+		/* 
+		 * The commented parts are because the "Delete" really deleted all files
+		 * inside the package, whereas people just want a "Remove source entry" action
+		 * instead, not see their whole souce folder disappear.
+		 */
+//		if (isDefaultPackage(rs, mindPackage)) {
+//			for (MindFile f : mindPackage.getFiles()) {
+//				deleteAdlObject(f);
+//			}
+//		} 
 		
 		mindPackage.getFiles().clear();
 		mindPackage.getResolvedMindPathEntries().clear();
 
+		/* 
+		 * The commented parts are because the "Delete" really deleted all files
+		 * inside the package, whereas people just want a "Remove source entry" action
+		 * instead, not see their whole souce folder disappear.
+		 */
 		IFolder mapping_package = MindIdeCore.getResource(mindPackage);
-		if (mapping_package.exists()) {
-			if (isDefaultPackage(rs, mindPackage)) {
-				// nothing
-			} else {
-				try {
-					mapping_package.delete(true, null);
-				} catch (CoreException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+//		if (mapping_package.exists()) {
+//			if (isDefaultPackage(rs, mindPackage)) {
+//				// nothing
+//			} else {
+//				try {
+//					mapping_package.delete(true, null);
+//				} catch (CoreException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 			
 			
 		// allready removed
@@ -1392,7 +1403,7 @@ public class MindModelImpl implements MindModel {
 			ret.setMindId(mindRepo.getMindId() + "/" + libname);
 			ret.setFullpath(resource.getFullPath().toPortableString());
 			mindRepo.getMindLibOrProjects().add(ret);
-			//mindRepo.getRootsrcs().add(ret); pose un problème dans la vue.
+			//mindRepo.getRootsrcs().add(ret); pose un problËme dans la vue.
 		}
 		
 		if (sync)

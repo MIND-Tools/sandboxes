@@ -22,7 +22,7 @@ public class MPEActionGroup extends ActionGroup {
 	private IAction _newApplicationAction;
 	private IAction _newSourceEntryAction;
 	private IAction _newLibraryEntryAction;
-	private MPEDeleteAction _delete;
+	private MPERemoveAction _remove;
 	
 	public MPEActionGroup(Shell shell, MindProject p, MpeMindPathModel model) {
 		_shell = shell;
@@ -47,8 +47,8 @@ public class MPEActionGroup extends ActionGroup {
 		MindPathEntry mpe = getSelection((IStructuredSelection) getContext().getSelection());
 		if (mpe != null) {
 			menu.add(new Separator());
-			_delete = new MPEDeleteAction(_model, mpe);
-			menu.add(_delete);
+			_remove = new MPERemoveAction(_model, mpe);
+			menu.add(_remove);
 		}
 		super.fillContextMenu(menu);
 	}

@@ -40,7 +40,7 @@ public class MindEditActionProvider extends CommonActionProvider {
 	/**
 	 * This is the action used to implement delete.
 	 */
-	protected DeleteAction deleteAction;
+	protected DeleteAction removeAction;
 
 	/**
 	 * This is the action used to implement cut.
@@ -96,7 +96,7 @@ public class MindEditActionProvider extends CommonActionProvider {
 		ISharedImages sharedImages = PlatformUI.getWorkbench()
 				.getSharedImages();
 		EditingDomain domain = new MindEditingDomain((MindUICore.mindViewAdapterFactory()));
-		deleteAction = new DeleteAction(domain, removeAllReferencesOnDelete()) {
+		removeAction = new DeleteAction(domain, removeAllReferencesOnDelete()) {
 			public void run() {
 				if (MessageDialog.openConfirm( null, "Do you want delete ?",  "Do you want delete ?"))
 					super.run();
@@ -119,8 +119,12 @@ public class MindEditActionProvider extends CommonActionProvider {
 			};
 			
 		};
-		deleteAction.setImageDescriptor(sharedImages
-				.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
+		
+		/* The delete action is now a "remove" action, the previous "delete" behavior was too extreme.
+		 * We just want to delete EMF references but not the files.
+		 */
+		removeAction.setImageDescriptor(sharedImages
+				.getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE));
 
 		cutAction = new CutAction(domain);
 		cutAction.setImageDescriptor(sharedImages
@@ -178,7 +182,7 @@ public class MindEditActionProvider extends CommonActionProvider {
 	public void fillActionBars(IActionBars actionBars) {
 		{
 			actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(),
-					deleteAction);
+					removeAction);
 			actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(),
 					cutAction);
 			actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(),
@@ -196,7 +200,7 @@ public class MindEditActionProvider extends CommonActionProvider {
 		IActionBars actionBars = part.getViewSite().getActionBars();
 		if (!(part instanceof PropertySheet)) {
 			actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(),
-					deleteAction);
+					removeAction);
 			actionBars.setGlobalActionHandler(ActionFactory.CUT.getId(),
 					cutAction);
 			actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(),
@@ -219,7 +223,7 @@ public class MindEditActionProvider extends CommonActionProvider {
 			ISelection selection = context.getSelection();
 			IStructuredSelection structuredSelection = selection instanceof IStructuredSelection ? (IStructuredSelection) selection
 					: StructuredSelection.EMPTY;
-			deleteAction.setEnabled(deleteAction.updateSelection(structuredSelection));
+			removeAction.setEnabled(removeAction.updateSelection(structuredSelection));
 			cutAction.setEnabled(cutAction.updateSelection(structuredSelection));
 			copyAction.setEnabled(copyAction.updateSelection(structuredSelection));
 			pasteAction.setEnabled(pasteAction.updateSelection(structuredSelection));
@@ -242,8 +246,8 @@ public class MindEditActionProvider extends CommonActionProvider {
 
 		boolean anyResourceSelected = !selection.isEmpty();
 		if (anyResourceSelected) {
-			deleteAction.selectionChanged(selection);
-			menuManager.appendToGroup(ICommonMenuConstants.GROUP_EDIT, new ActionContributionItem(deleteAction));
+			removeAction.selectionChanged(selection);
+			menuManager.appendToGroup(ICommonMenuConstants.GROUP_EDIT, new ActionContributionItem(removeAction));
 		}
 	}
 }
