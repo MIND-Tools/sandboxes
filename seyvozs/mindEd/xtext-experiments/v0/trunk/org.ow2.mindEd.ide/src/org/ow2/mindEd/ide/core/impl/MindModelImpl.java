@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.cdt.core.model.CoreModel;
 import org.eclipse.cdt.core.settings.model.ICConfigurationDescription;
@@ -83,7 +84,7 @@ public class MindModelImpl implements MindModel {
 			}
 			return Status.OK_STATUS;
 		}
-		
+
 		@Override
 		public boolean belongsTo(Object family) {
 			return FamilyJobCST.FAMILY_ALL == family || FamilyJobCST.FAMILY_REMOVE_PROJECT == family;
@@ -160,7 +161,7 @@ public class MindModelImpl implements MindModel {
 		mindp.getRootsrcs().add(srcRoot);
 		return srcRoot;
 	}
-	
+
 	Map<String, List<MindPackage>> _packages;
 
 	private Map<String, MindProject> _projects;
@@ -351,7 +352,7 @@ public class MindModelImpl implements MindModel {
 		}
 		return retpackages;
 	}
-	
+
 	public MindPackage getPackage(MindProject mp, String packageName) {
 		for (MindRootSrc mRootSrc : mp.getRootsrcs()) {
 			for (MindPackage p : mRootSrc.getPackages()) {
@@ -361,8 +362,8 @@ public class MindModelImpl implements MindModel {
 		}
 		return null;
 	}
-	
-	
+
+
 	public Map<String, List<MindPackage>> getAllPackages() {
 		if (_packages == null) {
 			_packages = new HashMap<String, List<MindPackage>>();
@@ -399,7 +400,7 @@ public class MindModelImpl implements MindModel {
 		}
 		return null;
 	}
-	
+
 	public MindLibrary getMindLib(IProject p) {
 		if (_libs == null) {
 			_libs = new HashMap<String, MindLibrary>();
@@ -426,7 +427,7 @@ public class MindModelImpl implements MindModel {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public MindAllRepo getMindRepository() {
 		return _repos;
@@ -467,12 +468,12 @@ public class MindModelImpl implements MindModel {
 	public MindRepo getWSRepo() {
 		return _wsMindRoot;
 	}
-	
+
 	@Override
 	public MindRepo getLocalRepo() {
 		return _repoMindRoot;
 	}
-	
+
 	public IFolder getLocalRepoFolder() {
 		return _localRepoContainer;
 	};
@@ -484,19 +485,19 @@ public class MindModelImpl implements MindModel {
 		_repos.eAdapters().add(l);
 
 		_wsMindRoot = UtilMindIde.findOrCreateRepo(this, MindModelImpl.WS);
-		
-		
+
+
 		File repoFile = new File( System.getProperty("user.home")+File.separator+".mind"+File.separator+"repository");
 		if (!repoFile.exists())
 			repoFile.mkdirs();
-		
+
 		try {
 			IWorkspace ws = ResourcesPlugin.getWorkspace();
 			IProject project = ws.getRoot().getProject(".localmindrepo");
 			if (!project.exists())
-			    project.create(null);
+				project.create(null);
 			if (!project.isOpen())
-			    project.open(null);
+				project.open(null);
 			project.setHidden(false);
 			IPath location = new Path(repoFile.getAbsolutePath());
 			_localRepoContainer = project.getFolder(location.lastSegment());
@@ -506,7 +507,7 @@ public class MindModelImpl implements MindModel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		_wsListener = new MindIdeWorkspaceChangeListener(this,
 				null);
 		_repoMindRoot = UtilMindIde.findOrCreateRepo(this, MindModelImpl.REPO);
@@ -557,7 +558,7 @@ public class MindModelImpl implements MindModel {
 		if (!p.isOpen() || !p.hasNature(MindNature.NATURE_ID)) {
 			return null;
 		}
-		
+
 		IFile f = p.getFile(MindProjectImpl.MINDLIB_FILENAME);
 		if (f.exists()) {
 			ret = new MindLibraryImpl(p,this);
@@ -569,9 +570,9 @@ public class MindModelImpl implements MindModel {
 		ret.setName(p.getName());
 		ret.setMindId(_wsMindRoot.getMindId() + "/" + p.getName());
 		_wsMindRoot.getMindLibOrProjects().add(ret);
-		
+
 		MindProjectImpl.readFileEntriesWithException2(p, ret);
-		
+
 		syncMindPath(p, ret, _wsMindRoot, sync);
 		return ret;
 	}
@@ -608,7 +609,7 @@ public class MindModelImpl implements MindModel {
 			j.schedule();
 		}
 	}
-	
+
 	protected void notifyChangedMindPathEntry_ResolvedBy(
 			Notification notification) {
 		MindPathEntry mpe = (MindPathEntry) notification.getNotifier();
@@ -637,7 +638,7 @@ public class MindModelImpl implements MindModel {
 					}
 					if (mpe.getOwnerProject() != null) {
 						((MindProjectImpl) mpe.getOwnerProject())
-								.unresolveMPE(mpe);
+						.unresolveMPE(mpe);
 					}
 				} else {
 					if (TRACING)
@@ -652,17 +653,17 @@ public class MindModelImpl implements MindModel {
 				if (mpe.getEntryKind() == MindPathKind.SOURCE) {
 					IFolder folder = MindIdeCore
 							.getResource((MindRootSrc) newRs);
-//					TODO : why call this method. What is the context. In load context, do not call this method.
+					//					TODO : why call this method. What is the context. In load context, do not call this method.
 					//try {
-//						CDTUtil.createCSourceFolder(folder);
-//					} catch (CoreException e) {
-//						MindIdeCore.log(e, "create c source folder "
-//								+ folder);
-//					}
+					//						CDTUtil.createCSourceFolder(folder);
+					//					} catch (CoreException e) {
+					//						MindIdeCore.log(e, "create c source folder "
+					//								+ folder);
+					//					}
 				}
 				if (mpe.getOwnerProject() != null) {
 					((MindProjectImpl) mpe.getOwnerProject())
-							.resolveMPE(mpe);
+					.resolveMPE(mpe);
 				}
 			}
 			break;
@@ -729,7 +730,7 @@ public class MindModelImpl implements MindModel {
 	protected void notifyChangedMindProject_Mindpathentries(
 			Notification notification) {
 		MindProjectImpl mindProject = (MindProjectImpl) notification.getNotifier();
-	
+
 		switch (notification.getEventType()) {
 		case Notification.ADD:
 			resolve(mindProject, (MindPathEntry) notification.getNewValue());
@@ -891,7 +892,7 @@ public class MindModelImpl implements MindModel {
 	public void remove(MindFile mp) {
 		mp.getPackage().getFiles().remove(mp);
 	}
-	
+
 	public void remove(MindPackage p) {
 		remove(p.getRootsrc(), p, true);
 	}
@@ -900,18 +901,18 @@ public class MindModelImpl implements MindModel {
 		List<MindPackage> list = _packages.get(mindPackage.getName());
 		if (list != null)
 			list.remove(mindPackage);
-		
+
 		/* 
 		 * The commented parts are because the "Delete" really deleted all files
 		 * inside the package, whereas people just want a "Remove source entry" action
 		 * instead, not see their whole souce folder disappear.
 		 */
-//		if (isDefaultPackage(rs, mindPackage)) {
-//			for (MindFile f : mindPackage.getFiles()) {
-//				deleteAdlObject(f);
-//			}
-//		} 
-		
+		//		if (isDefaultPackage(rs, mindPackage)) {
+		//			for (MindFile f : mindPackage.getFiles()) {
+		//				deleteAdlObject(f);
+		//			}
+		//		} 
+
 		mindPackage.getFiles().clear();
 		mindPackage.getResolvedMindPathEntries().clear();
 
@@ -921,24 +922,24 @@ public class MindModelImpl implements MindModel {
 		 * instead, not see their whole souce folder disappear.
 		 */
 		IFolder mapping_package = MindIdeCore.getResource(mindPackage);
-//		if (mapping_package.exists()) {
-//			if (isDefaultPackage(rs, mindPackage)) {
-//				// nothing
-//			} else {
-//				try {
-//					mapping_package.delete(true, null);
-//				} catch (CoreException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-			
-			
+		//		if (mapping_package.exists()) {
+		//			if (isDefaultPackage(rs, mindPackage)) {
+		//				// nothing
+		//			} else {
+		//				try {
+		//					mapping_package.delete(true, null);
+		//				} catch (CoreException e) {
+		//					// TODO Auto-generated catch block
+		//					e.printStackTrace();
+		//				}
+		//			}
+		//		}
+
+
 		// allready removed
 		if (mindPackage.getRootsrc() == null)
 			return;
-		
+
 		if (removeSubPackage) {
 			IFolder f = MindIdeCore.getResource(mindPackage);
 			String fullpath = f.getFullPath().toPortableString();
@@ -991,7 +992,7 @@ public class MindModelImpl implements MindModel {
 			remove((MindLibrary)mo);
 			break;
 
-		
+
 		default:
 			break;
 		}
@@ -1064,13 +1065,13 @@ public class MindModelImpl implements MindModel {
 			MindLibOrProject prj = mpe.getOwnerProject();
 			IFolder f = ResourcesPlugin.getWorkspace().getRoot().getFolder(
 					new Path(mpe.getName()));
-			
+
 			try {
 				CDTUtil.createCSourceFolder(f);
 			} catch (CoreException e) {
 				MindIdeCore.log(e, "Cannot create c source folder "+f);
 			}
-			
+
 			MindRootSrc p = findOrCreateRootSrc(prj, f, true);
 			if (p != null)
 				mpe.setResolvedBy(p);
@@ -1123,10 +1124,10 @@ public class MindModelImpl implements MindModel {
 	 * @param p the added project.
 	 */
 	public void resolve(MindLibOrProject p) {
-		
+
 		if (p instanceof MindProject)
 			resolve(MindPathKind.PROJECT, ((MindProject) p).getProject().getFullPath()
-				.toPortableString(), p);
+					.toPortableString(), p);
 		else
 			resolve(MindPathKind.LIBRARY, p.getName(), p);
 	}
@@ -1139,9 +1140,9 @@ public class MindModelImpl implements MindModel {
 		if (TRACING)
 			System.out.println("RESOLVE ROOTSRC " + mindRootsrc.getFullpath());
 		resolve(MindPathKind.SOURCE, mindRootsrc.getName(), mindRootsrc);
-		
+
 		IFolder f = MindIdeCore.getResource(mindRootsrc);
-		
+
 		try {
 			CDTUtil.createCSourceFolder(f);
 		} catch (CoreException e) {
@@ -1150,8 +1151,7 @@ public class MindModelImpl implements MindModel {
 	}
 
 	/**
-	 * synchronize all c source folder, add in mind path if need. If the giving project is not a mind project, do nothing.
-	 * 
+	 * Synchronize all C source folders, add in mind path if need. If the given project is not a mind project, do nothing.
 	 * 
 	 * @param project the project
 	 */
@@ -1160,31 +1160,71 @@ public class MindModelImpl implements MindModel {
 		if (mp == null)
 			return;
 
-		ICProjectDescriptionManager mgr = CoreModel.getDefault()
-				.getProjectDescriptionManager();
+		// CDT project management
+		ICProjectDescriptionManager mgr = CoreModel.getDefault().getProjectDescriptionManager();
 		ICProjectDescription des = mgr.getProjectDescription(project, true);
 		if (des == null) {
 			return;
 		}
-		ICConfigurationDescription config = des
-				.getConfigurationByName("Default");
-		ArrayList<ICSourceEntry> srcs = new ArrayList<ICSourceEntry>(Arrays
-				.asList(config.getSourceEntries()));
-		Map<IPath, MindPathEntry> pathToMpe = new HashMap<IPath, MindPathEntry>();
-		for (MindPathEntry mpe : mp.getMindpathentries()) {
+		ICConfigurationDescription config = des.getConfigurationByName("Default");
+
+		// Get user-defined CDT C Source Entries (the fired event concerns a modification of these)
+		ArrayList<ICSourceEntry> newICSourceEntries = new ArrayList<ICSourceEntry>(Arrays.asList(config.getSourceEntries()));
+
+		// Get existing Mind Source Entries and populate the oldMindSourceEntries map
+		Map<IPath, MindPathEntry> oldMindSourceEntries = new HashMap<IPath, MindPathEntry>();
+		EList<MindPathEntry> mindPathEntries = mp.getMindpathentries();
+		for (MindPathEntry mpe : mindPathEntries) {
 			if (mpe.getEntryKind() != MindPathKind.SOURCE) {
 				continue;
 			}
-			pathToMpe.put(new Path(mpe.getName()), mpe);
+			oldMindSourceEntries.put(new Path(mpe.getName()), mpe);
+			// now let's remember our 
 		}
-		for (ICSourceEntry icSourceEntry : srcs) {
-			if (pathToMpe.containsKey(icSourceEntry.getFullPath()))
+
+		// We need to compare sets to know what has been added or removed (diff)
+		Set<IPath> oldMindSourceEntriesKeySet = oldMindSourceEntries.keySet();
+		Set<IPath> newICSourceEntriesFullPathKeySet = new HashSet<IPath>();
+		
+		// We need the full path entries, not the objects themselves
+		for (ICSourceEntry newICSourceEntry : newICSourceEntries) {
+			newICSourceEntriesFullPathKeySet.add(newICSourceEntry.getFullPath());
+		}
+		
+		// First remove all the old entries still existing in newICSourceEntriesFullPathKeySet
+		// Note : Removing from a key from the keySet automatically removes the according
+		// value from our hosting oldMindSourceEntries map :
+		// http://docs.oracle.com/javase/6/docs/api/java/util/Map.html#keySet()
+		oldMindSourceEntriesKeySet.removeAll(newICSourceEntriesFullPathKeySet);
+		// The remaining entries are the ones to remove from the real MindPath
+		for (MindPathEntry removableMPE : oldMindSourceEntries.values()) {
+			mindPathEntries.remove(removableMPE);
+		}
+		
+		// And we're finished with this Set, so let the environment free memory
+		newICSourceEntriesFullPathKeySet = null;
+		
+		// Now we've got to check what exists in newICSourceEntriesFullPathKeySet
+		// that doesn't exist in oldMindSourceEntriesKeySet, and add the corresponding
+		// elements to the Mind Path
+		
+		// Here we keep the original algorithm
+		for (ICSourceEntry newICSourceEntry : newICSourceEntries) {
+			if (oldMindSourceEntries.containsKey(newICSourceEntry.getFullPath()))
+				// the entry is already known
 				continue;
-			IPath p = icSourceEntry.getFullPath();
-			if (p.segmentCount() <2) continue;
+
+			// else we need to do checks... not sure about this one
+			IPath p = newICSourceEntry.getFullPath();
+			if (p.segmentCount() < 2)
+				continue;
+
+			// does the folder really exist ?
 			IFolder f = ResourcesPlugin.getWorkspace().getRoot().getFolder(p);
 			if (!f.exists())
 				continue;
+
+			// Add the new entry to the list
 			mp.getMindpathentries().add(MindIdeCore.newMPESource(f));
 		}
 	}
@@ -1253,13 +1293,13 @@ public class MindModelImpl implements MindModel {
 			} catch (CoreException e) {
 				MindIdeCore.log(e, "remove c source folder " + src);
 			}
-//			if (src.exists()) {
-//				try {
-//					src.delete(true, null);
-//				} catch (CoreException e) {
-//					MindIdeCore.log(e, "Cannot delete folder "+src);
-//				}
-//			}
+			//			if (src.exists()) {
+			//				try {
+			//					src.delete(true, null);
+			//				} catch (CoreException e) {
+			//					MindIdeCore.log(e, "Cannot delete folder "+src);
+			//				}
+			//			}
 			MindRootSrc rs = UtilMindIde.findRootSrc(mindProject.getRepoFromLibOrProject(), src.getFullPath());
 			if (rs != null)
 				remove(rs);
@@ -1287,7 +1327,7 @@ public class MindModelImpl implements MindModel {
 				if (colonIndex == -1) {
 					ret.add(new Status(Status.ERROR, MindActivator.ID,
 							"incomplete entry application is missing [" + index
-									+ "] " + name));
+							+ "] " + name));
 					continue;
 				}
 				String cn = name.substring(0, colonIndex);
@@ -1303,7 +1343,7 @@ public class MindModelImpl implements MindModel {
 				if (appliname.length() == 0) {
 					ret.add(new Status(Status.ERROR, MindActivator.ID,
 							"incomplete entry application is missing [" + index
-									+ "] " + name));
+							+ "] " + name));
 					continue;
 				}
 
@@ -1373,7 +1413,7 @@ public class MindModelImpl implements MindModel {
 											+ index
 											+ "] "
 											+ c.getFullPath()
-													.toPortableString()));
+											.toPortableString()));
 							continue ONE;
 						}
 					}
@@ -1398,19 +1438,19 @@ public class MindModelImpl implements MindModel {
 		if (ret == null) {
 			ret = new MindLibraryImpl(resource,this);
 			_libs.put("repo/"+libname, (MindLibrary) ret);
-		
+
 			ret.setName(libname);
 			ret.setMindId(mindRepo.getMindId() + "/" + libname);
 			ret.setFullpath(resource.getFullPath().toPortableString());
 			mindRepo.getMindLibOrProjects().add(ret);
 			//mindRepo.getRootsrcs().add(ret); pose un problème dans la vue.
 		}
-		
+
 		if (sync)
 			syncMindPath(resource, ret, mindRepo, true);
 		return ret;
 	}
-	
+
 	@Override
 	public MindLibrary createMindLibFromProject(MindProject mp, String libName, IProgressMonitor monitor)  {
 		List<CoreException> errors;
@@ -1432,12 +1472,12 @@ public class MindModelImpl implements MindModel {
 				}
 			}
 			final int libSegmentCount = r.getFullPath().segmentCount();
-			
+
 			final HashSet<IResource> mustDelete = new HashSet<IResource>();
 			// remove deleted file
 			try {
 				r.accept(new IResourceVisitor() {
-					
+
 					@Override
 					public boolean visit(IResource resource) throws CoreException {
 						IPath p = resource.getFullPath();
@@ -1481,7 +1521,7 @@ public class MindModelImpl implements MindModel {
 		} catch (CoreException e) {
 			errors.add(e);
 		}
-			
+
 		if (errors.size() > 0) {
 			IStatus[] errrosStatus = new IStatus[errors.size()];
 			for (int i = 0; i < errrosStatus.length; i++) {
@@ -1490,7 +1530,7 @@ public class MindModelImpl implements MindModel {
 			IStatus s = new MultiStatus(MindActivator.ID, 0, errrosStatus, "Errors in sync "+libName, null);
 			MindActivator.log(s);
 		}
-				
+
 		syncMindPath(r, lib, _repoMindRoot, true);
 		return lib;
 	}
@@ -1526,7 +1566,7 @@ public class MindModelImpl implements MindModel {
 			errors.add(e);
 		}
 	}
-	
+
 	/** (non-Javadoc)
 	 * @see IResource#setReadOnly(boolean)
 	 */
