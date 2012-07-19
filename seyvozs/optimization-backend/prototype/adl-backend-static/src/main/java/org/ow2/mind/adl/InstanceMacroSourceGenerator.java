@@ -71,8 +71,7 @@ implements InstanceSourceGenerator {
 			final StringTemplate st;
 
 			st = getInstanceOf("ComponentInstances");
-
-			st.setAttribute("topLevelDefinition", instanceDesc.topLevelDefinition);
+			
 			st.setAttribute("definition", instanceDesc.instanceDefinition);
 
 			// SSZ : WARNING :	/!\ HERE WE CONSIDER AS A PRE-CONDITION THAT WE WILL HAVE

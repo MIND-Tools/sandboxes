@@ -27,6 +27,18 @@ ComponentDefinitionHeader(definition, instance) ::= <<
 /* End including the sub-component descriptions */
 <endif>
 
+<if (definition.astNodeTypes.("attribute"))>
+/* Start including the attribute IDT */
+<definition.attributes:{<if (it.idt)>#include "<it.idt; format="toCPath">"<endif>}; separator="\n">
+/* End including the attribute IDT */
+<endif>
+
+<if (definition.astNodeTypes.("dataField"))>
+/* Start including the data field IDT */
+<definition.dataFields:{<if (it.idt)>#include "<it.idt; format="toCPath">"<endif>}; separator="\n">
+/* End including the data field IDT */
+<endif>
+
 <ControllerGlobalDecls(definition=definition)>
 
 /* Start definition of internal component data type */
@@ -36,8 +48,10 @@ struct __component_<definition.name;format="toCName">_internal_data_t {
 <if (!(instance.decorations.("allow-subcomps-data-removal")))>
 <SubComponentStructures(definition=definition)>
 <endif>
-<AttributeStructures(definition=definition)>
 <ControllerStructures(definition=definition)>
+<AttributeStructures(definition=definition)>
+<DataFieldStructures(definition=definition)>
+
 };
 <else>
 /* Internal data was optimized, so it was removed */
@@ -244,6 +258,25 @@ attrTypeNameMap ::= [
 ]
 
 
+DataFieldStructures(definition) ::= <<
+<if (definition.astNodeTypes.("dataField"))>
+<if (definition.dataFields)>
+  struct {
+    <definition.dataFields:DataFieldDecl(dataField=it); separator="\n">
+  } dataFields;
+<endif>
+<endif>
+>>
+
+DataFieldDecl(dataField) ::= <<
+<if (attrTypeNameMap.(dataField.type))>
+<attrTypeNameMap.(dataField.type)> <dataField.name>;
+<else>
+<dataField.type> <dataField.name>;
+<endif>
+>>
+
+
 ControllerStructures(definition) ::= <<
 <if (definition.astNodeTypes.("controller"))>
 <definition.controllers:ControllerDataDecl(definition=definition, ctrl=it)>
@@ -382,10 +415,10 @@ FactoryDef(definition, instance) ::= <<
 #define <definition.name;format="toUpperCName">_DECLARE_INSTANCE(instance_name) \
 extern <ComponentTypeName(definitionName=definition.name)> instance_name;
 
-#define <definition.name;format="toUpperCName">_INIT_INSTANCE(instance_name<AddItfNames(definition=definition)><AddSubComponentNames(definition=definition)><AddAttributeNames(definition=definition)>) \
+#define <definition.name;format="toUpperCName">_INIT_INSTANCE(instance_name<AddItfNames(definition=definition)><AddSubComponentNames(definition=definition)><AddAttributeNames(definition=definition)><AddControllersDataNames(definition=definition)>) \
 <InitializeGlobalControllerStructures(definition=definition)><ComponentTypeName(definitionName=definition.name)> instance_name = { \
   { /* __component_internal_data: */ \
-<InitializeInterfaces(definition=definition, instance=instance)><InitializeComponents(definition=definition)><InitializeAttributes(definition=definition)><InitializeControllerStructures(definition=definition)>  } \
+<InitializeInterfaces(definition=definition, instance=instance)><InitializeComponents(definition=definition)><InitializeControllerStructures(definition=definition)><InitializeAttributes(definition=definition)>  } \
 };
 
 
@@ -416,7 +449,7 @@ AddSubComponentNames(definition) ::= <<
 >>
 
 AddAttributeNames(definition) ::= <<
-<if (definition.astNodeTypes.("attribute"))><definition.attributes:{, <it.name>}><endif>
+<if (definition.astNodeTypes.("attribute"))><definition.attributes:{<if (it.value)>, <it.name><endif>}><endif>
 >>
 
 
@@ -627,7 +660,7 @@ LastSubCompName(component) ::= <<
 
 InitializeAttributes(definition) ::= <<
 <if (definition.astNodeTypes.("attribute"))><if (definition.attributes)>    {  /* attributes: */ \
-    <definition.attributes:{/* <it.name> : */ (<it.name>)};separator=", \\\n      "> \
+    <definition.attributes:{<if (it.value)>/* <it.name> : */ <it.name>, <endif>}> \
     }, \
 <endif><endif>
 >>
@@ -640,6 +673,16 @@ InitializeGlobalControllerStructures(definition) ::= <<
 
 InitializeGlobalControllerStructure(definition, ctrl) ::= <<
 <ctrl.sources:{<(ctrlGenerator.(it.path).ControllerGlobalDataStaticInit)(definition=definition, controller=ctrl)>}>
+>>
+
+AddControllersDataNames(definition) ::= <<
+<if (definition.astNodeTypes.("controller"))>
+<definition.controllers:AddControllerDataNames(definition=definition, ctrl=it)>
+<endif>
+>>
+
+AddControllerDataNames(definition, ctrl) ::= <<
+<ctrl.sources:{<(ctrlGenerator.(it.path).ControllerDataNames)(definition=definition, controller=ctrl)>}>
 >>
 
 InitializeControllerStructures(definition) ::= <<

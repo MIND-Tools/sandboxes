@@ -10,11 +10,11 @@ isServer ::= [ "server" : "true" ]
 isVoid   ::= [ "void"   : "true" ]
 
 // -----------------------------------------------------------------------------
-// Implementation of the ComponentInstance interface
+// Implementation of the ComponentInstances interface
 // -----------------------------------------------------------------------------
 
-ComponentInstances(topLevelDefinition, definition, instance) ::= <<
-/* Generated file: <topLevelDefinition;format="toCName">_<definition.name;format="toCName">.optimized_macro */
+ComponentInstances(definition, interfaceDefinitions, instance) ::= <<
+/* Generated file: <definition.name;format="nameToPath">.optimized_macro */
 
 #define COMP_DATA struct __component_<definition.name;format="toCName">_internal_data_t __component_internal_data
 
@@ -29,7 +29,9 @@ ComponentInstances(topLevelDefinition, definition, instance) ::= <<
 
 <ATTR(definition=definition)>
 
-<CALL(topLevelDefinition=topLevelDefinition, definition=definition, instance=instance)>
+<DATA_FIELD_ACCESS(definition=definition)>
+
+<CALL(definition=definition, interfaceDefinitions=interfaceDefinitions, instance=instance)>
 
 <GET_MY_INTERFACE(definition=definition)>
 
@@ -108,27 +110,31 @@ METHOD(definition) ::= <<
 
 ATTR(definition) ::= <<
 <if (definition.astNodeTypes.("attribute"))>
-/* BLA1 */
 <if (definition.attributes)>
-/* BLA2 */
 /* definition of the ATTR macro */
 <if (definition.astDecorations.("is-singleton"))>
-/* BLA3 */
+/* Attribute of a Singleton definition */
 #define ATTRIBUTE_ACCESS(attrName) (__component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.attributes.attrName)
 <else>
-/* BLA4 */
+/* Attribute of a non-Singleton definition */
 #define ATTRIBUTE_ACCESS(attrName) (CONTEXT_PTR_ACCESS->__component_internal_data.attributes.attrName)
 <endif>
-/* BLA5 */
 <endif>
-/* BLA6 */
 <endif>
 >>
 
 // -----------------------------------------------------------------------------
+// PRIVATE DataField access macros
+
+DATA_FIELD_ACCESS(definition) ::= <<
+#define DATA_FIELD_ACCESS(fieldName) (CONTEXT_PTR_ACCESS->__component_internal_data.dataFields.fieldName)
+>>
+
+
+// -----------------------------------------------------------------------------
 // CALL macros
 
-CALL(topLevelDefinition, definition, instance) ::= <<
+CALL(definition, interfaceDefinitions, instance) ::= <<
 /* definition of the CALL macros */
 #define CALL_INTERFACE_METHOD_WITH_PARAM(itfName, methName) CALL_INTERFACE_METHOD_##itfName##_WITH_PARAM(methName)
 #define CALL_INTERFACE_METHOD_WITHOUT_PARAM(itfName, methName) CALL_INTERFACE_METHOD_##itfName##_WITHOUT_PARAM(methName)
@@ -136,8 +142,8 @@ CALL(topLevelDefinition, definition, instance) ::= <<
 #define CALL_COLLECTION_INTERFACE_METHOD_WITH_PARAM(itfName, index, methName) CALL_COLLECTION_INTERFACE_METHOD_##itfName##_WITH_PARAM(index, methName)
 #define CALL_COLLECTION_INTERFACE_METHOD_WITHOUT_PARAM(itfName, index, methName) CALL_COLLECTION_INTERFACE_METHOD_##itfName##_WITHOUT_PARAM(index, methName)
 
-<definition.interfaces:CALLClientInterface(topLevelDefinition=topLevelDefinition, definition=definition, instance=instance, itf=it); separator="\n">
-<definition.interfaces:CALLServerInterface(topLevelDefinition=topLevelDefinition, definition=definition, instance=instance, itf=it); separator="\n">
+<definition.interfaces:CALLClientInterface(definition=definition, interfaceDefinitions=interfaceDefinitions, instance=instance, itf=it); separator="\n">
+<definition.interfaces:CALLServerInterface(definition=definition, interfaceDefinitions=interfaceDefinitions, instance=instance, itf=it); separator="\n">
 
 <CALL_PRV(definition=definition)>
 
@@ -147,17 +153,17 @@ CALL(topLevelDefinition, definition, instance) ::= <<
 
 >>
 
-CALLClientInterface(topLevelDefinition, definition, instance, itf) ::= <<
+CALLClientInterface(definition, interfaceDefinitions, instance, itf) ::= <<
 <if (isClient.(itf.role))>
 <if (definition.astDecorations.("is-singleton"))>
-<SingletonCALLClientInterface(topLevelDefinition=topLevelDefinition, definition=definition, instance=instance, itf=it)>
+<SingletonCALLClientInterface(definition=definition, interfaceDefinitions=interfaceDefinitions, instance=instance, itf=it)>
 <else>
-<MultiCALLClientInterface(topLevelDefinition=topLevelDefinition, definition=definition, instance=instance, itf=it)>
+<MultiCALLClientInterface(definition=definition, interfaceDefinitions=interfaceDefinitions, instance=instance, itf=it)>
 <endif>
 <endif>
 >>
 
-MultiCALLClientInterface(topLevelDefinition, definition, instance, itf) ::= <<
+MultiCALLClientInterface(definition, interfaceDefinitions, instance, itf) ::= <<
 <if (itf.numberOfElement)>
 #define CALL_COLLECTION_INTERFACE_METHOD_<itf.name>_WITH_PARAM(index, methName) CONTEXT_PTR_ACCESS->__component_internal_data.type.<itf.name>[(index)]->meths->methName(CONTEXT_PTR_ACCESS->__component_internal_data.type.<itf.name>[(index)]->selfData,
 #define CALL_COLLECTION_INTERFACE_METHOD_<itf.name>_WITHOUT_PARAM(index, methName) CONTEXT_PTR_ACCESS->__component_internal_data.type.<itf.name>[(index)]->meths->methName(CONTEXT_PTR_ACCESS->__component_internal_data.type.<itf.name>[(index)]->selfData)
@@ -169,7 +175,7 @@ MultiCALLClientInterface(topLevelDefinition, definition, instance, itf) ::= <<
 
 StaticBindingItfName(itfName, index, isInternal) ::= "<if (isInternal)>INTERNAL_<endif><itfName><if (index)>_<index><endif>"
 
-SingletonCALLClientInterface(topLevelDefinition, definition, instance, itf) ::= <<
+SingletonCALLClientInterface(definition, interfaceDefinitions, instance, itf) ::= <<
 <if (itf.numberOfElement)>
 #define CALL_COLLECTION_INTERFACE_METHOD_<itf.name>_WITH_PARAM(index, methName) __component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.type.<itf.name>[(index)]->meths->methName(__component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.type.<itf.name>[(index)]->selfData,
 #define CALL_COLLECTION_INTERFACE_METHOD_<itf.name>_WITHOUT_PARAM(index, methName) __component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.type.<itf.name>[(index)]->meths->methName(__component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.type.<itf.name>[(index)]->selfData)
@@ -184,7 +190,7 @@ SingletonCALLClientInterface(topLevelDefinition, definition, instance, itf) ::= 
 <endif>
 >>
 
-SingletonCALLStaticBinding(definition, itf, bindingDesc) ::= <<
+SingletonCALLStaticBinding(definition, interfaceDefinitions, itf, bindingDesc) ::= <<
 #define CALL_INTERFACE_METHOD_<itf.name>_WITH_PARAM(methName) __component_<bindingDesc.serverComponent.definition.name; format="toCName">_<bindingDesc.binding.toInterface>_##methName(
 #define CALL_INTERFACE_METHOD_<itf.name>_WITHOUT_PARAM(methName) __component_<bindingDesc.serverComponent.definition.name; format="toCName">_<bindingDesc.binding.toInterface>_##methName() 
 >>
@@ -194,7 +200,7 @@ SingletonStandardCALL(definition, itf) ::= <<
 #define CALL_INTERFACE_METHOD_<itf.name>_WITHOUT_PARAM(methName) __component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.type.<itf.name>->meths->methName(__component_<definition.name;format="toCName">_singleton_instance.__component_internal_data.type.<itf.name>->selfData)   
 >>
 
-CALLServerInterface(topLevelDefinition, definition, instance, itf) ::= <<
+CALLServerInterface(definition, interfaceDefinitions, instance, itf) ::= <<
 <if (isServer.(itf.role))>
 <if (itf.numberOfElement)>
 #define CALL_COLLECTION_INTERFACE_METHOD_<itf.name>_WITH_PARAM(index, methName) <vTableInstanceName(definition=definition, itf=itf, index="##index##")>.methName(CONTEXT_PTR_ACCESS,

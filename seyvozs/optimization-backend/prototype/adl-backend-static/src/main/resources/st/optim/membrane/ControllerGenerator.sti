@@ -9,4 +9,7 @@ ControllerDataFactoryNew(definition, controller);
 ControllerDataFactoryNewClear(definition, controller);
 ControllerDataFactoryDestroy(definition, controller);
 
-ControllerImplementation(definition, instance, controller, interfaceDefinitions);
+ControllerImplementation(definition, instance, interfaceDefinitions, controller);
+
+ControllerDataNames(definition, controller);
+ControllerDataNamedInit(definition, controller, instance);
