@@ -59,7 +59,7 @@ public class MindMakefile {
 
 	static public final String MAKEFILE = "Makefile";
 	static public final String MIND_SRC = "MIND_SRC";
-	static public final String MIND_COMPONENTS = "MIND_COMPONENTS";
+	static public final String MIND_TARGETS = "MIND_TARGETS";
 
 	private IGNUMakefile _makefile;
 	private IFile _file;

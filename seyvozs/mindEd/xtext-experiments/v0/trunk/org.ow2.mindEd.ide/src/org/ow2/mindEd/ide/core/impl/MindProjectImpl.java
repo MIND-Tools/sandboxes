@@ -133,7 +133,7 @@ public class MindProjectImpl extends org.ow2.mindEd.ide.model.impl.MindProjectIm
 		private MindProjectImpl _mp;
 
 		private ChangeMindCOMPVarJob(MindProjectImpl mp) {
-			super("Change the make file variable MIND_COMPONENTS for "+mp.getProject().getName());
+			super("Change the Makefile variable MIND_TARGETS for "+mp.getProject().getName());
 			_mp = mp;
 			setRule(mp.getProject());
 		}
@@ -157,7 +157,7 @@ public class MindProjectImpl extends org.ow2.mindEd.ide.model.impl.MindProjectIm
 					srcVar.setLength(srcVar.length() - 2); //remove last collon if length > 0
 				
 				MindMakefile mf = new MindMakefile(_mp.getProject());
-				mf.setVarAndSave(MindMakefile.MIND_COMPONENTS, srcVar.toString(), "all");
+				mf.setVarAndSave(MindMakefile.MIND_TARGETS, srcVar.toString(), "all");
 				MindIdeCore.rebuild(_mp);
 			} catch (CoreException e) {
 				MindActivator.log( new Status(Status.ERROR, MindActivator.ID, getName(), e));

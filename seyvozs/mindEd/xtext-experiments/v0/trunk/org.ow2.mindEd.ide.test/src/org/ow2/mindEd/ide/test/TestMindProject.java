@@ -1469,7 +1469,7 @@ public class TestMindProject {
 		waitJob(DEFAULT_TIME_OUT_WAIT_JOB, 10, "failsetcomp",
 				FamilyJobCST.FAMILY_ALL);
 
-		assertEquals("", getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+		assertEquals("", getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		// create two packages p1 and p2
 		// create two component in each package
@@ -1481,7 +1481,7 @@ public class TestMindProject {
 		waitJob(DEFAULT_TIME_OUT_WAIT_JOB, 50, "failsetcomp",
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals("", getMakeFileVar(mp1,
-				MindMakefile.MIND_COMPONENTS));
+				MindMakefile.MIND_TARGETS));
 
 		mp1.getProject().getFile("src/testrd_p1/z.adl").create(
 				new ByteArrayInputStream("primitive testrd_p1.z".getBytes()),
@@ -1497,7 +1497,7 @@ public class TestMindProject {
 		waitJob(DEFAULT_TIME_OUT_WAIT_JOB, 10, "failsetcomp",
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals("",
-				getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+				getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		mp1.getProject().getFolder("src/testrd_p5").create(false, true,
 				new NullProgressMonitor());
@@ -1533,7 +1533,7 @@ public class TestMindProject {
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals(
 				"",
-				getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+				getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		mp1.getProject().getFile("src/testrd_p4/r.adl").delete(true,
 				new NullProgressMonitor());
@@ -1541,14 +1541,14 @@ public class TestMindProject {
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals(
 				"",
-				getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+				getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		mp1.getProject().getFolder("src/testrd_p3").delete(true,
 				new NullProgressMonitor());
 		waitJob(DEFAULT_TIME_OUT_WAIT_JOB, 10, "failsetcomp",
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals("",
-				getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+				getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		mp1.getMindpathentries().add(
 				MindIdeCore.newMPEAppli("testrd_p1.t", "appli1"));
@@ -1556,7 +1556,7 @@ public class TestMindProject {
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals(
 				"testrd_p1.t:appli1",
-				getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+				getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		mp1.getMindpathentries().add(
 				MindIdeCore.newMPEAppli("testrd_p4.u", "appli2"));
@@ -1564,7 +1564,7 @@ public class TestMindProject {
 				FamilyJobCST.FAMILY_CHANGE_MAKEFILE_VAR_MIND_COMPONENT);
 		assertEquals(
 				"testrd_p1.t:appli1 testrd_p4.u:appli2",
-				getMakeFileVar(mp1, MindMakefile.MIND_COMPONENTS));
+				getMakeFileVar(mp1, MindMakefile.MIND_TARGETS));
 
 		waitJob(DEFAULT_TIME_OUT_WAIT_JOB, 10, "fail wait",
 				FamilyJobCST.FAMILY_ALL);
