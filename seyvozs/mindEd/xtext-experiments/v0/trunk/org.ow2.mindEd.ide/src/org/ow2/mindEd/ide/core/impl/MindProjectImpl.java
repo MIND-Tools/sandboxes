@@ -98,7 +98,7 @@ public class MindProjectImpl extends org.ow2.mindEd.ide.model.impl.MindProjectIm
 				StringBuilder srcVar = new StringBuilder();
 				for (MindRootSrc rs : new ArrayList<MindRootSrc>(_mp._allsrc)) {
 					srcVar.append(toFile(rs));
-					srcVar.append(":");
+					srcVar.append(File.pathSeparator);
 				}
 				if (srcVar.length() != 0)
 					srcVar.setLength(srcVar.length() - 1); //remove last collon if length > 0
