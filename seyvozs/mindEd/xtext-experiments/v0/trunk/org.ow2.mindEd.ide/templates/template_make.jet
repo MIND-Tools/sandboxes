@@ -9,13 +9,13 @@ else
 endif
 
 MIND_SRC=src
-MIND_COMPONENTS=
+MIND_TARGETS=
 
 all: build
-ifdef MIND_COMPONENTS
+ifdef MIND_TARGETS
 	if test ! -x $(MINDC); \
         then echo ' Not found mindc ! Set MIND_ROOT variable or go to 'Mindc location' eclipse preference page'; \
-    	else $(MINDC) -src-path=$(MIND_SRC) -o=build $(MIND_COMPONENTS) ;\
+    	else $(MINDC) -src-path=$(MIND_SRC) -o=build $(MIND_TARGETS) ;\
     fi
 else
 	echo "no application defined"
