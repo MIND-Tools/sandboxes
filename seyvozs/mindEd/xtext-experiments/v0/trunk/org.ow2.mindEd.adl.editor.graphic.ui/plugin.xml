@@ -83,6 +83,10 @@
             <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
                <GlobalActionId actionId="save"/>
             </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="save">
+               </GlobalActionId>
+            </ElementType>        
          </ViewId>
       </GlobalActionHandlerProvider>
       <GlobalActionHandlerProvider
@@ -252,7 +256,51 @@
          <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeComponentDefinitionEditPart" id="CompositeComponentDefinition_2007"/>
          <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveComponentDefinitionEditPart" id="PrimitiveComponentDefinition_2008"/>
          <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.ComponentTypeDefinitionEditPart" id="ComponentTypeDefinition_2009"/>
-         <context elements="AdlDefinition_1000,CompositeComponentDefinition_2007,PrimitiveComponentDefinition_2008,ComponentTypeDefinition_2009"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TemplateSpecifiersListEditPart" id="TemplateSpecifiersList_3096"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TemplateSpecifierEditPart" id="TemplateSpecifier_3097"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TemplateSpecifierReferenceEditPart" id="TypeReferenceDefinition_3098"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeFormalArgumentsListEditPart" id="FormalArgumentsList_3099"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.FormalArgumentEditPart" id="FormalArgument_3100"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeReferencesListEditPart" id="CompositeReferencesList_3101"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeReferenceEditPart" id="CompositeReferenceDefinition_3102"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.ArgumentDefinitionEditPart" id="ArgumentDefinition_3103"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TemplateDefinitionEditPart" id="TemplateDefinition_3104"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TemplateDefinitionReferenceEditPart" id="CompositeReferenceDefinition_3105"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeBodyEditPart" id="CompositeBody_3129"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.InterfaceDefinitionEditPart" id="InterfaceDefinition_3130"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeSubComponentEditPart" id="SubComponentDefinition_3131"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeSubReferenceEditPart" id="CompositeReferenceDefinition_3132"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.SubComponentCompositeBodyEditPart" id="SubComponentCompositeBody_3161"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveSubComponentEditPart" id="SubComponentDefinition_3135"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveSubReferenceEditPart" id="CompositeReferenceDefinition_3157"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.SubComponentPrimitiveBodyEditPart" id="SubComponentPrimitiveBody_3162"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.ImplementationDefinitionEditPart" id="ImplementationDefinition_3140"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.FileCEditPart" id="FileC_3115"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.InlineCodeCEditPart" id="InlineCodeC_3116"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.DataDefinitionEditPart" id="DataDefinition_3139"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.DataFileCEditPart" id="FileC_3118"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.DataInlineCodeCEditPart" id="InlineCodeC_3119"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.AttributeDefinitionEditPart" id="AttributeDefinition_3138"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.BodyEditPart" id="Body_3143"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.SubAnnotationsListEditPart" id="AnnotationsList_3150"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.AnnotationEditPart" id="Annotation_3145"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.AnnotationElementEditPart" id="AnnotationElement_3146"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.ConstantValueEditPart" id="ConstantValue_3148"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.SubAnnotationEditPart" id="Annotation_3149"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.UndefinedSubComponentEditPart" id="SubComponentDefinition_3153"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.UndefinedSubReferenceEditPart" id="CompositeReferenceDefinition_3160"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.UndefinedBodyEditPart" id="TypeBody_3142"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.CompositeAnnotationsListEditPart" id="AnnotationsList_3147"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveFormalArgumentsListEditPart" id="FormalArgumentsList_3123"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveReferencesListEditPart" id="PrimitiveReferencesList_3124"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveReferenceEditPart" id="PrimitiveReferenceDefinition_3125"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveBodyEditPart" id="PrimitiveBody_3137"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.PrimitiveAnnotationsListEditPart" id="AnnotationsList_3151"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TypeReferencesListEditPart" id="TypeReferencesList_3127"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TypeReferenceEditPart" id="TypeReferenceDefinition_3128"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TypeBodyEditPart" id="TypeBody_3159"/>
+         <object class="org.ow2.mindEd.adl.editor.graphic.ui.edit.parts.TypeAnnotationsListEditPart" id="AnnotationsList_3152"/>
+         <context elements="AdlDefinition_1000,CompositeComponentDefinition_2007,PrimitiveComponentDefinition_2008,ComponentTypeDefinition_2009,TemplateSpecifiersList_3096,TemplateSpecifier_3097,TypeReferenceDefinition_3098,FormalArgumentsList_3099,FormalArgument_3100,CompositeReferencesList_3101,CompositeReferenceDefinition_3102,ArgumentDefinition_3103,TemplateDefinition_3104,CompositeReferenceDefinition_3105,CompositeBody_3129,InterfaceDefinition_3130,SubComponentDefinition_3131,CompositeReferenceDefinition_3132,SubComponentCompositeBody_3161,SubComponentDefinition_3135,CompositeReferenceDefinition_3157,SubComponentPrimitiveBody_3162,ImplementationDefinition_3140,FileC_3115,InlineCodeC_3116,DataDefinition_3139,FileC_3118,InlineCodeC_3119,AttributeDefinition_3138,Body_3143,AnnotationsList_3150,Annotation_3145,AnnotationElement_3146,ConstantValue_3148,Annotation_3149,SubComponentDefinition_3153,CompositeReferenceDefinition_3160,TypeBody_3142,AnnotationsList_3147,FormalArgumentsList_3123,PrimitiveReferencesList_3124,PrimitiveReferenceDefinition_3125,PrimitiveBody_3137,AnnotationsList_3151,TypeReferencesList_3127,TypeReferenceDefinition_3128,TypeBody_3159,AnnotationsList_3152"/>
       </modelingAssistantProvider>
    </extension>
 
