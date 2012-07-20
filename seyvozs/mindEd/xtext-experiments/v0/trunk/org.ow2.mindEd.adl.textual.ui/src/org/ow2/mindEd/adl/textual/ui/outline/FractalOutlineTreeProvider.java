@@ -4,7 +4,9 @@
 package org.ow2.mindEd.adl.textual.ui.outline;
 
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider;
+import org.ow2.mindEd.adl.textual.fractal.DataDefinition;
 import org.ow2.mindEd.adl.textual.fractal.FileC;
+import org.ow2.mindEd.adl.textual.fractal.ImplementationDefinition;
 
 /**
  * customization of the default outline structure
@@ -15,7 +17,24 @@ public class FractalOutlineTreeProvider extends DefaultOutlineTreeProvider {
 	// SSZ
 	// Forcing FileC Outline name, default took only the directory, which is an error.
 	protected Object _text(FileC fileC) {
-		return fileC.getDirectory() + fileC.getName();
+		String directory = "";
+		if (fileC.getDirectory() == null)
+			directory = "";
+		else
+			directory = fileC.getDirectory();
+		return directory + fileC.getName();
+	}
+
+	// SSZ
+	// Forcing ImplementationDefinition node name as "source" as the element can't be named in the grammar
+	protected Object _text(ImplementationDefinition implemDef) {
+		return "source";
+	}
+
+	// SSZ
+	// Forcing ImplementationDefinition node name as "source" as the element can't be named in the grammar
+	protected Object _text(DataDefinition dataDef) {
+		return "data";
 	}
 
 }
