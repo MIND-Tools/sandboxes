@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
-
  */
 package org.ow2.mindEd.adl.textual.fractal;
 
@@ -108,13 +104,22 @@ public interface FractalPackage extends EPackage
   int ARCHITECTURE_DEFINITION = 1;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ARCHITECTURE_DEFINITION__ANNOTATIONS_LIST = 0;
+
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ARCHITECTURE_DEFINITION__NAME = 0;
+  int ARCHITECTURE_DEFINITION__NAME = 1;
 
   /**
    * The feature id for the '<em><b>Super Type</b></em>' reference.
@@ -123,7 +128,7 @@ public interface FractalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ARCHITECTURE_DEFINITION__SUPER_TYPE = 1;
+  int ARCHITECTURE_DEFINITION__SUPER_TYPE = 2;
 
   /**
    * The number of structural features of the '<em>Architecture Definition</em>' class.
@@ -132,7 +137,7 @@ public interface FractalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ARCHITECTURE_DEFINITION_FEATURE_COUNT = 2;
+  int ARCHITECTURE_DEFINITION_FEATURE_COUNT = 3;
 
   /**
    * The meta object id for the '{@link org.ow2.mindEd.adl.textual.fractal.impl.ImportDefinitionImpl <em>Import Definition</em>}' class.
@@ -145,13 +150,22 @@ public interface FractalPackage extends EPackage
   int IMPORT_DEFINITION = 2;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMPORT_DEFINITION__ANNOTATIONS_LIST = 0;
+
+  /**
    * The feature id for the '<em><b>Imported Namespace</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int IMPORT_DEFINITION__IMPORTED_NAMESPACE = 0;
+  int IMPORT_DEFINITION__IMPORTED_NAMESPACE = 1;
 
   /**
    * The number of structural features of the '<em>Import Definition</em>' class.
@@ -160,7 +174,7 @@ public interface FractalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int IMPORT_DEFINITION_FEATURE_COUNT = 1;
+  int IMPORT_DEFINITION_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link org.ow2.mindEd.adl.textual.fractal.impl.CompositeDefinitionImpl <em>Composite Definition</em>}' class.
@@ -171,6 +185,15 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   int COMPOSITE_DEFINITION = 3;
+
+  /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int COMPOSITE_DEFINITION__ANNOTATIONS_LIST = ARCHITECTURE_DEFINITION__ANNOTATIONS_LIST;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -237,6 +260,15 @@ public interface FractalPackage extends EPackage
   int PRIMITIVE_DEFINITION = 4;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PRIMITIVE_DEFINITION__ANNOTATIONS_LIST = ARCHITECTURE_DEFINITION__ANNOTATIONS_LIST;
+
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -301,6 +333,15 @@ public interface FractalPackage extends EPackage
   int TYPE_DEFINITION = 5;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_DEFINITION__ANNOTATIONS_LIST = ARCHITECTURE_DEFINITION__ANNOTATIONS_LIST;
+
+  /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -347,13 +388,22 @@ public interface FractalPackage extends EPackage
   int ELEMENT = 13;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ELEMENT__ANNOTATIONS_LIST = 0;
+
+  /**
    * The number of structural features of the '<em>Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ELEMENT_FEATURE_COUNT = 0;
+  int ELEMENT_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link org.ow2.mindEd.adl.textual.fractal.impl.HostedInterfaceDefinitionImpl <em>Hosted Interface Definition</em>}' class.
@@ -364,6 +414,15 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   int HOSTED_INTERFACE_DEFINITION = 6;
+
+  /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int HOSTED_INTERFACE_DEFINITION__ANNOTATIONS_LIST = ELEMENT__ANNOTATIONS_LIST;
 
   /**
    * The feature id for the '<em><b>Role</b></em>' attribute.
@@ -430,6 +489,15 @@ public interface FractalPackage extends EPackage
   int PROVIDED_INTERFACE_DEFINITION = 7;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROVIDED_INTERFACE_DEFINITION__ANNOTATIONS_LIST = HOSTED_INTERFACE_DEFINITION__ANNOTATIONS_LIST;
+
+  /**
    * The feature id for the '<em><b>Role</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -492,6 +560,15 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   int REQUIRED_INTERFACE_DEFINITION = 8;
+
+  /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int REQUIRED_INTERFACE_DEFINITION__ANNOTATIONS_LIST = HOSTED_INTERFACE_DEFINITION__ANNOTATIONS_LIST;
 
   /**
    * The feature id for the '<em><b>Role</b></em>' attribute.
@@ -567,6 +644,15 @@ public interface FractalPackage extends EPackage
   int COMPOSITE_ELEMENT = 14;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int COMPOSITE_ELEMENT__ANNOTATIONS_LIST = ELEMENT__ANNOTATIONS_LIST;
+
+  /**
    * The number of structural features of the '<em>Composite Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -584,6 +670,15 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   int SUB_COMPONENT_DEFINITION = 9;
+
+  /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SUB_COMPONENT_DEFINITION__ANNOTATIONS_LIST = COMPOSITE_ELEMENT__ANNOTATIONS_LIST;
 
   /**
    * The feature id for the '<em><b>Type</b></em>' reference.
@@ -752,6 +847,15 @@ public interface FractalPackage extends EPackage
   int PRIMITIVE_ELEMENT = 15;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PRIMITIVE_ELEMENT__ANNOTATIONS_LIST = ELEMENT__ANNOTATIONS_LIST;
+
+  /**
    * The number of structural features of the '<em>Primitive Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -769,6 +873,15 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   int BINDING_DEFINITION = 16;
+
+  /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int BINDING_DEFINITION__ANNOTATIONS_LIST = COMPOSITE_ELEMENT__ANNOTATIONS_LIST;
 
   /**
    * The feature id for the '<em><b>Source Parent</b></em>' reference.
@@ -1039,6 +1152,15 @@ public interface FractalPackage extends EPackage
   int ATTRIBUTE_DEFINITION = 23;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ATTRIBUTE_DEFINITION__ANNOTATIONS_LIST = PRIMITIVE_ELEMENT__ANNOTATIONS_LIST;
+
+  /**
    * The feature id for the '<em><b>Type</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1085,6 +1207,15 @@ public interface FractalPackage extends EPackage
   int IMPLEMENTATION_DEFINITION = 24;
 
   /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int IMPLEMENTATION_DEFINITION__ANNOTATIONS_LIST = PRIMITIVE_ELEMENT__ANNOTATIONS_LIST;
+
+  /**
    * The feature id for the '<em><b>File C</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1120,6 +1251,15 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   int DATA_DEFINITION = 25;
+
+  /**
+   * The feature id for the '<em><b>Annotations List</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int DATA_DEFINITION__ANNOTATIONS_LIST = PRIMITIVE_ELEMENT__ANNOTATIONS_LIST;
 
   /**
    * The feature id for the '<em><b>File C</b></em>' containment reference.
@@ -1434,6 +1574,17 @@ public interface FractalPackage extends EPackage
   EClass getArchitectureDefinition();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition#getAnnotationsList <em>Annotations List</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Annotations List</em>'.
+   * @see org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition#getAnnotationsList()
+   * @see #getArchitectureDefinition()
+   * @generated
+   */
+  EReference getArchitectureDefinition_AnnotationsList();
+
+  /**
    * Returns the meta object for the attribute '{@link org.ow2.mindEd.adl.textual.fractal.ArchitectureDefinition#getName <em>Name</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1464,6 +1615,17 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   EClass getImportDefinition();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.ow2.mindEd.adl.textual.fractal.ImportDefinition#getAnnotationsList <em>Annotations List</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Annotations List</em>'.
+   * @see org.ow2.mindEd.adl.textual.fractal.ImportDefinition#getAnnotationsList()
+   * @see #getImportDefinition()
+   * @generated
+   */
+  EReference getImportDefinition_AnnotationsList();
 
   /**
    * Returns the meta object for the attribute '{@link org.ow2.mindEd.adl.textual.fractal.ImportDefinition#getImportedNamespace <em>Imported Namespace</em>}'.
@@ -1816,6 +1978,17 @@ public interface FractalPackage extends EPackage
    * @generated
    */
   EClass getElement();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.ow2.mindEd.adl.textual.fractal.Element#getAnnotationsList <em>Annotations List</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Annotations List</em>'.
+   * @see org.ow2.mindEd.adl.textual.fractal.Element#getAnnotationsList()
+   * @see #getElement()
+   * @generated
+   */
+  EReference getElement_AnnotationsList();
 
   /**
    * Returns the meta object for class '{@link org.ow2.mindEd.adl.textual.fractal.CompositeElement <em>Composite Element</em>}'.
@@ -2429,6 +2602,14 @@ public interface FractalPackage extends EPackage
     EClass ARCHITECTURE_DEFINITION = eINSTANCE.getArchitectureDefinition();
 
     /**
+     * The meta object literal for the '<em><b>Annotations List</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ARCHITECTURE_DEFINITION__ANNOTATIONS_LIST = eINSTANCE.getArchitectureDefinition_AnnotationsList();
+
+    /**
      * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2453,6 +2634,14 @@ public interface FractalPackage extends EPackage
      * @generated
      */
     EClass IMPORT_DEFINITION = eINSTANCE.getImportDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations List</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference IMPORT_DEFINITION__ANNOTATIONS_LIST = eINSTANCE.getImportDefinition_AnnotationsList();
 
     /**
      * The meta object literal for the '<em><b>Imported Namespace</b></em>' attribute feature.
@@ -2739,6 +2928,14 @@ public interface FractalPackage extends EPackage
      * @generated
      */
     EClass ELEMENT = eINSTANCE.getElement();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations List</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ELEMENT__ANNOTATIONS_LIST = eINSTANCE.getElement_AnnotationsList();
 
     /**
      * The meta object literal for the '{@link org.ow2.mindEd.adl.textual.fractal.impl.CompositeElementImpl <em>Composite Element</em>}' class.

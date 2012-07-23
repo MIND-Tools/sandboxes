@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
-
  */
 package org.ow2.mindEd.adl.textual.fractal.impl;
 
@@ -409,9 +405,19 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getArchitectureDefinition_AnnotationsList()
+  {
+    return (EReference)architectureDefinitionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EAttribute getArchitectureDefinition_Name()
   {
-    return (EAttribute)architectureDefinitionEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)architectureDefinitionEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -421,7 +427,7 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
    */
   public EReference getArchitectureDefinition_SuperType()
   {
-    return (EReference)architectureDefinitionEClass.getEStructuralFeatures().get(1);
+    return (EReference)architectureDefinitionEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -439,9 +445,19 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getImportDefinition_AnnotationsList()
+  {
+    return (EReference)importDefinitionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EAttribute getImportDefinition_ImportedNamespace()
   {
-    return (EAttribute)importDefinitionEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)importDefinitionEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -762,6 +778,16 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
   public EClass getElement()
   {
     return elementEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getElement_AnnotationsList()
+  {
+    return (EReference)elementEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1319,10 +1345,12 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
     createEReference(adlDefinitionEClass, ADL_DEFINITION__ARCHITECTURE_DEFINITION);
 
     architectureDefinitionEClass = createEClass(ARCHITECTURE_DEFINITION);
+    createEReference(architectureDefinitionEClass, ARCHITECTURE_DEFINITION__ANNOTATIONS_LIST);
     createEAttribute(architectureDefinitionEClass, ARCHITECTURE_DEFINITION__NAME);
     createEReference(architectureDefinitionEClass, ARCHITECTURE_DEFINITION__SUPER_TYPE);
 
     importDefinitionEClass = createEClass(IMPORT_DEFINITION);
+    createEReference(importDefinitionEClass, IMPORT_DEFINITION__ANNOTATIONS_LIST);
     createEAttribute(importDefinitionEClass, IMPORT_DEFINITION__IMPORTED_NAMESPACE);
 
     compositeDefinitionEClass = createEClass(COMPOSITE_DEFINITION);
@@ -1367,6 +1395,7 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
     createEReference(subComponentPrimitiveBodyEClass, SUB_COMPONENT_PRIMITIVE_BODY__ELEMENTS);
 
     elementEClass = createEClass(ELEMENT);
+    createEReference(elementEClass, ELEMENT__ANNOTATIONS_LIST);
 
     compositeElementEClass = createEClass(COMPOSITE_ELEMENT);
 
@@ -1500,10 +1529,12 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
     initEReference(getAdlDefinition_ArchitectureDefinition(), this.getArchitectureDefinition(), null, "architectureDefinition", null, 0, 1, AdlDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(architectureDefinitionEClass, ArchitectureDefinition.class, "ArchitectureDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getArchitectureDefinition_AnnotationsList(), this.getAnnotationsList(), null, "annotationsList", null, 0, 1, ArchitectureDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getArchitectureDefinition_Name(), ecorePackage.getEString(), "name", null, 0, 1, ArchitectureDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getArchitectureDefinition_SuperType(), this.getArchitectureDefinition(), null, "superType", null, 0, 1, ArchitectureDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(importDefinitionEClass, ImportDefinition.class, "ImportDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getImportDefinition_AnnotationsList(), this.getAnnotationsList(), null, "annotationsList", null, 0, 1, ImportDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getImportDefinition_ImportedNamespace(), ecorePackage.getEString(), "importedNamespace", null, 0, 1, ImportDefinition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(compositeDefinitionEClass, CompositeDefinition.class, "CompositeDefinition", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1548,6 +1579,7 @@ public class FractalPackageImpl extends EPackageImpl implements FractalPackage
     initEReference(getSubComponentPrimitiveBody_Elements(), this.getPrimitiveElement(), null, "elements", null, 0, -1, SubComponentPrimitiveBody.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(elementEClass, Element.class, "Element", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getElement_AnnotationsList(), this.getAnnotationsList(), null, "annotationsList", null, 0, 1, Element.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(compositeElementEClass, CompositeElement.class, "CompositeElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

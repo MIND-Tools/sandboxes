@@ -290,7 +290,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (type=AttributeType? attributeName=ID value=Value?)
+	 *     (annotationsList=AnnotationsList? type=AttributeType? attributeName=ID value=Value?)
 	 */
 	protected void sequence_AttributeDefinition(EObject context, AttributeDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -300,6 +300,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
+	 *         annotationsList=AnnotationsList? 
 	 *         sourceParent=[SubComponentDefinition|ID]? 
 	 *         sourceInterface=[RequiredInterfaceDefinition|ID] 
 	 *         sourceIndex=INT? 
@@ -316,6 +317,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
+	 *         annotationsList=AnnotationsList? 
 	 *         name=QualifiedName 
 	 *         templateSpecifiersList=TemplateSpecifiersList? 
 	 *         compositeFormalArgumentsList=FormalArgumentsList? 
@@ -346,7 +348,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (fileC=FileC | inlineCcode=InlineCodeC)
+	 *     (annotationsList=AnnotationsList? (fileC=FileC | inlineCcode=InlineCodeC))
 	 */
 	protected void sequence_DataDefinition(EObject context, DataDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -398,7 +400,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (fileC=FileC | inlineCcode=InlineCodeC)
+	 *     (annotationsList=AnnotationsList? (fileC=FileC | inlineCcode=InlineCodeC))
 	 */
 	protected void sequence_ImplementationDefinition(EObject context, ImplementationDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -407,17 +409,10 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     importedNamespace=QualifiedNameWithWildcard
+	 *     (annotationsList=AnnotationsList? importedNamespace=QualifiedNameWithWildcard)
 	 */
 	protected void sequence_ImportDefinition(EObject context, ImportDefinition semanticObject) {
-		if(errorAcceptor != null) {
-			if(transientValues.isValueTransient(semanticObject, FractalPackage.Literals.IMPORT_DEFINITION__IMPORTED_NAMESPACE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, FractalPackage.Literals.IMPORT_DEFINITION__IMPORTED_NAMESPACE));
-		}
-		INodesForEObjectProvider nodes = createNodeProvider(semanticObject);
-		SequenceFeeder feeder = createSequencerFeeder(semanticObject, nodes);
-		feeder.accept(grammarAccess.getImportDefinitionAccess().getImportedNamespaceQualifiedNameWithWildcardParserRuleCall_1_0(), semanticObject.getImportedNamespace());
-		feeder.finish();
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	
@@ -440,6 +435,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
+	 *         annotationsList=AnnotationsList? 
 	 *         abstract?='abstract'? 
 	 *         name=QualifiedName 
 	 *         compositeFormalArgumentsList=FormalArgumentsList? 
@@ -460,7 +456,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (role='provides' signature=[InterfaceDefinition|QualifiedName] name=ID (collection?='[' collectionsize=INT?)?)
+	 *     (annotationsList=AnnotationsList? role='provides' signature=[InterfaceDefinition|QualifiedName] name=ID (collection?='[' collectionsize=INT?)?)
 	 */
 	protected void sequence_ProvidedInterfaceDefinition(EObject context, ProvidedInterfaceDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -469,7 +465,14 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (role='requires' optional?='optional'? signature=[InterfaceDefinition|QualifiedName] name=ID (collection?='[' collectionsize=INT?)?)
+	 *     (
+	 *         annotationsList=AnnotationsList? 
+	 *         role='requires' 
+	 *         optional?='optional'? 
+	 *         signature=[InterfaceDefinition|QualifiedName] 
+	 *         name=ID 
+	 *         (collection?='[' collectionsize=INT?)?
+	 *     )
 	 */
 	protected void sequence_RequiredInterfaceDefinition(EObject context, RequiredInterfaceDefinition semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -491,6 +494,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
+	 *         annotationsList=AnnotationsList? 
 	 *         type=[ArchitectureDefinition|QualifiedName]? 
 	 *         (templatesList+=TemplateDefinition templatesList+=TemplateDefinition*)? 
 	 *         (argumentsList+=ArgumentDefinition argumentsList+=ArgumentDefinition*)? 
@@ -561,6 +565,7 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * Constraint:
 	 *     (
+	 *         annotationsList=AnnotationsList? 
 	 *         name=QualifiedName 
 	 *         superType=[ArchitectureDefinition|QualifiedName]? 
 	 *         (elements+=ProvidedInterfaceDefinition | elements+=RequiredInterfaceDefinition)*

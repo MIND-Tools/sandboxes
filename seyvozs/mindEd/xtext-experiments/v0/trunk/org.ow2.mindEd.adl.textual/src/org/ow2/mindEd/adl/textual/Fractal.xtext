@@ -29,7 +29,7 @@ ArchitectureDefinition:
 ;
 
 ImportDefinition:
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'import' importedNamespace = QualifiedNameWithWildcard ';'
 ;
 
@@ -44,7 +44,7 @@ QualifiedNameWithWildcard:
 ;
 
 CompositeDefinition:
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'composite' name = QualifiedName
 	(templateSpecifiersList = TemplateSpecifiersList)? // <ID conformsto TypeDefinition, ID2 conformsto TypeDef2, ...>
 	(compositeFormalArgumentsList = FormalArgumentsList)? // (arg1, arg2, ...)
@@ -54,7 +54,7 @@ CompositeDefinition:
 ;
 
 PrimitiveDefinition:
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	(abstract ?= 'abstract')?
 	'primitive' name = QualifiedName
 	(compositeFormalArgumentsList = FormalArgumentsList)?
@@ -64,7 +64,7 @@ PrimitiveDefinition:
 ;
 
 TypeDefinition:
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'type' name = QualifiedName ('extends' superType = [ArchitectureDefinition | QualifiedName])? '{'
 		elements += (ProvidedInterfaceDefinition | RequiredInterfaceDefinition)*
 	'}'
@@ -77,19 +77,19 @@ HostedInterfaceDefinition:
 // Renamed as HostedInterfaceDefinition to resolve name clash with fractalItf::InterfaceDefinition
 // Another way to solve the problem is to use prefixes ?
 ProvidedInterfaceDefinition :
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	role="provides" signature = [fractalItf::InterfaceDefinition | QualifiedName] 'as' name=ID
 	(collection?='['(collectionsize=INT)?']')? ';'
 ;
 
 RequiredInterfaceDefinition :
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	role="requires" (optional?='optional')? signature = [fractalItf::InterfaceDefinition | QualifiedName] 'as' name=ID
 	(collection?='['(collectionsize=INT)?']')? ';'
 ;
 
 SubComponentDefinition:
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'contains'
 	(type = [ArchitectureDefinition | QualifiedName])?
 	('<' templatesList+=TemplateDefinition (',' templatesList+=TemplateDefinition)* '>')?
@@ -136,7 +136,7 @@ PrimitiveElement :
 // The correct auto-completion scoping for Bindings is implemented in org.ow2.mindEd.adl.textual.scoping.FractalScopeProvider
 // This could be assimilated to filtering elements from the references pool to provide only pertinent ones.
 BindingDefinition :
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'binds'
 	('this' | sourceParent = [SubComponentDefinition | ID])
 	'.'
@@ -182,16 +182,16 @@ ArgumentDefinition :
 ;
 
 AttributeDefinition :
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'attribute' (type = AttributeType)? attributeName = ID ('=' value = Value)?;
 
 ImplementationDefinition :
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'source' ((fileC = FileC) |(inlineCcode = InlineCodeC)) ';'
 ;
 
 DataDefinition :
-	//(annotationsList=AnnotationsList)?
+	(annotationsList=AnnotationsList)?
 	'data' ((fileC = FileC) | (inlineCcode = InlineCodeC)) ';';
 
 QualifiedName:

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ow2.mindEd.adl.textual/src-gen"
-    editDirectory="/org.ow2.mindEd.adl.textual.edit/src" editorDirectory="/org.ow2.mindEd.adl.textual.editor/src"
-    modelPluginID="org.ow2.mindEd.adl.textual" forceOverwrite="true" modelName="Fractal"
-    updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ow2.mindEd.adl.textual/src-gen" editDirectory="/org.ow2.mindEd.adl.textual.edit/src"
+    editorDirectory="/org.ow2.mindEd.adl.textual.editor/src" modelPluginID="org.ow2.mindEd.adl.textual"
+    forceOverwrite="true" modelName="Fractal" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     complianceLevel="5.0" copyrightFields="false" editPluginID="org.ow2.mindEd.adl.textual.edit"
-    editorPluginID="org.ow2.mindEd.adl.textual.editor" runtimeVersion="2.7" usedGenPackages="../../../../../../../org.ow2.mindEd.itf.editor.textual.model/src-gen/org/ow2/mindEd/itf/editor/textual/FractalItf.genmodel#//fractalIDL">
+    editorPluginID="org.ow2.mindEd.adl.textual.editor" runtimeVersion="2.8" usedGenPackages="../../../../../../../org.ow2.mindEd.itf.editor.textual.model/src-gen/org/ow2/mindEd/itf/editor/textual/FractalItf.genmodel#//fractalIDL">
   <genPackages prefix="Fractal" basePackage="org.ow2.mindEd.adl.textual" disposableProviderFactory="true"
       ecorePackage="Fractal.ecore#/">
     <genClasses ecoreClass="Fractal.ecore#//AdlDefinition">
@@ -14,10 +12,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//AdlDefinition/architectureDefinition"/>
     </genClasses>
     <genClasses ecoreClass="Fractal.ecore#//ArchitectureDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//ArchitectureDefinition/annotationsList"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ArchitectureDefinition/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Fractal.ecore#//ArchitectureDefinition/superType"/>
     </genClasses>
     <genClasses ecoreClass="Fractal.ecore#//ImportDefinition">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//ImportDefinition/annotationsList"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Fractal.ecore#//ImportDefinition/importedNamespace"/>
     </genClasses>
     <genClasses ecoreClass="Fractal.ecore#//CompositeDefinition">
@@ -60,7 +60,9 @@
     <genClasses ecoreClass="Fractal.ecore#//SubComponentPrimitiveBody">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//SubComponentPrimitiveBody/elements"/>
     </genClasses>
-    <genClasses ecoreClass="Fractal.ecore#//Element"/>
+    <genClasses ecoreClass="Fractal.ecore#//Element">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Fractal.ecore#//Element/annotationsList"/>
+    </genClasses>
     <genClasses ecoreClass="Fractal.ecore#//CompositeElement"/>
     <genClasses ecoreClass="Fractal.ecore#//PrimitiveElement"/>
     <genClasses ecoreClass="Fractal.ecore#//BindingDefinition">

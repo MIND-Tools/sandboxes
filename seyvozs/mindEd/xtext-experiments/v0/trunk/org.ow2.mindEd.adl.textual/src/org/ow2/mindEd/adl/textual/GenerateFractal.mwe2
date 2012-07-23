@@ -62,6 +62,7 @@ Workflow {
                 // The antlr parser generator fragment.
                 fragment = parser.antlr.XtextAntlrGeneratorFragment {
                   // We need this for the Annotation system as it generates ambiguities in the grammar
+                  // we use the same option for the XtextAntlrGeneratorFragment
                   options = {
                       backtrack = true
                   }
@@ -105,7 +106,12 @@ Workflow {
                 fragment = contentAssist.JavaBasedContentAssistFragment {}
     
                 // generates a more lightweight Antlr parser and lexer tailored for content assist
-                fragment = parser.antlr.XtextAntlrUiGeneratorFragment {}
+                fragment = parser.antlr.XtextAntlrUiGeneratorFragment {
+                	// We need this for the Annotation system as it generates ambiguities in the grammar
+                  options = {
+                      backtrack = true
+                  }                	
+                }
     
                 // generates junit test support classes into Generator#pathTestProject
                 fragment = junit.Junit4Fragment {}

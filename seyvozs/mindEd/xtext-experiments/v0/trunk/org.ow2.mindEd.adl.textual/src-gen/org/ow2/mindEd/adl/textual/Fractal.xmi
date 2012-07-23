@@ -35,6 +35,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//ImportDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="import"/>
         <elements xsi:type="xtext:Assignment" feature="importedNamespace" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.3"/>
@@ -56,6 +59,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//CompositeDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="composite"/>
         <elements xsi:type="xtext:Assignment" feature="name" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.31"/>
@@ -93,6 +99,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//PrimitiveDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Assignment" cardinality="?" feature="abstract" operator="?=">
           <terminal xsi:type="xtext:Keyword" value="abstract"/>
         </elements>
@@ -132,6 +141,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//TypeDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="type"/>
         <elements xsi:type="xtext:Assignment" feature="name" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.31"/>
@@ -171,6 +183,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//ProvidedInterfaceDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Assignment" feature="role" operator="=">
           <terminal xsi:type="xtext:Keyword" value="provides"/>
         </elements>
@@ -203,6 +218,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//RequiredInterfaceDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Assignment" feature="role" operator="=">
           <terminal xsi:type="xtext:Keyword" value="requires"/>
         </elements>
@@ -238,6 +256,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//SubComponentDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="contains"/>
         <elements xsi:type="xtext:Assignment" cardinality="?" feature="type" operator="=">
           <terminal xsi:type="xtext:CrossReference">
@@ -369,6 +390,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//BindingDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="binds"/>
         <elements xsi:type="xtext:Alternatives">
           <elements xsi:type="xtext:Keyword" value="this"/>
@@ -579,6 +603,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//AttributeDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="attribute"/>
         <elements xsi:type="xtext:Assignment" cardinality="?" feature="type" operator="=">
           <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.22"/>
@@ -599,6 +626,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//ImplementationDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="source"/>
         <elements xsi:type="xtext:Alternatives">
           <elements xsi:type="xtext:Assignment" feature="fileC" operator="=">
@@ -616,6 +646,9 @@
         <classifier xsi:type="ecore:EClass" href="http://www.ow2.org/mindEd/adl/textual/Fractal#//DataDefinition"/>
       </type>
       <alternatives xsi:type="xtext:Group">
+        <elements xsi:type="xtext:Assignment" cardinality="?" feature="annotationsList" operator="=">
+          <terminal xsi:type="xtext:RuleCall" rule="/0/@rules.36"/>
+        </elements>
         <elements xsi:type="xtext:Keyword" value="data"/>
         <elements xsi:type="xtext:Alternatives">
           <elements xsi:type="xtext:Assignment" feature="fileC" operator="=">
