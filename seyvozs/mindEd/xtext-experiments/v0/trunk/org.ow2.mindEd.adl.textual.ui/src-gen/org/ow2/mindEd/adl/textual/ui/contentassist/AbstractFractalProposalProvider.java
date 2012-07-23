@@ -251,7 +251,11 @@ public class AbstractFractalProposalProvider extends TerminalsProposalProvider {
 		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
 	}
 	public void completeAnnotation_Name(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
+		// subclasses may override
+		// subclasses may override
+		// subclasses may override
+		// subclasses may override
+		completeRuleCall(((RuleCall)((Alternatives)assignment.getTerminal()).getElements().get(4)), context, acceptor);
 	}
 	public void completeAnnotation_AnnotationElements(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		completeRuleCall(((RuleCall)assignment.getTerminal()), context, acceptor);
@@ -381,9 +385,6 @@ public class AbstractFractalProposalProvider extends TerminalsProposalProvider {
 		// subclasses may override
 	}
 	public void complete_Annotation(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
-		// subclasses may override
-	}
-	public void complete_AnnotationType(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		// subclasses may override
 	}
 	public void complete_AnnotationElement(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {

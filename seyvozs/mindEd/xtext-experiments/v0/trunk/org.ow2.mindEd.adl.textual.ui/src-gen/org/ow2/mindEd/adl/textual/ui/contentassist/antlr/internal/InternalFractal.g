@@ -1095,34 +1095,6 @@ finally {
 
 
 
-// Entry rule entryRuleAnnotationType
-entryRuleAnnotationType 
-:
-{ before(grammarAccess.getAnnotationTypeRule()); }
-	 ruleAnnotationType
-{ after(grammarAccess.getAnnotationTypeRule()); } 
-	 EOF 
-;
-
-// Rule AnnotationType
-ruleAnnotationType
-    @init {
-		int stackSize = keepStackSize();
-    }
-	:
-(
-{ before(grammarAccess.getAnnotationTypeAccess().getAlternatives()); }
-(rule__AnnotationType__Alternatives)
-{ after(grammarAccess.getAnnotationTypeAccess().getAlternatives()); }
-)
-
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-
-
 // Entry rule entryRuleAnnotationElement
 entryRuleAnnotationElement 
 :
@@ -1819,47 +1791,47 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__AnnotationType__Alternatives
+rule__Annotation__NameAlternatives_1_0
     @init {
 		int stackSize = keepStackSize();
     }
 :
 (
-{ before(grammarAccess.getAnnotationTypeAccess().getOverrideKeyword_0()); }
+{ before(grammarAccess.getAnnotationAccess().getNameOverrideKeyword_1_0_0()); }
 
 	'Override' 
 
-{ after(grammarAccess.getAnnotationTypeAccess().getOverrideKeyword_0()); }
+{ after(grammarAccess.getAnnotationAccess().getNameOverrideKeyword_1_0_0()); }
 )
 
     |(
-{ before(grammarAccess.getAnnotationTypeAccess().getSingletonKeyword_1()); }
+{ before(grammarAccess.getAnnotationAccess().getNameSingletonKeyword_1_0_1()); }
 
 	'Singleton' 
 
-{ after(grammarAccess.getAnnotationTypeAccess().getSingletonKeyword_1()); }
+{ after(grammarAccess.getAnnotationAccess().getNameSingletonKeyword_1_0_1()); }
 )
 
     |(
-{ before(grammarAccess.getAnnotationTypeAccess().getLDFlagsKeyword_2()); }
+{ before(grammarAccess.getAnnotationAccess().getNameLDFlagsKeyword_1_0_2()); }
 
 	'LDFlags' 
 
-{ after(grammarAccess.getAnnotationTypeAccess().getLDFlagsKeyword_2()); }
+{ after(grammarAccess.getAnnotationAccess().getNameLDFlagsKeyword_1_0_2()); }
 )
 
     |(
-{ before(grammarAccess.getAnnotationTypeAccess().getCFlagsKeyword_3()); }
+{ before(grammarAccess.getAnnotationAccess().getNameCFlagsKeyword_1_0_3()); }
 
 	'CFlags' 
 
-{ after(grammarAccess.getAnnotationTypeAccess().getCFlagsKeyword_3()); }
+{ after(grammarAccess.getAnnotationAccess().getNameCFlagsKeyword_1_0_3()); }
 )
 
     |(
-{ before(grammarAccess.getAnnotationTypeAccess().getQualifiedNameParserRuleCall_4()); }
+{ before(grammarAccess.getAnnotationAccess().getNameQualifiedNameParserRuleCall_1_0_4()); }
 	ruleQualifiedName
-{ after(grammarAccess.getAnnotationTypeAccess().getQualifiedNameParserRuleCall_4()); }
+{ after(grammarAccess.getAnnotationAccess().getNameQualifiedNameParserRuleCall_1_0_4()); }
 )
 
 ;
@@ -9126,8 +9098,9 @@ rule__Annotation__NameAssignment_1
     }
 :
 (
-{ before(grammarAccess.getAnnotationAccess().getNameAnnotationTypeParserRuleCall_1_0()); }
-	ruleAnnotationType{ after(grammarAccess.getAnnotationAccess().getNameAnnotationTypeParserRuleCall_1_0()); }
+{ before(grammarAccess.getAnnotationAccess().getNameAlternatives_1_0()); }
+(rule__Annotation__NameAlternatives_1_0)
+{ after(grammarAccess.getAnnotationAccess().getNameAlternatives_1_0()); }
 )
 
 ;

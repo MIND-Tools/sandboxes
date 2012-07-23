@@ -1931,7 +1931,12 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cCommercialAtKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
-		private final RuleCall cNameAnnotationTypeParserRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
+		private final Alternatives cNameAlternatives_1_0 = (Alternatives)cNameAssignment_1.eContents().get(0);
+		private final Keyword cNameOverrideKeyword_1_0_0 = (Keyword)cNameAlternatives_1_0.eContents().get(0);
+		private final Keyword cNameSingletonKeyword_1_0_1 = (Keyword)cNameAlternatives_1_0.eContents().get(1);
+		private final Keyword cNameLDFlagsKeyword_1_0_2 = (Keyword)cNameAlternatives_1_0.eContents().get(2);
+		private final Keyword cNameCFlagsKeyword_1_0_3 = (Keyword)cNameAlternatives_1_0.eContents().get(3);
+		private final RuleCall cNameQualifiedNameParserRuleCall_1_0_4 = (RuleCall)cNameAlternatives_1_0.eContents().get(4);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Keyword cLeftParenthesisKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
 		private final Assignment cAnnotationElementsAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
@@ -1944,22 +1949,39 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//Annotation:
 		//
-		//	"@" name=AnnotationType ("(" annotationElements+=AnnotationElement ("," annotationElements+=AnnotationElement)*
+		//	"@" name=("Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName) ("(" annotationElements+=AnnotationElement
 		//
-		//	")")?;
+		//	("," annotationElements+=AnnotationElement)* ")")?;
 		public ParserRule getRule() { return rule; }
 
-		//"@" name=AnnotationType ("(" annotationElements+=AnnotationElement ("," annotationElements+=AnnotationElement)* ")")?
+		//"@" name=("Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName) ("(" annotationElements+=AnnotationElement
+		//
+		//("," annotationElements+=AnnotationElement)* ")")?
 		public Group getGroup() { return cGroup; }
 
 		//"@"
 		public Keyword getCommercialAtKeyword_0() { return cCommercialAtKeyword_0; }
 
-		//name=AnnotationType
+		//name=("Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName)
 		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
 
-		//AnnotationType
-		public RuleCall getNameAnnotationTypeParserRuleCall_1_0() { return cNameAnnotationTypeParserRuleCall_1_0; }
+		//"Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName
+		public Alternatives getNameAlternatives_1_0() { return cNameAlternatives_1_0; }
+
+		//"Override"
+		public Keyword getNameOverrideKeyword_1_0_0() { return cNameOverrideKeyword_1_0_0; }
+
+		//"Singleton"
+		public Keyword getNameSingletonKeyword_1_0_1() { return cNameSingletonKeyword_1_0_1; }
+
+		//"LDFlags"
+		public Keyword getNameLDFlagsKeyword_1_0_2() { return cNameLDFlagsKeyword_1_0_2; }
+
+		//"CFlags"
+		public Keyword getNameCFlagsKeyword_1_0_3() { return cNameCFlagsKeyword_1_0_3; }
+
+		//QualifiedName
+		public RuleCall getNameQualifiedNameParserRuleCall_1_0_4() { return cNameQualifiedNameParserRuleCall_1_0_4; }
 
 		//("(" annotationElements+=AnnotationElement ("," annotationElements+=AnnotationElement)* ")")?
 		public Group getGroup_2() { return cGroup_2; }
@@ -1989,41 +2011,6 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 		public Keyword getRightParenthesisKeyword_2_3() { return cRightParenthesisKeyword_2_3; }
 	}
 
-	public class AnnotationTypeElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AnnotationType");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Keyword cOverrideKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
-		private final Keyword cSingletonKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
-		private final Keyword cLDFlagsKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
-		private final Keyword cCFlagsKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
-		private final RuleCall cQualifiedNameParserRuleCall_4 = (RuleCall)cAlternatives.eContents().get(4);
-		
-		//// Pre-defined annotations + allow other names
-		//
-		//AnnotationType:
-		//
-		//	"Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName;
-		public ParserRule getRule() { return rule; }
-
-		//"Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName
-		public Alternatives getAlternatives() { return cAlternatives; }
-
-		//"Override"
-		public Keyword getOverrideKeyword_0() { return cOverrideKeyword_0; }
-
-		//"Singleton"
-		public Keyword getSingletonKeyword_1() { return cSingletonKeyword_1; }
-
-		//"LDFlags"
-		public Keyword getLDFlagsKeyword_2() { return cLDFlagsKeyword_2; }
-
-		//"CFlags"
-		public Keyword getCFlagsKeyword_3() { return cCFlagsKeyword_3; }
-
-		//QualifiedName
-		public RuleCall getQualifiedNameParserRuleCall_4() { return cQualifiedNameParserRuleCall_4; }
-	}
-
 	public class AnnotationElementElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "AnnotationElement");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -2034,6 +2021,12 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cElementValueAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cElementValueElementValueParserRuleCall_1_0 = (RuleCall)cElementValueAssignment_1.eContents().get(0);
 		
+		//// Pre-defined annotations + allow other names
+		//
+		////AnnotationType:
+		//
+		////	'Override' | 'Singleton' | 'LDFlags' | 'CFlags' | QualifiedName;
+		//
 		//AnnotationElement:
 		//
 		//	(elementName=ID "=")? elementValue=ElementValue;
@@ -2208,7 +2201,6 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 	private FileNameElements pFileName;
 	private AnnotationsListElements pAnnotationsList;
 	private AnnotationElements pAnnotation;
-	private AnnotationTypeElements pAnnotationType;
 	private AnnotationElementElements pAnnotationElement;
 	private ElementValueElements pElementValue;
 	private ElementValueArrayInitializerElements pElementValueArrayInitializer;
@@ -2752,9 +2744,9 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 
 	//Annotation:
 	//
-	//	"@" name=AnnotationType ("(" annotationElements+=AnnotationElement ("," annotationElements+=AnnotationElement)*
+	//	"@" name=("Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName) ("(" annotationElements+=AnnotationElement
 	//
-	//	")")?;
+	//	("," annotationElements+=AnnotationElement)* ")")?;
 	public AnnotationElements getAnnotationAccess() {
 		return (pAnnotation != null) ? pAnnotation : (pAnnotation = new AnnotationElements());
 	}
@@ -2765,17 +2757,10 @@ public class FractalGrammarAccess extends AbstractGrammarElementFinder {
 
 	//// Pre-defined annotations + allow other names
 	//
-	//AnnotationType:
+	////AnnotationType:
 	//
-	//	"Override" | "Singleton" | "LDFlags" | "CFlags" | QualifiedName;
-	public AnnotationTypeElements getAnnotationTypeAccess() {
-		return (pAnnotationType != null) ? pAnnotationType : (pAnnotationType = new AnnotationTypeElements());
-	}
-	
-	public ParserRule getAnnotationTypeRule() {
-		return getAnnotationTypeAccess().getRule();
-	}
-
+	////	'Override' | 'Singleton' | 'LDFlags' | 'CFlags' | QualifiedName;
+	//
 	//AnnotationElement:
 	//
 	//	(elementName=ID "=")? elementValue=ElementValue;

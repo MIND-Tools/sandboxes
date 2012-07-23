@@ -3,13 +3,18 @@
  */
 package org.ow2.mindEd.adl.textual.ui;
 
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.xtext.ui.editor.autoedit.AbstractEditStrategyProvider;
 import org.eclipse.xtext.ui.editor.autoedit.DefaultAutoEditStrategyProvider;
+import org.eclipse.xtext.ui.editor.contentassist.ContentProposalLabelProvider;
 import org.eclipse.xtext.ui.editor.hyperlinking.IHyperlinkHelper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.AbstractAntlrTokenToAttributeIdMapper;
 import org.eclipse.xtext.ui.editor.syntaxcoloring.IHighlightingConfiguration;
 import org.ow2.mindEd.adl.textual.ui.navigation.FractalHyperlink;
+import org.ow2.mindEd.ide.ui.navigator.MindLabelProvider;
+
+import com.google.inject.Binder;
 
 /**
  * Use this class to register components to be used within the IDE.
@@ -43,5 +48,23 @@ public class FractalUiModule extends org.ow2.mindEd.adl.textual.ui.AbstractFract
 	public Class<? extends IHighlightingConfiguration> bindILexicalHighlightingConfiguration() {
 		return LexicalHighlightingConfiguration.class;
 	}
-	
+
+// Doesn't work since MindLabelProvider.getImage filters on Mind-specific types (legacy types dependency)
+// and our content is never recognized
+//	/**
+//	 * In the first version of MindEd the injection used to be implicit according to the
+//	 * http://www.eclipse.org/Xtext/documentation.html#labelProvider
+//	 * behavior as it found the label provider thanks to EMF (see the imported EPackage paragraph)
+//	 * Here with the newly generated EMF model (from xtext) we define the binding manually
+//	 * 
+//	 * The org.eclipse.ui.navigator (needed by MindLabelProvider) dependency was added accordingly
+//	 * in the Manifest.MF file. 
+//	 */
+//	@Override
+//	public void configureContentProposalLabelProvider(Binder binder) {
+//		binder.bind(ILabelProvider.class)
+//		.annotatedWith(ContentProposalLabelProvider.class)
+//		.to(MindLabelProvider.class);
+//	}
+
 }

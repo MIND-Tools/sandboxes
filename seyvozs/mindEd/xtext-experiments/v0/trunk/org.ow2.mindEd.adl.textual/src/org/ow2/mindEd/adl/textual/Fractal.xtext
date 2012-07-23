@@ -214,12 +214,12 @@ AnnotationsList :
 	annotations+=Annotation (annotations+=Annotation)*;
 
 Annotation :
-	'@' name=AnnotationType
+	'@' name = ('Override' | 'Singleton' | 'LDFlags' | 'CFlags' | QualifiedName)
 	('(' annotationElements+=AnnotationElement (',' annotationElements+=AnnotationElement)* ')')?;
 
 // Pre-defined annotations + allow other names
-AnnotationType:
-	'Override' | 'Singleton' | 'LDFlags' | 'CFlags' | QualifiedName;
+//AnnotationType:
+//	'Override' | 'Singleton' | 'LDFlags' | 'CFlags' | QualifiedName;
 
 AnnotationElement :
 	(elementName=ID '=')? elementValue=ElementValue

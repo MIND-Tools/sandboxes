@@ -263,7 +263,10 @@ public class FractalSemanticSequencer extends AbstractDelegatingSemanticSequence
 	
 	/**
 	 * Constraint:
-	 *     (name=AnnotationType (annotationElements+=AnnotationElement annotationElements+=AnnotationElement*)?)
+	 *     (
+	 *         (name='Override' | name='Singleton' | name='LDFlags' | name='CFlags' | name=QualifiedName) 
+	 *         (annotationElements+=AnnotationElement annotationElements+=AnnotationElement*)?
+	 *     )
 	 */
 	protected void sequence_Annotation(EObject context, Annotation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

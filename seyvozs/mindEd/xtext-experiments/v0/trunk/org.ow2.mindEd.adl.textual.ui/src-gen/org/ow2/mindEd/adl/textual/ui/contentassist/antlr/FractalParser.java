@@ -57,7 +57,7 @@ public class FractalParser extends AbstractContentAssistParser {
 					put(grammarAccess.getDataDefinitionAccess().getAlternatives_2(), "rule__DataDefinition__Alternatives_2");
 					put(grammarAccess.getPathAccess().getAlternatives_0(), "rule__Path__Alternatives_0");
 					put(grammarAccess.getPathAccess().getAlternatives_1_1(), "rule__Path__Alternatives_1_1");
-					put(grammarAccess.getAnnotationTypeAccess().getAlternatives(), "rule__AnnotationType__Alternatives");
+					put(grammarAccess.getAnnotationAccess().getNameAlternatives_1_0(), "rule__Annotation__NameAlternatives_1_0");
 					put(grammarAccess.getElementValueAccess().getAlternatives(), "rule__ElementValue__Alternatives");
 					put(grammarAccess.getConstantFormatAccess().getAlternatives(), "rule__ConstantFormat__Alternatives");
 					put(grammarAccess.getAdlDefinitionAccess().getGroup(), "rule__AdlDefinition__Group__0");

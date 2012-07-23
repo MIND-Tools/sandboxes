@@ -3080,20 +3080,71 @@ ruleAnnotation returns [EObject current=null]
     }
 (
 (
-		{ 
-	        newCompositeNode(grammarAccess.getAnnotationAccess().getNameAnnotationTypeParserRuleCall_1_0()); 
+(
+		lv_name_1_1=	'Override' 
+    {
+        newLeafNode(lv_name_1_1, grammarAccess.getAnnotationAccess().getNameOverrideKeyword_1_0_0());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getAnnotationRule());
+	        }
+       		setWithLastConsumed($current, "name", lv_name_1_1, null);
 	    }
-		lv_name_1_0=ruleAnnotationType		{
+
+    |		lv_name_1_2=	'Singleton' 
+    {
+        newLeafNode(lv_name_1_2, grammarAccess.getAnnotationAccess().getNameSingletonKeyword_1_0_1());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getAnnotationRule());
+	        }
+       		setWithLastConsumed($current, "name", lv_name_1_2, null);
+	    }
+
+    |		lv_name_1_3=	'LDFlags' 
+    {
+        newLeafNode(lv_name_1_3, grammarAccess.getAnnotationAccess().getNameLDFlagsKeyword_1_0_2());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getAnnotationRule());
+	        }
+       		setWithLastConsumed($current, "name", lv_name_1_3, null);
+	    }
+
+    |		lv_name_1_4=	'CFlags' 
+    {
+        newLeafNode(lv_name_1_4, grammarAccess.getAnnotationAccess().getNameCFlagsKeyword_1_0_3());
+    }
+ 
+	    {
+	        if ($current==null) {
+	            $current = createModelElement(grammarAccess.getAnnotationRule());
+	        }
+       		setWithLastConsumed($current, "name", lv_name_1_4, null);
+	    }
+
+    |		{ 
+	        newCompositeNode(grammarAccess.getAnnotationAccess().getNameQualifiedNameParserRuleCall_1_0_4()); 
+	    }
+		lv_name_1_5=ruleQualifiedName		{
 	        if ($current==null) {
 	            $current = createModelElementForParent(grammarAccess.getAnnotationRule());
 	        }
        		set(
        			$current, 
        			"name",
-        		lv_name_1_0, 
-        		"AnnotationType");
+        		lv_name_1_5, 
+        		"QualifiedName");
 	        afterParserOrEnumRuleCall();
 	    }
+
+)
 
 )
 )(	otherlv_2='(' 
@@ -3146,66 +3197,6 @@ ruleAnnotation returns [EObject current=null]
     }
 )?)
 ;
-
-
-
-
-
-// Entry rule entryRuleAnnotationType
-entryRuleAnnotationType returns [String current=null] 
-	:
-	{ newCompositeNode(grammarAccess.getAnnotationTypeRule()); } 
-	 iv_ruleAnnotationType=ruleAnnotationType 
-	 { $current=$iv_ruleAnnotationType.current.getText(); }  
-	 EOF 
-;
-
-// Rule AnnotationType
-ruleAnnotationType returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] 
-    @init { enterRule(); 
-    }
-    @after { leaveRule(); }:
-(
-	kw='Override' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getAnnotationTypeAccess().getOverrideKeyword_0()); 
-    }
-
-    |
-	kw='Singleton' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getAnnotationTypeAccess().getSingletonKeyword_1()); 
-    }
-
-    |
-	kw='LDFlags' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getAnnotationTypeAccess().getLDFlagsKeyword_2()); 
-    }
-
-    |
-	kw='CFlags' 
-    {
-        $current.merge(kw);
-        newLeafNode(kw, grammarAccess.getAnnotationTypeAccess().getCFlagsKeyword_3()); 
-    }
-
-    |
-    { 
-        newCompositeNode(grammarAccess.getAnnotationTypeAccess().getQualifiedNameParserRuleCall_4()); 
-    }
-    this_QualifiedName_4=ruleQualifiedName    {
-		$current.merge(this_QualifiedName_4);
-    }
-
-    { 
-        afterParserOrEnumRuleCall();
-    }
-)
-    ;
 
 
 
